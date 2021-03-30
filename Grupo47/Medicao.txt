@@ -19,6 +19,12 @@ public class Medicao {
 	public String getZona() {
 		return zona;
 	}
+	public static void fazIsto(){
+		if(){
+		}
+		while(){
+		}
+	}
 
 	public String getSensor() {
 		return sensor;

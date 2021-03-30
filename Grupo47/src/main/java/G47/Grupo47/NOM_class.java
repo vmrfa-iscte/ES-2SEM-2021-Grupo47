@@ -26,7 +26,7 @@ public class NOM_class implements FileHandler{
 		DirExplorer de = new DirExplorer(new NOM_class());
 		de.explore(dir);
 	}
-	
+	@Override
 	public void handle(int level, String path, File file) {
 		try {
 			extractNOMclass(file,path);
@@ -35,7 +35,7 @@ public class NOM_class implements FileHandler{
 		}
 	}
 	
-	public static void extractNOMclass(File f) throws FileNotFoundException {
+	public static void extractNOMclass(File f, String path) throws FileNotFoundException {
 		
 		JavaParser jp = new JavaParser();
 		//jp.parse(f);
@@ -47,11 +47,6 @@ public class NOM_class implements FileHandler{
 			List<Node> nodes = comp.getChildNodes();
 			//Cada md corresponde a um método
 			System.out.println("Numero de metodos é:" + md.size());
-			for(Node n : nodes) {
-				System.out.println(n);
-				System.out.println("Espacamento entre n e md");
-				System.out.println(md);
-			}
 			
 		}
 		
