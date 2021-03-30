@@ -1,6 +1,13 @@
 package G47.Grupo47;
 
 import java.io.File;
+import java.util.List;
+import java.util.Optional;
+
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.EnumDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class DirExplorer {
 	public interface FileHandler {
@@ -27,5 +34,22 @@ public class DirExplorer {
             }
         }
     }
+    
+    public static List<MethodDeclaration> getMethodList(CompilationUnit comp,File f) {
+		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
+		List<MethodDeclaration> method = null;
+		if(cid.isEmpty()) {
+			cid = comp.getInterfaceByName(f.getName().replace(".java", ""));
+			method = cid.get().getMethods();
+			if(cid.isEmpty()) {
+				Optional<EnumDeclaration> ed = comp.getEnumByName(f.getName().replace(".java", ""));
+				method = cid.get().getMethods();
+			}
+		}else {
+			method = cid.get().getMethods();
+		}
+		
+		return method;
+	}
 
 }

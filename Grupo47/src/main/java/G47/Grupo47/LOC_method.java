@@ -2,6 +2,7 @@ package G47.Grupo47;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,31 +16,26 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 
 import G47.Grupo47.DirExplorer.FileHandler;
 
-public class LOC_method implements FileHandler {
+public class LOC_method  {
 	
-	public static void main(String[] args) {
-		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com\\jasml");
-		DirExplorer de = new DirExplorer(new LOC_method());
-		de.explore(projectDir);
-	}
+	private String path;
+	private File f;
 	
-	@Override
-	public void handle(int level, String path, File file) {
-		try {
-			LOC(file,path);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+	public LOC_method(File f, String path) {
+		this.f = f;
+		this.path = path;
+		
 	}
 
-	public void LOC(File f,String path) throws FileNotFoundException {
+	public List<Metodo> LOC(File f,String path) throws FileNotFoundException {
+		List<Metodo> metodos = new ArrayList<>();
 		String[] path2 = path.split("/");
 		String packageClass = path2[1];
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(f);
 		if(cu.isSuccessful()) {
 			CompilationUnit comp = cu.getResult().get();
-			List<MethodDeclaration> method = getMethodList(comp,f);
+			List<MethodDeclaration> method = DirExplorer.getMethodList(comp,f);
 			if(method.size() > 0) {
 				List<Node> nodes = comp.getChildNodes();
 				for(Node n: nodes) {
@@ -54,6 +50,8 @@ public class LOC_method implements FileHandler {
 										if(index +1 <= method.size()-1)  index++;
 							
 										int  linhas= nn.getRange().map(range -> range.end.line - range.begin.line).orElse(0);
+										Metodo m = new Metodo(md.getNameAsString(),f.getName(),packageClass,linhas);
+										metodos.add(m);
 										System.out.println("Package: "+packageClass+" // Classe: "+f.getName()+" // Método: "+md.getNameAsString()+" // Linhas: "+linhas);
 									}
 								}
@@ -65,25 +63,11 @@ public class LOC_method implements FileHandler {
 				}
 			}
 		}
+		return metodos;
 	}
 	
 	
-	private List<MethodDeclaration> getMethodList(CompilationUnit comp,File f) {
-		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
-		List<MethodDeclaration> method = null;
-		if(cid.isEmpty()) {
-			cid = comp.getInterfaceByName(f.getName().replace(".java", ""));
-			method = cid.get().getMethods();
-			if(cid.isEmpty()) {
-				Optional<EnumDeclaration> ed = comp.getEnumByName(f.getName().replace(".java", ""));
-				method = cid.get().getMethods();
-			}
-		}else {
-			method = cid.get().getMethods();
-		}
-		
-		return method;
-	}
+	
 }
 
 
