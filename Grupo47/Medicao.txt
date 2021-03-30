@@ -1,0 +1,42 @@
+package mongoTeste;
+
+public class Medicao {
+	
+
+	public String zona;
+	public String sensor;
+	public String data;
+	public String valor;
+	
+	public Medicao(String zona, String sensor, String data, String valor) {
+		this.zona = zona;
+		this.sensor = sensor;
+		this.data = data;
+		this.valor = valor;
+	}
+	
+
+	public String getZona() {
+		return zona;
+	}
+
+	public String getSensor() {
+		return sensor;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public String getValor() {
+		return valor;
+	}
+	
+	@Override
+	public String toString() {
+		return " zona: "+zona+" sensor: "+sensor+ " data: "+data+ " valor: " +valor;
+		
+	}
+	
+
+}
