@@ -22,7 +22,7 @@ public class NOM_class implements FileHandler{
 	
 	public static void main(String[] args) {
 		
-		File dir = new File("C:\\Users\\alinc\\OneDrive\\Ambiente de Trabalho\\Medicao.java");
+		File dir = new File("C:\\Users\\alinc\\OneDrive\\Ambiente de Trabalho\\jasml_0.10\\src\\com\\jasml");
 		DirExplorer de = new DirExplorer(new NOM_class());
 		de.explore(dir);
 	}
@@ -68,5 +68,7 @@ public class NOM_class implements FileHandler{
 		
 		return method;
 	}
+	
+		
 	
 }
