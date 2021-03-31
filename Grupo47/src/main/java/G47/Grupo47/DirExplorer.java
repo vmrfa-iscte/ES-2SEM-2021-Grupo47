@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class DirExplorer {
@@ -43,7 +46,7 @@ public class DirExplorer {
 			method = cid.get().getMethods();
 			if(cid.isEmpty()) {
 				Optional<EnumDeclaration> ed = comp.getEnumByName(f.getName().replace(".java", ""));
-				method = cid.get().getMethods();
+				method = ed.get().getMethods();
 			}
 		}else {
 			method = cid.get().getMethods();
@@ -51,5 +54,25 @@ public class DirExplorer {
 		
 		return method;
 	}
+    
+    
+    public static List<ConstructorDeclaration> getConstructors(CompilationUnit comp,File f) {
+		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
+		List<ConstructorDeclaration> method = null;
+		if(cid.isEmpty()) {
+			cid = comp.getInterfaceByName(f.getName().replace(".java", ""));
+			method = cid.get().getConstructors();
+			if(cid.isEmpty()) {
+				Optional<EnumDeclaration> ed = comp.getEnumByName(f.getName().replace(".java", ""));
+				method = ed.get().getConstructors();
+			}
+		}else {
+			method = cid.get().getConstructors();
+		}
+		
+		return method;
+	}
+    
+
 
 }

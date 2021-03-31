@@ -9,8 +9,8 @@ public class Main {
 		DirExplorer de = new DirExplorer(new LOC_methodHandler());
 		de.explore(projectDir);
 		
-		DirExplorer de2 = new DirExplorer(new LOC_classHandler());
-		de2.explore(projectDir);
+//		DirExplorer de2 = new DirExplorer(new LOC_classHandler());
+//		de2.explore(projectDir);
 	}
 
 }
