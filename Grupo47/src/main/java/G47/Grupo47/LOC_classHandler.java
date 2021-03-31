@@ -11,7 +11,7 @@ public class LOC_classHandler implements FileHandler{
 	public void handle(int level, String path, File file) {
 		LOC_class LOC_c = new LOC_class(file,path);
 		try {
-			LOC_c.LOC(file, path);
+			LOC_c.extrair_LOC_class(file, path);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

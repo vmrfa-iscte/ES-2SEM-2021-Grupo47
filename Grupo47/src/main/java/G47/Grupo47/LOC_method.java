@@ -4,23 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 
-import G47.Grupo47.DirExplorer.FileHandler;
-
-public class LOC_method  {
-	
+public class LOC_method {
 	private String path;
 	private File f;
 	
@@ -30,7 +24,7 @@ public class LOC_method  {
 		
 	}
 
-	public List<Metodo> LOC(File f,String path) throws FileNotFoundException {
+	public List<Metodo> extrair_LOC_method(File f,String path) throws FileNotFoundException {
 		List<Metodo> metodos = new ArrayList<>();
 		String[] path2 = path.split("/");
 		String packageClass = "com.jasm."+path2[1];
@@ -41,7 +35,7 @@ public class LOC_method  {
 			List<MethodDeclaration> method = DirExplorer.getMethodList(comp,f);
 			List<ConstructorDeclaration> constructors = DirExplorer.getConstructors(comp, f);
 			makeMetodosConstrutores(constructors,comp,metodos,packageClass,f);
-			makeMetodosMethods(method,comp,metodos,packageClass);
+			makeMetodosMethods(method,comp,metodos,packageClass,f);
 			
 		}
 
@@ -51,78 +45,45 @@ public class LOC_method  {
 	
 	public void makeMetodosConstrutores(List<ConstructorDeclaration> method,CompilationUnit comp,List<Metodo> metodos,String packageClass,File f) {
 		if(method.size() > 0) {
-
-			List<Node> nodes = comp.getChildNodes();
-			for(Node n: nodes) {
-				if(n.toString().endsWith("}")) {
-					List<Node> nodes1 = n.getChildNodes();
-					int index = 0;
-					for(Node nn: nodes1) {
-						if(nn.toString().endsWith("}") && (nn.toString().startsWith("public") || nn.toString().startsWith("private") || nn.toString().startsWith("protected"))) {
-							ConstructorDeclaration md = method.get(index);
-							if(nn.getChildNodes().size()>1) {
-								String nomeConsPar = getClassNameWithParameters(md.getNameAsString(),md.getParameters());
-							
-								if(nn.getChildNodes().get(1).toString().contains(md.getNameAsString()) || nn.getChildNodes().get(2).toString().contains(md.getNameAsString())) {
-									if(index +1 <= method.size()-1) index++;
-									
-									int  linhas= nn.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-									Metodo m = new Metodo(nomeConsPar,f.getName().replace(".java", ""),packageClass,linhas+1);
-									metodos.add(m);
-									System.out.println("Package: "+packageClass+" // Classe: "+f.getName().replace(".java", "")+" // Construtor: "+nomeConsPar+" // Linhas: "+linhas);
-								}
-							}
-						}
-
+			for(ConstructorDeclaration md: method) {
+				int sum = 0;
+				
+				for(Node noode: md.getChildNodes()) {
+					if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
+						int tamanho = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
+						sum = sum + tamanho;
 					}
-					
 				}
-
+				
+				String nomeMetodoPar = getClassNameWithParameters(md.getNameAsString(),md.getParameters());
+				Metodo m = new Metodo(nomeMetodoPar,f.getName().replace(".java", ""),packageClass,sum);
+				metodos.add(m);
+				System.out.println("Package: "+packageClass+" // Classe: "+f.getName().replace(".java", "")+" // Construtor: "+nomeMetodoPar+" // Linhas: "+sum);
 			}
-		}
-//			else {
-//			if(isClass(comp,f.getName().replace(".java", ""))) {
-//				Metodo m = new Metodo(f.getName().replace(".java", ""),f.getName(),packageClass,1);
-//				metodos.add(m);
-//				System.out.println("Package: "+packageClass+" // Classe: "+f.getName().replace(".java", "")+" // Construtor: "+f.getName().replace(".java", "")+" // Linhas: "+1);
-//			}
-//			
-//			
-//		}
+				
+			}
 		
 	}
 	
-	public void makeMetodosMethods(List<MethodDeclaration> method,CompilationUnit comp,List<Metodo> metodos,String packageClass) {
+	public void makeMetodosMethods(List<MethodDeclaration> method,CompilationUnit comp,List<Metodo> metodos,String packageClass,File f) {
 		if(method.size() > 0) {
-			List<Node> nodes = comp.getChildNodes();
-			for(Node n: nodes) {
-				if(n.toString().endsWith("}")) {
-					List<Node> nodes1 = n.getChildNodes();
-					int index = 0;
-					for(Node nn: nodes1) {
-						if(nn.toString().endsWith("}")) {
-							MethodDeclaration md = method.get(index);
-							if(nn.getChildNodes().size()>1) {
-								
-								String nomeMetodoPar = getClassNameWithParameters(md.getNameAsString(),md.getParameters());
-								
-						
-								if(nn.getChildNodes().get(1).toString().contains(md.getNameAsString()) || nn.getChildNodes().get(2).toString().contains(md.getNameAsString()) ) {
-									if(index +1 <= method.size()-1)  index++;
-						
-									int  linhas= nn.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-									Metodo m = new Metodo(nomeMetodoPar,f.getName().replace(".java", ""),packageClass,linhas+1);
-									metodos.add(m);
-									System.out.println("Package: "+packageClass+" // Classe: "+f.getName().replace(".java", "")+" // Método: "+nomeMetodoPar+" // Linhas: "+linhas);
-								}
-							}
-						}
+			for(MethodDeclaration md: method) {
+				int sum = 0;
+			
+				for(Node noode: md.getChildNodes()) {
+					if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
+						int tamanho = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
+						sum = sum + tamanho;
 					}
-		
 				}
-
+				
+				String nomeMetodoPar = getClassNameWithParameters(md.getNameAsString(),md.getParameters());
+				Metodo m = new Metodo(nomeMetodoPar,f.getName().replace(".java", ""),packageClass,sum);
+				metodos.add(m);
+				System.out.println("Package: "+packageClass+" // Classe: "+f.getName().replace(".java", "")+" // Método: "+nomeMetodoPar+" // Linhas: "+sum);
 			}
-		}
+				
+			}
 		
 	}
 	
@@ -153,7 +114,4 @@ public class LOC_method  {
 
 	
 	
-	
 }
-
-

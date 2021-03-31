@@ -26,7 +26,7 @@ public class LOC_class  {
 
 
 	
-	public int LOC(File f,String path) throws FileNotFoundException {
+	public int extrair_LOC_class(File f,String path) throws FileNotFoundException {
 //		List<Metodo> metodos = new ArrayList<>();
 //		String[] path2 = path.split("/");
 //		String packageClass = "com.jasm."+path2[1];
