@@ -13,6 +13,7 @@ import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
@@ -44,9 +45,9 @@ public class NOM_class implements FileHandler{
 		if(compUnit.isSuccessful()) {
 			CompilationUnit comp=compUnit.getResult().get();
 			List<MethodDeclaration> md = getMethodList(comp,f);
-			List<Node> nodes = comp.getChildNodes();
-			//Cada md corresponde a um método
-			System.out.println("Numero de metodos é:" + md.size());
+			List<ConstructorDeclaration> coid = getConstructors(comp, f);
+			int sum= md.size()+coid.size();
+			System.out.println("Numero de metodos é:" + sum);
 			
 		}
 		
@@ -64,6 +65,22 @@ public class NOM_class implements FileHandler{
 			}
 		}else {
 			method = cid.get().getMethods();
+		}
+		
+		return method;
+	}
+	public static List<ConstructorDeclaration> getConstructors(CompilationUnit comp,File f) {
+		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
+		List<ConstructorDeclaration> method = null;
+		if(cid.isEmpty()) {
+			cid = comp.getInterfaceByName(f.getName().replace(".java", ""));
+			method = cid.get().getConstructors();
+			if(cid.isEmpty()) {
+				Optional<EnumDeclaration> ed = comp.getEnumByName(f.getName().replace(".java", ""));
+				method = ed.get().getConstructors();
+			}
+		}else {
+			method = cid.get().getConstructors();
 		}
 		
 		return method;
