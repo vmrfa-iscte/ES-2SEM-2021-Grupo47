@@ -8,6 +8,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		System.out.println("Tomás");
+		System.out.println("tomás2");
 		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10\\src\\com\\jasml");
 		DirExplorer de = new DirExplorer(new LOC_methodHandler());
 		de.explore(projectDir);
