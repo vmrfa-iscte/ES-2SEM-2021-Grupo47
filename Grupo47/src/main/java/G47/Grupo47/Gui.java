@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -19,10 +21,16 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.custom.StyledText;
 
 public class Gui extends Shell {
 
+	private int indice;
+	private List ficheirosexcel;
 	private Text foldername;
+	private StyledText styledText;
+	private Text text;
 
 	/**
 	 * Launch the application.
@@ -58,6 +66,9 @@ public class Gui extends Shell {
 		foldername = new Text(this, SWT.BORDER);
 		foldername.setBounds(10, 14, 345, 26);
 
+		text = new Text(this, SWT.BORDER);
+		text.setBounds(361, 58, 274, 188);
+
 		Button pasta = new Button(this, SWT.NONE);
 		pasta.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -78,9 +89,27 @@ public class Gui extends Shell {
 		pasta.setBounds(361, 12, 131, 30);
 		pasta.setText("Selecionar pasta");
 
+		ficheirosexcel = new List(this, SWT.BORDER);
+		ficheirosexcel.addSelectionListener(new SelectionAdapter() {
+			public void valueSelected(ListSelectionEvent e) {
+				indice = ficheirosexcel.getSelectionIndex();
+				if (!e.getValueIsAdjusting()) {
+					if (indice != -1) {
+						//preencher lista da direita com as caracteristicas gerais do projeto
+						
+						
+						
+					}
+				}
+			}
+		});
+		ficheirosexcel.setBounds(10, 58, 345, 188);
+
 		Button extrair = new Button(this, SWT.NONE);
 		extrair.setBounds(498, 12, 137, 30);
 		extrair.setText("Extrair métricas");
+
+		// dar ação de mandar o diretorio para a main do VASCO E ALIN
 
 		createContents();
 	}
