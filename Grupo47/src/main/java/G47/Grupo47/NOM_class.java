@@ -2,10 +2,11 @@ package G47.Grupo47;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.httpclient.methods.GetMethod;
+//import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.math3.ode.events.FieldEventHandler;
 
 import com.github.javaparser.JavaParser;
@@ -18,42 +19,43 @@ import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
 import G47.Grupo47.DirExplorer.FileHandler;
-public class NOM_class implements FileHandler{
+public class NOM_class {
 
 	
 	public static void main(String[] args) {
 		
-		File dir = new File("C:\\Users\\alinc\\OneDrive\\Ambiente de Trabalho\\jasml_0.10\\src\\com\\jasml");
-		DirExplorer de = new DirExplorer(new NOM_class());
-		de.explore(dir);
-	}
-	@Override
-	public void handle(int level, String path, File file) {
-		try {
-			extractNOMclass(file,path);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		File dir = new File("C:\\Users\\alinc\\OneDrive\\Ambiente de Trabalho\\jasml_0.10\\src\\com\\jasml");
+//		DirExplorer de = new DirExplorer(new NOM_class());
+//		de.explore(dir);
 	}
 	
-	public static void extractNOMclass(File f, String path) throws FileNotFoundException {
-		
+	
+	public ArrayList<Metricas> extractNOMclass(File f, String path,ArrayList<Metricas> metricas) throws FileNotFoundException {
 		JavaParser jp = new JavaParser();
-		//jp.parse(f);
-		
+		String[] path2 = path.split("/");
+		String packageClass = "com.jasm."+path2[1];
+		int sum = 0;
 		ParseResult<CompilationUnit> compUnit = jp.parse(f);
 		if(compUnit.isSuccessful()) {
 			CompilationUnit comp=compUnit.getResult().get();
 			List<MethodDeclaration> md = getMethodList(comp,f);
 			List<ConstructorDeclaration> coid = getConstructors(comp, f);
-			int sum= md.size()+coid.size();
-			System.out.println("Numero de metodos é:" + sum);
-			
+			sum= md.size()+coid.size();
+//			System.out.println("Numero de metodos é:" + sum);
+		}
+		
+		for(Metricas m: metricas) {
+			if(m.getClasse().equals(f.getName().replace(".java", "")) && m.getPacote().equals(packageClass) ) {
+				m.setNOM_class(sum);
+			}
 		}
 		
 		
+		return metricas;
+		
+		
 	}
-	private static List<MethodDeclaration> getMethodList(CompilationUnit comp,File f) {
+	private List<MethodDeclaration> getMethodList(CompilationUnit comp,File f) {
 		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
 		List<MethodDeclaration> method = null;
 		if(cid.isEmpty()) {
@@ -69,7 +71,7 @@ public class NOM_class implements FileHandler{
 		
 		return method;
 	}
-	public static List<ConstructorDeclaration> getConstructors(CompilationUnit comp,File f) {
+	public List<ConstructorDeclaration> getConstructors(CompilationUnit comp,File f) {
 		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
 		List<ConstructorDeclaration> method = null;
 		if(cid.isEmpty()) {
