@@ -54,10 +54,10 @@ public class DirExplorer {
 		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(nameClass);
 		
 		List<MethodDeclaration> method = null;
-		if(cid.isEmpty()) {
+		if(!cid.isPresent()) {
 			cid = comp.getInterfaceByName(nameClass);
 			
-			if(cid.isEmpty()) {
+			if(!cid.isPresent()) {
 				Optional<EnumDeclaration> ed = comp.getEnumByName(nameClass);
 				method = ed.get().getMethods();
 			}else {
@@ -74,10 +74,10 @@ public class DirExplorer {
     public static List<ConstructorDeclaration> getConstructors(CompilationUnit comp,String nameClass) {
 		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(nameClass);
 		List<ConstructorDeclaration> method = null;
-		if(cid.isEmpty()) {
+		if(!cid.isPresent()) {
 			cid = comp.getInterfaceByName(nameClass);
 			
-			if(cid.isEmpty()) {
+			if(!cid.isPresent()) {
 				Optional<EnumDeclaration> ed = comp.getEnumByName(nameClass);
 				method = ed.get().getConstructors();
 			}else {
