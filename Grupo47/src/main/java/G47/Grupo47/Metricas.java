@@ -9,6 +9,7 @@ public class Metricas {
 	private int LOC_class;
 	private int WMC_class;
 	private int CYCLO_method;
+	private int NOM_class;
 	
 	public Metricas(String nome_metodo,String classe,String pacote,int LOC_method) {
 		this.nome_metodo = nome_metodo;
@@ -68,19 +69,23 @@ public class Metricas {
 	}
 
 	public void setLOC_class(int lOC_class) {
-		LOC_class = lOC_class;
+		this.LOC_class = lOC_class;
 	}
 
 	public void setWMC_class(int wMC_class) {
-		WMC_class = wMC_class;
+		this.WMC_class = wMC_class;
 	}
 
 	public void setCYCLO_method(int cYCLO_method) {
-		CYCLO_method = cYCLO_method;
+		this.CYCLO_method = cYCLO_method;
+	}
+	
+	public void setNOM_class(int NOM_class) {
+		this.NOM_class = NOM_class;
 	}
 	
 	public String toString() {
-		return pacote+"  ||  "+classe+"  ||  "+nome_metodo+"  ||  LOC_class: "+LOC_class+"  ||  LOC_method: "+LOC_method;
+		return pacote+"  ||  "+classe+"  ||  "+nome_metodo+"  ||  LOC_class: "+LOC_class+"  ||  LOC_method: "+LOC_method + "  ||  NOM_class: "+NOM_class+"  ||  WMC: "+WMC_class+"  ||  CYCLO: "+CYCLO_method;
 		
 	}
 	
