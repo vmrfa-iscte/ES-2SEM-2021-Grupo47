@@ -26,10 +26,10 @@ public class LOC_class  {
 
 
 	
-	public int extrair_LOC_class(File f,String path) throws FileNotFoundException {
-//		List<Metodo> metodos = new ArrayList<>();
-//		String[] path2 = path.split("/");
-//		String packageClass = "com.jasm."+path2[1];
+	public ArrayList<Metricas> extrair_LOC_class(File f,String path,ArrayList<Metricas> metricas) throws FileNotFoundException {
+		String[] path2 = path.split("/");
+		String packageClass = "com.jasm."+path2[1];
+		
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(f);
 		int sum = 0;
@@ -43,8 +43,12 @@ public class LOC_class  {
 			
 		}
 		sum = sum+1;
-		System.out.println("LOC_class: "+ f.getName()+" : "+sum);
-		return sum;
+		for(Metricas m: metricas) {
+			if(m.getClasse().equals(f.getName().replace(".java", "")) && m.getPacote().equals(packageClass)){
+				m.setLOC_class(sum);
+			}
+		}
+		return metricas;
 	}
 
 }
