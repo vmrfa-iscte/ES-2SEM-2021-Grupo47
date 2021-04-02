@@ -13,23 +13,16 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 
 import G47.Grupo47.DirExplorer.FileHandler;
 public class NOM_class {
 
-	
-	public static void main(String[] args) {
-		
-//		File dir = new File("C:\\Users\\alinc\\OneDrive\\Ambiente de Trabalho\\jasml_0.10\\src\\com\\jasml");
-//		DirExplorer de = new DirExplorer(new NOM_class());
-//		de.explore(dir);
-	}
-	
-	
 	public ArrayList<Metricas> extractNOMclass(File f, String path,ArrayList<Metricas> metricas) throws FileNotFoundException {
 		JavaParser jp = new JavaParser();
 		String[] path2 = path.split("/");
@@ -38,56 +31,46 @@ public class NOM_class {
 		ParseResult<CompilationUnit> compUnit = jp.parse(f);
 		if(compUnit.isSuccessful()) {
 			CompilationUnit comp=compUnit.getResult().get();
-			List<MethodDeclaration> md = getMethodList(comp,f);
-			List<ConstructorDeclaration> coid = getConstructors(comp, f);
+			List<MethodDeclaration> md = DirExplorer.getMethodList(comp,f.getName().replace(".java", ""));
+			List<ConstructorDeclaration> coid = DirExplorer.getConstructors(comp, f.getName().replace(".java", ""));
 			sum= md.size()+coid.size();
-//			System.out.println("Numero de metodos é:" + sum);
-		}
-		
-		for(Metricas m: metricas) {
-			if(m.getClasse().equals(f.getName().replace(".java", "")) && m.getPacote().equals(packageClass) ) {
-				m.setNOM_class(sum);
+			for(Metricas m: metricas) {
+				if(m.getClasse().equals(f.getName().replace(".java", "")) && m.getPacote().equals(packageClass) ) {
+					m.setNOM_class(sum);
+				}
 			}
+			extrair_NOM_class_inner(metricas, f, packageClass, comp);
 		}
-		
-		
+
 		return metricas;
-		
-		
 	}
-	private List<MethodDeclaration> getMethodList(CompilationUnit comp,File f) {
-		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
-		List<MethodDeclaration> method = null;
-		if(cid.isEmpty()) {
-			cid = comp.getInterfaceByName(f.getName().replace(".java", ""));
-			method = cid.get().getMethods();
-			if(cid.isEmpty()) {
-				Optional<EnumDeclaration> ed = comp.getEnumByName(f.getName().replace(".java", ""));
-				method = cid.get().getMethods();
+
+
+	public ArrayList<Metricas> extrair_NOM_class_inner(ArrayList<Metricas> metricas,File f, String packageClass,CompilationUnit cu){
+		String nameClass = "";
+		for(TypeDeclaration<?> type : cu.getTypes()) {
+			List<BodyDeclaration<?>> members = type.getMembers();
+			for(BodyDeclaration member : members) {
+				if(member.isClassOrInterfaceDeclaration()) {
+					int NOM = 0;
+					if(member.asClassOrInterfaceDeclaration().getNameAsString() != f.getName().replace(".java", "")) {
+						NOM = member.asClassOrInterfaceDeclaration().getMethods().size();
+						NOM = NOM + member.asClassOrInterfaceDeclaration().getConstructors().size();
+						nameClass = f.getName().replace(".java", "")+"."+member.asClassOrInterfaceDeclaration().getNameAsString();
+						for(Metricas m: metricas) {
+							if(m.getClasse().equals(nameClass) && m.getPacote().equals(packageClass)){
+								m.setNOM_class(NOM);
+							}
+						}
+
+					}
+				}
+
 			}
-		}else {
-			method = cid.get().getMethods();
 		}
-		
-		return method;
+		return metricas;
 	}
-	public List<ConstructorDeclaration> getConstructors(CompilationUnit comp,File f) {
-		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(f.getName().replace(".java", ""));
-		List<ConstructorDeclaration> method = null;
-		if(cid.isEmpty()) {
-			cid = comp.getInterfaceByName(f.getName().replace(".java", ""));
-			method = cid.get().getConstructors();
-			if(cid.isEmpty()) {
-				Optional<EnumDeclaration> ed = comp.getEnumByName(f.getName().replace(".java", ""));
-				method = ed.get().getConstructors();
-			}
-		}else {
-			method = cid.get().getConstructors();
-		}
-		
-		return method;
-	}
-	
-		
-	
+
+
+
 }

@@ -31,7 +31,6 @@ public class LOC_class  {
 	public ArrayList<Metricas> extrair_LOC_class(File f,String path,ArrayList<Metricas> metricas) throws FileNotFoundException {
 		String[] path2 = path.split("/");
 		String packageClass = "com.jasm."+path2[1];
-		
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(f);
 		int sum = 0;
@@ -39,20 +38,16 @@ public class LOC_class  {
 			CompilationUnit comp = cu.getResult().get();
 			List<Node> nodes = comp.getChildNodes();
 			for(Node n: nodes) {
-				int  linhas= n.getRange().map(range -> (range.end.line - range.begin.line)).orElse(0);
+				int  linhas= n.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
 				sum = sum +linhas;
-			}
-			sum = sum+1;
+			}	
 			for(Metricas m: metricas) {
 				if(m.getClasse().equals(f.getName().replace(".java", "")) && m.getPacote().equals(packageClass)){
 					m.setLOC_class(sum);
 				}
-			}
-			
+			}	
 			extrair_LOC_class_inner(metricas,f,packageClass,comp);
-			
 		}
-		
 		return metricas;
 	}
 	
@@ -60,40 +55,29 @@ public class LOC_class  {
 	public ArrayList<Metricas> extrair_LOC_class_inner(ArrayList<Metricas> metricas,File f, String packageClass,CompilationUnit cu){
 		String nameClass = "";
 		for(TypeDeclaration<?> type : cu.getTypes()) {
-	        // first give all this java doc member
 	        List<BodyDeclaration<?>> members = type.getMembers();
-
-	        // check all member content
 	        for(BodyDeclaration member : members) {
-	            // if member state equal ClassOrInterfaceDeclaration, and you can identify it which is inner class
-	        	
 	            if(member.isClassOrInterfaceDeclaration()) {
-	            	int sum = 0;
-	            	
+	            	int sum = 0;            
 	                if(member.asClassOrInterfaceDeclaration().getNameAsString() != f.getName().replace(".java", "")) {
-	                	List<Node> nodes = member.asClassOrInterfaceDeclaration().getChildNodes();
-	                	
+	                	List<Node> nodes = member.asClassOrInterfaceDeclaration().getChildNodes();	          	
 	                	for(Node n: nodes) {
-	                		int  linhas= n.getRange().map(range -> (range.end.line - range.begin.line)).orElse(0);
-	        				sum = sum +linhas;
-	                	}
-	                	sum++;
+	                		int  linhas= n.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
+	        				sum = sum +linhas;	
+	                	}                	
 	                	nameClass = f.getName().replace(".java", "")+"."+member.asClassOrInterfaceDeclaration().getNameAsString();
+	                	for(Metricas m: metricas) {
+	 	        			if(m.getClasse().equals(nameClass) && m.getPacote().equals(packageClass)){
+	 	        				m.setLOC_class(sum);
+	 	        			}
+	 	        		}
 	                		
-	                	}
-	                for(Metricas m: metricas) {
-	        			if(m.getClasse().equals(nameClass) && m.getPacote().equals(packageClass)){
-	        				m.setLOC_class(sum);
-	        			}
-	        		}
-	                	
-	                	
 	                }
-	                
+	
 	            }
-	         
-	            
-	        }
+	                
+	        }  
+	    }
 		return metricas;
 		
 	}

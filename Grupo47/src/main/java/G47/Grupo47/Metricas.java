@@ -27,6 +27,10 @@ public class Metricas {
 	public String getClasse() {
 		return classe;
 	}
+	
+	public int getNOM_class() {
+		return NOM_class;
+	}
 
 	public int getLOC_method() {
 		return LOC_method;
