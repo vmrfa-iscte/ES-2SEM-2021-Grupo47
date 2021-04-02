@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+package G47.Grupo47;
+>>>>>>> refs/remotes/origin/Vasco
 //package G47.Grupo47;
 //
 //import java.awt.event.ActionEvent;
