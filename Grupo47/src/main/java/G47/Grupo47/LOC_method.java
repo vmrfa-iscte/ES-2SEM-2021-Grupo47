@@ -28,42 +28,25 @@ public class LOC_method {
 	}
 
 	public ArrayList<Metricas> extrair_LOC_method(File f,String path,ArrayList<Metricas> metricas) throws FileNotFoundException {
-		
 		String[] path2 = path.split("/");
 		String packageClass = "com.jasm."+path2[1];
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(f);
 		if(cu.isSuccessful()) {
 			CompilationUnit comp = cu.getResult().get();
-
-		
+			metricas = getMethodsInnerClass(comp, f, metricas, packageClass);
+			metricas = getConstructorsInnerClass(comp, f, metricas, packageClass);
 			List<MethodDeclaration> method = DirExplorer.getMethodList(comp,f.getName().replace(".java", ""));
 			List<ConstructorDeclaration> constructors = DirExplorer.getConstructors(comp, f.getName().replace(".java", ""));
-			makeMetodosConstrutores(constructors,comp,metricas,packageClass,f);
-			makeMetodosMethods(method,comp,metricas,packageClass,f);
-			
-			
-			
-			
-			
-			
-//			ArrayList<Metricas> nomes = namesOfInnerClasses(comp,f,metricas,path);
-//			System.out.println("Tamanho: "+nomes.size());
-			
-//			for(Metricas s: nomes) {
-//				System.out.println(s);
-//				System.out.println(s.toString());
-//			}
-//			metricas = getMethodsInnerClass(comp, f, metricas, packageClass);
-//			metricas = getConstructorsInnerClass(comp, f, metricas, packageClass);
-//			return nomes;
+			makeMetodosConstrutores(constructors,comp,metricas,packageClass,f.getName().replace(".java", ""));
+			makeMetodosMethods(method,comp,metricas,packageClass,f.getName().replace(".java", ""));
 		}
 		
 		return metricas;
 	}
 	
 	
-	public void makeMetodosConstrutores(List<ConstructorDeclaration> method,CompilationUnit comp,List<Metricas> metodos,String packageClass,File f) {
+	public void makeMetodosConstrutores(List<ConstructorDeclaration> method,CompilationUnit comp,List<Metricas> metodos,String packageClass,String nameClass) {
 		if(method.size() > 0) {
 			for(ConstructorDeclaration md: method) {
 				int sum = 0;
@@ -77,7 +60,7 @@ public class LOC_method {
 				
 				String nomeMetodoPar = getClassNameWithParameters(md.getNameAsString(),md.getParameters());
 				
-				Metricas m = new Metricas(nomeMetodoPar,f.getName().replace(".java", ""),packageClass,sum);
+				Metricas m = new Metricas(nomeMetodoPar,nameClass,packageClass,sum);
 				metodos.add(m);
 			}
 				
@@ -85,7 +68,7 @@ public class LOC_method {
 		
 	}
 	
-	public void makeMetodosMethods(List<MethodDeclaration> method,CompilationUnit comp,List<Metricas> metodos,String packageClass,File f) {
+	public void makeMetodosMethods(List<MethodDeclaration> method,CompilationUnit comp,List<Metricas> metodos,String packageClass,String nameClass) {
 		
 		if(method.size() > 0) {
 	
@@ -100,7 +83,7 @@ public class LOC_method {
 				}
 				
 				String nomeMetodoPar = getClassNameWithParameters(md.getNameAsString(),md.getParameters());
-				Metricas m = new Metricas(nomeMetodoPar,f.getName().replace(".java", ""),packageClass,sum);
+				Metricas m = new Metricas(nomeMetodoPar,nameClass,packageClass,sum);
 //				System.out.println(m.toString());
 				metodos.add(m);
 				
@@ -128,54 +111,26 @@ public class LOC_method {
 			return ClassName;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	public ArrayList<Metricas> getMethodsInnerClass(CompilationUnit cu,File f,ArrayList<Metricas> metricas,String packageClass){
 		for(TypeDeclaration<?> type : cu.getTypes()) {
 	        // first give all this java doc member
 	        List<BodyDeclaration<?>> members = type.getMembers();
-	        System.out.println("TYPE NAME: "+ type.getNameAsString());
+
 	        // check all member content
 	        for(BodyDeclaration member : members) {
 	            // if member state equal ClassOrInterfaceDeclaration, and you can identify it which is inner class
-	            if(member.isClassOrInterfaceDeclaration() || member.isEnumDeclaration() || member.isCallableDeclaration()) {
-	            	System.out.println("Class(MET): "+f.getName()+"  Member: "+member.asClassOrInterfaceDeclaration().getNameAsString());
+	            if(member.isClassOrInterfaceDeclaration()) {
+
 	                if(member.asClassOrInterfaceDeclaration().getNameAsString() != f.getName().replace(".java", "")) {
 	                	List<MethodDeclaration> met = member.asClassOrInterfaceDeclaration().getMethods();
-	                	makeMetodosMethods(met,cu,metricas,packageClass,f);
+	                	makeMetodosMethods(met,cu,metricas,packageClass,f.getName().replace(".java", "")+"."+member.asClassOrInterfaceDeclaration().getNameAsString());
 	                	return metricas;
 	                }
 	                
 	            }
 	            if(member.isMethodDeclaration()) {
-	            	System.out.println("NOME METODO: "+member.asMethodDeclaration().getNameAsString());
 	            }
 	            
 	        }
@@ -193,11 +148,11 @@ public class LOC_method {
 	        for(BodyDeclaration member : members) {
 	            // if member state equal ClassOrInterfaceDeclaration, and you can identify it which is inner class
 	            if(member.isClassOrInterfaceDeclaration()) {
-	            	System.out.println("Class(CONS): "+f.getName()+"  Member: "+member.asClassOrInterfaceDeclaration().getNameAsString());
+//	            	System.out.println("Class(CONS): "+f.getName()+"  Member: "+member.asClassOrInterfaceDeclaration().getNameAsString());
 	                if(member.asClassOrInterfaceDeclaration().getNameAsString() != f.getName().replace(".java", "")) {
 	               
 	                	List<ConstructorDeclaration> met = member.asClassOrInterfaceDeclaration().getConstructors();
-	                	makeMetodosConstrutores(met,cu,metricas,packageClass,f);
+	                	makeMetodosConstrutores(met,cu,metricas,packageClass,f.getName().replace(".java", "")+"."+member.asClassOrInterfaceDeclaration().getNameAsString());
 	                	return metricas;
 	                }
 	            }
@@ -206,6 +161,20 @@ public class LOC_method {
 		return metricas;
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public  ArrayList<Metricas> namesOfInnerClasses(CompilationUnit cu,File f,ArrayList<Metricas> metricas,String path) {
 		String[] path2 = path.split("/");

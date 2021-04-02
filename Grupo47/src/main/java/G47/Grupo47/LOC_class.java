@@ -9,8 +9,10 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 
 import G47.Grupo47.DirExplorer.FileHandler;
 
@@ -40,15 +42,60 @@ public class LOC_class  {
 				int  linhas= n.getRange().map(range -> (range.end.line - range.begin.line)).orElse(0);
 				sum = sum +linhas;
 			}
+			sum = sum+1;
+			for(Metricas m: metricas) {
+				if(m.getClasse().equals(f.getName().replace(".java", "")) && m.getPacote().equals(packageClass)){
+					m.setLOC_class(sum);
+				}
+			}
+			
+			extrair_LOC_class_inner(metricas,f,packageClass,comp);
 			
 		}
-		sum = sum+1;
-		for(Metricas m: metricas) {
-			if(m.getClasse().equals(f.getName().replace(".java", "")) && m.getPacote().equals(packageClass)){
-				m.setLOC_class(sum);
-			}
-		}
+		
 		return metricas;
+	}
+	
+	
+	public ArrayList<Metricas> extrair_LOC_class_inner(ArrayList<Metricas> metricas,File f, String packageClass,CompilationUnit cu){
+		String nameClass = "";
+		for(TypeDeclaration<?> type : cu.getTypes()) {
+	        // first give all this java doc member
+	        List<BodyDeclaration<?>> members = type.getMembers();
+
+	        // check all member content
+	        for(BodyDeclaration member : members) {
+	            // if member state equal ClassOrInterfaceDeclaration, and you can identify it which is inner class
+	        	
+	            if(member.isClassOrInterfaceDeclaration()) {
+	            	int sum = 0;
+	            	
+	                if(member.asClassOrInterfaceDeclaration().getNameAsString() != f.getName().replace(".java", "")) {
+	                	List<Node> nodes = member.asClassOrInterfaceDeclaration().getChildNodes();
+	                	
+	                	for(Node n: nodes) {
+	                		int  linhas= n.getRange().map(range -> (range.end.line - range.begin.line)).orElse(0);
+	        				sum = sum +linhas;
+	                	}
+	                	sum++;
+	                	nameClass = f.getName().replace(".java", "")+"."+member.asClassOrInterfaceDeclaration().getNameAsString();
+	                		
+	                	}
+	                for(Metricas m: metricas) {
+	        			if(m.getClasse().equals(nameClass) && m.getPacote().equals(packageClass)){
+	        				m.setLOC_class(sum);
+	        			}
+	        		}
+	                	
+	                	
+	                }
+	                
+	            }
+	         
+	            
+	        }
+		return metricas;
+		
 	}
 
 }
