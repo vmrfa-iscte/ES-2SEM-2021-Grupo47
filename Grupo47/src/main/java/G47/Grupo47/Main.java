@@ -27,12 +27,12 @@ public class Main {
 		DirExplorer d4 = new DirExplorer(new WMC_classHandler(),metricas_NOM_class);
 		d4.explore(projectDir);
 		ArrayList<Metricas> finalMetricas = d4.getMetricas();
-		for(Metricas m: finalMetricas) {
-		System.out.println(m.toString());
-	}
-//		ExcelManip manip = new ExcelManip();
-//		System.out.println("Excel criado");
-//		manip.createExcel(manip.extractHeaders(),metricas_NOM_class);
+//		for(Metricas m: finalMetricas) {
+//		System.out.println(m.toString());
+//	}
+		ExcelManip manip = new ExcelManip();
+		System.out.println("Excel criado");
+		manip.createExcel(manip.extractHeaders(),metricas_NOM_class);
 	}
 
 }
