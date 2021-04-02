@@ -36,7 +36,6 @@ public class ExtractMetrics {
 		if(cu.isSuccessful()) {
 			CompilationUnit comp = cu.getResult().get();
 			for(ClassOrInterfaceDeclaration type : comp.findAll(ClassOrInterfaceDeclaration.class)) {
-//				System.out.println("TYPE: "+type.getNameAsString()+"   F: "+file.getName().replace(".java", ""));
 				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
 					className = type.getNameAsString();
 				}else {
@@ -44,15 +43,15 @@ public class ExtractMetrics {
 				}
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
 				NOM_class = type.getMethods().size() + type.getConstructors().size();
-				LOC_class = LOC_class(type.getChildNodes());
+				LOC_class = getLOC_class(type.getChildNodes());
 				for(MethodDeclaration md: type.getMethods()) {
-					LOC_method = LOC_method_Met(md);
+					LOC_method = getLOC_method_Met(md);
 					CYCLO_method = getMethodComplexity(md);
 					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
 					metrics.add(metric);
 				}
 				for(ConstructorDeclaration md: type.getConstructors()) {
-					LOC_method = LOC_method_Cons(md);
+					LOC_method = getLOC_method_Cons(md);
 					CYCLO_method = getConstructorComplexity(md);
 
 					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
@@ -61,7 +60,6 @@ public class ExtractMetrics {
 
 			}
 			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
-//				System.out.println("TYPE(ENUM): "+type.getNameAsString()+"   F: "+file.getName().replace(".java", ""));
 				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
 					className = type.getNameAsString();
 				}else {
@@ -69,15 +67,15 @@ public class ExtractMetrics {
 				}
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
 				NOM_class = type.getMethods().size() + type.getConstructors().size();
-				LOC_class = LOC_class(type.getChildNodes());
+				LOC_class = getLOC_class(type.getChildNodes());
 				for(MethodDeclaration md: type.getMethods()) {
-					LOC_method = LOC_method_Met(md);
+					LOC_method = getLOC_method_Met(md);
 					CYCLO_method = getMethodComplexity(md);
 					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
 					metrics.add(metric);
 				}
 				for(ConstructorDeclaration md: type.getConstructors()) {
-					LOC_method = LOC_method_Cons(md);
+					LOC_method = getLOC_method_Cons(md);
 					CYCLO_method = getConstructorComplexity(md);
 
 					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
@@ -90,7 +88,7 @@ public class ExtractMetrics {
 	}
 
 	
-	private int LOC_method_Cons(ConstructorDeclaration md) {
+	private int getLOC_method_Cons(ConstructorDeclaration md) {
 		int sum= 0;
 		for(Node noode: md.getChildNodes()) {
 			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
@@ -101,7 +99,7 @@ public class ExtractMetrics {
 		return sum;
 	}
 
-	private int LOC_method_Met(MethodDeclaration md) {
+	private int getLOC_method_Met(MethodDeclaration md) {
 		int sum = 0;
 		for(Node noode: md.getChildNodes()) {
 			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
@@ -133,7 +131,7 @@ public class ExtractMetrics {
 		}
 	}
 
-	private int LOC_class(List<Node> nodes) throws FileNotFoundException {
+	private int getLOC_class(List<Node> nodes) throws FileNotFoundException {
 		int sum = 0;
 
 		for(Node n: nodes) {
@@ -145,12 +143,12 @@ public class ExtractMetrics {
 	
 	private int getMethodComplexity(MethodDeclaration md) {
 		int complex = 1;
-		int numbif = cycloComplex("if",md.toString());
-		int numbwhile = cycloComplex("while",md.toString());
-		int numbfor =cycloComplex("for",md.toString());
-		int numbelse = cycloComplex("else",md.toString());
-		int numbcase = cycloComplex("case",md.toString());
-		int numbdefault = cycloComplex("default",md.toString());
+		int numbif = getCycloComplex("if",md.toString());
+		int numbwhile = getCycloComplex("while",md.toString());
+		int numbfor =getCycloComplex("for",md.toString());
+		int numbelse = getCycloComplex("else",md.toString());
+		int numbcase = getCycloComplex("case",md.toString());
+		int numbdefault = getCycloComplex("default",md.toString());
 
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
 
@@ -158,19 +156,17 @@ public class ExtractMetrics {
 
 	private int getConstructorComplexity(ConstructorDeclaration md) {
 		int complex = 1;
-		int numbif = cycloComplex("if",md.toString());
-		int numbwhile = cycloComplex("while",md.toString());
-		int numbfor =cycloComplex("for",md.toString());
-		int numbelse = cycloComplex("else",md.toString());
-		int numbcase = cycloComplex("case",md.toString());
-		int numbdefault = cycloComplex("default",md.toString());
-
+		int numbif = getCycloComplex("if",md.toString());
+		int numbwhile = getCycloComplex("while",md.toString());
+		int numbfor =getCycloComplex("for",md.toString());
+		int numbelse = getCycloComplex("else",md.toString());
+		int numbcase = getCycloComplex("case",md.toString());
+		int numbdefault = getCycloComplex("default",md.toString());
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
 
 	}
 
-	private int cycloComplex (String wordToSearch, String data) {
-
+	private int getCycloComplex (String wordToSearch, String data) {
 		int count = 0;
 		for (int index = data.indexOf(wordToSearch); 
 				index != -1; 

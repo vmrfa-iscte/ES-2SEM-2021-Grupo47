@@ -3,30 +3,30 @@ package G47.Grupo47;
 public class Metrics {
 	
 	private int LOC_method;
-	private String pacote;
-	private String classe;
-	private String nome_metodo;
+	private String packageName;
+	private String className;
+	private String methodName;
 	private int LOC_class;
 	private int WMC_class;
 	private int CYCLO_method;
 	private int NOM_class;
 	
-	public Metrics(String nome_metodo,String classe,String pacote,int LOC_method) {
-		this.nome_metodo = nome_metodo;
-		this.pacote = pacote;
-		this.classe = classe;
+	public Metrics(String methodName,String className,String packageName,int LOC_method) {
+		this.methodName = methodName;
+		this.packageName = packageName;
+		this.className = className;
 		this.LOC_method = LOC_method;
 	}
 	
-	public Metrics(String classe, String pacote) {
-		this.classe = classe;
-		this.pacote = pacote;
+	public Metrics(String classeName, String packageName) {
+		this.className = classeName;
+		this.packageName = packageName;
 	}
 	
-	public Metrics(String nome_metodo,String classe,String pacote, int LOC_method,int LOC_class, int CYCLO_method,int NOM_class,int WMC_class) {
-		this.nome_metodo = nome_metodo;
-		this.classe = classe;
-		this.pacote = pacote;
+	public Metrics(String methodName,String className,String packageName, int LOC_method,int LOC_class, int CYCLO_method,int NOM_class,int WMC_class) {
+		this.methodName = methodName;
+		this.className = className;
+		this.packageName = packageName;
 		this.LOC_method = LOC_method;
 		this.LOC_class = LOC_class;
 		this.CYCLO_method = CYCLO_method;
@@ -36,7 +36,7 @@ public class Metrics {
 	
 	
 	public String getClasse() {
-		return classe;
+		return className;
 	}
 	
 	public int getNOM_class() {
@@ -48,11 +48,11 @@ public class Metrics {
 	}
 
 	public String getPacote() {
-		return pacote;
+		return packageName;
 	}
 
 	public String getNome_metodo() {
-		return nome_metodo;
+		return methodName;
 	}
 	
 	public int getLOC_class() {
@@ -72,15 +72,15 @@ public class Metrics {
 	}
 
 	public void setPacote(String pacote) {
-		this.pacote = pacote;
+		this.packageName = pacote;
 	}
 
 	public void setClasse(String classe) {
-		this.classe = classe;
+		this.className = classe;
 	}
 
 	public void setNome_metodo(String nome_metodo) {
-		this.nome_metodo = nome_metodo;
+		this.methodName = nome_metodo;
 	}
 
 	public void setLOC_class(int lOC_class) {
@@ -100,7 +100,7 @@ public class Metrics {
 	}
 	
 	public String toString() {
-		return pacote+"  ||  "+classe+"  ||  "+nome_metodo+"  ||  LOC_class: "+LOC_class+"  ||  LOC_method: "+LOC_method + "  ||  NOM_class: "+NOM_class+"  ||  WMC: "+WMC_class+"  ||  CYCLO: "+CYCLO_method;
+		return packageName+"  ||  "+className+"  ||  "+methodName+"  ||  LOC_class: "+LOC_class+"  ||  LOC_method: "+LOC_method + "  ||  NOM_class: "+NOM_class+"  ||  WMC: "+WMC_class+"  ||  CYCLO: "+CYCLO_method;
 		
 	}
 	
