@@ -123,6 +123,7 @@ public class Gui extends Shell {
 		composite = new Composite(this, SWT.NONE);
 		composite.setBounds(10, 261, 713, 146);
 
+		
 //		if (ficheirosexcel.getSize() != null) {
 		Combo metrica1 = new Combo(composite, SWT.NONE);
 		metrica1.setBounds(10, 20, 181, 28);
