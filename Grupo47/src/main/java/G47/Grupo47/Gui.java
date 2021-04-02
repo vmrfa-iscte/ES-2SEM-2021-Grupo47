@@ -50,6 +50,7 @@ public class Gui extends Shell {
 	 */
 	public static void main(String args[]) {
 		try {
+			
 			Display display = Display.getDefault();
 			Gui shell = new Gui(display);
 			shell.open();
