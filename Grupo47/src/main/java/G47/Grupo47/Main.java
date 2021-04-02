@@ -6,21 +6,21 @@ import java.util.ArrayList;
 
 public class Main {
 
-	public static int countNumberOfMethods(ArrayList<Metricas> finalMetrics) {
+	public static int countNumberOfMethods(ArrayList<Metrics> finalMetrics) {
 		return finalMetrics.size();
 	}
 
-	public static int countLinesOfCode(ArrayList<Metricas> finalMetrics) {
+	public static int countLinesOfCode(ArrayList<Metrics> finalMetrics) {
 		int aux = 0;
-		for (Metricas m : finalMetrics) {
+		for (Metrics m : finalMetrics) {
 			aux = aux + m.getLOC_method();
 		}
 		return aux;
 	}
 
-	public static int countPackages(ArrayList<Metricas> finalMetrics) {
+	public static int countPackages(ArrayList<Metrics> finalMetrics) {
 		ArrayList<String> aux = new ArrayList<String>();
-		for (Metricas m : finalMetrics) {
+		for (Metrics m : finalMetrics) {
 			if (aux.contains(m.getPacote())) {
 				
 			}
@@ -32,9 +32,9 @@ public class Main {
 		return aux.size();
 	}
 	
-	public static int countClasses(ArrayList<Metricas> finalMetrics) {
+	public static int countClasses(ArrayList<Metrics> finalMetrics) {
 		ArrayList<String> aux = new ArrayList<String>();
-		for (Metricas m : finalMetrics) {
+		for (Metrics m : finalMetrics) {
 			if (aux.contains(m.getClasse())) {
 				
 			}
