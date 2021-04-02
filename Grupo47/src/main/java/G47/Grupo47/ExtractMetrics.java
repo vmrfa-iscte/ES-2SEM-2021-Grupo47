@@ -17,16 +17,16 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 
 public class ExtractMetrics {
-	
+
 	private String path;
 	private File file;
-	
+
 
 	public ExtractMetrics(File file, String path) {
 		this.file = file;
 		this.path = path;
 	}
-	
+
 	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics) throws FileNotFoundException {
 		String packageClass = getPackageName(path);
 		JavaParser jp  = new JavaParser();
@@ -82,12 +82,12 @@ public class ExtractMetrics {
 					metrics.add(metric);
 				}
 			}
-			
+
 		}
 		return metrics;
 	}
 
-	
+
 	private int getLOC_method_Cons(ConstructorDeclaration md) {
 		int sum= 0;
 		for(Node noode: md.getChildNodes()) {
@@ -109,9 +109,9 @@ public class ExtractMetrics {
 		}
 		return sum;
 
-	
+
 	}
-	
+
 	private String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
 		if(nodeList.size() == 0) {
 			return ClassName+"()";
@@ -140,7 +140,7 @@ public class ExtractMetrics {
 		}	
 		return sum;
 	}
-	
+
 	private int getMethodComplexity(MethodDeclaration md) {
 		int complex = 1;
 		int numbif = getCycloComplex("if",md.toString());
@@ -212,4 +212,4 @@ public class ExtractMetrics {
 		}
 	}
 
-	}
+}

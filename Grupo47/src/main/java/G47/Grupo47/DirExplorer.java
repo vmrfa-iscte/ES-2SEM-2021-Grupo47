@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class DirExplorer {
@@ -70,26 +68,5 @@ public class DirExplorer {
 		return method;
 	}
     
-    
-    public static List<ConstructorDeclaration> getConstructors(CompilationUnit comp,String nameClass) {
-		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(nameClass);
-		List<ConstructorDeclaration> method = null;
-		if(cid.isEmpty()) {
-			cid = comp.getInterfaceByName(nameClass);
-			
-			if(cid.isEmpty()) {
-				Optional<EnumDeclaration> ed = comp.getEnumByName(nameClass);
-				method = ed.get().getConstructors();
-			}else {
-				method = cid.get().getConstructors();
-			}
-		}else {
-			method = cid.get().getConstructors();
-		}
-		
-		return method;
-	}
-    
-
 
 }
