@@ -22,31 +22,32 @@ public class Main {
 		ArrayList<String> aux = new ArrayList<String>();
 		for (Metricas m : finalMetrics) {
 			if (aux.contains(m.getPacote())) {
-				
+
 			}
 			else {
 				aux.add(m.getPacote());
 			}
-			
+
 		}
 		return aux.size();
 	}
-	
+
 	public static int countClasses(ArrayList<Metricas> finalMetrics) {
 		ArrayList<String> aux = new ArrayList<String>();
 		for (Metricas m : finalMetrics) {
 			if (aux.contains(m.getClasse())) {
-				
+
 			}
 			else {
 				aux.add(m.getClasse());
+				System.out.println(m.getClasse());
 			}
-			
+
 		}
 		return aux.size();
 	}
-	
-	
+
+
 
 	public static void main(String[] args) throws IOException {
 
@@ -76,9 +77,9 @@ public class Main {
 		System.out.println("Numero de classes " + countClasses(finalMetricas));
 		System.out.println("Numero de Packages " + countPackages(finalMetricas));
 		System.out.println("Total linhas de código " + countLinesOfCode(finalMetricas));
-//				ExcelManip manip = new ExcelManip();
-//				manip.createExcel(manip.extractHeaders(),finalMetricas);
-//				System.out.println("Excel criado e preenchido");
+		ExcelManip manip = new ExcelManip();
+		manip.createExcel(manip.extractHeaders(),finalMetricas);
+		System.out.println("Excel criado e preenchido");
 
 	}
 
