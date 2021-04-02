@@ -15,24 +15,24 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class DirExplorer {
 	public interface FileHandler {
-        ArrayList<Metricas> handle(int level, String path, File file,ArrayList<Metricas> metricas);
+        ArrayList<Metrics> handle(int level, String path, File file,ArrayList<Metrics> metrics);
     }
  
     private FileHandler fileHandler;
-    private ArrayList<Metricas> metricas;
+    private ArrayList<Metrics> metrics;
 
     public DirExplorer(FileHandler fileHandler) {
         this.fileHandler = fileHandler;
-        this.metricas = new ArrayList<>();
+        this.metrics = new ArrayList<>();
     }
     
-    public DirExplorer(FileHandler fileHandler,ArrayList<Metricas> metricas) {
+    public DirExplorer(FileHandler fileHandler,ArrayList<Metrics> metrics) {
     	this.fileHandler = fileHandler;
-    	this.metricas = metricas;
+    	this.metrics = metrics;
     }
     
-    public ArrayList<Metricas> getMetricas(){
-    	return metricas;
+    public ArrayList<Metrics> getMetrics(){
+    	return metrics;
     }
     
     public void explore(File root) {
@@ -45,7 +45,7 @@ public class DirExplorer {
             }
         } else {
             if (path.endsWith(".java")) {
-                metricas = fileHandler.handle(level, path, file,metricas);
+                metrics = fileHandler.handle(level, path, file,metrics);
             }
         }
     }

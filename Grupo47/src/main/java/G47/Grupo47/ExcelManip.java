@@ -81,7 +81,7 @@ public class ExcelManip {
 		return column;
 	}
 
-	public void createExcel(ArrayList<String> headers, ArrayList<Metricas> data) throws IOException {
+	public void createExcel(ArrayList<String> headers, ArrayList<Metrics> data) throws IOException {
 		XSSFWorkbook create = new XSSFWorkbook();
 		XSSFSheet sheet = create.createSheet();
 		int numbheaders = headers.size();
@@ -100,7 +100,7 @@ public class ExcelManip {
 		}
 		//Adicionar dados 
 		double i = 1;
-		for (Metricas m : data) {
+		for (Metrics m: data) {
 			Row a = sheet.createRow((int) i);
 			a.createCell(0).setCellValue(i);
 			a.createCell(1).setCellValue(m.getPacote());

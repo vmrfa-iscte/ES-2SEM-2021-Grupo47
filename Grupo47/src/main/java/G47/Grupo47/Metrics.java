@@ -1,6 +1,6 @@
 package G47.Grupo47;
 
-public class Metricas {
+public class Metrics {
 	
 	private int LOC_method;
 	private String pacote;
@@ -11,16 +11,27 @@ public class Metricas {
 	private int CYCLO_method;
 	private int NOM_class;
 	
-	public Metricas(String nome_metodo,String classe,String pacote,int LOC_method) {
+	public Metrics(String nome_metodo,String classe,String pacote,int LOC_method) {
 		this.nome_metodo = nome_metodo;
 		this.pacote = pacote;
 		this.classe = classe;
 		this.LOC_method = LOC_method;
 	}
 	
-	public Metricas(String classe, String pacote) {
+	public Metrics(String classe, String pacote) {
 		this.classe = classe;
 		this.pacote = pacote;
+	}
+	
+	public Metrics(String nome_metodo,String classe,String pacote, int LOC_method,int LOC_class, int CYCLO_method,int NOM_class,int WMC_class) {
+		this.nome_metodo = nome_metodo;
+		this.classe = classe;
+		this.pacote = pacote;
+		this.LOC_method = LOC_method;
+		this.LOC_class = LOC_class;
+		this.CYCLO_method = CYCLO_method;
+		this.NOM_class = NOM_class;
+		this.WMC_class = WMC_class;
 	}
 	
 	
