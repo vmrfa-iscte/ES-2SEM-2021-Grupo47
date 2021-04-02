@@ -1,10 +1,12 @@
 package G47.Grupo47;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
@@ -20,13 +22,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 
 public class Gui extends Shell {
-
+	
+	
+//	private Color c = new Color (211,211,211);
 	private int indice;
 	private List ficheirosexcel;
 	private Text foldername;
@@ -116,30 +121,32 @@ public class Gui extends Shell {
 		extrair.setText("Extrair métricas");
 
 		composite = new Composite(this, SWT.NONE);
-		composite.setBounds(10, 251, 390, 156);
+		composite.setBounds(10, 261, 713, 146);
 
 //		if (ficheirosexcel.getSize() != null) {
 		Combo metrica1 = new Combo(composite, SWT.NONE);
-		metrica1.setBounds(10, 20, 164, 28);
+		metrica1.setBounds(10, 20, 181, 28);
+		metrica1.setText("Escolher método");
+//		metrica1.setBackground(color);
+
 
 		Combo operador = new Combo(composite, SWT.NONE);
-		operador.setBounds(10, 72, 74, 30);
+		operador.setBounds(309, 20, 84, 28);
+		operador.setText("Operador");
 		operador.add("OR");
 		operador.add("AND");
 
 		Combo metrica2 = new Combo(composite, SWT.NONE);
-		metrica2.setBounds(10, 118, 164, 28);
+		metrica2.setBounds(412, 20, 180, 28);
+		metrica2.setText("Escolher método");
 
 		limite_1 = new Text(composite, SWT.BORDER);
-		limite_1.setBounds(186, 20, 74, 30);
-		limite_1.setText("Limite 1");
+		limite_1.setBounds(208, 20, 84, 30);
+		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
-		limite_2.setBounds(186, 116, 74, 30);
-		limite_2.setText("Limite 2");
-
-//			codesmells = new Text(this, SWT.BORDER);
-//			codesmells.setBounds(406, 251, 317, 156);
+		limite_2.setBounds(612, 20, 91, 28);
+		limite_2.setText("Limite");
 
 		btnDefinirRegras = new Button(composite, SWT.NONE);
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
@@ -148,8 +155,29 @@ public class Gui extends Shell {
 			}
 		});
 
-		btnDefinirRegras.setBounds(264, 70, 115, 30);
+		btnDefinirRegras.setBounds(224, 68, 115, 30);
 		btnDefinirRegras.setText("Definir regra");
+
+		Button alterarregra = new Button(composite, SWT.NONE);
+		alterarregra.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+
+		alterarregra.setBounds(364, 68, 115, 30);
+		alterarregra.setText("Alterar regras");
+
+		Button codesmells = new Button(composite, SWT.NONE);
+		codesmells.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				DetecaoCodeSmells codesmells = new DetecaoCodeSmells(display);
+				codesmells.main(null);
+			}
+		});
+		codesmells.setBounds(266, 106, 180, 30);
+		codesmells.setText("Deteção de codesmells");
 
 //		}
 
@@ -160,7 +188,7 @@ public class Gui extends Shell {
 	 * Create contents of the shell.
 	 */
 	protected void createContents() {
-		setText("GUI-Grupo 47");
+		setText("Interface gráfica- grupo 47");
 		setSize(751, 464);
 
 	}
