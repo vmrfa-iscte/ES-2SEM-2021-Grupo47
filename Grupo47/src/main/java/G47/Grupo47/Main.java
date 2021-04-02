@@ -52,8 +52,12 @@ public class Main {
 
 		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
 		DirExplorer de = new DirExplorer(new ExtractMetrics_Handler());
+		de.explore(projectDir);
 		ExcelManip manip = new ExcelManip();
 		System.out.println("Excel criado");
+		for(Metrics m: de.getMetrics()) {
+			System.out.println(m.toString());
+		}
 		manip.createExcel(manip.extractHeaders(),de.getMetrics());
 
 	}

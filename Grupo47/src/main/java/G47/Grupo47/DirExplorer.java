@@ -48,25 +48,6 @@ public class DirExplorer {
         }
     }
     
-    public static List<MethodDeclaration> getMethodList(CompilationUnit comp,String nameClass) {
-		Optional<ClassOrInterfaceDeclaration> cid = comp.getClassByName(nameClass);
-		
-		List<MethodDeclaration> method = null;
-		if(!cid.isPresent()) {
-			cid = comp.getInterfaceByName(nameClass);
-			
-			if(!cid.isPresent()) {
-				Optional<EnumDeclaration> ed = comp.getEnumByName(nameClass);
-				method = ed.get().getMethods();
-			}else {
-				method = cid.get().getMethods();
-			}
-		}else {
-			method = cid.get().getMethods();
-		}
-		
-		return method;
-	}
     
 
 }
