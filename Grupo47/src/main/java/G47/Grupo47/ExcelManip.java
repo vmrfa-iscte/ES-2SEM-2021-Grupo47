@@ -2,28 +2,21 @@ package G47.Grupo47;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.sl.usermodel.Sheet;
-import org.apache.poi.ss.formula.functions.Column;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelManip {
 	
-	public String toCopy = "C:\\Users\\Tomás Mendes\\Desktop\\result.xlsx";
+	public String toCopy = "C:\\Users\\rui.fontoura\\Desktop\\result.xlsx";
 
 //	public void readExcel () throws IOException {
 //		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
@@ -58,7 +51,7 @@ public class ExcelManip {
 	public ArrayList<String> extractHeaders() throws IOException {
 		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
 		XSSFWorkbook workbook = new XSSFWorkbook(file);
-		XSSFSheet sheet = workbook.getSheetAt(0);
+		XSSFSheet sheet = workbook.getSheetAt(0); 
 		Iterator<Row> it = sheet.iterator();
 
 		//desta forma percorre linha a linha
@@ -81,7 +74,7 @@ public class ExcelManip {
 		return column;
 	}
 
-	public void createExcel(ArrayList<String> headers, ArrayList<Metricas> data) throws IOException {
+	public void createExcel(ArrayList<String> headers, ArrayList<Metrics> data) throws IOException {
 		XSSFWorkbook create = new XSSFWorkbook();
 		XSSFSheet sheet = create.createSheet();
 		int numbheaders = headers.size();
@@ -100,13 +93,13 @@ public class ExcelManip {
 		}
 		//Adicionar dados 
 		double i = 1;
-		for (Metricas m : data) {
+		for (Metrics m: data) {
 			Row a = sheet.createRow((int) i);
 			a.createCell(0).setCellValue(i);
 			a.createCell(1).setCellValue(m.getPacote());
 			a.createCell(2).setCellValue(m.getClasse());
 			a.createCell(3).setCellValue(m.getNome_metodo());
-			a.createCell(4).setCellValue(m.getNOM_classe());
+			a.createCell(4).setCellValue(m.getNOM_class());
 			a.createCell(5).setCellValue(m.getLOC_class());
 			a.createCell(6).setCellValue(m.getWMC_class());
 			a.createCell(8).setCellValue(m.getLOC_method());
