@@ -8,7 +8,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 
-		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com\\jasml");
+		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
 		DirExplorer de = new DirExplorer(new LOC_methodHandler());
 		de.explore(projectDir);
 		ArrayList<Metricas> metricas = de.getMetricas();
@@ -32,7 +32,7 @@ public class Main {
 //	}
 		ExcelManip manip = new ExcelManip();
 		System.out.println("Excel criado");
-		manip.createExcel(manip.extractHeaders(),metricas_NOM_class);
+		manip.createExcel(manip.extractHeaders(),finalMetricas);
 	}
 
 }

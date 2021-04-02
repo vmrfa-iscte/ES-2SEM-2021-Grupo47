@@ -106,8 +106,11 @@ public class ExcelManip {
 			a.createCell(1).setCellValue(m.getPacote());
 			a.createCell(2).setCellValue(m.getClasse());
 			a.createCell(3).setCellValue(m.getNome_metodo());
+			a.createCell(4).setCellValue(m.getNOM_classe());
 			a.createCell(5).setCellValue(m.getLOC_class());
+			a.createCell(6).setCellValue(m.getWMC_class());
 			a.createCell(8).setCellValue(m.getLOC_method());
+			a.createCell(9).setCellValue(m.getCYCLO_method());
 			i++;
 		}
 		FileOutputStream excel = new FileOutputStream(new File(toCopy));

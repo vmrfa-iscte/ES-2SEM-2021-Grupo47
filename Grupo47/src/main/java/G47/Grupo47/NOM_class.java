@@ -22,13 +22,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import G47.Grupo47.DirExplorer.FileHandler;
 public class NOM_class {
 
-	
-	public static void main(String[] args) {
-		
-//		File dir = new File("C:\\Users\\alinc\\OneDrive\\Ambiente de Trabalho\\jasml_0.10\\src\\com\\jasml");
-//		DirExplorer de = new DirExplorer(new NOM_class());
-//		de.explore(dir);
-	}
+
 	
 	
 	public ArrayList<Metricas> extractNOMclass(File f, String path,ArrayList<Metricas> metricas) throws FileNotFoundException {
