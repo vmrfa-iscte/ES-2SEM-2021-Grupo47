@@ -16,7 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelManip {
 	
-	public String toCopy = "C:\\Users\\Tomás Mendes\\Desktop\\result.xlsx";
+	public String toCopy = "C:\\Users\\rui.fontoura\\Desktop\\result.xlsx";
 
 //	public void readExcel () throws IOException {
 //		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));

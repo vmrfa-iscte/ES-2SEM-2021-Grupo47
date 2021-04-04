@@ -9,16 +9,18 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
-		DirExplorer de = new DirExplorer(new ExtractMetrics_Handler());
-		de.explore(projectDir);
+		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
+		DirExplorer de = new DirExplorer(projectDir);
+		ArrayList<Metrics> metrics = new ArrayList<>();
+		metrics = de.explore();
 		ExcelManip manip = new ExcelManip();
 		System.out.println("Excel criado");
-		for(Metrics m: de.getMetrics()) {
+
+		for(Metrics m: metrics) {
 			System.out.println(m.toString());
 		}
-		manip.createExcel(manip.extractHeaders(),de.getMetrics());
-		Statistics stats = new Statistics(de.getMetrics());
+		manip.createExcel(manip.extractHeaders(),metrics);
+		Statistics stats = new Statistics(metrics);
 		System.out.println("Numero de métodos " + stats.countNumberOfMethods());
 		System.out.println("Numero de classes " + stats.countClasses());
 		System.out.println("Numero de classes " + stats.countPackages());

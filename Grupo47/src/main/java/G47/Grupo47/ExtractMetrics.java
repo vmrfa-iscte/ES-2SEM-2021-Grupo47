@@ -84,14 +84,11 @@ public class ExtractMetrics {
 			}
 
 		}
-		for(Metrics m: metrics) {
-			System.out.println(m.toString());
-		}
 		return metrics;
 	}
 
 
-	private int getLOC_method_Cons(ConstructorDeclaration md) {
+	protected int getLOC_method_Cons(ConstructorDeclaration md) {
 		int sum= 0;
 		for(Node noode: md.getChildNodes()) {
 			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
@@ -102,7 +99,7 @@ public class ExtractMetrics {
 		return sum;
 	}
 
-	private int getLOC_method_Met(MethodDeclaration md) {
+	protected int getLOC_method_Met(MethodDeclaration md) {
 		int sum = 0;
 		for(Node noode: md.getChildNodes()) {
 			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
@@ -115,7 +112,7 @@ public class ExtractMetrics {
 
 	}
 
-	private String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
+	protected String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
 		if(nodeList.size() == 0) {
 			return ClassName+"()";
 		}else {
@@ -134,7 +131,7 @@ public class ExtractMetrics {
 		}
 	}
 
-	private int getLOC_class(List<Node> nodes) throws FileNotFoundException {
+	protected int getLOC_class(List<Node> nodes) throws FileNotFoundException {
 		int sum = 0;
 
 		for(Node n: nodes) {
@@ -144,7 +141,7 @@ public class ExtractMetrics {
 		return sum;
 	}
 
-	private int getMethodComplexity(MethodDeclaration md) {
+	protected int getMethodComplexity(MethodDeclaration md) {
 		int complex = 1;
 		int numbif = getCycloComplex("if",md.toString());
 		int numbwhile = getCycloComplex("while",md.toString());
@@ -157,7 +154,7 @@ public class ExtractMetrics {
 
 	}
 
-	private int getConstructorComplexity(ConstructorDeclaration md) {
+	protected int getConstructorComplexity(ConstructorDeclaration md) {
 		int complex = 1;
 		int numbif = getCycloComplex("if",md.toString());
 		int numbwhile = getCycloComplex("while",md.toString());
@@ -169,7 +166,7 @@ public class ExtractMetrics {
 
 	}
 
-	private int getCycloComplex (String wordToSearch, String data) {
+	protected int getCycloComplex (String wordToSearch, String data) {
 		int count = 0;
 		for (int index = data.indexOf(wordToSearch); 
 				index != -1; 
@@ -179,7 +176,7 @@ public class ExtractMetrics {
 		return count;
 	}
 
-	private int getClassComplexity(List<MethodDeclaration> md,List<ConstructorDeclaration> cd) {
+	protected int getClassComplexity(List<MethodDeclaration> md,List<ConstructorDeclaration> cd) {
 		int complexity = 0;
 		for(MethodDeclaration metdec: md) {
 			complexity = complexity + getMethodComplexity(metdec);
@@ -191,7 +188,7 @@ public class ExtractMetrics {
 
 	}
 
-	private String getPackageName(String path) {
+	protected String getPackageName(String path) {
 		String packageName = "";
 		boolean src = false;
 		String[] separated = path.split("/");
