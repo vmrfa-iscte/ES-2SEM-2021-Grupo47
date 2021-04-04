@@ -31,6 +31,8 @@ public class StatisticsTest extends TestCase {
 		assertNotNull(b);
 		Metrics c = new Metrics("Methodtest3","ClassTest3","PackageTeste3",5);
 		assertNotNull(c);
+		Metrics c2 = new Metrics("Methodtest4","ClassTest4","PackageTeste3",12);
+		assertNotNull(c);
 		listB.add(a);
 		listB.add(b);
 		listB.add(c);
@@ -38,6 +40,8 @@ public class StatisticsTest extends TestCase {
 		Statistics statB = new Statistics(listB);
 		assertNotNull(statB);	
 		assertEquals(statB.countNumberOfMethods(),3);
+		
+	
 	}
 	
 	public void testCountPackages() {
@@ -58,9 +62,12 @@ public class StatisticsTest extends TestCase {
 		assertNotNull(b);
 		Metrics c = new Metrics("Methodtest3","ClassTest3","PackageTeste3",5);
 		assertNotNull(c);
+		Metrics d = new Metrics("Methodtest3","ClassTest3","PackageTeste3",5);
+		assertNotNull(c);
 		listB.add(a);
 		listB.add(b);
 		listB.add(c);
+		listB.add(d);
 		assertNotNull(listB);
 		Statistics statB = new Statistics(listB);
 		assertNotNull(statB);	
@@ -112,13 +119,17 @@ public class StatisticsTest extends TestCase {
 		ArrayList<Metrics> listB = new ArrayList<>();
 		Metrics a = new Metrics("Methodtest","ClassTest","PackageTeste",3);
 		assertNotNull(a);
+		Metrics twoAtributte = new Metrics("Test2AtributteConstructor","Test2AtributteConstructor");
 		Metrics b = new Metrics("Methodtest2","ClassTest2","PackageTeste2",4);
 		assertNotNull(b);
 		Metrics c = new Metrics("Methodtest3","ClassTest3","PackageTeste3",5);
 		assertNotNull(c);
+		Metrics d = new Metrics("Methodtest3","ClassTest3","PackageTeste3",5);
+		assertNotNull(d);
 		listB.add(a);
 		listB.add(b);
 		listB.add(c);
+		listB.add(d);
 		assertNotNull(listB);
 		Statistics statB = new Statistics(listB);
 		assertNotNull(statB);	

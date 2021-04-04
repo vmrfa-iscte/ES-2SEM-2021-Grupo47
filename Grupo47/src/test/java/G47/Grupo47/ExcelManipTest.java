@@ -55,9 +55,15 @@ public class ExcelManipTest extends TestCase {
 		
 		// tested in respective class but necessary
 		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
-		DirExplorer de = new DirExplorer(new ExtractMetrics_Handler());
-		de.explore(projectDir);
-		// tested in respective class but necessary
+		DirExplorer de = new DirExplorer(projectDir);
+		ArrayList<Metrics> metrics = de.explore();
+		ExcelManip manip = new ExcelManip();
+		manip.createExcel(result,metrics );
+		
+		
+
+
+		
 		
 		
 		

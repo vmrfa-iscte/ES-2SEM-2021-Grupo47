@@ -10,12 +10,12 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 
 		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
-		DirExplorer de = new DirExplorer(new ExtractMetrics_Handler());
-		de.explore(projectDir);
+		DirExplorer de = new DirExplorer(projectDir);
+		ArrayList<Metrics> metrics = de.explore();
 		ExcelManip manip = new ExcelManip();
 		System.out.println("Excel criado");
-		manip.createExcel(manip.extractHeaders(),de.getMetrics());
-		Statistics stats = new Statistics(de.getMetrics());
+		manip.createExcel(manip.extractHeaders(),metrics);
+		Statistics stats = new Statistics(metrics);
 		System.out.println("Numero de métodos " + stats.countNumberOfMethods());
 		System.out.println("Numero de classes " + stats.countClasses());
 		System.out.println("Numero de classes " + stats.countPackages());

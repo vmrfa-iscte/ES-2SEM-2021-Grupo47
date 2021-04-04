@@ -59,29 +59,29 @@ public class ExtractMetrics {
 				}
 
 			}
-			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
-				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
-					className = type.getNameAsString();
-				}else {
-					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
-				}
-				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
-				NOM_class = type.getMethods().size() + type.getConstructors().size();
-				LOC_class = getLOC_class(type.getChildNodes());
-				for(MethodDeclaration md: type.getMethods()) {
-					LOC_method = getLOC_method_Met(md);
-					CYCLO_method = getMethodComplexity(md);
-					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
-					metrics.add(metric);
-				}
-				for(ConstructorDeclaration md: type.getConstructors()) {
-					LOC_method = getLOC_method_Cons(md);
-					CYCLO_method = getConstructorComplexity(md);
-
-					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
-					metrics.add(metric);
-				}
-			}
+//			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
+//				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
+//					className = type.getNameAsString();
+//				}else {
+//					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
+//				}
+//				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
+//				NOM_class = type.getMethods().size() + type.getConstructors().size();
+//				LOC_class = getLOC_class(type.getChildNodes());
+//				for(MethodDeclaration md: type.getMethods()) {
+//					LOC_method = getLOC_method_Met(md);
+//					CYCLO_method = getMethodComplexity(md);
+//					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+//					metrics.add(metric);
+//				}
+//				for(ConstructorDeclaration md: type.getConstructors()) {
+//					LOC_method = getLOC_method_Cons(md);
+//					CYCLO_method = getConstructorComplexity(md);
+//
+//					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+//					metrics.add(metric);
+//				}
+//			}
 
 		}
 		return metrics;
@@ -95,6 +95,9 @@ public class ExtractMetrics {
 				int tamanho = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
 				sum = sum + tamanho;
 			}
+			else {
+				
+			}
 		}
 		return sum;
 	}
@@ -105,6 +108,9 @@ public class ExtractMetrics {
 			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
 				int length = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
 				sum = sum + length;
+			}
+			else {
+				
 			}
 		}
 		return sum;
