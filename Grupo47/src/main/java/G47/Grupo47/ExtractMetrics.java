@@ -88,7 +88,7 @@ public class ExtractMetrics {
 	}
 
 
-	protected int getLOC_method_Cons(ConstructorDeclaration md) {
+	int getLOC_method_Cons(ConstructorDeclaration md) {
 		int sum= 0;
 		for(Node noode: md.getChildNodes()) {
 			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
