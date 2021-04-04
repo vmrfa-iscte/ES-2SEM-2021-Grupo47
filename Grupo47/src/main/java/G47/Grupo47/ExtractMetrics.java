@@ -84,6 +84,9 @@ public class ExtractMetrics {
 			}
 
 		}
+		for(Metrics m: metrics) {
+			System.out.println(m.toString());
+		}
 		return metrics;
 	}
 

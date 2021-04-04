@@ -18,6 +18,10 @@ public class ExtractMetrics_Handler implements FileHandler{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		for(Metrics m: metrics) {
+//			System.out.println(m.toString());
+//			
+//		}
 		return metrics;
 	}
 
