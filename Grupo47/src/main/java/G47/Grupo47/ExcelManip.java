@@ -16,7 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelManip {
 	
-	public String toCopy = "C:\\Users\\rui.fontoura\\Desktop\\result.xlsx";
+	public String toCopy = "C:\\Users\\Tomás Mendes\\Desktop\\result.xlsx";
 
 //	public void readExcel () throws IOException {
 //		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
@@ -112,16 +112,7 @@ public class ExcelManip {
 	
 }
 	
-//	public void writeData(ArrayList<Metricas> data) throws IOException {
-//		XSSFWorkbook workbook = new XSSFWorkbook();
-//		XSSFSheet sheet = workbook.getSheetAt(0);
-//		
-//
-//		FileOutputStream excel = new FileOutputStream(new File(toCopy));
-//		workbook.write(excel);
-//		workbook.close();
-//		
-//	}
+
 	
 	
 }

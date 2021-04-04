@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
@@ -28,7 +27,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 
-public class Gui extends Shell {
+public class GuiClass extends Shell {
 	
 	
 //	private Color c = new Color (211,211,211);
@@ -52,7 +51,7 @@ public class Gui extends Shell {
 		try {
 			
 			Display display = Display.getDefault();
-			Gui shell = new Gui(display);
+			GuiClass shell = new GuiClass(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -70,9 +69,9 @@ public class Gui extends Shell {
 	 * 
 	 * @param display
 	 */
-	public Gui(Display display) {
+	public GuiClass(Display display) {
 		super(display, SWT.SHELL_TRIM);
-		setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+
 		setLayout(null);
 
 		foldername = new Text(this, SWT.BORDER);
