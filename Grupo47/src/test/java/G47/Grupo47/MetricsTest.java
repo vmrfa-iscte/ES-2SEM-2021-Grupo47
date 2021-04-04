@@ -20,9 +20,24 @@ public class MetricsTest extends TestCase {
 		assertEquals("x",n.getNome_metodo());
 		assertEquals("y",n.getClasse());
 		assertEquals("z",n.getPacote());
-		assertEquals(4,n.getLOC_method());
-		
-		
+		assertEquals(4,n.getLOC_method());		
 	}
+	
+	public void testConstructor3() {
+		n= new Metrics("x","y","z",1,2,3,4,5);
+		assertNotNull(n);
+		assertEquals("x",n.getNome_metodo());
+		assertEquals("y",n.getClasse());
+		assertEquals("z",n.getPacote());
+		assertEquals(1,n.getLOC_method());	
+		assertEquals(2,n.getLOC_class());
+		assertEquals(3,n.getCYCLO_method());
+		assertEquals(4,n.getNOM_class());	
+		assertEquals(5,n.getWMC_class());	
+	}
+	
+	
+	
+	
 
 }
