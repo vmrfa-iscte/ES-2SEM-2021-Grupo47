@@ -22,6 +22,7 @@ public class MetricsTest extends TestCase {
 		assertEquals("z",n.getPacote());
 		assertEquals(4,n.getLOC_method());
 		
+		
 	}
 
 }
