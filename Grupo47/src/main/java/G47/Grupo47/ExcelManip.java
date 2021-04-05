@@ -48,6 +48,7 @@ public class ExcelManip {
 //
 //	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<String> extractHeaders() throws IOException {
 		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
 		XSSFWorkbook workbook = new XSSFWorkbook(file);

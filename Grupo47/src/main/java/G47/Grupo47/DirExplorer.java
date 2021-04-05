@@ -17,37 +17,33 @@ public class DirExplorer {
         ArrayList<Metrics> handle(int level, String path, File file,ArrayList<Metrics> metrics);
     }
  
-    private ArrayList<Metrics> metrics;
     private File file;
+    private ArrayList<Metrics> metrics;
 
     public DirExplorer(File file) {
-    	this.file = file;
+        this.file = file;
         this.metrics = new ArrayList<>();
     }
-    
-    public ArrayList<Metrics> explore() {
+           
+    public ArrayList<Metrics> explore() throws FileNotFoundException {
         return explore(0, "", file);
+        
     }
-    private ArrayList<Metrics> explore(int level, String path,File file) {
+    private ArrayList<Metrics> explore(int level, String path,File file) throws FileNotFoundException {
         if (file.isDirectory()) {
             for (File child : file.listFiles()) {
                 explore(level + 1, path + "/" + child.getName(), child);
             }
         } else {
             if (path.endsWith(".java")) {
-            	System.out.println(level+"  "+path+"  ");
-//                metrics = fileHandler.handle(level, path, file,metrics);
-            	ExtractMetrics em = new ExtractMetrics(file,path);
-            	try {
-					metrics = em.extrair_Metricas(metrics);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
+                ExtractMetrics a = new ExtractMetrics(file,path);
+                a.extrair_Metricas(metrics);
             }
         }
         return metrics;
     }
     
+
     
 
 }
