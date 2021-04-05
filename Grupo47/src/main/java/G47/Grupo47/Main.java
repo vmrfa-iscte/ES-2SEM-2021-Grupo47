@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
+		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
 		DirExplorer de = new DirExplorer(projectDir);
 		ArrayList<Metrics> metrics = de.explore();
 		ExcelManip manip = new ExcelManip();
@@ -20,6 +20,9 @@ public class Main {
 		System.out.println("Numero de classes " + stats.countClasses());
 		System.out.println("Numero de classes " + stats.countPackages());
 		System.out.println("Numero de classes " + stats.countLinesOfCode());
+		for(Metrics m: metrics) {
+			System.out.println(m.toString());
+		}
 	}
 
 }

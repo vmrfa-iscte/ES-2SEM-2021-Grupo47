@@ -42,8 +42,8 @@ public class ExtractMetrics {
 					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
 				}
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
-				NOM_class = type.getMethods().size() + type.getConstructors().size();
-				LOC_class = getLOC_class(type.getChildNodes());
+				NOM_class = getNOM_class(type.getMethods(),type.getConstructors());
+				LOC_class = getLOC_class(type);
 				for(MethodDeclaration md: type.getMethods()) {
 					LOC_method = getLOC_method_Met(md);
 					CYCLO_method = getMethodComplexity(md);
@@ -89,33 +89,15 @@ public class ExtractMetrics {
 
 
 	int getLOC_method_Cons(ConstructorDeclaration md) {
-		int sum= 0;
-		for(Node noode: md.getChildNodes()) {
-			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
-				int tamanho = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-				sum = sum + tamanho;
-			}
-			else {
-				
-			}
-		}
-		return sum;
+		return (md.getEnd().get().line - md.getBegin().get().line)+1;
 	}
 
 	protected int getLOC_method_Met(MethodDeclaration md) {
-		int sum = 0;
-		for(Node noode: md.getChildNodes()) {
-			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
-				int length = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-				sum = sum + length;
-			}
-			else {
-				
-			}
-		}
-		return sum;
-
-
+		return (md.getEnd().get().line - md.getBegin().get().line)+1;
+	}
+	
+	protected int getNOM_class(List<MethodDeclaration> md, List<ConstructorDeclaration> cd) {
+		return md.size()+ cd.size();
 	}
 
 	protected String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
@@ -137,14 +119,8 @@ public class ExtractMetrics {
 		}
 	}
 
-	protected int getLOC_class(List<Node> nodes) throws FileNotFoundException {
-		int sum = 0;
-
-		for(Node n: nodes) {
-			int  length= n.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-			sum = sum +length;
-		}	
-		return sum;
+	protected int getLOC_class(ClassOrInterfaceDeclaration cid) throws FileNotFoundException {
+		return (cid.getEnd().get().line - cid.getBegin().get().line)+1;
 	}
 
 	protected int getMethodComplexity(MethodDeclaration md) {
