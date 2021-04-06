@@ -43,7 +43,7 @@ public class ExtractMetrics {
 				}
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
 				NOM_class = getNOM_class(type.getMethods(),type.getConstructors());
-				LOC_class = getLOC_class(type);
+				LOC_class = getLOC_classCID(type);
 				for(MethodDeclaration md: type.getMethods()) {
 					LOC_method = getLOC_method_Met(md);
 					CYCLO_method = getMethodComplexity(md);
@@ -59,30 +59,32 @@ public class ExtractMetrics {
 				}
 
 			}
-//			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
-//				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
-//					className = type.getNameAsString();
-//				}else {
-//					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
-//				}
-//				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
-//				NOM_class = type.getMethods().size() + type.getConstructors().size();
-//				LOC_class = getLOC_class(type.getChildNodes());
-//				for(MethodDeclaration md: type.getMethods()) {
-//					LOC_method = getLOC_method_Met(md);
-//					CYCLO_method = getMethodComplexity(md);
-//					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
-//					metrics.add(metric);
-//				}
-//				for(ConstructorDeclaration md: type.getConstructors()) {
-//					LOC_method = getLOC_method_Cons(md);
-//					CYCLO_method = getConstructorComplexity(md);
-//
-//					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
-//					metrics.add(metric);
-//				}
-//			}
+			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
+				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
+					className = type.getNameAsString();
+				}else {
+					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
+				}
+				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
+				NOM_class = type.getMethods().size() + type.getConstructors().size();
+				LOC_class = getLOC_classENUM(type);
+				for(MethodDeclaration md: type.getMethods()) {
+					LOC_method = getLOC_method_Met(md);
+					CYCLO_method = getMethodComplexity(md);
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					metrics.add(metric);
+				}
+				for(ConstructorDeclaration md: type.getConstructors()) {
+					LOC_method = getLOC_method_Cons(md);
+					CYCLO_method = getConstructorComplexity(md);
 
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					metrics.add(metric);
+				}
+			}
+
+		}else {
+			
 		}
 		return metrics;
 	}
@@ -119,8 +121,12 @@ public class ExtractMetrics {
 		}
 	}
 
-	protected int getLOC_class(ClassOrInterfaceDeclaration cid) throws FileNotFoundException {
+	protected int getLOC_classCID(ClassOrInterfaceDeclaration cid) throws FileNotFoundException {
 		return (cid.getEnd().get().line - cid.getBegin().get().line)+1;
+	}
+	
+	protected int getLOC_classENUM(EnumDeclaration ed) {
+		return (ed.getEnd().get().line - ed.getBegin().get().line)+1;
 	}
 
 	protected int getMethodComplexity(MethodDeclaration md) {
@@ -131,7 +137,6 @@ public class ExtractMetrics {
 		int numbelse = getCycloComplex("else",md.toString());
 		int numbcase = getCycloComplex("case",md.toString());
 		int numbdefault = getCycloComplex("default",md.toString());
-
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
 
 	}

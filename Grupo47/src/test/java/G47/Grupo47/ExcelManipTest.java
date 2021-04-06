@@ -17,7 +17,7 @@ public class ExcelManipTest extends TestCase {
 	
 	public void testPath()  {
 	ExcelManip a = new ExcelManip();
-	String s = new String("C:\\Users\\Tomás Mendes\\Desktop\\result.xlsx");
+	String s = new String("C:\\Users\\rui.fontoura\\Desktop\\result.xlsx");
 	assertNotNull(s);
 	assertNotNull(a.toCopy);
 	assertEquals(a.toCopy,s);
@@ -54,7 +54,7 @@ public class ExcelManipTest extends TestCase {
 		// already tested but necessary
 		
 		// tested in respective class but necessary
-		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
+		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
 		DirExplorer de = new DirExplorer(projectDir);
 		ArrayList<Metrics> metrics = de.explore();
 		ExcelManip manip = new ExcelManip();

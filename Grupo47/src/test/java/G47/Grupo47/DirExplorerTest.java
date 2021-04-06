@@ -18,7 +18,7 @@ public class DirExplorerTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
+		projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
 		de = new DirExplorer(projectDir);
 		metrics = new ArrayList<>();
 	}
