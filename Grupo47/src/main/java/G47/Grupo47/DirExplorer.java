@@ -1,6 +1,7 @@
 package G47.Grupo47;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,38 +17,33 @@ public class DirExplorer {
         ArrayList<Metrics> handle(int level, String path, File file,ArrayList<Metrics> metrics);
     }
  
-    private FileHandler fileHandler;
+    private File file;
     private ArrayList<Metrics> metrics;
 
-    public DirExplorer(FileHandler fileHandler) {
-        this.fileHandler = fileHandler;
+    public DirExplorer(File file) {
+        this.file = file;
         this.metrics = new ArrayList<>();
     }
-    
-    public DirExplorer(FileHandler fileHandler,ArrayList<Metrics> metrics) {
-    	this.fileHandler = fileHandler;
-    	this.metrics = metrics;
+           
+    public ArrayList<Metrics> explore() throws FileNotFoundException {
+        return explore(0, "", file);
+        
     }
-    
-    public ArrayList<Metrics> getMetrics(){
-    	return metrics;
-    }
-    
-    public void explore(File root) {
-        explore(0, "", root);
-    }
-    private void explore(int level, String path,File file) {
+    private ArrayList<Metrics> explore(int level, String path,File file) throws FileNotFoundException {
         if (file.isDirectory()) {
             for (File child : file.listFiles()) {
                 explore(level + 1, path + "/" + child.getName(), child);
             }
         } else {
             if (path.endsWith(".java")) {
-                metrics = fileHandler.handle(level, path, file,metrics);
+                ExtractMetrics a = new ExtractMetrics(file,path);
+                a.extrair_Metricas(metrics);
             }
         }
+        return metrics;
     }
     
+
     
 
 }
