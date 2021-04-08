@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
+		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
 		DirExplorer de = new DirExplorer(projectDir);
 		ArrayList<Metrics> metrics = de.explore();
 		ExcelManip manip = new ExcelManip();
