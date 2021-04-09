@@ -129,11 +129,13 @@ public class GuiClass extends Shell {
 		composite = new Composite(this, SWT.NONE);
 		composite.setBounds(10, 261, 713, 146);
 
-//		if (ficheirosexcel.getSize() != null) {
 		Combo metrica1 = new Combo(composite, SWT.NONE);
 		metrica1.setBounds(10, 20, 181, 28);
 		metrica1.setText("Escolher método");
-//		metrica1.setBackground(color);
+		metrica1.add("LOC_method");
+		metrica1.add("CYCLO_method");
+		metrica1.add("NOM_class");
+		metrica1.add("WMC_class");
 
 		Combo operador = new Combo(composite, SWT.NONE);
 		operador.setBounds(309, 20, 84, 28);
@@ -144,6 +146,10 @@ public class GuiClass extends Shell {
 		Combo metrica2 = new Combo(composite, SWT.NONE);
 		metrica2.setBounds(412, 20, 180, 28);
 		metrica2.setText("Escolher método");
+		metrica2.add("LOC_method");
+		metrica2.add("CYCLO_method");
+		metrica2.add("NOM_class");
+		metrica2.add("WMC_class");
 
 		limite_1 = new Text(composite, SWT.BORDER);
 		limite_1.setBounds(208, 20, 84, 30);
@@ -157,9 +163,9 @@ public class GuiClass extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				  String username = System.getProperty("user.name");
-				   System.out.println("username: "+username);
-				   rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
+				String username = System.getProperty("user.name");
+				System.out.println("username: " + username);
+				rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
 				if (!rules.exists()) {
 					try {
 						rules.createNewFile();
@@ -168,23 +174,27 @@ public class GuiClass extends Shell {
 						e1.printStackTrace();
 					}
 				}
-				
-				
 
 				try {
-					fw = new FileWriter(rules.getAbsoluteFile());
+					fw = new FileWriter(rules);
 					bw = new BufferedWriter(fw);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				String content = new String("Rule 1: " + metrica1.getText() + " > " + " " + limite_1.getText() + " "
+						+ operador.getText() + " " + metrica2.getText() + " > " + " " + limite_2.getText());
+				System.out.println(content);
 				try {
-					bw.write(metrica1.getText());
+					System.out.println("here4");
+					bw.write(content);
+					bw.close();
+					System.out.println("Here5");
+					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
 			}
 		});
 
@@ -195,6 +205,7 @@ public class GuiClass extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+
 
 			}
 		});
