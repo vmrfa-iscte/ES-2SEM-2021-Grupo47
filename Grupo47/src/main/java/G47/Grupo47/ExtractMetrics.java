@@ -29,7 +29,7 @@ public class ExtractMetrics {
 	}
 
 	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics) throws FileNotFoundException {
-		String packageClass = getPackageName(path);
+		String packageClass = getPackageName();
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(file);
 		int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = 0;
@@ -176,12 +176,11 @@ public class ExtractMetrics {
 
 	}
 
-	protected String getPackageName(String path) {
+	protected String getPackageName() {
 		String packageName = "";
 		boolean src = false;
 		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
 		for(int i = 0; i< separated.length-1;i++) {
-			
 			if(src && i <= separated.length-2) {
 				if(i < separated.length-2) {
 					packageName = packageName + separated[i] + ".";
