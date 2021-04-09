@@ -1,9 +1,13 @@
 package G47.Grupo47;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -28,8 +32,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 
 public class GuiClass extends Shell {
-	
-	
+
 //	private Color c = new Color (211,211,211);
 	private int indice;
 	private List ficheirosexcel;
@@ -41,6 +44,9 @@ public class GuiClass extends Shell {
 	private Text limite_1;
 	private Text limite_2;
 	private Text codesmells;
+	private File rules;
+	private FileWriter fw;
+	private BufferedWriter bw;
 
 	/**
 	 * Launch the application.
@@ -49,7 +55,7 @@ public class GuiClass extends Shell {
 	 */
 	public static void main(String args[]) {
 		try {
-			
+
 			Display display = Display.getDefault();
 			GuiClass shell = new GuiClass(display);
 			shell.open();
@@ -123,13 +129,11 @@ public class GuiClass extends Shell {
 		composite = new Composite(this, SWT.NONE);
 		composite.setBounds(10, 261, 713, 146);
 
-		
 //		if (ficheirosexcel.getSize() != null) {
 		Combo metrica1 = new Combo(composite, SWT.NONE);
 		metrica1.setBounds(10, 20, 181, 28);
 		metrica1.setText("Escolher método");
 //		metrica1.setBackground(color);
-
 
 		Combo operador = new Combo(composite, SWT.NONE);
 		operador.setBounds(309, 20, 84, 28);
@@ -153,6 +157,34 @@ public class GuiClass extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				  String username = System.getProperty("user.name");
+				   System.out.println("username: "+username);
+				   rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
+				if (!rules.exists()) {
+					try {
+						rules.createNewFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				
+
+				try {
+					fw = new FileWriter(rules.getAbsoluteFile());
+					bw = new BufferedWriter(fw);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					bw.write(metrica1.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
 		});
 
@@ -163,6 +195,7 @@ public class GuiClass extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+
 			}
 		});
 
