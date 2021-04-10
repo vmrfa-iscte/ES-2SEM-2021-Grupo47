@@ -67,7 +67,7 @@ public class GuiClass extends Shell {
 	private File rules;
 	private FileWriter fw;
 	private BufferedWriter bw;
-	private ArrayList<Rules> list;
+	private ArrayList<Rules> list= new ArrayList<>();;
 
 	/**
 	 * Launch the application.
@@ -229,7 +229,7 @@ public class GuiClass extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				list = new ArrayList<>();
+				
 				int count = 0;
 				count++;
 				String username = System.getProperty("user.name");
@@ -246,7 +246,6 @@ public class GuiClass extends Shell {
 					try {
 						rules.createNewFile();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -280,6 +279,7 @@ public class GuiClass extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				
 			}
 		});
 
