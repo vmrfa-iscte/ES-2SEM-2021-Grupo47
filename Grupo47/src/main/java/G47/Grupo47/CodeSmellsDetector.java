@@ -23,19 +23,70 @@ public class CodeSmellsDetector {
 
 	}
 
-	public void detectLongMethod() {
-//		ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
-//		for (Metrics metric : results) {
-////			if (operator.equals("AND")) {
-////			if (metric.getLOC_method() > rule1 && metric.getCYCLO_method() > rule2) {
-////		}
-			
+	public ArrayList<HasCodeSmell> detectLongMethod() {
+		ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
 
+		if (operator.equals("AND")) {
+			for (Metrics metric : results) {
+				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					view.add(positive);
+				}
+				else {
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					view.add(negative);
+
+				}
+			}
+		}
+
+		if (operator.equals("OR")) {
+			for (Metrics metric : results) {
+				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					view.add(positive);
+				}
+				else {
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					view.add(negative);
+
+				}
+			}
+		}
+		return view;
 	}
 
-	public void detectGodClass() {
+	public ArrayList<HasCodeSmell> detectGodClass() {
+		ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
 
+		if (operator.equals("AND")) {
+			for (Metrics metric : results) {
+				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					view.add(positive);
+				}
+				else {
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					view.add(negative);
 
+				}
+			}
+		}
+
+		if (operator.equals("OR")) {
+			for (Metrics metric : results) {
+				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					view.add(positive);
+				}
+				else {
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					view.add(negative);
+
+				}
+			}
+		}
+		return view;
 
 	}
 

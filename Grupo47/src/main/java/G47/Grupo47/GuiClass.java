@@ -293,7 +293,11 @@ public class GuiClass extends Shell {
 				int limit2 = Integer.parseInt(limite_2.getText());
 				CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operador.getText(),actual_metrics);
 				if (metrica1.getText().equals("LOC_method")) {
-					detector.detectLongMethod();
+					ArrayList<HasCodeSmell> teste = new ArrayList<HasCodeSmell>();
+					teste = detector.detectLongMethod();
+					for (HasCodeSmell a : teste) {
+						System.out.println("Metodo: " + a.getName() + "Has Code Smell " + a.hasCodeSmell);
+					}
 				}
 				if (metrica1.getText().equals("WMC_Class")) {
 					detector.detectGodClass();
