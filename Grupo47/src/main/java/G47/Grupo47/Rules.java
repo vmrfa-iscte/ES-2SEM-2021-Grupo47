@@ -38,6 +38,26 @@ public class Rules {
 		this.method1 = method1;
 	}
 
+	public String getLimit1() {
+		return limit1;
+	}
+
+	public String getLimit2() {
+		return limit2;
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public String getMethod1() {
+		return method1;
+	}
+
+	public String getMethod2() {
+		return method2;
+	}
+
 	public void setMethod2(String method2) {
 		this.method2 = method2;
 	}

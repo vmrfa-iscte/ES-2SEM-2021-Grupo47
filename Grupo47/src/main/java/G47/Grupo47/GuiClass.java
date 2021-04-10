@@ -64,10 +64,12 @@ public class GuiClass extends Shell {
 	private Text NumMethods;
 	private Text NumLines;
 	private HashMap<String, ArrayList<String>> mapStats = new HashMap<>();
-	private File rules;
+	private String username = System.getProperty("user.name");
+	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");;
 	private FileWriter fw;
 	private BufferedWriter bw;
-	private ArrayList<Rules> list= new ArrayList<>();;
+	private ArrayList<Rules> list = new ArrayList<Rules>();
+	private Rules rule;
 
 	/**
 	 * Launch the application.
@@ -229,12 +231,7 @@ public class GuiClass extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
-				int count = 0;
-				count++;
-				String username = System.getProperty("user.name");
 				System.out.println("username: " + username);
-				rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
 				try {
 					fw = new FileWriter(rules);
 					bw = new BufferedWriter(fw);
@@ -244,6 +241,7 @@ public class GuiClass extends Shell {
 				}
 				if (!rules.exists()) {
 					try {
+
 						rules.createNewFile();
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -251,25 +249,32 @@ public class GuiClass extends Shell {
 				}
 				if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
 						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
-					Rules rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(),
-							metrica2.getText(), limite_2.getText());
-					list.add(rule);
+					rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
+							limite_2.getText());
 					String content = rule.toString();
 					System.out.println(content);
+					for (int i = 0; i < list.size(); i++) {
+						if (list.get(i).toString().contentEquals(rule.toString())) {
+							JOptionPane.showMessageDialog(null, "Regra já imposta");
+						}
+					}
+					list.add(rule);
+					System.out.println(list.size());
 					try {
-						System.out.println("here4");
+
 						bw.write(content);
 						bw.close();
-						System.out.println("Here5");
 
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 				}
 			}
+
 		});
 
 		btnDefinirRegras.setBounds(224, 68, 115, 30);
@@ -279,7 +284,7 @@ public class GuiClass extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 			}
 		});
 
