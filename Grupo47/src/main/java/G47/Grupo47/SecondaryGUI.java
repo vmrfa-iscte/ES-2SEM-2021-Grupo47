@@ -92,7 +92,7 @@ public class SecondaryGUI extends Shell {
 	 * Create contents of the shell.
 	 */
 	protected void createContents() {
-		setText("Codesmells");
+		setText("CodeSmell Detector");
 		setSize(585, 358);
 
 	}
