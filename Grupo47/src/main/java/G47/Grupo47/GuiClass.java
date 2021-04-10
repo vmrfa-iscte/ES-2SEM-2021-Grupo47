@@ -267,6 +267,7 @@ public class GuiClass extends Shell {
 							JOptionPane.showMessageDialog(null, "Regra já imposta");
 						}
 					}
+					
 					list.add(rule);
 					regras.add(content);		
 					System.out.println(list.size());
