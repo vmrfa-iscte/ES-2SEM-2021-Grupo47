@@ -41,9 +41,9 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
 public class GuiClass extends Shell {
-	
-	
-//	private Color c = new Color (211,211,211);
+
+
+	//	private Color c = new Color (211,211,211);
 	private int indice;
 	private List ficheirosexcel;
 	private Text foldername;
@@ -68,6 +68,7 @@ public class GuiClass extends Shell {
 	private File rules;
 	private FileWriter fw;
 	private BufferedWriter bw;
+	private ArrayList<Metrics> actual_metrics;
 
 	/**
 	 * Launch the application.
@@ -112,22 +113,22 @@ public class GuiClass extends Shell {
 			public void mouseDoubleClick(MouseEvent e) {
 				indice = ficheirosexcel.getSelectionIndex();
 				System.out.println("indice: "+indice);
-				
-					if (indice != -1) {
-						 for (Entry<String, ArrayList<String>> entry : mapStats.entrySet()) {
-							 System.out.println(ficheirosexcel.getItem(indice));
-							 if(entry.getKey().equals(ficheirosexcel.getItem(indice))) {
-								 ArrayList<String> statsToWrite = entry.getValue();
-								 NumLines.setText(statsToWrite.get(0));
-								 NumClasses.setText(statsToWrite.get(2));
-								 NumMethods.setText(statsToWrite.get(1));
-								 NumPackages.setText(statsToWrite.get(3));
-							 }
-						 }
 
+				if (indice != -1) {
+					for (Entry<String, ArrayList<String>> entry : mapStats.entrySet()) {
+						System.out.println(ficheirosexcel.getItem(indice));
+						if(entry.getKey().equals(ficheirosexcel.getItem(indice))) {
+							ArrayList<String> statsToWrite = entry.getValue();
+							NumLines.setText(statsToWrite.get(0));
+							NumClasses.setText(statsToWrite.get(2));
+							NumMethods.setText(statsToWrite.get(1));
+							NumPackages.setText(statsToWrite.get(3));
+						}
 					}
-				
-				
+
+				}
+
+
 			}
 		});
 
@@ -135,36 +136,36 @@ public class GuiClass extends Shell {
 
 		composite = new Composite(this, SWT.NONE);
 		composite.setBounds(10, 261, 713, 146);
-		
+
 		txtNmeroDeMtodos = new Text(this, SWT.BORDER);
 		txtNmeroDeMtodos.setText("Número de Métodos");
 		txtNmeroDeMtodos.setBounds(372, 160, 152, 26);
-		
+
 		NumClasses = new Text(this, SWT.BORDER);
 		NumClasses.setBounds(544, 58, 78, 26);
-		
+
 		txtNmeroDeClasses = new Text(this, SWT.BORDER);
 		txtNmeroDeClasses.setText("Número de Classes");
 		txtNmeroDeClasses.setBounds(372, 58, 152, 26);
-		
+
 		txtNmeroDeLinhas = new Text(this, SWT.BORDER);
 		txtNmeroDeLinhas.setText("Número de Linhas");
 		txtNmeroDeLinhas.setBounds(372, 219, 152, 26);
-		
+
 		txtNmeroDePackages = new Text(this, SWT.BORDER);
 		txtNmeroDePackages.setText("Número de Packages");
 		txtNmeroDePackages.setBounds(372, 107, 152, 26);
-		
+
 		NumPackages = new Text(this, SWT.BORDER);
 		NumPackages.setBounds(544, 107, 78, 26);
-		
+
 		NumMethods = new Text(this, SWT.BORDER);
 		NumMethods.setBounds(544, 160, 78, 26);
-		
+
 		NumLines = new Text(this, SWT.BORDER);
 		NumLines.setBounds(544, 219, 78, 26);
-		
-		
+
+
 		Button extrair = new Button(this, SWT.NONE);
 		extrair.setBounds(544, 12, 179, 30);
 		extrair.setText("Extrair métricas");
@@ -173,10 +174,10 @@ public class GuiClass extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				DirExplorer dirEx = new DirExplorer(selectedFile1);
 				try {
-					ArrayList<Metrics> metrics = dirEx.explore();
+					actual_metrics = dirEx.explore();
 					ExcelManip em = new ExcelManip(selectedFile1);
-					em.createExcel(em.extractHeaders(), metrics);
-					Statistics stats = new Statistics(metrics);
+					em.createExcel(em.extractHeaders(), actual_metrics);
+					Statistics stats = new Statistics(actual_metrics);
 					ArrayList<String> StringStats = new ArrayList<>();
 					StringStats.add(String.valueOf(stats.countLinesOfCode()));
 					StringStats.add(String.valueOf(stats.countNumberOfMethods()));
@@ -185,8 +186,8 @@ public class GuiClass extends Shell {
 					System.out.println("em.getFileName(): "+em.getFileName());
 					mapStats.put(em.getFileName(), StringStats);
 					ficheirosexcel.add(em.getFileName());
-				
-					
+
+
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -194,20 +195,19 @@ public class GuiClass extends Shell {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			}
 		});
 
-	
 
-		
+
+
 		Combo metrica1 = new Combo(composite, SWT.NONE);
 		metrica1.setBounds(10, 20, 181, 28);
 		metrica1.setText("Escolher método");
 		metrica1.add("LOC_method");
-		metrica1.add("CYCLO_method");
-		metrica1.add("NOM_class");
 		metrica1.add("WMC_class");
+
 
 		Combo operador = new Combo(composite, SWT.NONE);
 		operador.setBounds(309, 20, 84, 28);
@@ -215,17 +215,18 @@ public class GuiClass extends Shell {
 		operador.add("OR");
 		operador.add("AND");
 
+
 		Combo metrica2 = new Combo(composite, SWT.NONE);
 		metrica2.setBounds(412, 20, 180, 28);
 		metrica2.setText("Escolher método");
-		metrica2.add("LOC_method");
 		metrica2.add("CYCLO_method");
 		metrica2.add("NOM_class");
-		metrica2.add("WMC_class");
+
 
 		limite_1 = new Text(composite, SWT.BORDER);
-		limite_1.setBounds(208, 20, 84, 30);
 		limite_1.setText("Limite");
+		limite_1.setBounds(208, 20, 84, 30);
+
 
 		limite_2 = new Text(composite, SWT.BORDER);
 		limite_2.setBounds(612, 20, 91, 28);
@@ -263,7 +264,7 @@ public class GuiClass extends Shell {
 					bw.write(content);
 					bw.close();
 					System.out.println("Here5");
-					
+
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -288,19 +289,29 @@ public class GuiClass extends Shell {
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				int limit1  = Integer.parseInt(limite_1.getText());
+				int limit2 = Integer.parseInt(limite_2.getText());
+				CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operador.getText(),actual_metrics);
+				if (metrica1.getText().equals("LOC_method")) {
+					detector.detectLongMethod();
+				}
+				if (metrica1.getText().equals("WMC_Class")) {
+					detector.detectGodClass();
+				}
+
 				DetecaoCodeSmells codesmells = new DetecaoCodeSmells(display);
 				codesmells.main(null);
 			}
 		});
 		codesmells.setBounds(266, 106, 180, 30);
 		codesmells.setText("Deteção de codesmells");
-		
 
-	
-		
-		
 
-//		}
+
+
+
+
+		//		}
 
 		createContents();
 	}
