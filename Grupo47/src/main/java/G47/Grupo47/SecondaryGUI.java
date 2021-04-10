@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-public class DetecaoCodeSmells extends Shell {
+public class SecondaryGUI extends Shell {
 	private Table table;
 	private ArrayList<HasCodeSmell> result;
 
@@ -29,7 +29,7 @@ public class DetecaoCodeSmells extends Shell {
 		try {
 			
 			Display display = Display.getDefault();
-			DetecaoCodeSmells shell = new DetecaoCodeSmells(display,result);
+			SecondaryGUI shell = new SecondaryGUI(display,result);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -46,7 +46,7 @@ public class DetecaoCodeSmells extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public DetecaoCodeSmells(Display display,ArrayList<HasCodeSmell> result) {
+	public SecondaryGUI(Display display,ArrayList<HasCodeSmell> result) {
 		super(display, SWT.SHELL_TRIM);
 		this.result = result;
 		Combo regras = new Combo(this, SWT.NONE);

@@ -1,6 +1,5 @@
 package G47.Grupo47;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -15,6 +14,7 @@ import java.util.Map.Entry;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -40,10 +40,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
-public class GuiClass extends Shell {
+public class mainGUI extends Shell {
 
-
-	//	private Color c = new Color (211,211,211);
+//	private Color c = new Color (211,211,211);
 	private int indice;
 	private List ficheirosexcel;
 	private Text foldername;
@@ -64,11 +63,15 @@ public class GuiClass extends Shell {
 	private Text NumPackages;
 	private Text NumMethods;
 	private Text NumLines;
-	private HashMap<String,ArrayList<String>> mapStats = new HashMap<>();
-	private File rules;
+	private HashMap<String, ArrayList<String>> mapStats = new HashMap<>();
+	private String username = System.getProperty("user.name");
+	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");;
 	private FileWriter fw;
 	private BufferedWriter bw;
-	private ArrayList<Metrics> actual_metrics;
+	private ArrayList<Rules> list = new ArrayList<Rules>();
+	private ArrayList<Metrics> actualmetrics;
+	private Rules rule;
+	private String[] selected_rule;
 
 	/**
 	 * Launch the application.
@@ -81,7 +84,7 @@ public class GuiClass extends Shell {
 	 * 
 	 * @param display
 	 */
-	public GuiClass(Display display) {
+	public mainGUI(Display display) {
 		super(display, SWT.SHELL_TRIM);
 
 		setLayout(null);
@@ -112,12 +115,12 @@ public class GuiClass extends Shell {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				indice = ficheirosexcel.getSelectionIndex();
-				System.out.println("indice: "+indice);
+				System.out.println("indice: " + indice);
 
 				if (indice != -1) {
 					for (Entry<String, ArrayList<String>> entry : mapStats.entrySet()) {
 						System.out.println(ficheirosexcel.getItem(indice));
-						if(entry.getKey().equals(ficheirosexcel.getItem(indice))) {
+						if (entry.getKey().equals(ficheirosexcel.getItem(indice))) {
 							ArrayList<String> statsToWrite = entry.getValue();
 							NumLines.setText(statsToWrite.get(0));
 							NumClasses.setText(statsToWrite.get(2));
@@ -128,14 +131,13 @@ public class GuiClass extends Shell {
 
 				}
 
-
 			}
 		});
 
 		ficheirosexcel.setBounds(10, 57, 345, 188);
 
 		composite = new Composite(this, SWT.NONE);
-		composite.setBounds(10, 261, 713, 146);
+		composite.setBounds(10, 261, 713, 334);
 
 		txtNmeroDeMtodos = new Text(this, SWT.BORDER);
 		txtNmeroDeMtodos.setText("Número de Métodos");
@@ -165,7 +167,6 @@ public class GuiClass extends Shell {
 		NumLines = new Text(this, SWT.BORDER);
 		NumLines.setBounds(544, 219, 78, 26);
 
-
 		Button extrair = new Button(this, SWT.NONE);
 		extrair.setBounds(544, 12, 179, 30);
 		extrair.setText("Extrair métricas");
@@ -174,19 +175,18 @@ public class GuiClass extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				DirExplorer dirEx = new DirExplorer(selectedFile1);
 				try {
-					actual_metrics = dirEx.explore();
+					actualmetrics = dirEx.explore();
 					ExcelManip em = new ExcelManip(selectedFile1);
-					em.createExcel(em.extractHeaders(), actual_metrics);
-					Statistics stats = new Statistics(actual_metrics);
+					em.createExcel(em.extractHeaders(), actualmetrics);
+					Statistics stats = new Statistics(actualmetrics);
 					ArrayList<String> StringStats = new ArrayList<>();
 					StringStats.add(String.valueOf(stats.countLinesOfCode()));
 					StringStats.add(String.valueOf(stats.countNumberOfMethods()));
 					StringStats.add(String.valueOf(stats.countClasses()));
 					StringStats.add(String.valueOf(stats.countPackages()));
-					System.out.println("em.getFileName(): "+em.getFileName());
+					System.out.println("em.getFileName(): " + em.getFileName());
 					mapStats.put(em.getFileName(), StringStats);
 					ficheirosexcel.add(em.getFileName());
-
 
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
@@ -199,49 +199,50 @@ public class GuiClass extends Shell {
 			}
 		});
 
-
-
-
 		Combo metrica1 = new Combo(composite, SWT.NONE);
 		metrica1.setBounds(10, 20, 181, 28);
-		metrica1.setText("Escolher método");
+		metrica1.setText("");
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
 
-
 		Combo operador = new Combo(composite, SWT.NONE);
 		operador.setBounds(309, 20, 84, 28);
-		operador.setText("Operador");
+		operador.setText("");
 		operador.add("OR");
 		operador.add("AND");
 
-
 		Combo metrica2 = new Combo(composite, SWT.NONE);
 		metrica2.setBounds(412, 20, 180, 28);
-		metrica2.setText("Escolher método");
+		metrica2.setText("");
 		metrica2.add("CYCLO_method");
 		metrica2.add("NOM_class");
 
-
 		limite_1 = new Text(composite, SWT.BORDER);
-		limite_1.setText("Limite");
 		limite_1.setBounds(208, 20, 84, 30);
-
+		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
 		limite_2.setBounds(612, 20, 91, 28);
 		limite_2.setText("Limite");
 
+		List regras = new List(composite, SWT.BORDER);
+		regras.setBounds(10, 100, 435, 224);
+		regras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				selected_rule = regras.getSelection();
+
+			}
+		});
+
 		btnDefinirRegras = new Button(composite, SWT.NONE);
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int count=0;
-				count++;
-				String username = System.getProperty("user.name");
+				boolean v = false;
 				System.out.println("username: " + username);
-				rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
 				try {
+
 					fw = new FileWriter(rules);
 					bw = new BufferedWriter(fw);
 				} catch (IOException e1) {
@@ -250,73 +251,94 @@ public class GuiClass extends Shell {
 				}
 				if (!rules.exists()) {
 					try {
+
 						rules.createNewFile();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
-				String content = new String("Rule" + count + ": " + metrica1.getText() + " > " + " " + limite_1.getText() + " "
-						+ operador.getText() + " " + metrica2.getText() + " > " + " " + limite_2.getText());
-				System.out.println(content);
-				try {
-					System.out.println("here4");
-					bw.write(content);
-					bw.close();
-					System.out.println("Here5");
+				if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
+						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
+						&& metrica1.getText() != metrica2.getText()) {
+					rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
+							limite_2.getText());
+					String content = rule.toString();
+					System.out.println(content);
+					for (int i = 0; i < list.size(); i++) {
+						if (list.get(i).toString().contentEquals(rule.toString())) {
+							JOptionPane.showMessageDialog(null, "Regra já imposta");
+							v = true;
+							break;
 
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+						}
+					}
+					if (v == false) {
+						list.add(rule);
+						regras.add(content);
+						System.out.println(list.size());
+						try {
+
+							bw.write(content);
+							bw.close();
+
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 				}
 			}
+
 		});
 
-		btnDefinirRegras.setBounds(224, 68, 115, 30);
+		btnDefinirRegras.setBounds(523, 64, 180, 30);
 		btnDefinirRegras.setText("Definir regra");
 
 		Button alterarregra = new Button(composite, SWT.NONE);
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+					
 			}
 		});
 
-		alterarregra.setBounds(364, 68, 115, 30);
+		alterarregra.setBounds(475, 247, 228, 30);
 		alterarregra.setText("Alterar regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int limit1  = Integer.parseInt(limite_1.getText());
-				int limit2 = Integer.parseInt(limite_2.getText());
-				CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operador.getText(),actual_metrics);
-				if (metrica1.getText().equals("LOC_method")) {
-
-					DetecaoCodeSmells codesmells = new DetecaoCodeSmells(display,detector.detectLongMethod());
+			if (selected_rule.length == 0) {
+				// isto não está a funcionar nao sei porque  //////////////////////////////////////////////////
+				JOptionPane.showMessageDialog(null, "Sem regras selecionadas: Faça double click para selecionar");
+			}
+				
+					String s = selected_rule[0];
+					String[] r = s.split(" ");
+					String identifier = r[0];
+					int limit1 = Integer.parseInt(r[2]);
+					int limit2 = Integer.parseInt(r[6]);
+					String operator = r[3];
+				CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operator,actualmetrics);
+				if (identifier.equals("LOC_method")) {
+					SecondaryGUI codesmells = new SecondaryGUI(display,detector.detectLongMethod());
 					codesmells.loadGUI();
 				}
-				if (metrica1.getText().equals("WMC_Class")) {
-
-					DetecaoCodeSmells codesmells2 = new DetecaoCodeSmells(display,detector.detectGodClass());
+				if (identifier.equals("WMC_Class")) {
+					SecondaryGUI codesmells2 = new SecondaryGUI(display,detector.detectGodClass());
 					codesmells2.loadGUI();
 				}
 					
-				
-
-				
 			}
 		});
-		codesmells.setBounds(266, 106, 180, 30);
+		codesmells.setBounds(475, 294, 228, 30);
 		codesmells.setText("Deteção de codesmells");
 
-
-
-
-
-
-		//		}
+//		}
 
 		createContents();
 	}
@@ -326,7 +348,7 @@ public class GuiClass extends Shell {
 	 */
 	protected void createContents() {
 		setText("Interface gráfica- grupo 47");
-		setSize(751, 464);
+		setSize(751, 652);
 
 	}
 

@@ -29,7 +29,7 @@ public class Main {
 		try {
 
 			Display display = Display.getDefault();
-			GuiClass shell = new GuiClass(display);
+			mainGUI shell = new mainGUI(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
