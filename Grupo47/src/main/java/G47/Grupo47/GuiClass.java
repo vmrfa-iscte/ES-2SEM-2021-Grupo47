@@ -229,8 +229,8 @@ public class GuiClass extends Shell {
 		regras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				i= regras.getSelectionIndex();
-				
+				i = regras.getSelectionIndex();
+
 			}
 		});
 
@@ -238,6 +238,7 @@ public class GuiClass extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				boolean v = false;
 				System.out.println("username: " + username);
 				try {
 
@@ -265,22 +266,26 @@ public class GuiClass extends Shell {
 					for (int i = 0; i < list.size(); i++) {
 						if (list.get(i).toString().contentEquals(rule.toString())) {
 							JOptionPane.showMessageDialog(null, "Regra já imposta");
+							v = true;
+							break;
+
 						}
 					}
-					
-					list.add(rule);
-					regras.add(content);		
-					System.out.println(list.size());
-					try {
+					if (v == false) {
+						list.add(rule);
+						regras.add(content);
+						System.out.println(list.size());
+						try {
 
-						bw.write(content);
-						bw.close();
+							bw.write(content);
+							bw.close();
 
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
 					}
-
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 				}
