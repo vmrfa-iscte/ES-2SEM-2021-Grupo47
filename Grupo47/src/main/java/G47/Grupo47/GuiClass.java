@@ -70,6 +70,7 @@ public class GuiClass extends Shell {
 	private BufferedWriter bw;
 	private ArrayList<Rules> list = new ArrayList<Rules>();
 	private Rules rule;
+	private int i;
 
 	/**
 	 * Launch the application.
@@ -135,7 +136,7 @@ public class GuiClass extends Shell {
 		ficheirosexcel.setBounds(10, 57, 345, 188);
 
 		composite = new Composite(this, SWT.NONE);
-		composite.setBounds(10, 261, 713, 146);
+		composite.setBounds(10, 261, 713, 334);
 
 		txtNmeroDeMtodos = new Text(this, SWT.BORDER);
 		txtNmeroDeMtodos.setText("Número de Métodos");
@@ -201,8 +202,6 @@ public class GuiClass extends Shell {
 		metrica1.setBounds(10, 20, 181, 28);
 		metrica1.setText("");
 		metrica1.add("LOC_method");
-		metrica1.add("CYCLO_method");
-		metrica1.add("NOM_class");
 		metrica1.add("WMC_class");
 
 		Combo operador = new Combo(composite, SWT.NONE);
@@ -214,10 +213,8 @@ public class GuiClass extends Shell {
 		Combo metrica2 = new Combo(composite, SWT.NONE);
 		metrica2.setBounds(412, 20, 180, 28);
 		metrica2.setText("");
-		metrica2.add("LOC_method");
 		metrica2.add("CYCLO_method");
 		metrica2.add("NOM_class");
-		metrica2.add("WMC_class");
 
 		limite_1 = new Text(composite, SWT.BORDER);
 		limite_1.setBounds(208, 20, 84, 30);
@@ -227,12 +224,23 @@ public class GuiClass extends Shell {
 		limite_2.setBounds(612, 20, 91, 28);
 		limite_2.setText("Limite");
 
+		List regras = new List(composite, SWT.BORDER);
+		regras.setBounds(10, 100, 435, 224);
+		regras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				i= regras.getSelectionIndex();
+				
+			}
+		});
+
 		btnDefinirRegras = new Button(composite, SWT.NONE);
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("username: " + username);
 				try {
+
 					fw = new FileWriter(rules);
 					bw = new BufferedWriter(fw);
 				} catch (IOException e1) {
@@ -248,7 +256,8 @@ public class GuiClass extends Shell {
 					}
 				}
 				if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
-						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
+						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
+						&& metrica1.getText() != metrica2.getText()) {
 					rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
 							limite_2.getText());
 					String content = rule.toString();
@@ -259,6 +268,7 @@ public class GuiClass extends Shell {
 						}
 					}
 					list.add(rule);
+					regras.add(content);		
 					System.out.println(list.size());
 					try {
 
@@ -277,7 +287,7 @@ public class GuiClass extends Shell {
 
 		});
 
-		btnDefinirRegras.setBounds(224, 68, 115, 30);
+		btnDefinirRegras.setBounds(523, 64, 180, 30);
 		btnDefinirRegras.setText("Definir regra");
 
 		Button alterarregra = new Button(composite, SWT.NONE);
@@ -288,7 +298,7 @@ public class GuiClass extends Shell {
 			}
 		});
 
-		alterarregra.setBounds(364, 68, 115, 30);
+		alterarregra.setBounds(475, 247, 228, 30);
 		alterarregra.setText("Alterar regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
@@ -299,7 +309,7 @@ public class GuiClass extends Shell {
 				codesmells.main(null);
 			}
 		});
-		codesmells.setBounds(266, 106, 180, 30);
+		codesmells.setBounds(475, 294, 228, 30);
 		codesmells.setText("Deteção de codesmells");
 
 //		}
@@ -312,7 +322,7 @@ public class GuiClass extends Shell {
 	 */
 	protected void createContents() {
 		setText("Interface gráfica- grupo 47");
-		setSize(751, 464);
+		setSize(751, 652);
 
 	}
 
