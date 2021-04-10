@@ -81,6 +81,7 @@ public class SecondaryGUI extends Shell {
 		detecao.setText("   Deteção");
 		
 		for (HasCodeSmell a : result) {
+			System.out.println(a.getName() + "    " + a.getHasCodeSmell());
 			
 		}
 	

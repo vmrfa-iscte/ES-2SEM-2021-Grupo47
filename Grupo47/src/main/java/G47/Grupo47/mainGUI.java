@@ -320,9 +320,11 @@ public class mainGUI extends Shell {
 					String s = selected_rule[0];
 					String[] r = s.split(" ");
 					String identifier = r[0];
-					int limit1 = Integer.parseInt(r[2]);
-					int limit2 = Integer.parseInt(r[6]);
-					String operator = r[3];
+					int limit1 = Integer.parseInt(r[3]);
+					int limit2 = Integer.parseInt(r[8]);
+					String operator = r[4];
+				
+	
 				CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operator,actualmetrics);
 				if (identifier.equals("LOC_method")) {
 					SecondaryGUI codesmells = new SecondaryGUI(display,detector.detectLongMethod());
