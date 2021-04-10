@@ -8,16 +8,19 @@ import junit.framework.TestCase;
 
 public class ExcelManipTest extends TestCase {
 	
+	private File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
 	
 	public void testeCreation() {
-		ExcelManip a = new ExcelManip();
+		
+		ExcelManip a = new ExcelManip(projectDir);
 		assertNotNull(a);
 		
 	}
 	
 	public void testPath()  {
-	ExcelManip a = new ExcelManip();
-	String s = new String("C:\\Users\\Tomás Mendes\\Desktop\\result.xlsx");
+
+	ExcelManip a = new ExcelManip(projectDir);
+	String s = new String("C:\\Users\\rui.fontoura\\Desktop\\result_jasml_0_10.xlsx");
 	assertNotNull(s);
 	assertNotNull(a.toCopy);
 	assertEquals(a.toCopy,s);
@@ -26,7 +29,7 @@ public class ExcelManipTest extends TestCase {
 	}
 	
 	public void testHeadersExtraction() throws IOException {
-		ExcelManip a = new ExcelManip();
+		ExcelManip a = new ExcelManip(projectDir);
 		ArrayList<String> toCompare = new ArrayList<>();
 		toCompare.add("MethodID");
 		toCompare.add("package");
@@ -49,15 +52,15 @@ public class ExcelManipTest extends TestCase {
 	
 	public void testExcelCreation() throws IOException {
 		// already tested but necessary
-		ExcelManip a = new ExcelManip();
+		ExcelManip a = new ExcelManip(projectDir);
 		ArrayList<String> result = a.extractHeaders();
 		// already tested but necessary
 		
 		// tested in respective class but necessary
-		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
+		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
 		DirExplorer de = new DirExplorer(projectDir);
 		ArrayList<Metrics> metrics = de.explore();
-		ExcelManip manip = new ExcelManip();
+		ExcelManip manip = new ExcelManip(projectDir);
 		manip.createExcel(result,metrics );
 		
 		

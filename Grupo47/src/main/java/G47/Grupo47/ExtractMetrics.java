@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
@@ -28,7 +29,7 @@ public class ExtractMetrics {
 	}
 
 	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics) throws FileNotFoundException {
-		String packageClass = getPackageName(path);
+		String packageClass = getPackageName();
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(file);
 		int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = 0;
@@ -42,8 +43,8 @@ public class ExtractMetrics {
 					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
 				}
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
-				NOM_class = type.getMethods().size() + type.getConstructors().size();
-				LOC_class = getLOC_class(type.getChildNodes());
+				NOM_class = getNOM_class(type.getMethods(),type.getConstructors());
+				LOC_class = getLOC_classCID(type);
 				for(MethodDeclaration md: type.getMethods()) {
 					LOC_method = getLOC_method_Met(md);
 					CYCLO_method = getMethodComplexity(md);
@@ -59,66 +60,50 @@ public class ExtractMetrics {
 				}
 
 			}
-//			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
-//				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
-//					className = type.getNameAsString();
-//				}else {
-//					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
-//				}
-//				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
-//				NOM_class = type.getMethods().size() + type.getConstructors().size();
-//				LOC_class = getLOC_class(type.getChildNodes());
-//				for(MethodDeclaration md: type.getMethods()) {
-//					LOC_method = getLOC_method_Met(md);
-//					CYCLO_method = getMethodComplexity(md);
-//					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
-//					metrics.add(metric);
-//				}
-//				for(ConstructorDeclaration md: type.getConstructors()) {
-//					LOC_method = getLOC_method_Cons(md);
-//					CYCLO_method = getConstructorComplexity(md);
-//
-//					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
-//					metrics.add(metric);
-//				}
-//			}
+			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
+				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
+					className = type.getNameAsString();
+				}else {
+					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
+				}
+				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
+				NOM_class = type.getMethods().size() + type.getConstructors().size();
+				LOC_class = getLOC_classENUM(type);
+				for(MethodDeclaration md: type.getMethods()) {
+					LOC_method = getLOC_method_Met(md);
+					CYCLO_method = getMethodComplexity(md);
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					metrics.add(metric);
+				}
+				for(ConstructorDeclaration md: type.getConstructors()) {
+					LOC_method = getLOC_method_Cons(md);
+					CYCLO_method = getConstructorComplexity(md);
 
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					metrics.add(metric);
+				}
+			}
+
+		}else {
+			
 		}
 		return metrics;
 	}
 
 
-	private int getLOC_method_Cons(ConstructorDeclaration md) {
-		int sum= 0;
-		for(Node noode: md.getChildNodes()) {
-			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
-				int tamanho = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-				sum = sum + tamanho;
-			}
-			else {
-				
-			}
-		}
-		return sum;
+	int getLOC_method_Cons(ConstructorDeclaration md) {
+		return (md.getEnd().get().line - md.getBegin().get().line)+1;
 	}
 
-	private int getLOC_method_Met(MethodDeclaration md) {
-		int sum = 0;
-		for(Node noode: md.getChildNodes()) {
-			if(noode.toString().startsWith("{") && noode.toString().endsWith("}")) {
-				int length = noode.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-				sum = sum + length;
-			}
-			else {
-				
-			}
-		}
-		return sum;
-
-
+	protected int getLOC_method_Met(MethodDeclaration md) {
+		return (md.getEnd().get().line - md.getBegin().get().line)+1;
+	}
+	
+	protected int getNOM_class(List<MethodDeclaration> md, List<ConstructorDeclaration> cd) {
+		return md.size()+ cd.size();
 	}
 
-	private String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
+	protected String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
 		if(nodeList.size() == 0) {
 			return ClassName+"()";
 		}else {
@@ -137,30 +122,15 @@ public class ExtractMetrics {
 		}
 	}
 
-	private int getLOC_class(List<Node> nodes) throws FileNotFoundException {
-		int sum = 0;
-
-		for(Node n: nodes) {
-			int  length= n.getRange().map(range -> (range.end.line - range.begin.line)+1).orElse(0);
-			sum = sum +length;
-		}	
-		return sum;
+	protected int getLOC_classCID(ClassOrInterfaceDeclaration cid) throws FileNotFoundException {
+		return (cid.getEnd().get().line - cid.getBegin().get().line)+1;
+	}
+	
+	protected int getLOC_classENUM(EnumDeclaration ed) {
+		return (ed.getEnd().get().line - ed.getBegin().get().line)+1;
 	}
 
-	private int getMethodComplexity(MethodDeclaration md) {
-		int complex = 1;
-		int numbif = getCycloComplex("if",md.toString());
-		int numbwhile = getCycloComplex("while",md.toString());
-		int numbfor =getCycloComplex("for",md.toString());
-		int numbelse = getCycloComplex("else",md.toString());
-		int numbcase = getCycloComplex("case",md.toString());
-		int numbdefault = getCycloComplex("default",md.toString());
-
-		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
-
-	}
-
-	private int getConstructorComplexity(ConstructorDeclaration md) {
+	protected int getMethodComplexity(MethodDeclaration md) {
 		int complex = 1;
 		int numbif = getCycloComplex("if",md.toString());
 		int numbwhile = getCycloComplex("while",md.toString());
@@ -172,7 +142,19 @@ public class ExtractMetrics {
 
 	}
 
-	private int getCycloComplex (String wordToSearch, String data) {
+	protected int getConstructorComplexity(ConstructorDeclaration md) {
+		int complex = 1;
+		int numbif = getCycloComplex("if",md.toString());
+		int numbwhile = getCycloComplex("while",md.toString());
+		int numbfor =getCycloComplex("for",md.toString());
+		int numbelse = getCycloComplex("else",md.toString());
+		int numbcase = getCycloComplex("case",md.toString());
+		int numbdefault = getCycloComplex("default",md.toString());
+		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
+
+	}
+
+	protected int getCycloComplex (String wordToSearch, String data) {
 		int count = 0;
 		for (int index = data.indexOf(wordToSearch); 
 				index != -1; 
@@ -182,7 +164,7 @@ public class ExtractMetrics {
 		return count;
 	}
 
-	private int getClassComplexity(List<MethodDeclaration> md,List<ConstructorDeclaration> cd) {
+	protected int getClassComplexity(List<MethodDeclaration> md,List<ConstructorDeclaration> cd) {
 		int complexity = 0;
 		for(MethodDeclaration metdec: md) {
 			complexity = complexity + getMethodComplexity(metdec);
@@ -194,28 +176,23 @@ public class ExtractMetrics {
 
 	}
 
-	private String getPackageName(String path) {
+	protected String getPackageName() {
 		String packageName = "";
 		boolean src = false;
-		String[] separated = path.split("/");
-		if(separated.length<=3) {
-			return "No Package";
-		}else {
-			for(int i = 0; i< separated.length;i++) {
-				if(separated[i].contains("src")) src = true;
-				else {
-					if(src && i <= separated.length-2) {
-						if(i < separated.length-2) {
-							packageName = packageName + separated[i] + ".";
-						}else {
-							packageName = packageName + separated[i];							
-						}
-					}
+		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
+		for(int i = 0; i< separated.length-1;i++) {
+			if(src && i <= separated.length-2) {
+				if(i < separated.length-2) {
+					packageName = packageName + separated[i] + ".";
+				}else {
+					packageName = packageName + separated[i];							
 				}
 			}
+			if(separated[i].contains("src")) src = true;
+		}
 
 			return packageName;
-		}
+		
 	}
 
 }

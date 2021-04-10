@@ -4,22 +4,43 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.eclipse.swt.widgets.Display;
+
 public class Main {
 
 
 	public static void main(String[] args) throws IOException {
 
-		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10");
-		DirExplorer de = new DirExplorer(projectDir);
-		ArrayList<Metrics> metrics = de.explore();
-		ExcelManip manip = new ExcelManip();
-		System.out.println("Excel criado");
-		manip.createExcel(manip.extractHeaders(),metrics);
-		Statistics stats = new Statistics(metrics);
-		System.out.println("Numero de métodos " + stats.countNumberOfMethods());
-		System.out.println("Numero de classes " + stats.countClasses());
-		System.out.println("Numero de packages " + stats.countPackages());
-		System.out.println("Numero de linhas de codigo " + stats.countLinesOfCode());
+//		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
+//		DirExplorer de = new DirExplorer(projectDir);
+//		ArrayList<Metrics> metrics = de.explore();
+//		ExcelManip manip = new ExcelManip(projectDir);
+//		System.out.println("Excel criado");
+//		manip.createExcel(manip.extractHeaders(),metrics);
+//		Statistics stats = new Statistics(metrics);
+//		System.out.println("Numero de métodos " + stats.countNumberOfMethods());
+//		System.out.println("Numero de classes " + stats.countClasses());
+//		System.out.println("Numero de classes " + stats.countPackages());
+//		System.out.println("Numero de classes " + stats.countLinesOfCode());
+		//		for(Metrics m: metrics) {
+		//			System.out.println(m.toString());
+		//		}
+
+		try {
+
+			Display display = Display.getDefault();
+			GuiClass shell = new GuiClass(display);
+			shell.open();
+			shell.layout();
+			while (!shell.isDisposed()) {
+				if (!display.readAndDispatch()) {
+					display.sleep();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
+
