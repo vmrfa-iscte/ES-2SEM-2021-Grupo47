@@ -3,8 +3,10 @@ package G47.Grupo47;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +65,9 @@ public class GuiClass extends Shell {
 	private Text NumMethods;
 	private Text NumLines;
 	private HashMap<String,ArrayList<String>> mapStats = new HashMap<>();
+	private File rules;
+	private FileWriter fw;
+	private BufferedWriter bw;
 
 	/**
 	 * Launch the application.
@@ -125,27 +130,7 @@ public class GuiClass extends Shell {
 				
 			}
 		});
-//		ficheirosexcel.addSelectionListener(new ListSelectionListener() {
-//			public void valueChanged(ListSelectionEvent e) {
-//				indice = ficheirosexcel.getSelectionIndex();
-//				System.out.println("indice: "+indice);
-//				if (!e.getValueIsAdjusting()) {
-//					if (indice != -1) {
-//						 for (Entry<String, ArrayList<String>> entry : mapStats.entrySet()) {
-//							 System.out.println(ficheirosexcel.getItem(indice));
-//							 if(entry.getKey().equals(ficheirosexcel.getItem(indice))) {
-//								 ArrayList<String> statsToWrite = entry.getValue();
-//								 NumLines.setText(statsToWrite.get(0));
-//								 NumClasses.setText(statsToWrite.get(1));
-//								 NumMethods.setText(statsToWrite.get(2));
-//								 NumPackages.setText(statsToWrite.get(3));
-//							 }
-//						 }
-//
-//					}
-//				}
-//			}
-//		});
+
 		ficheirosexcel.setBounds(10, 57, 345, 188);
 
 		composite = new Composite(this, SWT.NONE);
@@ -216,12 +201,13 @@ public class GuiClass extends Shell {
 	
 
 		
-//		if (ficheirosexcel.getSize() != null) {
 		Combo metrica1 = new Combo(composite, SWT.NONE);
 		metrica1.setBounds(10, 20, 181, 28);
 		metrica1.setText("Escolher método");
-//		metrica1.setBackground(color);
-
+		metrica1.add("LOC_method");
+		metrica1.add("CYCLO_method");
+		metrica1.add("NOM_class");
+		metrica1.add("WMC_class");
 
 		Combo operador = new Combo(composite, SWT.NONE);
 		operador.setBounds(309, 20, 84, 28);
@@ -232,6 +218,10 @@ public class GuiClass extends Shell {
 		Combo metrica2 = new Combo(composite, SWT.NONE);
 		metrica2.setBounds(412, 20, 180, 28);
 		metrica2.setText("Escolher método");
+		metrica2.add("LOC_method");
+		metrica2.add("CYCLO_method");
+		metrica2.add("NOM_class");
+		metrica2.add("WMC_class");
 
 		limite_1 = new Text(composite, SWT.BORDER);
 		limite_1.setBounds(208, 20, 84, 30);
@@ -245,6 +235,39 @@ public class GuiClass extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				int count=0;
+				count++;
+				String username = System.getProperty("user.name");
+				System.out.println("username: " + username);
+				rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
+				try {
+					fw = new FileWriter(rules);
+					bw = new BufferedWriter(fw);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (!rules.exists()) {
+					try {
+						rules.createNewFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				String content = new String("Rule" + count + ": " + metrica1.getText() + " > " + " " + limite_1.getText() + " "
+						+ operador.getText() + " " + metrica2.getText() + " > " + " " + limite_2.getText());
+				System.out.println(content);
+				try {
+					System.out.println("here4");
+					bw.write(content);
+					bw.close();
+					System.out.println("Here5");
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
