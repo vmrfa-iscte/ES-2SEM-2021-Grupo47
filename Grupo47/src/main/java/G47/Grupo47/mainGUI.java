@@ -72,6 +72,8 @@ public class mainGUI extends Shell {
 	private ArrayList<Metrics> actualmetrics;
 	private Rules rule;
 	private String[] selected_rule;
+	
+	
 
 	/**
 	 * Launch the application.
