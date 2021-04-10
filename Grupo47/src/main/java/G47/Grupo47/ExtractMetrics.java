@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
@@ -28,7 +29,7 @@ public class ExtractMetrics {
 	}
 
 	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics) throws FileNotFoundException {
-		String packageClass = getPackageName(path);
+		String packageClass = getPackageName();
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(file);
 		int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = 0;
@@ -175,28 +176,23 @@ public class ExtractMetrics {
 
 	}
 
-	protected String getPackageName(String path) {
+	protected String getPackageName() {
 		String packageName = "";
 		boolean src = false;
-		String[] separated = path.split("/");
-		if(separated.length<=3) {
-			return "No Package";
-		}else {
-			for(int i = 0; i< separated.length;i++) {
-				if(separated[i].contains("src")) src = true;
-				else {
-					if(src && i <= separated.length-2) {
-						if(i < separated.length-2) {
-							packageName = packageName + separated[i] + ".";
-						}else {
-							packageName = packageName + separated[i];							
-						}
-					}
+		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
+		for(int i = 0; i< separated.length-1;i++) {
+			if(src && i <= separated.length-2) {
+				if(i < separated.length-2) {
+					packageName = packageName + separated[i] + ".";
+				}else {
+					packageName = packageName + separated[i];							
 				}
 			}
+			if(separated[i].contains("src")) src = true;
+		}
 
 			return packageName;
-		}
+		
 	}
 
 }

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -16,8 +17,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelManip {
 	
-	public String toCopy = "C:\\Users\\rui.fontoura\\Desktop\\result.xlsx";
+	public String toCopy;
+	private File file;
 
+	
+	//C:\Users\rui.fontoura\Downloads\jasml_0.10\src\com
 //	public void readExcel () throws IOException {
 //		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
 //		XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -47,6 +51,42 @@ public class ExcelManip {
 //		}
 //
 //	}
+	
+	public ExcelManip(File file) {
+		this.file = file;
+		this.toCopy = getFilePath();
+	}
+	
+	public String getFileName() {
+		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
+		String fileName = "";
+		for(int i = 0; i< separated.length;i++) {
+			if(separated[i].contains("src")) {
+				fileName = "result_"+separated[i-1]+".xlsx";
+			}
+		}
+		return fileName;
+		
+	}
+	
+	public String getFilePath() {
+		System.out.println(file.getAbsolutePath());
+		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
+		String pathToCreate = "";
+		String soFar = "";
+		for(int i = 0; i< separated.length;i++) {
+			soFar = soFar+separated[i]+"\\";
+			if(separated[i].contains("Users")) {
+				pathToCreate = soFar + separated[i+1] + "\\Desktop\\" ;
+			}
+			if(separated[i].contains("src")) {
+				pathToCreate = pathToCreate + "result_"+separated[i-1]+".xlsx";
+			}
+		}
+		System.out.println("PathToCreate: "+pathToCreate);
+		return pathToCreate;
+		
+	}
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<String> extractHeaders() throws IOException {
