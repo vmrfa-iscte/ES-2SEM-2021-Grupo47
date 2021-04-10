@@ -29,11 +29,11 @@ public class CodeSmellsDetector {
 		if (operator.equals("AND")) {
 			for (Metrics metric : results) {
 				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
 					view.add(positive);
 				}
 				else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso");
 					view.add(negative);
 
 				}
@@ -43,11 +43,11 @@ public class CodeSmellsDetector {
 		if (operator.equals("OR")) {
 			for (Metrics metric : results) {
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
 					view.add(positive);
 				}
 				else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso");
 					view.add(negative);
 
 				}
@@ -62,11 +62,11 @@ public class CodeSmellsDetector {
 		if (operator.equals("AND")) {
 			for (Metrics metric : results) {
 				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
 					view.add(positive);
 				}
 				else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso");
 					view.add(negative);
 
 				}
@@ -76,11 +76,11 @@ public class CodeSmellsDetector {
 		if (operator.equals("OR")) {
 			for (Metrics metric : results) {
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),true);
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
 					view.add(positive);
 				}
 				else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),false);
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso");
 					view.add(negative);
 
 				}

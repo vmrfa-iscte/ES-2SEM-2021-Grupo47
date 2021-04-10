@@ -1,5 +1,8 @@
 package G47.Grupo47;
 
+import java.util.ArrayList;
+
+import org.apache.commons.collections4.properties.PropertiesFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -14,15 +17,19 @@ import org.eclipse.swt.widgets.TableColumn;
 
 public class DetecaoCodeSmells extends Shell {
 	private Table table;
+	private ArrayList<HasCodeSmell> result;
 
 	/**
 	 * Launch the application.
 	 * @param args
 	 */
-	public static void main(String args[]) {
+	
+	
+	public void loadGUI () {
 		try {
+			
 			Display display = Display.getDefault();
-			DetecaoCodeSmells shell = new DetecaoCodeSmells(display);
+			DetecaoCodeSmells shell = new DetecaoCodeSmells(display,result);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -39,9 +46,9 @@ public class DetecaoCodeSmells extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public DetecaoCodeSmells(Display display) {
+	public DetecaoCodeSmells(Display display,ArrayList<HasCodeSmell> result) {
 		super(display, SWT.SHELL_TRIM);
-		
+		this.result = result;
 		Combo regras = new Combo(this, SWT.NONE);
 		regras.setBounds(10, 273, 346, 28);
 		
@@ -66,12 +73,16 @@ public class DetecaoCodeSmells extends Shell {
 		TableColumn classmethod = new TableColumn(table, SWT.NONE);
 		classmethod.setWidth(143);
 		classmethod.setText("    Classe/método");
+	
+		
 		
 		TableColumn detecao = new TableColumn(table, SWT.NONE);
 		detecao.setWidth(111);
 		detecao.setText("   Deteção");
 		
-		
+		for (HasCodeSmell a : result) {
+			
+		}
 	
 		createContents();
 	}
