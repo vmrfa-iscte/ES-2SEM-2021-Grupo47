@@ -18,8 +18,8 @@ public class Main {
 		Statistics stats = new Statistics(metrics);
 		System.out.println("Numero de métodos " + stats.countNumberOfMethods());
 		System.out.println("Numero de classes " + stats.countClasses());
-		System.out.println("Numero de classes " + stats.countPackages());
-		System.out.println("Numero de classes " + stats.countLinesOfCode());
+		System.out.println("Numero de packages " + stats.countPackages());
+		System.out.println("Numero de linhas de codigo " + stats.countLinesOfCode());
 	}
 
 }
