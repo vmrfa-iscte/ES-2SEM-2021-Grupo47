@@ -74,6 +74,8 @@ public class mainGUI extends Shell {
 	private String[] selected_rule;
 	
 	
+	
+	
 
 	/**
 	 * Launch the application.
