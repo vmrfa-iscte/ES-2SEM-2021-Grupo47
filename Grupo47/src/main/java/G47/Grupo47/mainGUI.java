@@ -1,5 +1,6 @@
 package G47.Grupo47;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -7,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -65,10 +67,7 @@ public class mainGUI extends Shell {
 	private Text NumLines;
 	private HashMap<String, ArrayList<String>> mapStats = new HashMap<>();
 	private String username = System.getProperty("user.name");
-	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");;
-	private FileWriter fw;
-	private BufferedWriter bw;
-
+	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
 	private ArrayList<Rules> list = new ArrayList<Rules>(2);
 	private Rules rule;
 	private int i;
@@ -250,16 +249,9 @@ public class mainGUI extends Shell {
 				boolean v = false;
 				boolean combin = false;
 				System.out.println("username: " + username);
-				try {
-
-					fw = new FileWriter(rules);
-					bw = new BufferedWriter(fw);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 				if (!rules.exists()) {
 					try {
+						System.out.println("rita");
 
 						rules.createNewFile();
 					} catch (IOException e1) {
@@ -292,13 +284,12 @@ public class mainGUI extends Shell {
 							}
 						}
 						if (v == false && list.size() < 2) {
-							list.add(rule);
 							regras.add(content);
+							list.add(rule);
 							System.out.println(list.size());
-							try {
-
-								bw.write(content);
-								bw.close();
+							try (PrintWriter bw = new PrintWriter(new FileWriter(rules))) {
+								bw.println(content);
+							
 
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
@@ -318,16 +309,22 @@ public class mainGUI extends Shell {
 		btnDefinirRegras.setBounds(523, 64, 180, 30);
 		btnDefinirRegras.setText("Definir regra");
 
-		Button alterarregra = new Button(composite, SWT.NONE);
-		alterarregra.addSelectionListener(new SelectionAdapter() {
+		Button historico = new Button(composite, SWT.NONE);
+		historico.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				try {
+					Desktop.getDesktop().open(rules);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
 
-		alterarregra.setBounds(475, 247, 228, 30);
-		alterarregra.setText("Alterar regras");
+		historico.setBounds(475, 247, 228, 30);
+		historico.setText("Consultar historico de regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
 		codesmells.addSelectionListener(new SelectionAdapter() {
@@ -339,22 +336,31 @@ public class mainGUI extends Shell {
 				int limit1 = Integer.parseInt(r[3]);
 				int limit2 = Integer.parseInt(r[8]);
 				String operator = r[4];
-			
 
-			CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operator,actualmetrics);
-			if (identifier.equals("LOC_method")) {
-				SecondaryGUI codesmells = new SecondaryGUI(display,detector.detectLongMethod());
-				codesmells.loadGUI();
+				CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1, limit1, limit2, operator,
+						actualmetrics);
+				if (identifier.equals("LOC_method")) {
+					SecondaryGUI codesmells = new SecondaryGUI(display, detector.detectLongMethod());
+					codesmells.loadGUI();
+				}
+				if (identifier.equals("WMC_Class")) {
+					SecondaryGUI codesmells2 = new SecondaryGUI(display, detector.detectGodClass());
+					codesmells2.loadGUI();
+				}
+
 			}
-			if (identifier.equals("WMC_Class")) {
-				SecondaryGUI codesmells2 = new SecondaryGUI(display,detector.detectGodClass());
-				codesmells2.loadGUI();
+		});
+		codesmells.setBounds(475, 294, 228, 30);
+		codesmells.setText("Deteção de codesmells");
+		
+		Button alterarregra = new Button(composite, SWT.NONE);
+		alterarregra.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
 			}
-				
-		}
-	});
-	codesmells.setBounds(475, 294, 228, 30);
-	codesmells.setText("Deteção de codesmells");
+		});
+		alterarregra.setBounds(475, 203, 228, 30);
+		alterarregra.setText("Alterar regra");
 
 		createContents();
 	}
