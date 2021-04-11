@@ -254,6 +254,7 @@ public class mainGUI extends Shell {
 						System.out.println("rita");
 
 						rules.createNewFile();
+						
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -314,7 +315,10 @@ public class mainGUI extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
+					rules.setWritable(false);
 					Desktop.getDesktop().open(rules);
+					
+					
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
