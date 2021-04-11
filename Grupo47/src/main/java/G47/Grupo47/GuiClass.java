@@ -68,7 +68,7 @@ public class GuiClass extends Shell {
 	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");;
 	private FileWriter fw;
 	private BufferedWriter bw;
-	private ArrayList<Rules> list = new ArrayList<Rules>();
+	private ArrayList<Rules> list = new ArrayList<Rules>(2);
 	private Rules rule;
 	private int i;
 
@@ -230,6 +230,12 @@ public class GuiClass extends Shell {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				i = regras.getSelectionIndex();
+				Rules x = list.get(i);
+				metrica1.setText(x.getMethod1());
+				limite_1.setText(x.getLimit1());
+				metrica2.setText(x.getMethod2());
+				limite_2.setText(x.getLimit2());
+				operador.setText(x.getOperator());
 
 			}
 		});
@@ -239,6 +245,7 @@ public class GuiClass extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean v = false;
+				boolean combin = false;
 				System.out.println("username: " + username);
 				try {
 
@@ -257,38 +264,50 @@ public class GuiClass extends Shell {
 					}
 				}
 				if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
-						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
-						&& metrica1.getText() != metrica2.getText()) {
-					rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
-							limite_2.getText());
-					String content = rule.toString();
-					System.out.println(content);
-					for (int i = 0; i < list.size(); i++) {
-						if (list.get(i).toString().contentEquals(rule.toString())) {
-							JOptionPane.showMessageDialog(null, "Regra já imposta");
-							v = true;
-							break;
-
-						}
+						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
+					if (metrica1.getText().contentEquals("LOC_method")
+							&& !metrica2.getText().contentEquals("CYCLO_method")) {
+						JOptionPane.showMessageDialog(null, "Combinação inválida");
+						combin = true;
 					}
-					if (v == false) {
-						list.add(rule);
-						regras.add(content);
-						System.out.println(list.size());
-						try {
+					if (metrica1.getText().contentEquals("WMC_class")
+							&& !metrica2.getText().contentEquals("NOM_class")) {
+						JOptionPane.showMessageDialog(null, "Combinação inválida");
+						combin = true;
+					}
+					if (combin == false) {
+						rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
+								limite_2.getText());
+						String content = rule.toString();
+						System.out.println(content);
+						for (int i = 0; i < list.size(); i++) {
+							if (list.get(i).toString().contentEquals(rule.toString())) {
+								JOptionPane.showMessageDialog(null, "Regra já imposta");
+								v = true;
+								break;
 
-							bw.write(content);
-							bw.close();
+							}
+						}
+						if (v == false && list.size() < 2) {
+							list.add(rule);
+							regras.add(content);
+							System.out.println(list.size());
+							try {
 
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+								bw.write(content);
+								bw.close();
+
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 				}
+
 			}
 
 		});
