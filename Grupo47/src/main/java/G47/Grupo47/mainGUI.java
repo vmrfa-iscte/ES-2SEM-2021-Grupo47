@@ -179,6 +179,7 @@ public class mainGUI extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				DirExplorer dirEx = new DirExplorer(selectedFile1);
 				try {
+				
 					actualmetrics = dirEx.explore();
 					ExcelManip em = new ExcelManip(selectedFile1);
 					em.createExcel(em.extractHeaders(), actualmetrics);

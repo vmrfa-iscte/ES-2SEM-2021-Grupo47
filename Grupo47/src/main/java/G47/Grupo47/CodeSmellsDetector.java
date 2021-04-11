@@ -25,9 +25,9 @@ public class CodeSmellsDetector {
 
 	public ArrayList<HasCodeSmell> detectLongMethod() {
 		ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
-		System.out.println("O operador é " + operator);
-		System.out.println("Limite LOC_method + " + rule1_threshold );
-		System.out.println("Limite Cyclo_method + " +  rule2_threshold);
+//		System.out.println("O operador é " + operator);
+//		System.out.println("Limite LOC_method + " + rule1_threshold );
+//		System.out.println("Limite Cyclo_method + " +  rule2_threshold);
 		if (operator.equals("AND")) {
 			for (Metrics metric : results) {
 					if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
@@ -55,7 +55,7 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 					if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
 					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
-//					HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"A classe tem code smells");
+					HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"A classe tem code smells");
 //					if (!view.contains(positiveClass)) {
 //						view.add(positiveClass);
 //					}
