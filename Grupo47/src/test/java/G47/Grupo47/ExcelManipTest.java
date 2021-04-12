@@ -61,7 +61,7 @@ public class ExcelManipTest extends TestCase {
 		DirExplorer de = new DirExplorer(projectDir);
 		ArrayList<Metrics> metrics = de.explore();
 		ExcelManip manip = new ExcelManip(projectDir);
-		manip.createExcel(result,metrics );
+		manip.createExcel(metrics );
 		
 		
 
