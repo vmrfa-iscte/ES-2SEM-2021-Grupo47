@@ -292,7 +292,8 @@ public class mainGUI extends Shell {
 							try  {
 								FileWriter fw= new FileWriter(rules);
 								BufferedWriter bw = new BufferedWriter(fw);
-								bw.append(content);
+								bw.write(content);
+								bw.newLine();
 								bw.close();
 								
 
