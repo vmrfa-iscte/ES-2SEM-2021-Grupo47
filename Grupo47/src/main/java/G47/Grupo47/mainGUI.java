@@ -278,7 +278,7 @@ public class mainGUI extends Shell {
 		limite_2.setText("Limite");
 
 		List regras = new List(composite, SWT.BORDER);
-		regras.setBounds(10, 154, 435, 182);
+		regras.setBounds(10, 140, 435, 196);
 		regras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
@@ -369,7 +369,7 @@ public class mainGUI extends Shell {
 
 		});
 
-		btnDefinirRegras.setBounds(475, 153, 228, 30);
+		btnDefinirRegras.setBounds(475, 139, 228, 30);
 		btnDefinirRegras.setText("Definir regra");
 
 		Button alterarregra = new Button(composite, SWT.NONE);
@@ -380,7 +380,7 @@ public class mainGUI extends Shell {
 			}
 		});
 
-		alterarregra.setBounds(475, 270, 228, 30);
+		alterarregra.setBounds(475, 175, 228, 30);
 		alterarregra.setText("Alterar regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
@@ -401,9 +401,12 @@ public class mainGUI extends Shell {
 				}
 				codesmells.loadGUI();
 			}
-			if (method1.equals("WMC_Class")) {
-				
+			if (method1.equals("WMC_class")) {
+				ArrayList<HasCodeSmell> hcslist = detector.detectGodClass();
 				SecondaryGUI codesmells2 = new SecondaryGUI(display);
+				for(HasCodeSmell hascodesmell: hcslist) {
+					codesmells2.addCodeSmellsInfo(hascodesmell);;
+				}
 				codesmells2.loadGUI();
 				
 			}
@@ -414,16 +417,16 @@ public class mainGUI extends Shell {
 	codesmells.setText("Deteção de codesmells");
 	
 	Label lblRegrasGuardadas = new Label(composite, SWT.NONE);
-	lblRegrasGuardadas.setBounds(10, 128, 155, 20);
+	lblRegrasGuardadas.setBounds(10, 114, 155, 20);
 	lblRegrasGuardadas.setText("Regras guardadas:");
 	
 	lblAvisoFaaUm = new Label(composite, SWT.NONE);
 	lblAvisoFaaUm.setAlignment(SWT.CENTER);
-	lblAvisoFaaUm.setBounds(475, 197, 228, 67);
-	lblAvisoFaaUm.setText("Aviso: faça um duplo-clique antes de prosseguir para \"Deteção de codesmells\"");
+	lblAvisoFaaUm.setBounds(475, 211, 228, 89);
+	lblAvisoFaaUm.setText("Aviso: faça um duplo-clique na regra que pretende utilizar antes de prosseguir para \"Deteção de codesmells\"");
 	
 	lblDefinaUmaRegra = new Label(composite, SWT.NONE);
-	lblDefinaUmaRegra.setText("Defina uma regra para a deteção de codesmells ");
+	lblDefinaUmaRegra.setText("Defina uma regra para a deteção de codesmells: ");
 	lblDefinaUmaRegra.setBounds(10, 21, 397, 20);
 	
 	Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
