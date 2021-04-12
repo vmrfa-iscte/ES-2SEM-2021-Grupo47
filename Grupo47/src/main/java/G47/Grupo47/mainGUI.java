@@ -333,6 +333,8 @@ public class mainGUI extends Shell {
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				selected_rule = regras.getItems();
+				System.out.println(selected_rule);
 				String s = selected_rule[0];
 				String[] r = s.split(" ");
 				String identifier = r[0];
@@ -343,11 +345,15 @@ public class mainGUI extends Shell {
 
 			CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operator,actualmetrics);
 			if (identifier.equals("LOC_method")) {
-				SecondaryGUI codesmells = new SecondaryGUI(display,detector.detectLongMethod());
+				ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
+				SecondaryGUI codesmells = new SecondaryGUI(display);
 				codesmells.loadGUI();
+				for(HasCodeSmell hascodesmell: hcsList) {
+					codesmells.addCodeSmellsInfo(hascodesmell);
+				}
 			}
 			if (identifier.equals("WMC_Class")) {
-				SecondaryGUI codesmells2 = new SecondaryGUI(display,detector.detectGodClass());
+				SecondaryGUI codesmells2 = new SecondaryGUI(display);
 				codesmells2.loadGUI();
 			}
 				

@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.TableColumn;
 public class SecondaryGUI extends Shell {
 	private Table table;
 	private ArrayList<HasCodeSmell> result;
+	private TableColumn classmethod;
+	private TableColumn detecao;
 
 	/**
 	 * Launch the application.
@@ -28,7 +30,7 @@ public class SecondaryGUI extends Shell {
 		try {
 			
 			Display display = Display.getDefault();
-			SecondaryGUI shell = new SecondaryGUI(display,result);
+			SecondaryGUI shell = new SecondaryGUI(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -45,7 +47,7 @@ public class SecondaryGUI extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public SecondaryGUI(Display display,ArrayList<HasCodeSmell> result) {
+	public SecondaryGUI(Display display) {
 		super(display, SWT.SHELL_TRIM);
 		this.result = result;
 		Combo regras = new Combo(this, SWT.NONE);
@@ -69,13 +71,13 @@ public class SecondaryGUI extends Shell {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
-		TableColumn classmethod = new TableColumn(table, SWT.NONE);
+		classmethod = new TableColumn(table, SWT.NONE);
 		classmethod.setWidth(143);
 		classmethod.setText("    Classe/método");
 	
 		
 		
-		TableColumn detecao = new TableColumn(table, SWT.NONE);
+		detecao = new TableColumn(table, SWT.NONE);
 		detecao.setWidth(111);
 		detecao.setText("   Deteção");
 		
@@ -94,6 +96,12 @@ public class SecondaryGUI extends Shell {
 		setText("CodeSmell Detector");
 		setSize(585, 358);
 
+	}
+	
+	public void addCodeSmellsInfo(HasCodeSmell hcs) {
+		classmethod.setData(hcs.getName());
+		detecao.setData(hcs.getHasCodeSmell());
+		
 	}
 
 	@Override
