@@ -195,7 +195,7 @@ public class mainGUI extends Shell {
 				try {
 					actualmetrics = dirEx.explore();
 					ExcelManip em = new ExcelManip(selectedFile1);
-					em.createExcel(em.extractHeaders(), actualmetrics);
+					em.createExcel(actualmetrics);
 					Statistics stats = new Statistics(actualmetrics);
 					ArrayList<String> StringStats = new ArrayList<>();
 					StringStats.add(String.valueOf(stats.countLinesOfCode()));

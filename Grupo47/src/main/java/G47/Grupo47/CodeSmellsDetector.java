@@ -5,12 +5,9 @@ import java.util.ArrayList;
 
 public class CodeSmellsDetector {
 	private File selectedFile;
-	private int rule1_threshold;
-	private int rule2_threshold;
+	private int rule1_threshold,rule2_threshold;
 	private String operator;
 	private ArrayList<Metrics> results;
-
-
 
 	public CodeSmellsDetector (File selectedFile, int rule1, int rule2, String operator, ArrayList<Metrics> results) {
 		this.rule1_threshold = rule1;
@@ -27,11 +24,11 @@ public class CodeSmellsDetector {
 		ArrayList<String> namesClasses = new ArrayList<>();
 		if (operator.equals("AND")) {
 			for (Metrics metric : results) {
-	
+				
 				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
 					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
 					view.add(positive);
-					System.out.println("Existencia de code smell");
+					
 					if(!lastclass.equals(metric.getClasse())) {
 						lastclass = metric.getClasse();
 						namesClasses.add(metric.getClasse());
@@ -41,9 +38,10 @@ public class CodeSmellsDetector {
 				else {
 					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso");
 					view.add(negative);
-			
-
 				}
+				
+				
+				
 			}
 		}
 

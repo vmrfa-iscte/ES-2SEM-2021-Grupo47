@@ -16,47 +16,15 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelManip {
-	
+
 	public String toCopy;
 	private File file;
 
-	
-	//C:\Users\rui.fontoura\Downloads\jasml_0.10\src\com
-//	public void readExcel () throws IOException {
-//		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
-//		XSSFWorkbook workbook = new XSSFWorkbook(file);
-//		XSSFSheet sheet = workbook.getSheetAt(0);
-//		Iterator<Row> it = sheet.iterator();
-//
-//		//desta forma percorre linha a linha
-//		int i = 0;
-//		int z = 0;
-//		ArrayList column = new ArrayList();
-//		while (it.hasNext()) {
-//			Row row = it.next();
-//			Iterator<Cell> ci = row.iterator();
-//
-//			while (ci.hasNext()) {
-//				Cell cell = ci.next();
-//				if (row.getRowNum() == 0) {
-//					column.add(cell.toString());
-//				}
-//				if (row.getRowNum() == 0) {
-//
-//				}else {
-//					System.out.println("Rownumb -" + cell.getRowIndex() +  "||" + " Column- " + column.get(cell.getColumnIndex()) + "||" +  " Content- " + cell.toString() );
-//				}
-//			}
-//
-//		}
-//
-//	}
-	
 	public ExcelManip(File file) {
 		this.file = file;
 		this.toCopy = getFilePath();
 	}
-	
+
 	public String getFileName() {
 		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
 		String fileName = "";
@@ -66,9 +34,8 @@ public class ExcelManip {
 			}
 		}
 		return fileName;
-		
 	}
-	
+
 	public String getFilePath() {
 		System.out.println(file.getAbsolutePath());
 		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
@@ -85,20 +52,15 @@ public class ExcelManip {
 		}
 		System.out.println("PathToCreate: "+pathToCreate);
 		return pathToCreate;
-		
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<String> extractHeaders() throws IOException {
 		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
 		XSSFWorkbook workbook = new XSSFWorkbook(file);
 		XSSFSheet sheet = workbook.getSheetAt(0); 
 		Iterator<Row> it = sheet.iterator();
 
-		//desta forma percorre linha a linha
-		int i = 0;
-		int z = 0;
-		ArrayList column = new ArrayList();
+		ArrayList<String> column = new ArrayList<>();
 		while (it.hasNext()) {
 			Row row = it.next();
 			Iterator<Cell> ci = row.iterator();
@@ -108,14 +70,14 @@ public class ExcelManip {
 				if (row.getRowNum() == 0) {
 					column.add(cell.toString());
 				}
-
 			}
 
 		}
 		return column;
 	}
 
-	public void createExcel(ArrayList<String> headers, ArrayList<Metrics> data) throws IOException {
+	public void createExcel(ArrayList<Metrics> data) throws IOException {
+		ArrayList<String> headers = extractHeaders();
 		XSSFWorkbook create = new XSSFWorkbook();
 		XSSFSheet sheet = create.createSheet();
 		int numbheaders = headers.size();
@@ -150,10 +112,9 @@ public class ExcelManip {
 		FileOutputStream excel = new FileOutputStream(new File(toCopy));
 		create.write(excel);
 		create.close();
-	
-}
-	
 
-	
-	
+	}
+
+
+
 }

@@ -24,48 +24,24 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.SashForm;
 
 public class SecondaryGUI extends Shell {
+	
 	private Table table;
-	private ArrayList<HasCodeSmell> result;
-	private TableColumn classmethod;
-	private TableItem tableItem;
+	private TableColumn classmethod,detecao;
 	private ScrolledComposite scrolledComposite;
-	private TableColumn detecao;
-	private TableItem tableItem_1;
-
+	private Display display;
 
 	/**
 	 * Launch the application.
 	 * @param args
 	 */
 	
-	
-	public void loadGUI () {
-		try {
-			
-			Display display = Display.getDefault();
-//			SecondaryGUI shell = new SecondaryGUI(display);
-			
-					open();
-					layout();
-					while (!isDisposed()) {
-						if (!display.readAndDispatch()) {
-							display.sleep();
-						}
-					}
-				
-		
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Create the shell.
 	 * @param display
 	 */
 	public SecondaryGUI(Display display) {
 		super(display, SWT.SHELL_TRIM);
+		this.display = display;
 		Combo regras = new Combo(this, SWT.NONE);
 		regras.setBounds(10, 377, 425, 28);
 			
@@ -103,6 +79,21 @@ public class SecondaryGUI extends Shell {
 
 		createContents();
 	}
+	
+	public void loadGUI () {
+		try {
+			open();
+			layout();
+			while (!isDisposed()) {
+				if (!display.readAndDispatch()) {
+					display.sleep();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	/**
 	 * Create contents of the shell.
@@ -114,7 +105,7 @@ public class SecondaryGUI extends Shell {
 	}
 	
 	public void addCodeSmellsInfo(HasCodeSmell hcs) {
-		tableItem = new TableItem(table,SWT.NONE);
+		TableItem tableItem = new TableItem(table,SWT.NONE);
 		tableItem.setText(new String[]{hcs.getName(), hcs.getHasCodeSmell()});
 	}
 
