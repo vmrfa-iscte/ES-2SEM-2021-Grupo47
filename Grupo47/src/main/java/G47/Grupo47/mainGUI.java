@@ -3,9 +3,11 @@ package G47.Grupo47;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,7 +70,7 @@ public class mainGUI extends Shell {
 	private HashMap<String, ArrayList<String>> mapStats = new HashMap<>();
 	private String username = System.getProperty("user.name");
 	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");
-	private ArrayList<Rules> list = new ArrayList<Rules>(2);
+	private ArrayList<Rules> list = new ArrayList<Rules>();
 	private Rules rule;
 	private int i;
 	private String[] selected_rule;
@@ -227,7 +229,7 @@ public class mainGUI extends Shell {
 		limite_2.setText("Limite");
 
 		List regras = new List(composite, SWT.BORDER);
-		regras.setBounds(10, 100, 435, 224);
+		regras.setBounds(10, 65, 385, 218);
 		regras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
@@ -252,9 +254,8 @@ public class mainGUI extends Shell {
 				if (!rules.exists()) {
 					try {
 						System.out.println("rita");
-
 						rules.createNewFile();
-						
+
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -284,13 +285,16 @@ public class mainGUI extends Shell {
 
 							}
 						}
-						if (v == false && list.size() < 2) {
+						if (v == false) {
 							regras.add(content);
 							list.add(rule);
 							System.out.println(list.size());
-							try (PrintWriter bw = new PrintWriter(new FileWriter(rules))) {
-								bw.println(content);
-							
+							try  {
+								FileWriter fw= new FileWriter(rules);
+								BufferedWriter bw = new BufferedWriter(fw);
+								bw.append(content);
+								bw.close();
+								
 
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
@@ -307,28 +311,27 @@ public class mainGUI extends Shell {
 
 		});
 
-		btnDefinirRegras.setBounds(523, 64, 180, 30);
+		btnDefinirRegras.setBounds(567, 64, 136, 30);
 		btnDefinirRegras.setText("Definir regra");
 
-		Button historico = new Button(composite, SWT.NONE);
-		historico.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					rules.setWritable(false);
-					Desktop.getDesktop().open(rules);
-					
-					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-			}
-		});
-
-		historico.setBounds(475, 247, 228, 30);
-		historico.setText("Consultar historico de regras");
+//		Button historico = new Button(composite, SWT.NONE);
+//		historico.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				try {
+//					rules.setWritable(true);
+//					Desktop.getDesktop().open(rules);
+//
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//
+//			}
+//		});
+//
+//		historico.setBounds(475, 247, 228, 30);
+//		historico.setText("Consultar historico de regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
 		codesmells.addSelectionListener(new SelectionAdapter() {
@@ -356,15 +359,50 @@ public class mainGUI extends Shell {
 		});
 		codesmells.setBounds(475, 294, 228, 30);
 		codesmells.setText("Deteção de codesmells");
-		
+
 		Button alterarregra = new Button(composite, SWT.NONE);
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 			}
 		});
-		alterarregra.setBounds(475, 203, 228, 30);
+		alterarregra.setBounds(412, 64, 141, 30);
 		alterarregra.setText("Alterar regra");
+
+		Button carregarhist = new Button(composite, SWT.NONE);
+		carregarhist.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				regras.removeAll();
+				list.clear();
+				System.out.println(list.size());
+				try {
+					FileReader reader = new FileReader(rules);
+					BufferedReader bufferedReader = new BufferedReader(reader);
+					String line;
+					while ((line = bufferedReader.readLine()) != null) {
+						System.out.println(line);
+						String[] rules= line.split(" ");
+						for(int i=0; i<rules.length;i++) {
+							System.out.println(rules[i]);
+						}
+						Rules x= new Rules(rules[0],rules[2],rules[3],rules[4],rules[6]);
+						list.add(x);
+						regras.add(line);
+					}
+					reader.close();
+
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		carregarhist.setBounds(10, 294, 383, 30);
+		carregarhist.setText("Carregar histórico de regras");
 
 		createContents();
 	}
