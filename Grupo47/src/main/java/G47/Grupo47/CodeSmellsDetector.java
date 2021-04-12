@@ -23,27 +23,26 @@ public class CodeSmellsDetector {
 
 	public ArrayList<HasCodeSmell> detectLongMethod() {
 		ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
-//		System.out.println("O operador é " + operator);
-//		System.out.println("Limite LOC_method + " + rule1_threshold );
-//		System.out.println("Limite Cyclo_method + " +  rule2_threshold);
+		//		System.out.println("O operador é " + operator);
+		//		System.out.println("Limite LOC_method + " + rule1_threshold );
+		//		System.out.println("Limite Cyclo_method + " +  rule2_threshold);
+		String lastclass = "";
 		if (operator.equals("AND")) {
 			for (Metrics metric : results) {
-					if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
+				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
 					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
 					System.out.println("Existencia de code smell");
-//					HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"A classe tem code smells");
-//					if (!view.contains(positiveClass)) {
-//						view.add(positiveClass);
-//					}
-					view.add(positive);
+					if(!lastclass.equals(metric.getClasse())) {
+						lastclass = metric.getClasse();
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"A classe tem code smells");
+						view.add(positiveClass);
+					}
+						view.add(positive);
 				}
 				else {
 					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso");
-//					HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"A classe não tem code smells");
-//					if (!view.contains(negativeClass)) {
-//						view.add(negativeClass);
-//					}
 					view.add(negative);
+			
 
 				}
 			}
@@ -51,22 +50,18 @@ public class CodeSmellsDetector {
 
 		if (operator.equals("OR")) {
 			for (Metrics metric : results) {
-					if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
+				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
 					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro");
-					HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"A classe tem code smells");
-//					if (!view.contains(positiveClass)) {
-//						view.add(positiveClass);
-//					}
 					view.add(positive);
+					if(!lastclass.equals(metric.getClasse())) {
+						lastclass = metric.getClasse();
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"A classe tem code smells");
+						view.add(positiveClass);
+					}
 				}
 				else {
 					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso");
-//					HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"A classe não tem code smells");
-//					if (!view.contains(negativeClass)) {
-//						view.add(negativeClass);
-//					}
 					view.add(negative);
-
 				}
 			}
 		}

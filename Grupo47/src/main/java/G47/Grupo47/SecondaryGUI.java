@@ -13,12 +13,25 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.SashForm;
 
 public class SecondaryGUI extends Shell {
 	private Table table;
 	private ArrayList<HasCodeSmell> result;
 	private TableColumn classmethod;
+	private TableItem tableItem;
+	private ScrolledComposite scrolledComposite;
 	private TableColumn detecao;
+	private TableItem tableItem_1;
+
 
 	/**
 	 * Launch the application.
@@ -30,14 +43,18 @@ public class SecondaryGUI extends Shell {
 		try {
 			
 			Display display = Display.getDefault();
-			SecondaryGUI shell = new SecondaryGUI(display);
-			shell.open();
-			shell.layout();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch()) {
-					display.sleep();
-				}
-			}
+//			SecondaryGUI shell = new SecondaryGUI(display);
+			
+					open();
+					layout();
+					while (!isDisposed()) {
+						if (!display.readAndDispatch()) {
+							display.sleep();
+						}
+					}
+				
+		
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,12 +66,8 @@ public class SecondaryGUI extends Shell {
 	 */
 	public SecondaryGUI(Display display) {
 		super(display, SWT.SHELL_TRIM);
-		this.result = result;
 		Combo regras = new Combo(this, SWT.NONE);
-		regras.setBounds(10, 273, 346, 28);
-		
-		Composite composite = new Composite(this, SWT.NONE);
-		composite.setBounds(262, 10, 295, 246);
+		regras.setBounds(10, 377, 425, 28);
 			
 		Button btnNewButton = new Button(this, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
@@ -63,29 +76,31 @@ public class SecondaryGUI extends Shell {
 			
 			}
 		});
-		btnNewButton.setBounds(377, 271, 180, 30);
+		btnNewButton.setBounds(484, 375, 180, 30);
 		btnNewButton.setText("Avaliar codesmell");
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(10, 10, 246, 246);
-		table.setHeaderVisible(true);
+		int[] valores = new int[3];
+		valores[0] = 1;
+		valores[1] = 2;
+		valores[2] = 3;
 		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		table.setBounds(10, 10, 425, 343);
 		
 		classmethod = new TableColumn(table, SWT.NONE);
-		classmethod.setWidth(143);
+		classmethod.setWidth(246);
 		classmethod.setText("    Classe/método");
-	
-		
 		
 		detecao = new TableColumn(table, SWT.NONE);
-		detecao.setWidth(111);
+		detecao.setWidth(190);
 		detecao.setText("   Deteção");
 		
-		for (HasCodeSmell a : result) {
-			System.out.println(a.getName() + "    " + a.getHasCodeSmell());
-			
-		}
-	
+		scrolledComposite = new ScrolledComposite(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setBounds(480, 10, 229, 340);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
 		createContents();
 	}
 
@@ -94,14 +109,13 @@ public class SecondaryGUI extends Shell {
 	 */
 	protected void createContents() {
 		setText("CodeSmell Detector");
-		setSize(585, 358);
+		setSize(737, 475);
 
 	}
 	
 	public void addCodeSmellsInfo(HasCodeSmell hcs) {
-		classmethod.setData(hcs.getName());
-		detecao.setData(hcs.getHasCodeSmell());
-		
+		tableItem = new TableItem(table,SWT.NONE);
+		tableItem.setText(new String[]{hcs.getName(), hcs.getHasCodeSmell()});
 	}
 
 	@Override
