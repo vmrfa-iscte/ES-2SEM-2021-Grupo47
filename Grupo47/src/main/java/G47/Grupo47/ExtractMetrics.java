@@ -21,6 +21,7 @@ public class ExtractMetrics {
 
 	private String path;
 	private File file;
+	private int method_id;
 
 
 	public ExtractMetrics(File file, String path) {
@@ -28,7 +29,7 @@ public class ExtractMetrics {
 		this.path = path;
 	}
 
-	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics) throws FileNotFoundException {
+	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics,int method_id) throws FileNotFoundException {
 		String packageClass = getPackageName();
 		JavaParser jp  = new JavaParser();
 		ParseResult<CompilationUnit> cu = jp.parse(file);
@@ -36,6 +37,7 @@ public class ExtractMetrics {
 		String className = "";
 		if(cu.isSuccessful()) {
 			CompilationUnit comp = cu.getResult().get();
+			
 			for(ClassOrInterfaceDeclaration type : comp.findAll(ClassOrInterfaceDeclaration.class)) {
 				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
 					className = type.getNameAsString();
@@ -45,19 +47,22 @@ public class ExtractMetrics {
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
 				NOM_class = getNOM_class(type.getMethods(),type.getConstructors());
 				LOC_class = getLOC_classCID(type);
-				for(MethodDeclaration md: type.getMethods()) {
-					LOC_method = getLOC_method_Met(md);
-					CYCLO_method = getMethodComplexity(md);
-					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
-					metrics.add(metric);
-				}
 				for(ConstructorDeclaration md: type.getConstructors()) {
 					LOC_method = getLOC_method_Cons(md);
 					CYCLO_method = getConstructorComplexity(md);
 
-					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, method_id,LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
 					metrics.add(metric);
+					method_id++;
 				}
+				for(MethodDeclaration md: type.getMethods()) {
+					LOC_method = getLOC_method_Met(md);
+					CYCLO_method = getMethodComplexity(md);
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass,method_id, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					metrics.add(metric);
+					method_id++;
+				}
+				
 
 			}
 			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
@@ -72,21 +77,24 @@ public class ExtractMetrics {
 				for(MethodDeclaration md: type.getMethods()) {
 					LOC_method = getLOC_method_Met(md);
 					CYCLO_method = getMethodComplexity(md);
-					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass,method_id, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
 					metrics.add(metric);
+					method_id++;
 				}
 				for(ConstructorDeclaration md: type.getConstructors()) {
 					LOC_method = getLOC_method_Cons(md);
 					CYCLO_method = getConstructorComplexity(md);
 
-					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
+					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, method_id,LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
 					metrics.add(metric);
+					method_id++;
 				}
 			}
 
 		}else {
 			
 		}
+		this.method_id = method_id;
 		return metrics;
 	}
 
@@ -193,6 +201,10 @@ public class ExtractMetrics {
 
 			return packageName;
 		
+	}
+	
+	public int getCurrentMethodID() {
+		return method_id;
 	}
 
 }

@@ -47,6 +47,9 @@ import org.eclipse.swt.events.TouchEvent;
 import org.eclipse.swt.events.SelectionListener;
 import java.util.function.Consumer;
 import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.custom.ScrolledComposite;
 
 public class mainGUI extends Shell {
 
@@ -82,7 +85,6 @@ public class mainGUI extends Shell {
 	private int i;
 	private String[] selected_rule;
 	private ArrayList<Metrics> actualmetrics;
-	private Label lblAvisoFaaUm;
 	private Label lblDefinaUmaRegra;
 	private Combo metrica2;
 
@@ -123,7 +125,7 @@ public class mainGUI extends Shell {
 		pasta.setBounds(372, 33, 166, 30);
 		pasta.setText("Selecionar pasta");
 
-		ficheirosexcel = new List(this, SWT.BORDER);
+		ficheirosexcel = new List(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		ficheirosexcel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
@@ -197,6 +199,7 @@ public class mainGUI extends Shell {
 				DirExplorer dirEx = new DirExplorer(selectedFile1);
 				try {
 					actualmetrics = dirEx.explore();
+					System.out.println("actualmetrics size: "+actualmetrics.size());
 					ExcelManip em = new ExcelManip(selectedFile1);
 					em.createExcel(actualmetrics);
 					Statistics stats = new Statistics(actualmetrics);
@@ -279,22 +282,22 @@ public class mainGUI extends Shell {
 		limite_2 = new Text(composite, SWT.BORDER);
 		limite_2.setBounds(612, 65, 91, 28);
 		limite_2.setText("Limite");
-
-		List regras = new List(composite, SWT.BORDER);
-		regras.setBounds(10, 125, 435, 175);
-		regras.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				i = regras.getSelectionIndex();
-				currentRule = list.get(i);
-				metrica1.setText(currentRule.getMethod1());
-				limite_1.setText(currentRule.getLimit1());
-				metrica2.setText(currentRule.getMethod2());
-				limite_2.setText(currentRule.getLimit2());
-				operador.setText(currentRule.getOperator());
-
-			}
-		});
+		
+				List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+				regras.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						i = regras.getSelectionIndex();
+						currentRule = list.get(i);
+						metrica1.setText(currentRule.getMethod1());
+						limite_1.setText(currentRule.getLimit1());
+						metrica2.setText(currentRule.getMethod2());
+						limite_2.setText(currentRule.getLimit2());
+						operador.setText(currentRule.getOperator());
+					}
+				});
+				regras.setLocation(10, 125);
+				regras.setSize(431, 174);
 
 		btnDefinirRegras = new Button(composite, SWT.NONE);
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
@@ -386,22 +389,25 @@ public class mainGUI extends Shell {
 				String method1 = currentRule.getMethod1();
 				int limit1 = Integer.parseInt(currentRule.getLimit1());
 				String operator = currentRule.getOperator();
-				String method2 = currentRule.getMethod2();
-				int limit2 = Integer.parseInt(currentRule.getLimit2());										
-				CodeSmellsDetector detector = new CodeSmellsDetector(selectedFile1,limit1,limit2,operator,actualmetrics);
+				int limit2 = Integer.parseInt(currentRule.getLimit2());
+				System.out.println("actualmetrics size 2: "+actualmetrics.size());
+				CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,operator,actualmetrics);
 			if (method1.equals("LOC_method")) {
 				ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
-				SecondaryGUI codesmells = new SecondaryGUI(display);				
-				for(HasCodeSmell hascodesmell: hcsList) {					
+				System.out.println("hcslist size: "+hcsList.size());
+				SecondaryGUI codesmells = new SecondaryGUI(display,"Avaliar code smell 'isLong Method'");				
+				for(HasCodeSmell hascodesmell: hcsList) {
+					System.out.println("ID: "+ hascodesmell.getMethod_ID());
 					codesmells.addCodeSmellsInfo(hascodesmell);
 				}
 				codesmells.loadGUI();
 			}
 			if (method1.equals("WMC_class")) {
-				ArrayList<HasCodeSmell> hcslist = detector.detectGodClass();
-				SecondaryGUI codesmells2 = new SecondaryGUI(display);
-				for(HasCodeSmell hascodesmell: hcslist) {
-					codesmells2.addCodeSmellsInfo(hascodesmell);;
+				ArrayList<HasCodeSmell> hcslist2 = detector.detectGodClass();
+				System.out.println("hcslist2 size: "+hcslist2.size());
+				SecondaryGUI codesmells2 = new SecondaryGUI(display,"Avaliar code smell 'isGod Class'");
+				for(HasCodeSmell hascodesmell: hcslist2) {
+					codesmells2.addCodeSmellsInfo(hascodesmell);
 				}
 				codesmells2.loadGUI();
 				
@@ -452,14 +458,11 @@ public class mainGUI extends Shell {
 	lblRegrasGuardadas.setBounds(10, 99, 155, 20);
 	lblRegrasGuardadas.setText("Regras guardadas:");
 	
-	lblAvisoFaaUm = new Label(composite, SWT.NONE);
-	lblAvisoFaaUm.setAlignment(SWT.CENTER);
-	lblAvisoFaaUm.setBounds(475, 211, 228, 89);
-	lblAvisoFaaUm.setText("Aviso: faça um duplo-clique na regra que pretende utilizar antes de prosseguir para \"Deteção de codesmells\"");
-	
 	lblDefinaUmaRegra = new Label(composite, SWT.NONE);
 	lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
 	lblDefinaUmaRegra.setBounds(10, 21, 397, 20);
+	
+
 	
 	Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
 	lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));

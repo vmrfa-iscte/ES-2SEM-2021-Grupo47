@@ -29,6 +29,8 @@ public class SecondaryGUI extends Shell {
 	private TableColumn classmethod,detecao;
 	private ScrolledComposite scrolledComposite;
 	private Display display;
+	private String name;
+	private TableColumn tblclmnMethodId;
 
 	/**
 	 * Launch the application.
@@ -39,8 +41,10 @@ public class SecondaryGUI extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public SecondaryGUI(Display display) {
+	public SecondaryGUI(Display display,String name) {
+		
 		super(display, SWT.SHELL_TRIM);
+		this.name = name;
 		this.display = display;
 		Combo regras = new Combo(this, SWT.NONE);
 		regras.setBounds(10, 377, 425, 28);
@@ -62,22 +66,26 @@ public class SecondaryGUI extends Shell {
 		valores[2] = 3;
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setBounds(10, 10, 425, 343);
+		table.setBounds(10, 10, 480, 350);
 		
-		classmethod = new TableColumn(table, SWT.NONE);
-		classmethod.setWidth(246);
-		classmethod.setText("    Classe/método");
+		tblclmnMethodId = new TableColumn(table, SWT.CENTER);
+		tblclmnMethodId.setWidth(100);
+		tblclmnMethodId.setText("Method id");
 		
-		detecao = new TableColumn(table, SWT.NONE);
-		detecao.setWidth(190);
-		detecao.setText("   Deteção");
+		classmethod = new TableColumn(table, SWT.CENTER);
+		classmethod.setWidth(229);
+		classmethod.setText("Classe/método");
+		
+		detecao = new TableColumn(table, SWT.CENTER);
+		detecao.setWidth(147);
+		detecao.setText("Deteção");
 		
 		scrolledComposite = new ScrolledComposite(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		scrolledComposite.setBounds(480, 10, 229, 340);
+		scrolledComposite.setBounds(545, 10, 229, 340);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
 
-		createContents();
+		createContents(name);
 	}
 	
 	public void loadGUI () {
@@ -98,15 +106,16 @@ public class SecondaryGUI extends Shell {
 	/**
 	 * Create contents of the shell.
 	 */
-	protected void createContents() {
-		setText("CodeSmell Detector");
-		setSize(737, 475);
+	protected void createContents(String name) {
+		setText(name);
+		setSize(802, 475);
 
 	}
 	
 	public void addCodeSmellsInfo(HasCodeSmell hcs) {
 		TableItem tableItem = new TableItem(table,SWT.NONE);
-		tableItem.setText(new String[]{hcs.getName(), hcs.getHasCodeSmell()});
+		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getName(), hcs.getHasCodeSmell()});
+	
 	}
 
 	@Override

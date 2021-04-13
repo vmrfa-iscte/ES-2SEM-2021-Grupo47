@@ -6,7 +6,7 @@ public class MetricsTest extends TestCase {
 	
 	
 		public void testSetters() {
-			Metrics n = new Metrics("","","",0,0,0,0,0);
+			Metrics n = new Metrics("","","",0,0,0,0,0,0);
 			n.setLOC_method(1);
 			assertEquals(1,n.getLOC_method());
 			n.setClasse("classe");
@@ -25,6 +25,7 @@ public class MetricsTest extends TestCase {
 			assertEquals(6,n.getNOM_class());
 			String compare = "package  ||  classe  ||  metodo  ||  LOC_class: 3  ||  LOC_method: 1  ||  NOM_class: 6  ||  WMC: 5  ||  CYCLO: 2";
 			assertEquals(compare,n.toString());
+			// fazer teste para method_id
 			
 		}
 	

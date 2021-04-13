@@ -10,7 +10,7 @@ public class Metrics {
 	private int WMC_class;
 	private int CYCLO_method;
 	private int NOM_class;
-	
+	private int method_id;
 	public Metrics(String methodName,String className,String packageName,int LOC_method) {
 		this.methodName = methodName;
 		this.packageName = packageName;
@@ -23,7 +23,7 @@ public class Metrics {
 		this.packageName = packageName;
 	}
 	
-	public Metrics(String methodName,String className,String packageName, int LOC_method,int LOC_class, int CYCLO_method,int NOM_class,int WMC_class) {
+	public Metrics(String methodName,String className,String packageName, int method_id,int LOC_method,int LOC_class, int CYCLO_method,int NOM_class,int WMC_class) {
 		this.methodName = methodName;
 		this.className = className;
 		this.packageName = packageName;
@@ -32,6 +32,7 @@ public class Metrics {
 		this.CYCLO_method = CYCLO_method;
 		this.NOM_class = NOM_class;
 		this.WMC_class = WMC_class;
+		this.method_id = method_id;
 	}
 	
 	
@@ -66,6 +67,10 @@ public class Metrics {
 	public int getCYCLO_method() {
 		return CYCLO_method;
 	}
+	
+	public int getMethod_ID() {
+		return method_id;
+	}
 
 	public void setLOC_method(int lOC_method) {
 		LOC_method = lOC_method;
@@ -98,6 +103,12 @@ public class Metrics {
 	public void setNOM_class(int NOM_class) {
 		this.NOM_class = NOM_class;
 	}
+	
+	public void setMethod_ID(int method_id) {
+		this.method_id = method_id;
+	}
+	
+
 	
 	public String toString() {
 		return packageName+"  ||  "+className+"  ||  "+methodName+"  ||  LOC_class: "+LOC_class+"  ||  LOC_method: "+LOC_method + "  ||  NOM_class: "+NOM_class+"  ||  WMC: "+WMC_class+"  ||  CYCLO: "+CYCLO_method;

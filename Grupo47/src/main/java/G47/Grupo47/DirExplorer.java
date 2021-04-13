@@ -19,10 +19,12 @@ public class DirExplorer {
  
     private File file;
     private ArrayList<Metrics> metrics;
+    private int method_id;
 
     public DirExplorer(File file) {
         this.file = file;
         this.metrics = new ArrayList<>();
+        this.method_id = 0;
     }
            
     public ArrayList<Metrics> explore() throws FileNotFoundException {
@@ -36,8 +38,10 @@ public class DirExplorer {
             }
         } else {
             if (path.endsWith(".java")) {
+            	
                 ExtractMetrics a = new ExtractMetrics(file,path);
-                a.extrair_Metricas(metrics);
+                a.extrair_Metricas(metrics,method_id);
+                method_id = a.getCurrentMethodID();
             }
         }
         return metrics;
