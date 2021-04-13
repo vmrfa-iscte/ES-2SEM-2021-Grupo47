@@ -31,7 +31,7 @@ public class Rules {
 
 	@Override
 	public String toString() {
-		return  method1 + " > " + " " + limit1+ " " + operator + " " + method2+ " > " + " " + limit2;
+		return  method1 + " > "  + limit1+ " " + operator + " " + method2+ " > "  + limit2;
 	}
 
 	public void setMethod1(String method1) {

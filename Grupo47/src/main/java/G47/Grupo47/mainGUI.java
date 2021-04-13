@@ -2,9 +2,11 @@ package G47.Grupo47;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ import org.eclipse.swt.events.TouchListener;
 import org.eclipse.swt.events.TouchEvent;
 import org.eclipse.swt.events.SelectionListener;
 import java.util.function.Consumer;
+import org.eclipse.swt.widgets.TabFolder;
 
 public class mainGUI extends Shell {
 
@@ -74,7 +77,7 @@ public class mainGUI extends Shell {
 	private FileWriter fw;
 	private BufferedWriter bw;
 
-	private ArrayList<Rules> list = new ArrayList<Rules>(2);
+	private ArrayList<Rules> list = new ArrayList<Rules>();
 	private Rules rule,currentRule;
 	private int i;
 	private String[] selected_rule;
@@ -278,7 +281,7 @@ public class mainGUI extends Shell {
 		limite_2.setText("Limite");
 
 		List regras = new List(composite, SWT.BORDER);
-		regras.setBounds(10, 140, 435, 196);
+		regras.setBounds(10, 125, 435, 175);
 		regras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
@@ -300,38 +303,27 @@ public class mainGUI extends Shell {
 				boolean v = false;
 				boolean combin = false;
 				System.out.println("username: " + username);
-				try {
-
-					fw = new FileWriter(rules);
-					bw = new BufferedWriter(fw);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 				if (!rules.exists()) {
 					try {
-
+						System.out.println("rita");
 						rules.createNewFile();
+
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 				if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
 						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
-					
-					
-//					if (metrica1.getText().contentEquals("LOC_method")
-//							&& !metrica2.getText().contentEquals("CYCLO_method")) {
-//						JOptionPane.showMessageDialog(null, "Combinação inválida");
-//						combin = true;
-//					}
-//					if (metrica1.getText().contentEquals("WMC_class")
-//							&& !metrica2.getText().contentEquals("NOM_class")) {
-//						JOptionPane.showMessageDialog(null, "Combinação inválida");
-//						combin = true;
-//					}
-					
-					
+					if (metrica1.getText().contentEquals("LOC_method")
+							&& !metrica2.getText().contentEquals("CYCLO_method")) {
+						JOptionPane.showMessageDialog(null, "Combinação inválida");
+						combin = true;
+					}
+					if (metrica1.getText().contentEquals("WMC_class")
+							&& !metrica2.getText().contentEquals("NOM_class")) {
+						JOptionPane.showMessageDialog(null, "Combinação inválida");
+						combin = true;
+					}
 					if (combin == false) {
 						rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
 								limite_2.getText());
@@ -345,14 +337,18 @@ public class mainGUI extends Shell {
 
 							}
 						}
-						if (v == false ) {
-							list.add(rule);
+						if (v == false) {
 							regras.add(content);
+							list.add(rule);
 							System.out.println(list.size());
-							try {
-
+							try  {
+								FileWriter fw= new FileWriter(rules,true);
+								BufferedWriter bw = new BufferedWriter(fw);
+								System.out.println(rules.length());
 								bw.write(content);
+								bw.newLine();
 								bw.close();
+								
 
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
@@ -369,7 +365,7 @@ public class mainGUI extends Shell {
 
 		});
 
-		btnDefinirRegras.setBounds(475, 139, 228, 30);
+		btnDefinirRegras.setBounds(475, 124, 104, 30);
 		btnDefinirRegras.setText("Definir regra");
 
 		Button alterarregra = new Button(composite, SWT.NONE);
@@ -380,7 +376,7 @@ public class mainGUI extends Shell {
 			}
 		});
 
-		alterarregra.setBounds(475, 175, 228, 30);
+		alterarregra.setBounds(599, 124, 104, 30);
 		alterarregra.setText("Alterar regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
@@ -413,11 +409,47 @@ public class mainGUI extends Shell {
 				
 		}
 	});
+		
+		Button carregarhist = new Button(composite, SWT.NONE);
+		carregarhist.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				regras.removeAll();
+				list.clear();
+				System.out.println(list.size());
+				try {
+					FileReader reader = new FileReader(rules);
+					BufferedReader bufferedReader = new BufferedReader(reader);
+					String line;
+					while ((line = bufferedReader.readLine()) != null) {
+						System.out.println(line);
+						String[] rules= line.split(" ");
+						for(int i=0; i<rules.length;i++) {
+							System.out.println(rules[i]);
+						}
+						Rules x= new Rules(rules[0],rules[2],rules[3],rules[4],rules[6]);
+						list.add(x);
+						regras.add(line);
+					}
+					reader.close();
+
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		carregarhist.setBounds(10, 306, 435, 30);
+		carregarhist.setText("Carregar histórico de regras");
+
 	codesmells.setBounds(475, 306, 228, 30);
 	codesmells.setText("Deteção de codesmells");
 	
 	Label lblRegrasGuardadas = new Label(composite, SWT.NONE);
-	lblRegrasGuardadas.setBounds(10, 114, 155, 20);
+	lblRegrasGuardadas.setBounds(10, 99, 155, 20);
 	lblRegrasGuardadas.setText("Regras guardadas:");
 	
 	lblAvisoFaaUm = new Label(composite, SWT.NONE);
@@ -426,7 +458,7 @@ public class mainGUI extends Shell {
 	lblAvisoFaaUm.setText("Aviso: faça um duplo-clique na regra que pretende utilizar antes de prosseguir para \"Deteção de codesmells\"");
 	
 	lblDefinaUmaRegra = new Label(composite, SWT.NONE);
-	lblDefinaUmaRegra.setText("Defina uma regra para a deteção de codesmells: ");
+	lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
 	lblDefinaUmaRegra.setBounds(10, 21, 397, 20);
 	
 	Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
