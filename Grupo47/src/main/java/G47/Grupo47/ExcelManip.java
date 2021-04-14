@@ -20,10 +20,27 @@ public class ExcelManip {
 	public String toCopy;
 	private File file;
 
+	private static final String HEADER1 = "MethodID";
+	private static final String HEADER2 = "Package";
+	private static final String HEADER3 = "Class";
+	private static final String HEADER4 = "Method";
+	private static final String HEADER5= "NOM_Class";
+	private static final String HEADER6= "LOC_Class";
+	private static final String HEADER7 = "WMC_Class";
+	private static final String HEADER8= "is_God_Class";
+	private static final String HEADER9= "LOC_Method";
+	private static final String HEADER10= "CYCLO_Method";
+	private static final String HEADER11= "Is_Long_Method";
+	private static final ArrayList<String> headers = null;
+
 	public ExcelManip(File file) {
 		this.file = file;
 		this.toCopy = getFilePath();
+		headers.add(HEADER1);headers.add(HEADER2);headers.add(HEADER3);headers.add(HEADER4);headers.add(HEADER5);
+		headers.add(HEADER6);headers.add(HEADER7);headers.add(HEADER8);headers.add(HEADER9);headers.add(HEADER10);
+		headers.add(HEADER11);
 	}
+	
 
 	public String getFileName() {
 		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
@@ -55,25 +72,7 @@ public class ExcelManip {
 	}
 
 	public ArrayList<String> extractHeaders() throws IOException {
-		FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
-		XSSFWorkbook workbook = new XSSFWorkbook(file);
-		XSSFSheet sheet = workbook.getSheetAt(0); 
-		Iterator<Row> it = sheet.iterator();
-
-		ArrayList<String> column = new ArrayList<>();
-		while (it.hasNext()) {
-			Row row = it.next();
-			Iterator<Cell> ci = row.iterator();
-
-			while (ci.hasNext()) {
-				Cell cell = ci.next();
-				if (row.getRowNum() == 0) {
-					column.add(cell.toString());
-				}
-			}
-
-		}
-		return column;
+	return headers;
 	}
 
 	public void createExcel(ArrayList<Metrics> data) throws IOException {
@@ -114,7 +113,35 @@ public class ExcelManip {
 		create.close();
 
 	}
+	}
 
+//	public void readExcel () throws IOException {
+//	FileInputStream file = new FileInputStream(new File("C:\\Code_Smells.xlsx"));
+//	XSSFWorkbook workbook = new XSSFWorkbook(file);
+//	XSSFSheet sheet = workbook.getSheetAt(0);
+//	Iterator<Row> it = sheet.iterator();
+//
+//	//desta forma percorre linha a linha
+//	int i = 0;
+//	int z = 0;
+//	ArrayList column = new ArrayList();
+//	while (it.hasNext()) {
+//		Row row = it.next();
+//		Iterator<Cell> ci = row.iterator();
+//
+//		while (ci.hasNext()) {
+//			Cell cell = ci.next();
+//			if (row.getRowNum() == 0) {
+//				column.add(cell.toString());
+//			}
+//			if (row.getRowNum() == 0) {
+//
+//			}else {
+//				System.out.println("Rownumb -" + cell.getRowIndex() +  "||" + " Column- " + column.get(cell.getColumnIndex()) + "||" +  " Content- " + cell.toString() );
+//			}
+//		}
+//
+//	}
+//
+//}
 
-
-}
