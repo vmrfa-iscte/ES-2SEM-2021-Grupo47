@@ -31,6 +31,7 @@ public class DirExplorer {
         return explore(0, "", file);
         
     }
+    
     private ArrayList<Metrics> explore(int level, String path,File file) throws FileNotFoundException {
         if (file.isDirectory()) {
             for (File child : file.listFiles()) {
