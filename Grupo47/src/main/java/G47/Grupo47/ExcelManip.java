@@ -98,7 +98,7 @@ public class ExcelManip {
 		double i = 1;
 		for (Metrics m: data) {
 			Row a = sheet.createRow((int) i);
-			a.createCell(0).setCellValue(i);
+			a.createCell(0).setCellValue(m.getMethod_ID());
 			a.createCell(1).setCellValue(m.getPacote());
 			a.createCell(2).setCellValue(m.getClasse());
 			a.createCell(3).setCellValue(m.getNome_metodo());

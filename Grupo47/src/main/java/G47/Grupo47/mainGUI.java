@@ -79,7 +79,6 @@ public class mainGUI extends Shell {
 	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");;
 	private FileWriter fw;
 	private BufferedWriter bw;
-
 	private ArrayList<Rules> list = new ArrayList<Rules>();
 	private Rules rule,currentRule;
 	private int i;
