@@ -80,7 +80,7 @@ public class mainGUI extends Shell {
 	private FileWriter fw;
 	private BufferedWriter bw;
 	private ArrayList<Rules> list = new ArrayList<Rules>();
-	private Rules rule,currentRule;
+	private Rules rule, currentRule;
 	private int i;
 	private String[] selected_rule;
 	private ArrayList<Metrics> actualmetrics;
@@ -143,12 +143,12 @@ public class mainGUI extends Shell {
 							NumMethods.setText(statsToWrite.get(1));
 							NumPackages.setText(statsToWrite.get(3));
 							DirExplorer dirEx = new DirExplorer(selectedFile1);
-								try {
-									actualmetrics = dirEx.explore();
-								} catch (FileNotFoundException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
+							try {
+								actualmetrics = dirEx.explore();
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 					}
 
@@ -207,7 +207,7 @@ public class mainGUI extends Shell {
 				DirExplorer dirEx = new DirExplorer(selectedFile1);
 				try {
 					actualmetrics = dirEx.explore();
-					System.out.println("actualmetrics size: "+actualmetrics.size());
+					System.out.println("actualmetrics size: " + actualmetrics.size());
 					ExcelManip em = new ExcelManip(selectedFile1);
 					em.createExcel(actualmetrics);
 					Statistics stats = new Statistics(actualmetrics);
@@ -234,33 +234,32 @@ public class mainGUI extends Shell {
 		metrica1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("SelectionIndex: "+metrica1.getSelectionIndex());
-				if(metrica1.getSelectionIndex() != -1) {
+				System.out.println("SelectionIndex: " + metrica1.getSelectionIndex());
+				if (metrica1.getSelectionIndex() != -1) {
 					System.out.println(metrica1.getItem(metrica1.getSelectionIndex()));
-					if(metrica1.getItem(metrica1.getSelectionIndex()).equals("LOC_method")) {
+					if (metrica1.getItem(metrica1.getSelectionIndex()).equals("LOC_method")) {
 						boolean hasCyclo = false;
-						for(int i = 0; i < metrica2.getItems().length;i++) {
-							if(!metrica2.getItems()[i].equals("CYCLO_method")) {
+						for (int i = 0; i < metrica2.getItems().length; i++) {
+							if (!metrica2.getItems()[i].equals("CYCLO_method")) {
 								metrica2.remove(i);
-							}else {
+							} else {
 								hasCyclo = true;
-							}	
+							}
 						}
-						if(!hasCyclo) {
+						if (!hasCyclo) {
 							metrica2.add("CYCLO_method");
 						}
 
-
-					}else  {
+					} else {
 						boolean hasNOM = false;
-						for(int i = 0; i < metrica2.getItems().length;i++) {
-							if(!metrica2.getItems()[i].equals("NOM_class")) {
+						for (int i = 0; i < metrica2.getItems().length; i++) {
+							if (!metrica2.getItems()[i].equals("NOM_class")) {
 								metrica2.remove(i);
-							}else {
+							} else {
 								hasNOM = true;
 							}
 						}
-						if(!hasNOM) {
+						if (!hasNOM) {
 							metrica2.add("NOM_class");
 						}
 					}
@@ -282,7 +281,6 @@ public class mainGUI extends Shell {
 		metrica2.setBounds(410, 65, 180, 28);
 		metrica2.setText("");
 
-
 		limite_1 = new Text(composite, SWT.BORDER);
 		limite_1.setBounds(207, 65, 84, 30);
 		limite_1.setText("Limite");
@@ -290,33 +288,33 @@ public class mainGUI extends Shell {
 		limite_2 = new Text(composite, SWT.BORDER);
 		limite_2.setBounds(612, 65, 91, 28);
 		limite_2.setText("Limite");
-		
-				List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-				regras.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						i = regras.getSelectionIndex();
-						currentRule = list.get(i);
-						metrica1.setText(currentRule.getMethod1());
-						limite_1.setText(currentRule.getLimit1());
-						metrica2.setText(currentRule.getMethod2());
-						limite_2.setText(currentRule.getLimit2());
-						operador.setText(currentRule.getOperator());
-					}
-				});
-				regras.setLocation(10, 125);
-				regras.setSize(431, 174);
+
+		List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		regras.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				i = regras.getSelectionIndex();
+				currentRule = list.get(i);
+				metrica1.setText(currentRule.getMethod1());
+				limite_1.setText(currentRule.getLimit1());
+				metrica2.setText(currentRule.getMethod2());
+				limite_2.setText(currentRule.getLimit2());
+				operador.setText(currentRule.getOperator());
+			}
+		});
+		regras.setLocation(10, 125);
+		regras.setSize(431, 174);
 
 		btnDefinirRegras = new Button(composite, SWT.NONE);
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean v = false;
-				boolean combin = false;
 				System.out.println("username: " + username);
 				if (!rules.exists()) {
 					try {
-						System.out.println("rita");
+						System.out.println("A criar ficheiro");
+
 						rules.createNewFile();
 
 					} catch (IOException e1) {
@@ -325,49 +323,37 @@ public class mainGUI extends Shell {
 				}
 				if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
 						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
-					if (metrica1.getText().contentEquals("LOC_method")
-							&& !metrica2.getText().contentEquals("CYCLO_method")) {
-						JOptionPane.showMessageDialog(null, "Combinação inválida");
-						combin = true;
-					}
-					if (metrica1.getText().contentEquals("WMC_class")
-							&& !metrica2.getText().contentEquals("NOM_class")) {
-						JOptionPane.showMessageDialog(null, "Combinação inválida");
-						combin = true;
-					}
-					if (combin == false) {
-						rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
-								limite_2.getText());
-						String content = rule.toString();
-						System.out.println(content);
-						for (int i = 0; i < list.size(); i++) {
-							if (list.get(i).toString().contentEquals(rule.toString())) {
-								JOptionPane.showMessageDialog(null, "Regra já imposta");
-								v = true;
-								break;
 
-							}
+					rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
+							limite_2.getText());
+					String content = rule.toString();
+					System.out.println(content);
+					for (int i = 0; i < list.size(); i++) {
+						if (list.get(i).toString().contentEquals(rule.toString())) {
+							JOptionPane.showMessageDialog(null, "Regra já imposta");
+							v = true;
+							break;
+
 						}
-						if (v == false) {
-							regras.add(content);
-							list.add(rule);
-							System.out.println(list.size());
-							try  {
-								FileWriter fw= new FileWriter(rules,true);
-								BufferedWriter bw = new BufferedWriter(fw);
-								System.out.println(rules.length());
-								bw.write(content);
-								bw.newLine();
-								bw.close();
-								
-
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-
 					}
+					if (v == false) {
+						regras.add(content);
+						list.add(rule);
+						System.out.println(list.size());
+						try {
+							FileWriter fw = new FileWriter(rules, true);
+							BufferedWriter bw = new BufferedWriter(fw);
+							System.out.println(rules.length());
+							bw.write(content);
+							bw.newLine();
+							bw.close();
+
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 				}
@@ -383,9 +369,40 @@ public class mainGUI extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println(list.get(i).toString());
+				list.get(i).setLimit1(limite_1.getText());
+				list.get(i).setLimit2(limite_2.getText());
+				list.get(i).setMethod1(metrica1.getText());
+				list.get(i).setMethod2(metrica2.getText());
+				list.get(i).setOperator(operador.getText());
+				System.out.println(list.get(i).toString());
+				System.out.println(regras.getItem(i));
+				String update = list.get(i).toString();
+				for (int x = 0; x < list.size(); x++) {
+					if (x == i) {
+						regras.remove(x);
+						regras.add(update, x);
+						FileWriter fw;
+						try {
+							fw = new FileWriter(rules, true);
+							BufferedWriter bw = new BufferedWriter(fw);
+							System.out.println(rules.length());
+							bw.write(update);
+							bw.newLine();
+							bw.close();
+
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					}
+				}
+				System.out.println(regras.getItem(i));
 
 			}
 		});
+		;
 
 		alterarregra.setBounds(599, 124, 104, 30);
 		alterarregra.setText("Alterar regras");
@@ -393,50 +410,50 @@ public class mainGUI extends Shell {
 		Button codesmells = new Button(composite, SWT.NONE);
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {																
+			public void widgetSelected(SelectionEvent e) {
 				String method1 = currentRule.getMethod1();
 				int limit1 = Integer.parseInt(currentRule.getLimit1());
 				String operator = currentRule.getOperator();
 				int limit2 = Integer.parseInt(currentRule.getLimit2());
-				System.out.println("actualmetrics size 2: "+actualmetrics.size());
+				System.out.println("actualmetrics size 2: " + actualmetrics.size());
 				ExcelManip a = new ExcelManip(selectedFile1);
-				CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,operator,actualmetrics);
-			if (method1.equals("LOC_method")) {
-				ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
+				CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+				if (method1.equals("LOC_method")) {
+					ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
 
-				try {
-					a.fillWithCodeSmellResults(hcsList, true);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					try {
+						a.fillWithCodeSmellResults(hcsList, true);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					SecondaryGUI codesmells = new SecondaryGUI(display, "Avaliar code smell 'isLong Method'");
+					for (HasCodeSmell hascodesmell : hcsList) {
+						System.out.println("ID: " + hascodesmell.getMethod_ID());
+						codesmells.addCodeSmellsInfo(hascodesmell);
+					}
+					codesmells.loadGUI();
 				}
-				SecondaryGUI codesmells = new SecondaryGUI(display,"Avaliar code smell 'isLong Method'");				
-				for(HasCodeSmell hascodesmell: hcsList) {
-					System.out.println("ID: "+ hascodesmell.getMethod_ID());
-					codesmells.addCodeSmellsInfo(hascodesmell);
+				if (method1.equals("WMC_class")) {
+					ArrayList<HasCodeSmell> hcslist2 = detector.detectGodClass();
+					System.out.println("hcslist2 size: " + hcslist2.size());
+					try {
+						a.fillWithCodeSmellResults(hcslist2, false);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					SecondaryGUI codesmells2 = new SecondaryGUI(display, "Avaliar code smell 'isGod Class'");
+					for (HasCodeSmell hascodesmell : hcslist2) {
+						codesmells2.addCodeSmellsInfo(hascodesmell);
+					}
+					codesmells2.loadGUI();
+
 				}
-				codesmells.loadGUI();
+
 			}
-			if (method1.equals("WMC_class")) {
-				ArrayList<HasCodeSmell> hcslist2 = detector.detectGodClass();
-				System.out.println("hcslist2 size: "+hcslist2.size());
-				try {
-					a.fillWithCodeSmellResults(hcslist2, false);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				SecondaryGUI codesmells2 = new SecondaryGUI(display,"Avaliar code smell 'isGod Class'");
-				for(HasCodeSmell hascodesmell: hcslist2) {
-					codesmells2.addCodeSmellsInfo(hascodesmell);
-				}
-				codesmells2.loadGUI();
-				
-			}
-				
-		}
-	});
-		
+		});
+
 		Button carregarhist = new Button(composite, SWT.NONE);
 		carregarhist.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -450,11 +467,11 @@ public class mainGUI extends Shell {
 					String line;
 					while ((line = bufferedReader.readLine()) != null) {
 						System.out.println(line);
-						String[] rules= line.split(" ");
-						for(int i=0; i<rules.length;i++) {
+						String[] rules = line.split(" ");
+						for (int i = 0; i < rules.length; i++) {
 							System.out.println(rules[i]);
 						}
-						Rules x= new Rules(rules[0],rules[2],rules[3],rules[4],rules[6]);
+						Rules x = new Rules(rules[0], rules[2], rules[3], rules[4], rules[6]);
 						list.add(x);
 						regras.add(line);
 					}
@@ -472,50 +489,48 @@ public class mainGUI extends Shell {
 		carregarhist.setBounds(10, 306, 435, 30);
 		carregarhist.setText("Carregar histórico de regras");
 
-	codesmells.setBounds(475, 306, 228, 30);
-	codesmells.setText("Deteção de codesmells");
-	
-	Label lblRegrasGuardadas = new Label(composite, SWT.NONE);
-	lblRegrasGuardadas.setBounds(10, 99, 155, 20);
-	lblRegrasGuardadas.setText("Regras guardadas:");
-	
-	lblDefinaUmaRegra = new Label(composite, SWT.NONE);
-	lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
-	lblDefinaUmaRegra.setBounds(10, 21, 397, 20);
-	
+		codesmells.setBounds(475, 306, 228, 30);
+		codesmells.setText("Deteção de codesmells");
 
-	
-	Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
-	lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
-	lblProjetoJavaescolha.setBounds(10, 9, 528, 20);
-	lblProjetoJavaescolha.setText("Escolha o projeto java que pretende analisar:");
-	
-	Menu menu = new Menu(this, SWT.BAR);
-	setMenuBar(menu);
-	
-	MenuItem mntmAjuda = new MenuItem(menu, SWT.CASCADE);
-	mntmAjuda.setText("Ajuda");
-	
-	Menu menu_1 = new Menu(mntmAjuda);
-	mntmAjuda.setMenu(menu_1);
-	
-	MenuItem mntmUtilizaoDaInterface = new MenuItem(menu_1, SWT.NONE);
-	mntmUtilizaoDaInterface.addSelectionListener(new SelectionAdapter() {
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			
-		}
-	});
-	mntmUtilizaoDaInterface.setText("Utilização da interface");
-	
-	MenuItem mntmInformaoSobreMtricas = new MenuItem(menu_1, SWT.NONE);
-	mntmInformaoSobreMtricas.addSelectionListener(new SelectionAdapter() {
-		@Override
-		public void widgetSelected(SelectionEvent e) {
-			
-		}
-	});
-	mntmInformaoSobreMtricas.setText("Informação sobre métricas");
+		Label lblRegrasGuardadas = new Label(composite, SWT.NONE);
+		lblRegrasGuardadas.setBounds(10, 99, 155, 20);
+		lblRegrasGuardadas.setText("Regras guardadas:");
+
+		lblDefinaUmaRegra = new Label(composite, SWT.NONE);
+		lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
+		lblDefinaUmaRegra.setBounds(10, 21, 397, 20);
+
+		Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
+		lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
+		lblProjetoJavaescolha.setBounds(10, 9, 528, 20);
+		lblProjetoJavaescolha.setText("Escolha o projeto java que pretende analisar:");
+
+		Menu menu = new Menu(this, SWT.BAR);
+		setMenuBar(menu);
+
+		MenuItem mntmAjuda = new MenuItem(menu, SWT.CASCADE);
+		mntmAjuda.setText("Ajuda");
+
+		Menu menu_1 = new Menu(mntmAjuda);
+		mntmAjuda.setMenu(menu_1);
+
+		MenuItem mntmUtilizaoDaInterface = new MenuItem(menu_1, SWT.NONE);
+		mntmUtilizaoDaInterface.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+			}
+		});
+		mntmUtilizaoDaInterface.setText("Utilização da interface");
+
+		MenuItem mntmInformaoSobreMtricas = new MenuItem(menu_1, SWT.NONE);
+		mntmInformaoSobreMtricas.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+			}
+		});
+		mntmInformaoSobreMtricas.setText("Informação sobre métricas");
 
 		createContents();
 	}
