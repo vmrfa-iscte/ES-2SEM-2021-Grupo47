@@ -76,7 +76,7 @@ public class mainGUI extends Shell {
 	private Text NumLines;
 	private HashMap<String, ArrayList<String>> mapStats = new HashMap<>();
 	private String username = System.getProperty("user.name");
-	private File rules = new File("C:\\Users\\" + username + "\\Documents\\", "rules.txt");;
+	private File rules;
 	private FileWriter fw;
 	private BufferedWriter bw;
 	private ArrayList<Rules> list = new ArrayList<Rules>();
@@ -86,6 +86,7 @@ public class mainGUI extends Shell {
 	private ArrayList<Metrics> actualmetrics;
 	private Label lblDefinaUmaRegra;
 	private Combo metrica2;
+	private Text text;
 
 	/**
 	 * Launch the application.
@@ -160,7 +161,7 @@ public class mainGUI extends Shell {
 		ficheirosexcel.setBounds(10, 77, 345, 164);
 
 		composite = new Composite(this, SWT.NONE);
-		composite.setBounds(10, 247, 713, 358);
+		composite.setBounds(10, 269, 728, 385);
 
 		txtNmeroDeMtodos = new Text(this, SWT.BORDER);
 		txtNmeroDeMtodos.setEditable(false);
@@ -266,27 +267,27 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		metrica1.setBounds(10, 65, 181, 28);
+		metrica1.setBounds(10, 91, 181, 28);
 		metrica1.setText("");
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
 
 		Combo operador = new Combo(composite, SWT.NONE);
-		operador.setBounds(304, 65, 84, 28);
+		operador.setBounds(304, 91, 84, 28);
 		operador.setText("");
 		operador.add("OR");
 		operador.add("AND");
 
 		metrica2 = new Combo(composite, SWT.NONE);
-		metrica2.setBounds(410, 65, 180, 28);
+		metrica2.setBounds(411, 91, 180, 28);
 		metrica2.setText("");
 
 		limite_1 = new Text(composite, SWT.BORDER);
-		limite_1.setBounds(207, 65, 84, 30);
+		limite_1.setBounds(203, 91, 84, 30);
 		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
-		limite_2.setBounds(612, 65, 91, 28);
+		limite_2.setBounds(612, 91, 106, 28);
 		limite_2.setText("Limite");
 
 		List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -302,19 +303,19 @@ public class mainGUI extends Shell {
 				operador.setText(currentRule.getOperator());
 			}
 		});
-		regras.setLocation(10, 125);
-		regras.setSize(431, 174);
+		regras.setLocation(10, 151);
+		regras.setSize(431, 188);
 
 		btnDefinirRegras = new Button(composite, SWT.NONE);
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean v = false;
-				System.out.println("username: " + username);
 				if (!rules.exists()) {
-					try {
-						System.out.println("A criar ficheiro");
 
+					try {
+
+						System.out.println("A criar ficheiro");
 						rules.createNewFile();
 
 					} catch (IOException e1) {
@@ -357,12 +358,11 @@ public class mainGUI extends Shell {
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 				}
-
 			}
 
 		});
 
-		btnDefinirRegras.setBounds(475, 124, 104, 30);
+		btnDefinirRegras.setBounds(475, 150, 104, 30);
 		btnDefinirRegras.setText("Definir regra");
 
 		Button alterarregra = new Button(composite, SWT.NONE);
@@ -404,7 +404,7 @@ public class mainGUI extends Shell {
 		});
 		;
 
-		alterarregra.setBounds(599, 124, 104, 30);
+		alterarregra.setBounds(599, 150, 119, 30);
 		alterarregra.setText("Alterar regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
@@ -486,19 +486,42 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		carregarhist.setBounds(10, 306, 435, 30);
+		carregarhist.setBounds(6, 345, 435, 30);
 		carregarhist.setText("Carregar histórico de regras");
 
-		codesmells.setBounds(475, 306, 228, 30);
+		codesmells.setBounds(475, 345, 243, 30);
 		codesmells.setText("Deteção de codesmells");
 
 		Label lblRegrasGuardadas = new Label(composite, SWT.NONE);
-		lblRegrasGuardadas.setBounds(10, 99, 155, 20);
+		lblRegrasGuardadas.setBounds(10, 125, 155, 20);
 		lblRegrasGuardadas.setText("Regras guardadas:");
 
 		lblDefinaUmaRegra = new Label(composite, SWT.NONE);
 		lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
-		lblDefinaUmaRegra.setBounds(10, 21, 397, 20);
+		lblDefinaUmaRegra.setBounds(10, 65, 397, 20);
+
+		text = new Text(composite, SWT.BORDER);
+		text.setBounds(10, 10, 402, 26);
+
+		Button pastaregras = new Button(composite, SWT.NONE);
+		pastaregras.setBounds(418, 10, 300, 30);
+		pastaregras.setText("Definir pasta destino do histórico de regras");
+
+		pastaregras.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JFileChooser path = new JFileChooser(".");
+				path.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int returnValue = path.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+					selectedFile1 = path.getSelectedFile();
+					nomepath = selectedFile1.getAbsolutePath();
+				}
+				text.setText(selectedFile1.getPath());
+				rules = new File(text.getText() + "\\", "rules.txt");
+			}
+		});
 
 		Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
 		lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
@@ -540,7 +563,7 @@ public class mainGUI extends Shell {
 	 */
 	protected void createContents() {
 		setText("Interface gráfica- Grupo 47");
-		setSize(751, 692);
+		setSize(766, 736);
 
 	}
 
