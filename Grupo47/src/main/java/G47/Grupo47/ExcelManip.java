@@ -118,18 +118,11 @@ public class ExcelManip {
 
 	public void fillWithCodeSmellResults(ArrayList<HasCodeSmell> result, boolean isLongMethod) throws IOException {
 		ArrayList<HasCodeSmell> aux = new ArrayList<HasCodeSmell>();
-		int gh = 0;
 		for (HasCodeSmell code : result) {
 			if (code.getName().contains("(")) {
-				System.out.println("Li do aux "+ code.getName());
 				aux.add(code);
-				gh++;
-			}
-			 
-				
-		}
-		System.out.println("Adicionei ao aux " + gh );
-		
+			}		
+		}		
 		FileInputStream file = new FileInputStream(new File(this.getFilePath()));
 		XSSFWorkbook workbook = new XSSFWorkbook(file);
 		XSSFSheet sheet = workbook.getSheetAt(0);
