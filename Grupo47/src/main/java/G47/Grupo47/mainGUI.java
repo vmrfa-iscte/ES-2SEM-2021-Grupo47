@@ -302,7 +302,7 @@ public class mainGUI extends Shell {
 				System.out.println("username: " + username);
 				if (!rules.exists()) {
 					try {
-						System.out.println("rita");
+						System.out.println("A criar ficheiro");
 						rules.createNewFile();
 
 					} catch (IOException e1) {
