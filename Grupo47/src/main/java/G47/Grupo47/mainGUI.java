@@ -101,6 +101,8 @@ public class mainGUI extends Shell {
 	 */
 	public mainGUI(Display display) {
 		super(display, SWT.SHELL_TRIM);
+		setMinimumSize(new Point(170, 47));
+		setImage(SWTResourceManager.getImage(mainGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
 
 		setLayout(null);
 
@@ -141,6 +143,13 @@ public class mainGUI extends Shell {
 							NumClasses.setText(statsToWrite.get(2));
 							NumMethods.setText(statsToWrite.get(1));
 							NumPackages.setText(statsToWrite.get(3));
+							DirExplorer dirEx = new DirExplorer(selectedFile1);
+								try {
+									actualmetrics = dirEx.explore();
+								} catch (FileNotFoundException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 						}
 					}
 
@@ -468,6 +477,33 @@ public class mainGUI extends Shell {
 	lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
 	lblProjetoJavaescolha.setBounds(10, 9, 528, 20);
 	lblProjetoJavaescolha.setText("Escolha o projeto java que pretende analisar:");
+	
+	Menu menu = new Menu(this, SWT.BAR);
+	setMenuBar(menu);
+	
+	MenuItem mntmAjuda = new MenuItem(menu, SWT.CASCADE);
+	mntmAjuda.setText("Ajuda");
+	
+	Menu menu_1 = new Menu(mntmAjuda);
+	mntmAjuda.setMenu(menu_1);
+	
+	MenuItem mntmUtilizaoDaInterface = new MenuItem(menu_1, SWT.NONE);
+	mntmUtilizaoDaInterface.addSelectionListener(new SelectionAdapter() {
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			
+		}
+	});
+	mntmUtilizaoDaInterface.setText("Utilização da interface");
+	
+	MenuItem mntmInformaoSobreMtricas = new MenuItem(menu_1, SWT.NONE);
+	mntmInformaoSobreMtricas.addSelectionListener(new SelectionAdapter() {
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			
+		}
+	});
+	mntmInformaoSobreMtricas.setText("Informação sobre métricas");
 
 		createContents();
 	}
@@ -476,8 +512,8 @@ public class mainGUI extends Shell {
 	 * Create contents of the shell.
 	 */
 	protected void createContents() {
-		setText("Interface gráfica- grupo 47");
-		setSize(751, 652);
+		setText("Interface gráfica- Grupo 47");
+		setSize(751, 692);
 
 	}
 
