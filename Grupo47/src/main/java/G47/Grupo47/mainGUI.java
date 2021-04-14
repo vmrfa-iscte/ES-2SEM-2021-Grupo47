@@ -403,7 +403,7 @@ public class mainGUI extends Shell {
 				CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,operator,actualmetrics);
 			if (method1.equals("LOC_method")) {
 				ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
-				System.out.println("hcslist size: "+hcsList.size());
+				System.out.println("hcslist size AQUIIIIIIIIII: "+hcsList.size());
 				try {
 					a.fillWithCodeSmellResults(hcsList, true);
 				} catch (IOException e1) {

@@ -117,6 +117,14 @@ public class ExcelManip {
 	}
 
 	public void fillWithCodeSmellResults(ArrayList<HasCodeSmell> result, boolean isLongMethod) throws IOException {
+		ArrayList<HasCodeSmell> aux = new ArrayList<HasCodeSmell>();
+		for (HasCodeSmell code : result) {
+			if (!code.getMethod_ID().equals(null)) {
+				aux.add(code);
+			}
+				
+		}
+		
 		FileInputStream file = new FileInputStream(new File(this.getFilePath()));
 		XSSFWorkbook workbook = new XSSFWorkbook(file);
 		XSSFSheet sheet = workbook.getSheetAt(0);
@@ -125,11 +133,11 @@ public class ExcelManip {
 		while (it.hasNext()) {
 			Row row = it.next();
 			if ( isLongMethod == true && row.getRowNum() != 0) {
-				row.createCell(10).setCellValue(result.get(i).getHasCodeSmell());
+				row.createCell(10).setCellValue(aux.get(i).getHasCodeSmell());
 				i++;
 			}
 			if ( isLongMethod == false && row.getRowNum() != 0) {
-				row.createCell(7).setCellValue(result.get(i).getHasCodeSmell());
+				row.createCell(7).setCellValue(aux.get(i).getHasCodeSmell());
 				i++;
 			}
 		}

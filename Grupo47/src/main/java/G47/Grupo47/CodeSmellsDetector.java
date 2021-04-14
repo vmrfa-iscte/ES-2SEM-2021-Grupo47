@@ -27,10 +27,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
@@ -54,10 +54,10 @@ public class CodeSmellsDetector {
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
@@ -74,10 +74,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
@@ -101,10 +101,10 @@ public class CodeSmellsDetector {
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
@@ -128,10 +128,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
@@ -157,10 +157,10 @@ public class CodeSmellsDetector {
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
@@ -178,10 +178,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
@@ -205,10 +205,10 @@ public class CodeSmellsDetector {
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro","");
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso","");
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
 						view.add(negativeClass);
 						
 					}
