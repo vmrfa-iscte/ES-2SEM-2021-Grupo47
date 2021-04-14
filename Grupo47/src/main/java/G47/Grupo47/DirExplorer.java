@@ -24,13 +24,14 @@ public class DirExplorer {
     public DirExplorer(File file) {
         this.file = file;
         this.metrics = new ArrayList<>();
-        this.method_id = 0;
+        this.method_id = 1;
     }
            
     public ArrayList<Metrics> explore() throws FileNotFoundException {
         return explore(0, "", file);
         
     }
+    
     private ArrayList<Metrics> explore(int level, String path,File file) throws FileNotFoundException {
         if (file.isDirectory()) {
             for (File child : file.listFiles()) {
