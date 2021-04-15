@@ -550,6 +550,8 @@ public class mainGUI extends Shell {
 		mntmInformaoSobreMtricas.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				HelpGUIMetrics hgm = new HelpGUIMetrics(display);
+				hgm.loadGUI();
 
 			}
 		});
