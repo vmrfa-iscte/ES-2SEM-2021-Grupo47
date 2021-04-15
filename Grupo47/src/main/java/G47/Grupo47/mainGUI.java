@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -39,6 +40,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -63,6 +67,7 @@ public class mainGUI extends Shell {
 	private Text limite_1;
 	private Text limite_2;
 	private Text codesmells;
+	private String diretoria = new String();
 	String nomepath = new String();
 	File selectedFile1 = null;
 	String nameFile = "";
@@ -86,7 +91,9 @@ public class mainGUI extends Shell {
 	private ArrayList<Metrics> actualmetrics;
 	private Label lblDefinaUmaRegra;
 	private Combo metrica2;
-	private Text text;
+	private Combo text;
+	private Label validation;
+	private Label validation1;
 
 	/**
 	 * Launch the application.
@@ -267,27 +274,50 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		metrica1.setBounds(10, 91, 181, 28);
+		metrica1.setBounds(10, 83, 181, 28);
 		metrica1.setText("");
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
 
 		Combo operador = new Combo(composite, SWT.NONE);
-		operador.setBounds(304, 91, 84, 28);
+		operador.setBounds(298, 83, 84, 28);
 		operador.setText("");
 		operador.add("OR");
 		operador.add("AND");
 
 		metrica2 = new Combo(composite, SWT.NONE);
-		metrica2.setBounds(411, 91, 180, 28);
+		metrica2.setBounds(409, 83, 180, 28);
 		metrica2.setText("");
 
 		limite_1 = new Text(composite, SWT.BORDER);
-		limite_1.setBounds(203, 91, 84, 30);
+		limite_1.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				try {
+					int number = Integer.parseInt(limite_1.getText());
+					validation.setText("");
+				} catch (NumberFormatException e1) {
+					validation.setText("Inválido");
+				}
+			}
+
+		});
+
+		limite_1.setBounds(197, 83, 84, 30);
 		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
-		limite_2.setBounds(612, 91, 106, 28);
+		limite_2.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				try {
+					int number = Integer.parseInt(limite_2.getText());
+					validation1.setText("");
+				} catch (NumberFormatException e1) {
+					validation1.setText("Inválido");
+				}
+			}
+
+		});
+		limite_2.setBounds(612, 83, 106, 28);
 		limite_2.setText("Limite");
 
 		List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -311,55 +341,49 @@ public class mainGUI extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean v = false;
-				if (!rules.exists()) {
+				if (!text.getText().isEmpty()) {
+					if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
+							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
+							&& validation.getText().isEmpty() && validation1.getText().isEmpty()) {
 
-					try {
+						rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
+								limite_2.getText());
+						String content = rule.toString();
+						System.out.println(content);
+						for (int i = 0; i < list.size(); i++) {
+							if (list.get(i).toString().contentEquals(rule.toString())) {
+								JOptionPane.showMessageDialog(null, "Regra já imposta.");
+								v = true;
+								break;
 
-						System.out.println("A criar ficheiro");
-						rules.createNewFile();
-
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-				if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
-						&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
-
-					rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
-							limite_2.getText());
-					String content = rule.toString();
-					System.out.println(content);
-					for (int i = 0; i < list.size(); i++) {
-						if (list.get(i).toString().contentEquals(rule.toString())) {
-							JOptionPane.showMessageDialog(null, "Regra já imposta");
-							v = true;
-							break;
-
+							}
 						}
-					}
-					if (v == false) {
-						regras.add(content);
-						list.add(rule);
-						System.out.println(list.size());
-						try {
-							FileWriter fw = new FileWriter(rules, true);
-							BufferedWriter bw = new BufferedWriter(fw);
-							System.out.println(rules.length());
-							bw.write(content);
-							bw.newLine();
-							bw.close();
+						if (v == false) {
+							regras.add(content);
+							list.add(rule);
+							System.out.println(list.size());
+							try {
+								FileWriter fw = new FileWriter(rules, true);
+								BufferedWriter bw = new BufferedWriter(fw);
+								System.out.println(rules.length());
+								bw.write(content);
+								bw.newLine();
+								bw.close();
 
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
-					}
 
+					} else {
+						JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos.");
+					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
+					JOptionPane.showMessageDialog(null, "Selecione a pasta destino para o histórico.");
 				}
-			}
 
+			}
 		});
 
 		btnDefinirRegras.setBounds(475, 150, 104, 30);
@@ -369,36 +393,39 @@ public class mainGUI extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println(list.get(i).toString());
-				list.get(i).setLimit1(limite_1.getText());
-				list.get(i).setLimit2(limite_2.getText());
-				list.get(i).setMethod1(metrica1.getText());
-				list.get(i).setMethod2(metrica2.getText());
-				list.get(i).setOperator(operador.getText());
-				System.out.println(list.get(i).toString());
-				System.out.println(regras.getItem(i));
-				String update = list.get(i).toString();
-				for (int x = 0; x < list.size(); x++) {
-					if (x == i) {
-						regras.remove(x);
-						regras.add(update, x);
-						FileWriter fw;
-						try {
-							fw = new FileWriter(rules, true);
-							BufferedWriter bw = new BufferedWriter(fw);
-							System.out.println(rules.length());
-							bw.write(update);
-							bw.newLine();
-							bw.close();
+				if (regras.isSelected(i)) {
+					System.out.println(list.get(i).toString());
+					list.get(i).setLimit1(limite_1.getText());
+					list.get(i).setLimit2(limite_2.getText());
+					list.get(i).setMethod1(metrica1.getText());
+					list.get(i).setMethod2(metrica2.getText());
+					list.get(i).setOperator(operador.getText());
+					System.out.println(list.get(i).toString());
+					System.out.println(regras.getItem(i));
+					String update = list.get(i).toString();
+					for (int x = 0; x < list.size(); x++) {
+						if (x == i) {
+							regras.remove(x);
+							regras.add(update, x);
+							FileWriter fw;
+							try {
+								fw = new FileWriter(rules, true);
+								BufferedWriter bw = new BufferedWriter(fw);
+								System.out.println(rules.length());
+								bw.write(update);
+								bw.newLine();
+								bw.close();
 
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
 						}
-
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
 				}
-				System.out.println(regras.getItem(i));
 
 			}
 		});
@@ -461,28 +488,32 @@ public class mainGUI extends Shell {
 				regras.removeAll();
 				list.clear();
 				System.out.println(list.size());
-				try {
-					FileReader reader = new FileReader(rules);
-					BufferedReader bufferedReader = new BufferedReader(reader);
-					String line;
-					while ((line = bufferedReader.readLine()) != null) {
-						System.out.println(line);
-						String[] rules = line.split(" ");
-						for (int i = 0; i < rules.length; i++) {
-							System.out.println(rules[i]);
+				if (!text.getText().isEmpty()) {
+					try {
+						FileReader reader = new FileReader(rules);
+						BufferedReader bufferedReader = new BufferedReader(reader);
+						String line;
+						while ((line = bufferedReader.readLine()) != null) {
+							System.out.println(line);
+							String[] rules = line.split(" ");
+							for (int i = 0; i < rules.length; i++) {
+								System.out.println(rules[i]);
+							}
+							Rules x = new Rules(rules[0], rules[2], rules[3], rules[4], rules[6]);
+							list.add(x);
+							regras.add(line);
 						}
-						Rules x = new Rules(rules[0], rules[2], rules[3], rules[4], rules[6]);
-						list.add(x);
-						regras.add(line);
-					}
-					reader.close();
+						reader.close();
 
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione a pasta onde se encontra o histórico");
 				}
 			}
 		});
@@ -498,14 +529,9 @@ public class mainGUI extends Shell {
 
 		lblDefinaUmaRegra = new Label(composite, SWT.NONE);
 		lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
-		lblDefinaUmaRegra.setBounds(10, 65, 397, 20);
-
-		text = new Text(composite, SWT.BORDER);
-		text.setBounds(10, 10, 402, 26);
+		lblDefinaUmaRegra.setBounds(10, 57, 397, 20);
 
 		Button pastaregras = new Button(composite, SWT.NONE);
-		pastaregras.setBounds(418, 10, 300, 30);
-		pastaregras.setText("Definir pasta destino do histórico de regras");
 
 		pastaregras.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -517,11 +543,31 @@ public class mainGUI extends Shell {
 
 					selectedFile1 = path.getSelectedFile();
 					nomepath = selectedFile1.getAbsolutePath();
+					diretoria = selectedFile1.getPath();
+					text.add(diretoria);
 				}
+
 				text.setText(selectedFile1.getPath());
 				rules = new File(text.getText() + "\\", "rules.txt");
 			}
 		});
+		pastaregras.setBounds(418, 10, 300, 30);
+		pastaregras.setText("Definir pasta destino do histórico de regras");
+
+		text = new Combo(composite, SWT.NONE);
+		text.setBounds(10, 12, 385, 28);
+
+		validation = new Label(composite, SWT.NONE);
+		validation.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		validation.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
+		validation.setBounds(197, 117, 84, 20);
+		validation.setText("");
+
+		validation1 = new Label(composite, SWT.NONE);
+		validation1.setText("");
+		validation1.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		validation1.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
+		validation1.setBounds(612, 117, 84, 20);
 
 		Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
 		lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));

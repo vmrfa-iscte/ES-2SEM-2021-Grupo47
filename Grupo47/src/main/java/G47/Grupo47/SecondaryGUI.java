@@ -1,6 +1,9 @@
 package G47.Grupo47;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -22,6 +25,7 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.widgets.Text;
 
 public class SecondaryGUI extends Shell {
 	
@@ -31,6 +35,8 @@ public class SecondaryGUI extends Shell {
 	private Display display;
 	private String name;
 	private TableColumn tblclmnMethodId;
+	private Text text;
+	private File selectedFile;
 
 	/**
 	 * Launch the application.
@@ -46,8 +52,6 @@ public class SecondaryGUI extends Shell {
 		super(display, SWT.SHELL_TRIM);
 		this.name = name;
 		this.display = display;
-		Combo regras = new Combo(this, SWT.NONE);
-		regras.setBounds(10, 377, 425, 28);
 			
 		Button btnNewButton = new Button(this, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
@@ -56,7 +60,7 @@ public class SecondaryGUI extends Shell {
 			
 			}
 		});
-		btnNewButton.setBounds(484, 375, 180, 30);
+		btnNewButton.setBounds(10, 376, 180, 30);
 		btnNewButton.setText("Avaliar codesmell");
 		
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
@@ -84,6 +88,27 @@ public class SecondaryGUI extends Shell {
 		scrolledComposite.setBounds(545, 10, 229, 340);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
+		
+		text = new Text(this, SWT.BORDER);
+		text.setBounds(316, 378, 275, 26);
+		
+		Button excell = new Button(this, SWT.NONE);
+		excell.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JFileChooser pathpasta = new JFileChooser(".");
+				pathpasta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int returnValue = pathpasta.showOpenDialog(null);
+				
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+					selectedFile = pathpasta.getSelectedFile();
+				}
+				text.setText(selectedFile.getPath());
+			}
+		});
+		excell.setBounds(608, 376, 166, 30);
+		excell.setText("Selecionar ficheiro");
 
 		createContents(name);
 	}
