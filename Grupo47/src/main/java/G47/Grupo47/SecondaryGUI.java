@@ -38,6 +38,7 @@ public class SecondaryGUI extends Shell {
 	private TableColumn tblclmnMethodId;
 	private Text text;
 	private File selectedFile;
+	private ArrayList<HasCodeSmell> result;
 
 	/**
 	 * Launch the application
@@ -53,7 +54,8 @@ public class SecondaryGUI extends Shell {
 		super(display, SWT.SHELL_TRIM);
 		this.name = name;
 		this.display = display;
-
+		this.result = result;
+		
 		Button btnNewButton = new Button(this, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -163,7 +165,19 @@ public class SecondaryGUI extends Shell {
 
 	}
 	
-	public void results(ArrayList<HasCodeSmell> generated, ArrayList<HasCodeSmell> actual) {
+	public void results(ArrayList<HasCodeSmell> trueResults) {
+		for (HasCodeSmell indicator : trueResults) {
+			for (HasCodeSmell calculated : result) {
+				if (indicator.getMethodName().equals(calculated.getMethodName()) && indicator.getClassName().equals(calculated.getClassName()) && indicator.getPackageName().equals(calculated.getPackageName())) {
+					if (!indicator.getHasCodeSmell().equals(calculated.getHasCodeSmell())) {
+						calculated.setQuality("Negativo");
+					}
+					else {
+						calculated.setQuality("Positivo");
+					}
+				}
+			}
+		}
 		
 		
 	}
