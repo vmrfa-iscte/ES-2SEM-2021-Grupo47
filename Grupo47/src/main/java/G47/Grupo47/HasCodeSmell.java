@@ -26,5 +26,13 @@ public class HasCodeSmell {
 	public String getHasCodeSmell() {
 		return hasCodeSmell;
 	}
+	
+	public String getClassName() {
+		return hasCodeSmell;
+	}
+	
+	public String getPackageName() {
+		return hasCodeSmell;
+	}
 
 }

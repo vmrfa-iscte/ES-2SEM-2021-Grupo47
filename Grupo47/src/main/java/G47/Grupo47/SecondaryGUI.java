@@ -1,6 +1,7 @@
 package G47.Grupo47;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -28,7 +29,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Text;
 
 public class SecondaryGUI extends Shell {
-	
+
 	private Table table;
 	private TableColumn classmethod,detecao;
 	private ScrolledComposite scrolledComposite;
@@ -42,28 +43,49 @@ public class SecondaryGUI extends Shell {
 	 * Launch the application
 	 * @param args
 	 */
-	
+
 	/**
 	 * Create the shell.
 	 * @param display
 	 */
 	public SecondaryGUI(Display display,String name,ArrayList<HasCodeSmell> result) {
-		
+
 		super(display, SWT.SHELL_TRIM);
 		this.name = name;
 		this.display = display;
-			
+
 		Button btnNewButton = new Button(this, SWT.NONE);
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				 
-			
+				ExcelManip aux = new ExcelManip(selectedFile);
+				ArrayList<HasCodeSmell> trueResults = new ArrayList<HasCodeSmell>(); 
+				if(name.equals("IsLong Method Detection")) {
+					try {
+						trueResults = aux.toComparables(10);
+						for (HasCodeSmell a : trueResults) {
+							System.out.println("Resultado verdadeiro " + a.getHasCodeSmell() + "Nome metodo " + a.getMethodName()  + "Nome classe " + a.getClassName()  + "Nome Package" + a.getPackageName());
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				if(name.equals("IsGod Class Detection")) {
+					try {
+						trueResults = aux.toComparables(7);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+
+
 			}
 		});
 		btnNewButton.setBounds(10, 376, 180, 30);
 		btnNewButton.setText("Avaliar codesmell");
-		
+
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
 		int[] valores = new int[3];
 		valores[0] = 1;
@@ -72,27 +94,27 @@ public class SecondaryGUI extends Shell {
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBounds(10, 10, 480, 350);
-		
+
 		tblclmnMethodId = new TableColumn(table, SWT.CENTER);
 		tblclmnMethodId.setWidth(100);
 		tblclmnMethodId.setText("Method id");
-		
+
 		classmethod = new TableColumn(table, SWT.CENTER);
 		classmethod.setWidth(229);
 		classmethod.setText("Classe/método");
-		
+
 		detecao = new TableColumn(table, SWT.CENTER);
 		detecao.setWidth(147);
 		detecao.setText("Deteção");
-		
+
 		scrolledComposite = new ScrolledComposite(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledComposite.setBounds(545, 10, 229, 340);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
-		
+
 		text = new Text(this, SWT.BORDER);
 		text.setBounds(316, 378, 275, 26);
-		
+
 		Button excell = new Button(this, SWT.NONE);
 		excell.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -100,7 +122,7 @@ public class SecondaryGUI extends Shell {
 				JFileChooser pathpasta = new JFileChooser(".");
 				pathpasta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				int returnValue = pathpasta.showOpenDialog(null);
-				
+
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 
 					selectedFile = pathpasta.getSelectedFile();
@@ -113,7 +135,7 @@ public class SecondaryGUI extends Shell {
 
 		createContents(name);
 	}
-	
+
 	public void loadGUI () {
 		try {
 			open();
@@ -137,11 +159,11 @@ public class SecondaryGUI extends Shell {
 		setSize(802, 475);
 
 	}
-	
+
 	public void addCodeSmellsInfo(HasCodeSmell hcs) {
 		TableItem tableItem = new TableItem(table,SWT.NONE);
 		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell()});
-	
+
 	}
 
 	@Override

@@ -463,7 +463,7 @@ public class mainGUI extends Shell {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					SecondaryGUI codesmells = new SecondaryGUI(display, "Avaliar code smell 'isLong Method'", hcsList);
+					SecondaryGUI codesmells = new SecondaryGUI(display,"IsLong Method Detection", hcsList);
 					for (HasCodeSmell hascodesmell : hcsList) {
 						System.out.println("ID: " + hascodesmell.getMethod_ID());
 						codesmells.addCodeSmellsInfo(hascodesmell);
@@ -479,7 +479,7 @@ public class mainGUI extends Shell {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					SecondaryGUI codesmells2 = new SecondaryGUI(display, "Avaliar code smell 'isGod Class'",hcslist2);
+					SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection",hcslist2);
 					for (HasCodeSmell hascodesmell : hcslist2) {
 						codesmells2.addCodeSmellsInfo(hascodesmell);
 					}
