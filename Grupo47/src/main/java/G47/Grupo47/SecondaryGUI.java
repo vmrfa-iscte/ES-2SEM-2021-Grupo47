@@ -71,7 +71,9 @@ public class SecondaryGUI extends Shell {
 						}
 						
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						for (HasCodeSmell a : result) {
+							System.out.println("Nome método " + a.getMethodName() + "Classficacao pela regra " + a.getHasCodeSmell() + "Qualidade de deteção " + a.getQuality());
+						}
 						e1.printStackTrace();
 					}
 				}
