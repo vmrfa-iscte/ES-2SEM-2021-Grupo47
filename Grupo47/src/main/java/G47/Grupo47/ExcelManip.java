@@ -147,16 +147,11 @@ public class ExcelManip {
 	}
 
 	public ArrayList<HasCodeSmell> toComparables(int a) throws IOException {
-		FileInputStream file = new FileInputStream(new File(this.getFilePath()));
-		XSSFWorkbook workbook = new XSSFWorkbook(file);
+		FileInputStream fileTo = new FileInputStream(file.getAbsoluteFile());
+		XSSFWorkbook workbook = new XSSFWorkbook(fileTo);
 		XSSFSheet sheet = workbook.getSheetAt(0);
 		ArrayList<HasCodeSmell> aux = new ArrayList<>();
 		Iterator<Row> it = sheet.iterator();
-
-		//desta forma percorre linha a linha
-		int i = 0;
-		int z = 0;
-
 		while (it.hasNext()) {
 			Row row = it.next();
 			String method_name = row.getCell(3).toString();
@@ -167,6 +162,7 @@ public class ExcelManip {
 			HasCodeSmell toadd = new HasCodeSmell(method_name,hasCodeSmell,methodID,package_name,class_name);
 			aux.add(toadd);
 		}
+		workbook.close();
 		return aux;
 	}
 
