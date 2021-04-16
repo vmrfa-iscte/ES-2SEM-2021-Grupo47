@@ -63,9 +63,6 @@ public class SecondaryGUI extends Shell {
 				if(name.equals("IsLong Method Detection")) {
 					try {
 						trueResults = aux.toComparables(10);
-						for (HasCodeSmell a : trueResults) {
-							System.out.println("Resultado verdadeiro " + a.getHasCodeSmell() + "Nome metodo " + a.getMethodName()  + "Nome classe " + a.getClassName()  + "Nome Package" + a.getPackageName());
-						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -120,7 +117,7 @@ public class SecondaryGUI extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JFileChooser pathpasta = new JFileChooser(".");
-				pathpasta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				pathpasta.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int returnValue = pathpasta.showOpenDialog(null);
 
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -165,6 +162,13 @@ public class SecondaryGUI extends Shell {
 		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell()});
 
 	}
+	
+	public void results(ArrayList<HasCodeSmell> generated, ArrayList<HasCodeSmell> actual) {
+		
+		
+	}
+	
+	
 
 	@Override
 	protected void checkSubclass() {
