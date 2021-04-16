@@ -67,8 +67,9 @@ public class SecondaryGUI extends Shell {
 						trueResults = aux.toComparables(10);
 						setResults(trueResults);
 						for (HasCodeSmell a : result) {
-							System.out.println("Nome método " + a.getMethodName() + "Classficacao pela regra " + a.getHasCodeSmell() + "Classificao correta " + a.getQuality());
+							System.out.println("Nome método " + a.getMethodName() + "Classficacao pela regra " + a.getHasCodeSmell() + "Qualidade de deteção " + a.getQuality());
 						}
+						
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -181,6 +182,7 @@ public class SecondaryGUI extends Shell {
 						calculated.setQuality("Positivo");
 					}
 				}
+				
 			}
 		}
 		
