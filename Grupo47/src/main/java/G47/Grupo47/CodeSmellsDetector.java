@@ -27,10 +27,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}
@@ -40,7 +40,7 @@ public class CodeSmellsDetector {
 				}
 				
 				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 					auxview.add(positive);
 					
 					if(!lastclass.equals(metric.getClasse())) {
@@ -49,15 +49,15 @@ public class CodeSmellsDetector {
 					}
 						
 				}else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());;
 					auxview.add(negative);
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}
@@ -74,10 +74,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}
@@ -87,7 +87,7 @@ public class CodeSmellsDetector {
 				}
 				
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 					auxview.add(positive);
 					if(!lastclass.equals(metric.getClasse())) {	
 						lastclass = metric.getClasse();			
@@ -96,15 +96,15 @@ public class CodeSmellsDetector {
 					
 				}
 				else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 					auxview.add(negative);
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}
@@ -128,10 +128,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}
@@ -141,7 +141,7 @@ public class CodeSmellsDetector {
 				}
 			
 				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 					if(!lastclass.equals(metric.getClasse()) ) {
 						lastclass = metric.getClasse();
 						namesClasses.add(metric.getClasse());
@@ -151,16 +151,16 @@ public class CodeSmellsDetector {
 					
 				}
 				else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 					auxview.add(negative);
 
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}
@@ -178,10 +178,10 @@ public class CodeSmellsDetector {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {
 					if(namesClasses.indexOf(lastclassview) != -1) {
-						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(lastclassview,"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(lastclassview,"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}
@@ -190,7 +190,7 @@ public class CodeSmellsDetector {
 					auxview.removeAll(auxview);
 				}
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) {
-					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell positive = new HasCodeSmell(metric.getNome_metodo(),"Verdadeiro",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 					if(!lastclass.equals(metric.getClasse()) ) {
 					
 						lastclass = metric.getClasse();
@@ -199,16 +199,16 @@ public class CodeSmellsDetector {
 					auxview.add(positive);
 				}
 				else {
-					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()));
+					HasCodeSmell negative = new HasCodeSmell(metric.getNome_metodo(),"Falso",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 					auxview.add(negative);
 
 				}
 				if(results.indexOf(metric) == results.size()-1) {
 					if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
-						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null);
+						HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null,null,null);
 						view.add(positiveClass);
 					}else {
-						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null);
+						HasCodeSmell negativeClass = new HasCodeSmell(metric.getClasse(),"Classe: Falso",null,null,null);
 						view.add(negativeClass);
 						
 					}

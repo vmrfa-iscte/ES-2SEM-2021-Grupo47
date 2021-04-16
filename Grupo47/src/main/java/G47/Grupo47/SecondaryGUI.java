@@ -140,7 +140,7 @@ public class SecondaryGUI extends Shell {
 	
 	public void addCodeSmellsInfo(HasCodeSmell hcs) {
 		TableItem tableItem = new TableItem(table,SWT.NONE);
-		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getName(), hcs.getHasCodeSmell()});
+		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell()});
 	
 	}
 
