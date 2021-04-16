@@ -29,15 +29,21 @@ public class HasCodeSmell {
 	}
 	
 	public String getClassName() {
-		return hasCodeSmell;
+		return class_name;
 	}
 	
 	public String getPackageName() {
-		return hasCodeSmell;
+		return package_name;
+	}
+	
+	public String getQuality() {
+		return isPositiveOrNegative;
 	}
 	
 	public void setQuality (String a)  {
 		this.isPositiveOrNegative = a;
 	}
+	
+	
 
 }
