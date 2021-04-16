@@ -139,12 +139,32 @@ public class ExcelManip {
 				i++;
 			}
 		}
-		
+
 		FileOutputStream excel = new FileOutputStream(this.getFilePath());
 		workbook.write(excel);
 		workbook.close();
-		
-
 
 	}
+
+//	public ArrayList<HasCodeSmell> toComparables() throws IOException {
+//		FileInputStream file = new FileInputStream(new File(this.getFilePath()));
+//		XSSFWorkbook workbook = new XSSFWorkbook(file);
+//		XSSFSheet sheet = workbook.getSheetAt(0);
+//		ArrayList<HasCodeSmell> aux = new ArrayList<>();
+//		Iterator<Row> it = sheet.iterator();
+//
+//		//desta forma percorre linha a linha
+//		int i = 0;
+//		int z = 0;
+//
+//		while (it.hasNext()) {
+//			Row row = it.next();
+//			String method_name = row.getCell(3).getv
+//			HasCodeSmell a = new HasCodeSmell(
+//		}
+//	}
+
+
+
+
 }
