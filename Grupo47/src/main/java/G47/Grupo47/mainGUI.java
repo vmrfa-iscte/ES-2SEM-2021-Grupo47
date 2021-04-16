@@ -331,22 +331,11 @@ public class mainGUI extends Shell {
 				if(!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				}else {
-
-
 					boolean v = false;
-					if (!rules.exists()) {
-
-						try {
-
-							System.out.println("A criar ficheiro");
-							rules.createNewFile();
-
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-					}
+					//				if (!text_1.getText().isEmpty()) {
 					if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
-							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
+							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
+							&& validation.getText().isEmpty() && validation1.getText().isEmpty()) {
 
 						rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
 								limite_2.getText());
@@ -354,7 +343,7 @@ public class mainGUI extends Shell {
 						System.out.println(content);
 						for (int i = 0; i < list.size(); i++) {
 							if (list.get(i).toString().contentEquals(rule.toString())) {
-								JOptionPane.showMessageDialog(null, "Regra já imposta");
+								JOptionPane.showMessageDialog(null, "Regra já imposta.");
 								v = true;
 								break;
 
@@ -364,26 +353,29 @@ public class mainGUI extends Shell {
 							regras.add(content);
 							list.add(rule);
 							System.out.println(list.size());
-							try {
-								FileWriter fw = new FileWriter(rules, true);
-								BufferedWriter bw = new BufferedWriter(fw);
-								System.out.println(rules.length());
-								bw.write(content);
-								bw.newLine();
-								bw.close();
-
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							//							try {
+							//								FileWriter fw = new FileWriter(new File(text_1.getText()), true);
+							//								BufferedWriter bw = new BufferedWriter(fw);
+							//								System.out.println(rules.length());
+							//								bw.write(content);
+							//								bw.newLine();
+							//								bw.close();
+							//
+							//							} catch (IOException e1) {
+							//								// TODO Auto-generated catch block
+							//								e1.printStackTrace();
+							//							}
 						}
 
 					} else {
-						JOptionPane.showMessageDialog(null, "Preencha todos os campos");
+						JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos.");
 					}
+					//				} else {
+					//					JOptionPane.showMessageDialog(null, "Selecione o ficheiro destino para o histórico.");
+					//				}
+
 				}
 			}
-
 		});
 
 		btnDefinirRegras.setBounds(451, 143, 142, 30);
@@ -396,40 +388,44 @@ public class mainGUI extends Shell {
 				if(!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				}else {
-					System.out.println(list.get(i).toString());
-					list.get(i).setLimit1(limite_1.getText());
-					list.get(i).setLimit2(limite_2.getText());
-					list.get(i).setMethod1(metrica1.getText());
-					list.get(i).setMethod2(metrica2.getText());
-					list.get(i).setOperator(operador.getText());
-					System.out.println(list.get(i).toString());
-					System.out.println(regras.getItem(i));
-					String update = list.get(i).toString();
-					for (int x = 0; x < list.size(); x++) {
-						if (x == i) {
-							regras.remove(x);
-							regras.add(update, x);
-							FileWriter fw;
-							try {
-								fw = new FileWriter(rules, true);
-								BufferedWriter bw = new BufferedWriter(fw);
-								System.out.println(rules.length());
-								bw.write(update);
-								bw.newLine();
-								bw.close();
+					if (regras.isSelected(i)) {
+						System.out.println(list.get(i).toString());
+						list.get(i).setLimit1(limite_1.getText());
+						list.get(i).setLimit2(limite_2.getText());
+						list.get(i).setMethod1(metrica1.getText());
+						list.get(i).setMethod2(metrica2.getText());
+						list.get(i).setOperator(operador.getText());
+						System.out.println(list.get(i).toString());
+						System.out.println(regras.getItem(i));
+						String update = list.get(i).toString();
+						for (int x = 0; x < list.size(); x++) {
+							if (x == i) {
+								regras.remove(x);
+								regras.add(update, x);
+								//							FileWriter fw;
+								//							try {
+								//								fw = new FileWriter(new File(text_1.getText()), true);
+								//								BufferedWriter bw = new BufferedWriter(fw);
+								//								System.out.println(rules.length());
+								//								bw.write(update);
+								//								bw.newLine();
+								//								bw.close();
+								//
+								//							} catch (IOException e1) {
+								//								// TODO Auto-generated catch block
+								//								e1.printStackTrace();
+								//							}
 
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
 							}
-
 						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
 					}
-					System.out.println(regras.getItem(i));
 
 				}
 			}
 		});
+		;
 
 		alterarregra.setBounds(599, 143, 145, 30);
 		alterarregra.setText("Alterar regras");
