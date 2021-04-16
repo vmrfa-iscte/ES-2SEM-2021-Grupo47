@@ -146,23 +146,29 @@ public class ExcelManip {
 
 	}
 
-//	public ArrayList<HasCodeSmell> toComparables() throws IOException {
-//		FileInputStream file = new FileInputStream(new File(this.getFilePath()));
-//		XSSFWorkbook workbook = new XSSFWorkbook(file);
-//		XSSFSheet sheet = workbook.getSheetAt(0);
-//		ArrayList<HasCodeSmell> aux = new ArrayList<>();
-//		Iterator<Row> it = sheet.iterator();
-//
-//		//desta forma percorre linha a linha
-//		int i = 0;
-//		int z = 0;
-//
-//		while (it.hasNext()) {
-//			Row row = it.next();
-//			String method_name = row.getCell(3).getv
-//			HasCodeSmell a = new HasCodeSmell(
-//		}
-//	}
+	public ArrayList<HasCodeSmell> toComparables(int a) throws IOException {
+		FileInputStream file = new FileInputStream(new File(this.getFilePath()));
+		XSSFWorkbook workbook = new XSSFWorkbook(file);
+		XSSFSheet sheet = workbook.getSheetAt(0);
+		ArrayList<HasCodeSmell> aux = new ArrayList<>();
+		Iterator<Row> it = sheet.iterator();
+
+		//desta forma percorre linha a linha
+		int i = 0;
+		int z = 0;
+
+		while (it.hasNext()) {
+			Row row = it.next();
+			String method_name = row.getCell(3).toString();
+			String hasCodeSmell = row.getCell(a).toString();
+			String methodID = row.getCell(0).toString();
+			String package_name = row.getCell(1).toString();
+			String class_name = row.getCell(2).toString();
+			HasCodeSmell toadd = new HasCodeSmell(method_name,hasCodeSmell,methodID,package_name,class_name);
+			aux.add(toadd);
+		}
+		return aux;
+	}
 
 
 
