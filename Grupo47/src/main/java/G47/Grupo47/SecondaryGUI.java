@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class SecondaryGUI extends Shell {
 
@@ -34,11 +35,11 @@ public class SecondaryGUI extends Shell {
 	private TableColumn classmethod,detecao;
 	private ScrolledComposite scrolledComposite;
 	private Display display;
-	private String name;
 	private TableColumn tblclmnMethodId;
 	private Text text;
 	private File selectedFile;
 	private ArrayList<HasCodeSmell> result;
+	private TableColumn tblclmnQualidade;
 
 	/**
 	 * Launch the application
@@ -52,7 +53,7 @@ public class SecondaryGUI extends Shell {
 	public SecondaryGUI(Display display,String name,ArrayList<HasCodeSmell> result) {
 
 		super(display, SWT.SHELL_TRIM);
-		this.name = name;
+		setImage(SWTResourceManager.getImage(SecondaryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
 		this.display = display;
 		this.result = result;
 		
@@ -66,14 +67,13 @@ public class SecondaryGUI extends Shell {
 					try {
 						trueResults = aux.toComparables(10);
 						setResults(trueResults);
+						table.removeAll();
 						for (HasCodeSmell a : result) {
-							System.out.println("Nome método " + a.getMethodName() + "Classficacao pela regra " + a.getHasCodeSmell() + "Qualidade de deteção " + a.getQuality());
+//							System.out.println("Nome método " + a.getMethodName() + "Classficacao pela regra " + a.getHasCodeSmell() + "Qualidade de deteção " + a.getQuality());
+							addCodeSmellsInfo(a,true);
 						}
 						
 					} catch (IOException e1) {
-						for (HasCodeSmell a : result) {
-							System.out.println("Nome método " + a.getMethodName() + "Classficacao pela regra " + a.getHasCodeSmell() + "Qualidade de deteção " + a.getQuality());
-						}
 						e1.printStackTrace();
 					}
 				}
@@ -90,7 +90,7 @@ public class SecondaryGUI extends Shell {
 
 			}
 		});
-		btnNewButton.setBounds(10, 376, 180, 30);
+		btnNewButton.setBounds(10, 578, 180, 30);
 		btnNewButton.setText("Avaliar codesmell");
 
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
@@ -100,7 +100,7 @@ public class SecondaryGUI extends Shell {
 		valores[2] = 3;
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-		table.setBounds(10, 10, 480, 350);
+		table.setBounds(10, 10, 612, 551);
 
 		tblclmnMethodId = new TableColumn(table, SWT.CENTER);
 		tblclmnMethodId.setWidth(100);
@@ -113,14 +113,18 @@ public class SecondaryGUI extends Shell {
 		detecao = new TableColumn(table, SWT.CENTER);
 		detecao.setWidth(147);
 		detecao.setText("Deteção");
+		
+		tblclmnQualidade = new TableColumn(table, SWT.NONE);
+		tblclmnQualidade.setWidth(132);
+		tblclmnQualidade.setText("Qualidade");
 
 		scrolledComposite = new ScrolledComposite(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		scrolledComposite.setBounds(545, 10, 229, 340);
+		scrolledComposite.setBounds(650, 10, 372, 551);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
 
 		text = new Text(this, SWT.BORDER);
-		text.setBounds(316, 378, 275, 26);
+		text.setBounds(209, 580, 275, 26);
 
 		Button excell = new Button(this, SWT.NONE);
 		excell.addSelectionListener(new SelectionAdapter() {
@@ -137,7 +141,7 @@ public class SecondaryGUI extends Shell {
 				text.setText(selectedFile.getPath());
 			}
 		});
-		excell.setBounds(608, 376, 166, 30);
+		excell.setBounds(514, 578, 166, 30);
 		excell.setText("Selecionar ficheiro");
 
 		createContents(name);
@@ -163,13 +167,18 @@ public class SecondaryGUI extends Shell {
 	 */
 	protected void createContents(String name) {
 		setText(name);
-		setSize(802, 475);
+		setSize(1066, 678);
 
 	}
 
-	public void addCodeSmellsInfo(HasCodeSmell hcs) {
+	public void addCodeSmellsInfo(HasCodeSmell hcs,boolean withQuality) {
+		
 		TableItem tableItem = new TableItem(table,SWT.NONE);
-		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell()});
+		if(withQuality) {
+			tableItem.setText(new String[] {hcs.getMethod_ID(),hcs.getMethodName(),hcs.getHasCodeSmell(),hcs.getQuality()});
+		}else {
+		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell(),""});
+		}
 
 	}
 	
@@ -177,6 +186,7 @@ public class SecondaryGUI extends Shell {
 		for (HasCodeSmell indicator : trueResults) {
 			for (HasCodeSmell calculated : result) {
 				if (indicator.getMethodName().equals(calculated.getMethodName()) && indicator.getClassName().equals(calculated.getClassName()) && indicator.getPackageName().equals(calculated.getPackageName())) {
+					System.out.println("Indicator: "+indicator.getHasCodeSmell() +"   Calculated: "+calculated.getHasCodeSmell());
 					if (!indicator.getHasCodeSmell().equals(calculated.getHasCodeSmell())) {
 						calculated.setQuality("Negativo");
 					}

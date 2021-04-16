@@ -46,6 +46,7 @@ public class Historico extends Shell {
 	 */
 	public Historico(Display display, List regras, ArrayList<Rules> rules) {
 		super(display, SWT.SHELL_TRIM);
+		setImage(SWTResourceManager.getImage(Historico.class, "/G47/Grupo47/iscte_logo2.jpg"));
 		this.regras = regras;
 		this.rules = rules;
 
@@ -185,7 +186,7 @@ public class Historico extends Shell {
 	 * Create contents of the shell.
 	 */
 	protected void createContents() {
-		setText("SWT Application");
+		setText("Histórico");
 		setSize(464, 291);
 
 	}

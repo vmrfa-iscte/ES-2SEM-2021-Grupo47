@@ -247,7 +247,7 @@ public class mainGUI extends Shell {
 			}
 		});
 
-		Combo metrica1 = new Combo(composite, SWT.NONE);
+		Combo metrica1 = new Combo(composite, SWT.READ_ONLY);
 		metrica1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -288,13 +288,13 @@ public class mainGUI extends Shell {
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
 
-		Combo operador = new Combo(composite, SWT.NONE);
+		Combo operador = new Combo(composite, SWT.READ_ONLY);
 		operador.setBounds(287, 65, 84, 28);
 		operador.setText("");
 		operador.add("OR");
 		operador.add("AND");
 
-		metrica2 = new Combo(composite, SWT.NONE);
+		metrica2 = new Combo(composite, SWT.READ_ONLY);
 		metrica2.setBounds(390, 65, 180, 28);
 		metrica2.setText("");
 
@@ -434,47 +434,55 @@ public class mainGUI extends Shell {
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String method1 = currentRule.getMethod1();
-				int limit1 = Integer.parseInt(currentRule.getLimit1());
-				String operator = currentRule.getOperator();
-				int limit2 = Integer.parseInt(currentRule.getLimit2());
-				System.out.println("actualmetrics size 2: " + actualmetrics.size());
-				ExcelManip a = new ExcelManip(selectedFile1);
-				CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-				if (method1.equals("LOC_method")) {
-					ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
+				if(regras.isSelected(i)) {
+					String method1 = currentRule.getMethod1();
+					int limit1 = Integer.parseInt(currentRule.getLimit1());
+					String operator = currentRule.getOperator();
+					int limit2 = Integer.parseInt(currentRule.getLimit2());
+					System.out.println("actualmetrics size 2: " + actualmetrics.size());
+					ExcelManip a = new ExcelManip(selectedFile1);
+					CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+					if (method1.equals("LOC_method")) {
+						ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
 
-					try {
-						a.fillWithCodeSmellResults(hcsList, true);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						try {
+							a.fillWithCodeSmellResults(hcsList, true);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						SecondaryGUI codesmells = new SecondaryGUI(display,"IsLong Method Detection", hcsList);
+						for (HasCodeSmell hascodesmell : hcsList) {
+							System.out.println("ID: " + hascodesmell.getMethod_ID());
+							codesmells.addCodeSmellsInfo(hascodesmell,false);
+						}
+						codesmells.loadGUI();
 					}
-					SecondaryGUI codesmells = new SecondaryGUI(display,"IsLong Method Detection", hcsList);
-					for (HasCodeSmell hascodesmell : hcsList) {
-						System.out.println("ID: " + hascodesmell.getMethod_ID());
-						codesmells.addCodeSmellsInfo(hascodesmell);
-					}
-					codesmells.loadGUI();
-				}
-				if (method1.equals("WMC_class")) {
-					ArrayList<HasCodeSmell> hcslist2 = detector.detectGodClass();
-					System.out.println("hcslist2 size: " + hcslist2.size());
-					try {
-						a.fillWithCodeSmellResults(hcslist2, false);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection",hcslist2);
-					for (HasCodeSmell hascodesmell : hcslist2) {
-						codesmells2.addCodeSmellsInfo(hascodesmell);
-					}
-					codesmells2.loadGUI();
+					if (method1.equals("WMC_class")) {
+						ArrayList<HasCodeSmell> hcslist2 = detector.detectGodClass();
+						System.out.println("hcslist2 size: " + hcslist2.size());
+						try {
+							a.fillWithCodeSmellResults(hcslist2, false);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection",hcslist2);
+						for (HasCodeSmell hascodesmell : hcslist2) {
+							codesmells2.addCodeSmellsInfo(hascodesmell,false);
+						}
+						codesmells2.loadGUI();
 
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
+					
 				}
+
+
 
 			}
+		
 		});
 
 		Button carregarhist = new Button(composite, SWT.NONE);
