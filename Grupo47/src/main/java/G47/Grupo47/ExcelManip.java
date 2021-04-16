@@ -159,7 +159,7 @@ public class ExcelManip {
 			String methodID = row.getCell(0).toString();
 			String package_name = row.getCell(1).toString();
 			String class_name = row.getCell(2).toString();
-			HasCodeSmell toadd = new HasCodeSmell(method_name,hasCodeSmell,methodID,package_name,class_name);
+			HasCodeSmell toadd = new HasCodeSmell(method_name,hasCodeSmell,methodID,package_name,class_name,null);
 			aux.add(toadd);
 		}
 		workbook.close();
