@@ -39,7 +39,7 @@ public class SecondaryGUI extends Shell {
 	private File selectedFile;
 
 	/**
-	 * Launch the application.
+	 * Launch the application
 	 * @param args
 	 */
 	
@@ -47,7 +47,7 @@ public class SecondaryGUI extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
-	public SecondaryGUI(Display display,String name) {
+	public SecondaryGUI(Display display,String name,ArrayList<HasCodeSmell> result) {
 		
 		super(display, SWT.SHELL_TRIM);
 		this.name = name;
@@ -57,6 +57,7 @@ public class SecondaryGUI extends Shell {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				 
 			
 			}
 		});

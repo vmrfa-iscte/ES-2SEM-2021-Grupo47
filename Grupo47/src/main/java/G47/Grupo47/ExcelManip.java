@@ -119,7 +119,7 @@ public class ExcelManip {
 	public void fillWithCodeSmellResults(ArrayList<HasCodeSmell> result, boolean isLongMethod) throws IOException {
 		ArrayList<HasCodeSmell> aux = new ArrayList<HasCodeSmell>();
 		for (HasCodeSmell code : result) {
-			if (code.getName().contains("(")) {
+			if (code.getMethodName().contains("(")) {
 				aux.add(code);
 			}		
 		}		

@@ -299,33 +299,33 @@ public class mainGUI extends Shell {
 		metrica2.setText("");
 
 		limite_1 = new Text(composite, SWT.BORDER);
-		limite_1.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				try {
-					int number = Integer.parseInt(limite_1.getText());
-					validation.setText("");
-				} catch (NumberFormatException e1) {
-					validation.setText("Inválido");
-				}
-			}
-
-		});
+//		limite_1.addKeyListener(new KeyAdapter() {
+//			public void keyPressed(KeyEvent e) {
+//				try {
+//					int number = Integer.parseInt(limite_1.getText());
+//					validation.setText("");
+//				} catch (NumberFormatException e1) {
+//					validation.setText("Inválido");
+//				}
+//			}
+//
+//		});
 
 		limite_1.setBounds(197, 65, 84, 30);
 		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
-		limite_2.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				try {
-					int number = Integer.parseInt(limite_2.getText());
-					validation1.setText("");
-				} catch (NumberFormatException e1) {
-					validation1.setText("Inválido");
-				}
-			}
-
-		});
+//		limite_2.addKeyListener(new KeyAdapter() {
+//			public void keyPressed(KeyEvent e) {
+//				try {
+//					int number = Integer.parseInt(limite_2.getText());
+//					validation1.setText("");
+//				} catch (NumberFormatException e1) {
+//					validation1.setText("Inválido");
+//				}
+//			}
+//
+//		});
 		limite_2.setBounds(599, 65, 145, 28);
 		limite_2.setText("Limite");
 
@@ -463,7 +463,7 @@ public class mainGUI extends Shell {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					SecondaryGUI codesmells = new SecondaryGUI(display, "Avaliar code smell 'isLong Method'");
+					SecondaryGUI codesmells = new SecondaryGUI(display, "Avaliar code smell 'isLong Method'", hcsList);
 					for (HasCodeSmell hascodesmell : hcsList) {
 						System.out.println("ID: " + hascodesmell.getMethod_ID());
 						codesmells.addCodeSmellsInfo(hascodesmell);
@@ -479,7 +479,7 @@ public class mainGUI extends Shell {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					SecondaryGUI codesmells2 = new SecondaryGUI(display, "Avaliar code smell 'isGod Class'");
+					SecondaryGUI codesmells2 = new SecondaryGUI(display, "Avaliar code smell 'isGod Class'",hcslist2);
 					for (HasCodeSmell hascodesmell : hcslist2) {
 						codesmells2.addCodeSmellsInfo(hascodesmell);
 					}
