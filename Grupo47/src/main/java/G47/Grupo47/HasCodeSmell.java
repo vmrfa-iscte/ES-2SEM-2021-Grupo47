@@ -24,4 +24,6 @@ public class HasCodeSmell {
 		return hasCodeSmell;
 	}
 
+	
+	
 }

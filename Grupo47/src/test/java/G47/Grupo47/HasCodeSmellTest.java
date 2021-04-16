@@ -11,4 +11,7 @@ public class HasCodeSmellTest extends TestCase {
 		assertEquals("Fernandinho",hcs.getMethod_ID());
 	}
 
+	
+	
+	
 }
