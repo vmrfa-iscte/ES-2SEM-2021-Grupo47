@@ -299,33 +299,12 @@ public class mainGUI extends Shell {
 		metrica2.setText("");
 
 		limite_1 = new Text(composite, SWT.BORDER);
-//		limite_1.addKeyListener(new KeyAdapter() {
-//			public void keyPressed(KeyEvent e) {
-//				try {
-//					int number = Integer.parseInt(limite_1.getText());
-//					validation.setText("");
-//				} catch (NumberFormatException e1) {
-//					validation.setText("Inválido");
-//				}
-//			}
-//
-//		});
+
 
 		limite_1.setBounds(197, 65, 84, 30);
 		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
-//		limite_2.addKeyListener(new KeyAdapter() {
-//			public void keyPressed(KeyEvent e) {
-//				try {
-//					int number = Integer.parseInt(limite_2.getText());
-//					validation1.setText("");
-//				} catch (NumberFormatException e1) {
-//					validation1.setText("Inválido");
-//				}
-//			}
-//
-//		});
 		limite_2.setBounds(599, 65, 145, 28);
 		limite_2.setText("Limite");
 
@@ -349,11 +328,25 @@ public class mainGUI extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				boolean v = false;
-//				if (!text_1.getText().isEmpty()) {
+				if(!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
+					JOptionPane.showMessageDialog(null, "Limites inválidos!");
+				}else {
+
+
+					boolean v = false;
+					if (!rules.exists()) {
+
+						try {
+
+							System.out.println("A criar ficheiro");
+							rules.createNewFile();
+
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
 					if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
-							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
-							&& validation.getText().isEmpty() && validation1.getText().isEmpty()) {
+							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
 
 						rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
 								limite_2.getText());
@@ -361,7 +354,7 @@ public class mainGUI extends Shell {
 						System.out.println(content);
 						for (int i = 0; i < list.size(); i++) {
 							if (list.get(i).toString().contentEquals(rule.toString())) {
-								JOptionPane.showMessageDialog(null, "Regra já imposta.");
+								JOptionPane.showMessageDialog(null, "Regra já imposta");
 								v = true;
 								break;
 
@@ -371,28 +364,26 @@ public class mainGUI extends Shell {
 							regras.add(content);
 							list.add(rule);
 							System.out.println(list.size());
-//							try {
-//								FileWriter fw = new FileWriter(new File(text_1.getText()), true);
-//								BufferedWriter bw = new BufferedWriter(fw);
-//								System.out.println(rules.length());
-//								bw.write(content);
-//								bw.newLine();
-//								bw.close();
-//
-//							} catch (IOException e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//							}
+							try {
+								FileWriter fw = new FileWriter(rules, true);
+								BufferedWriter bw = new BufferedWriter(fw);
+								System.out.println(rules.length());
+								bw.write(content);
+								bw.newLine();
+								bw.close();
+
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 
 					} else {
-						JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos.");
+						JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Selecione o ficheiro destino para o histórico.");
-//				}
-
+				}
 			}
+
 		});
 
 		btnDefinirRegras.setBounds(451, 143, 142, 30);
@@ -402,7 +393,9 @@ public class mainGUI extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (regras.isSelected(i)) {
+				if(!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
+					JOptionPane.showMessageDialog(null, "Limites inválidos!");
+				}else {
 					System.out.println(list.get(i).toString());
 					list.get(i).setLimit1(limite_1.getText());
 					list.get(i).setLimit2(limite_2.getText());
@@ -416,29 +409,27 @@ public class mainGUI extends Shell {
 						if (x == i) {
 							regras.remove(x);
 							regras.add(update, x);
-//							FileWriter fw;
-//							try {
-//								fw = new FileWriter(new File(text_1.getText()), true);
-//								BufferedWriter bw = new BufferedWriter(fw);
-//								System.out.println(rules.length());
-//								bw.write(update);
-//								bw.newLine();
-//								bw.close();
-//
-//							} catch (IOException e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//							}
+							FileWriter fw;
+							try {
+								fw = new FileWriter(rules, true);
+								BufferedWriter bw = new BufferedWriter(fw);
+								System.out.println(rules.length());
+								bw.write(update);
+								bw.newLine();
+								bw.close();
+
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 
 						}
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
-				}
+					System.out.println(regras.getItem(i));
 
+				}
 			}
 		});
-		;
 
 		alterarregra.setBounds(599, 143, 145, 30);
 		alterarregra.setText("Alterar regras");
@@ -565,31 +556,6 @@ public class mainGUI extends Shell {
 		validation1.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		validation1.setBounds(599, 99, 145, 20);
 
-//		Button selecionarFicheirohistrico = new Button(composite, SWT.NONE);
-//		selecionarFicheirohistrico.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent e) {
-//				JFileChooser pathpasta = new JFileChooser(".");
-//				pathpasta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//				int returnValue = pathpasta.showOpenDialog(null);
-//
-//				if (returnValue == JFileChooser.APPROVE_OPTION) {
-//
-//					pastaselecionada = pathpasta.getSelectedFile();
-//				}
-//				if (pastaselecionada.getPath().endsWith(".txt")) {
-//					text_1.setText(pastaselecionada.getPath());
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Ficheiro inválido");
-//				}
-//			}
-//		});
-//
-//		selecionarFicheirohistrico.setBounds(10, 33, 310, 30);
-//		selecionarFicheirohistrico.setText("Selecionar ficheiro 'histórico de regras'");
-
-//		text_1 = new Text(composite, SWT.BORDER);
-//		text_1.setBounds(347, 35, 397, 28);
 
 		guardarhistorico = new Button(composite, SWT.NONE);
 		guardarhistorico.addSelectionListener(new SelectionAdapter() {
@@ -656,6 +622,18 @@ public class mainGUI extends Shell {
 		});
 		mntmInformaoSobreMtricas.setText("Informação sobre métricas");
 		createContents();
+	}
+	
+	private boolean isValid(String text) {
+		System.out.println("text: "+text);
+		for(int i = 0; i < text.length();i++) {
+			System.out.println(text.charAt(i));
+			if(!(text.charAt(i) == '0' || text.charAt(i) == '1' || text.charAt(i) == '2' || text.charAt(i) == '3' || text.charAt(i) == '4' || text.charAt(i) == '5' || text.charAt(i) == '6' || text.charAt(i) == '7' || text.charAt(i) == '8' || text.charAt(i) == '9' ) ) {
+				System.out.println("false");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
