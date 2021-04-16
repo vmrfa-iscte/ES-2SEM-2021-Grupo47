@@ -35,5 +35,9 @@ public class HasCodeSmell {
 	public String getPackageName() {
 		return hasCodeSmell;
 	}
+	
+	public void setQuality (String a)  {
+		this.isPositiveOrNegative = a;
+	}
 
 }
