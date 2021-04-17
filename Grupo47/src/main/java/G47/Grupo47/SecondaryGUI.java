@@ -211,22 +211,7 @@ public class SecondaryGUI extends Shell {
 			}
 		});
 		excell.setText("Selecionar ficheiro");
-		
-//		composite = new Composite(this, SWT.EMBEDDED);
-//		FormData fd_composite = new FormData();
-//		fd_composite.right = new FormAttachment(table, 631, SWT.RIGHT);
-//		fd_composite.top = new FormAttachment(0, 10);
-//		fd_composite.left = new FormAttachment(table, 19);
-//		fd_composite.bottom = new FormAttachment(0, 370);
-//		composite.setLayoutData(fd_composite);
-		
-		
-		
-		
-		
-
-		
-
+	
 
 		createContents(name);
 	}
@@ -305,30 +290,22 @@ public class SecondaryGUI extends Shell {
 	}
 	
 	private void createPieChart(HashMap<String,Integer> mapValues) {
-//	    // Create dataset
+
 	    PieDataset dataset = createDataset(mapValues);
-//	    // Create chart
+
 	    JFreeChart chart = ChartFactory.createPieChart(
 	        "Quality of Detection Pie Chart",
 	        dataset,
 	        true, 
 	        true,
 	        false);
-	    
-//	
-//	  
-//	    //Format Label
+
 	    PieSectionLabelGenerator labelGenerator = new StandardPieSectionLabelGenerator(
 	        "Quality {0} : ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
 	    ((PiePlot) chart.getPlot()).setLabelGenerator(labelGenerator);
-//	    
-//	    // Create Panel
-//	    
+    
 	    ChartPanel panel = new ChartPanel(chart); 
-   
 	    System.out.println(panel.getSize());
-
-	   
 	    JFrame jframe = new JFrame();
 	    jframe.add(panel);
 	    jframe.setVisible(true);
@@ -349,8 +326,6 @@ public class SecondaryGUI extends Shell {
 	    return dataset;
 	  }
 
-	
-	
 
 	@Override
 	protected void checkSubclass() {
