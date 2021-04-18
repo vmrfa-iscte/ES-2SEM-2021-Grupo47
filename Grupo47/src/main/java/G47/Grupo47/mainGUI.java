@@ -300,7 +300,6 @@ public class mainGUI extends Shell {
 
 		limite_1 = new Text(composite, SWT.BORDER);
 
-
 		limite_1.setBounds(197, 65, 84, 30);
 		limite_1.setText("Limite");
 
@@ -328,11 +327,11 @@ public class mainGUI extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
+				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
-				}else {
+				} else {
 					boolean v = false;
-					//				if (!text_1.getText().isEmpty()) {
+					// if (!text_1.getText().isEmpty()) {
 					if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
 							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
 							&& validation.getText().isEmpty() && validation1.getText().isEmpty()) {
@@ -353,26 +352,27 @@ public class mainGUI extends Shell {
 							regras.add(content);
 							list.add(rule);
 							System.out.println(list.size());
-							//							try {
-							//								FileWriter fw = new FileWriter(new File(text_1.getText()), true);
-							//								BufferedWriter bw = new BufferedWriter(fw);
-							//								System.out.println(rules.length());
-							//								bw.write(content);
-							//								bw.newLine();
-							//								bw.close();
+							// try {
+							// FileWriter fw = new FileWriter(new File(text_1.getText()), true);
+							// BufferedWriter bw = new BufferedWriter(fw);
+							// System.out.println(rules.length());
+							// bw.write(content);
+							// bw.newLine();
+							// bw.close();
 							//
-							//							} catch (IOException e1) {
-							//								// TODO Auto-generated catch block
-							//								e1.printStackTrace();
-							//							}
+							// } catch (IOException e1) {
+							// // TODO Auto-generated catch block
+							// e1.printStackTrace();
+							// }
 						}
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos.");
 					}
-					//				} else {
-					//					JOptionPane.showMessageDialog(null, "Selecione o ficheiro destino para o histórico.");
-					//				}
+					// } else {
+					// JOptionPane.showMessageDialog(null, "Selecione o ficheiro destino para o
+					// histórico.");
+					// }
 
 				}
 			}
@@ -385,9 +385,9 @@ public class mainGUI extends Shell {
 		alterarregra.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
+				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
-				}else {
+				} else {
 					if (regras.isSelected(i)) {
 						System.out.println(list.get(i).toString());
 						list.get(i).setLimit1(limite_1.getText());
@@ -402,19 +402,19 @@ public class mainGUI extends Shell {
 							if (x == i) {
 								regras.remove(x);
 								regras.add(update, x);
-								//							FileWriter fw;
-								//							try {
-								//								fw = new FileWriter(new File(text_1.getText()), true);
-								//								BufferedWriter bw = new BufferedWriter(fw);
-								//								System.out.println(rules.length());
-								//								bw.write(update);
-								//								bw.newLine();
-								//								bw.close();
+								// FileWriter fw;
+								// try {
+								// fw = new FileWriter(new File(text_1.getText()), true);
+								// BufferedWriter bw = new BufferedWriter(fw);
+								// System.out.println(rules.length());
+								// bw.write(update);
+								// bw.newLine();
+								// bw.close();
 								//
-								//							} catch (IOException e1) {
-								//								// TODO Auto-generated catch block
-								//								e1.printStackTrace();
-								//							}
+								// } catch (IOException e1) {
+								// // TODO Auto-generated catch block
+								// e1.printStackTrace();
+								// }
 
 							}
 						}
@@ -434,7 +434,7 @@ public class mainGUI extends Shell {
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(regras.isSelected(i)) {
+				if (regras.isSelected(i)) {
 					String method1 = currentRule.getMethod1();
 					int limit1 = Integer.parseInt(currentRule.getLimit1());
 					String operator = currentRule.getOperator();
@@ -451,10 +451,10 @@ public class mainGUI extends Shell {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						SecondaryGUI codesmells = new SecondaryGUI(display,"IsLong Method Detection", hcsList);
+						SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
 						for (HasCodeSmell hascodesmell : hcsList) {
 							System.out.println("ID: " + hascodesmell.getMethod_ID());
-							codesmells.addCodeSmellsInfo(hascodesmell,false);
+							codesmells.addCodeSmellsInfo(hascodesmell, false);
 						}
 						codesmells.loadGUI();
 					}
@@ -467,22 +467,20 @@ public class mainGUI extends Shell {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection",hcslist2);
+						SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcslist2);
 						for (HasCodeSmell hascodesmell : hcslist2) {
-							codesmells2.addCodeSmellsInfo(hascodesmell,false);
+							codesmells2.addCodeSmellsInfo(hascodesmell, false);
 						}
 						codesmells2.loadGUI();
 
 					}
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
-					
+
 				}
 
-
-
 			}
-		
+
 		});
 
 		Button carregarhist = new Button(composite, SWT.NONE);
@@ -560,13 +558,12 @@ public class mainGUI extends Shell {
 		validation1.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
 		validation1.setBounds(599, 99, 145, 20);
 
-
 		guardarhistorico = new Button(composite, SWT.NONE);
 		guardarhistorico.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!list.isEmpty()) {
-					Historico hist= new Historico(display,regras,list);
+					Historico hist = new Historico(display, regras, list);
 //					hist.loadGUI();
 					for (int y = 0; y < list.size(); y++) {
 						FileWriter fw;
@@ -610,6 +607,8 @@ public class mainGUI extends Shell {
 		mntmUtilizaoDaInterface.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				HelpInterface hi = new HelpInterface(display);
+				hi.loadGUI();
 
 			}
 		});
@@ -627,12 +626,14 @@ public class mainGUI extends Shell {
 		mntmInformaoSobreMtricas.setText("Informação sobre métricas");
 		createContents();
 	}
-	
+
 	private boolean isValid(String text) {
-		System.out.println("text: "+text);
-		for(int i = 0; i < text.length();i++) {
+		System.out.println("text: " + text);
+		for (int i = 0; i < text.length(); i++) {
 			System.out.println(text.charAt(i));
-			if(!(text.charAt(i) == '0' || text.charAt(i) == '1' || text.charAt(i) == '2' || text.charAt(i) == '3' || text.charAt(i) == '4' || text.charAt(i) == '5' || text.charAt(i) == '6' || text.charAt(i) == '7' || text.charAt(i) == '8' || text.charAt(i) == '9' ) ) {
+			if (!(text.charAt(i) == '0' || text.charAt(i) == '1' || text.charAt(i) == '2' || text.charAt(i) == '3'
+					|| text.charAt(i) == '4' || text.charAt(i) == '5' || text.charAt(i) == '6' || text.charAt(i) == '7'
+					|| text.charAt(i) == '8' || text.charAt(i) == '9')) {
 				System.out.println("false");
 				return false;
 			}
