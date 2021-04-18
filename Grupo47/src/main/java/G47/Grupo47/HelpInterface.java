@@ -45,8 +45,12 @@ public class HelpInterface extends Shell {
 		resultadosext.setText("2-Pode agora verificar que, na lista centrada à esqueda da interface, foi gerada uma lista com o nome do(s) ficheiro(s) excel gerado(s).Ao clicar sobre esse ficheiro, poderá verificar as características gerais do mesmo, nos campos localizados à direita da interface. ");
 		
 		Label regras = new Label(this, SWT.BORDER | SWT.WRAP);
-		regras.setBounds(10, 157, 870, 66);
+		regras.setBounds(10, 147, 870, 66);
 		regras.setText("3-Após este processo de extração, poderá agora definir regras para a deteção de codesmells. Para tal, preencha os campos que se encontram vazios de forma válida e coerente, e de seguida pressione o botão 'Definir regra'. De recordar que não há um limite de regras por definir.");
+		
+		Label alterarregra = new Label(this, SWT.BORDER | SWT.WRAP);
+		alterarregra.setBounds(10, 219, 870, 66);
+		alterarregra.setText("New Label");
 		
 		
 		
