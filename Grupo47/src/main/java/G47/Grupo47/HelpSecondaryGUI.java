@@ -24,10 +24,10 @@ public class HelpSecondaryGUI extends Shell {
 		
 		Label lblCarregar = new Label(grpUtilizaoDaGui, SWT.BORDER | SWT.WRAP);
 		lblCarregar.setBounds(10, 41, 818, 72);
-		lblCarregar.setText("1 - Carregar em \"Selecionar ficheiro\", ao aparecer uma nova janela deverá ser escolhido um ficheiro excel (.xlsl) que contenha a formatacao correta (Method id, nome do método, nome da classe, nome do pacote e detação de code smells isLong_method e isGod_class)");
+		lblCarregar.setText("1 - Carregar em \"Selecionar ficheiro\", ao aparecer uma nova janela deverá ser escolhido um ficheiro excel (.xlsx) que contenha a formatacao correta (Method id, nome do método, nome da classe, nome do pacote e detação de code smells isLong_method e isGod_class)");
 		
 		Label lblAps = new Label(grpUtilizaoDaGui, SWT.BORDER | SWT.WRAP);
-		lblAps.setText("2 - Após selecionado o ficheiro excel com a formatação correta deverá carregar em \"Avaliar code smell\", este botão fará a comparação da tabela presente na GUI com a deteção do code smell em causa no ficheiro escolhido. \r\n\r\n\t- Depois de feita a comparação a tabela na GUI terá a última coluna (Qualidade) preenchida com os resultados.\r\n\r\n\t- Para além da tabela, aparecerá uma outra janela que contém um gráfico circular (Pie Chart) que tem como finalidade demonstrar os mesmos resultados da tabela mas de forma gráfica. O gráfico permite diferenciar a quantidade de Falsos Positivos, Falsos Negativos, Verdadeiros positivos e Verdadeiros Negativos.\r\n");
+		lblAps.setText("2 - Após selecionado o ficheiro excel com a formatação correta deverá carregar em \"Avaliar codesmell\", este botão fará a comparação da tabela presente na GUI com a deteção do code smell em causa no ficheiro escolhido. \r\n\r\n\t- Depois de feita a comparação a tabela na GUI terá a última coluna (Qualidade) preenchida com os resultados.\r\n\r\n\t- Para além da tabela, aparecerá uma outra janela que contém um gráfico circular (Pie Chart) que tem como finalidade demonstrar os mesmos resultados da tabela mas de forma gráfica. O gráfico permite diferenciar a quantidade de Falsos Positivos, Falsos Negativos, Verdadeiros positivos e Verdadeiros Negativos.\r\n");
 		lblAps.setBounds(10, 129, 818, 176);
 	}
 	
