@@ -71,6 +71,8 @@ import org.jfree.chart.plot.PiePlot;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 public class SecondaryGUI extends Shell {
 
@@ -185,11 +187,11 @@ public class SecondaryGUI extends Shell {
 		text = new Text(this, SWT.BORDER);
 		FormData fd_text = new FormData();
 		fd_text.top = new FormAttachment(btnNewButton, 2, SWT.TOP);
-		fd_text.left = new FormAttachment(btnNewButton, 6);
-		fd_text.right = new FormAttachment(0, 471);
+		fd_text.left = new FormAttachment(btnNewButton, 25);
 		text.setLayoutData(fd_text);
 
 		Button excell = new Button(this, SWT.NONE);
+		fd_text.right = new FormAttachment(excell, -22);
 		fd_table.right = new FormAttachment(excell, 0, SWT.RIGHT);
 		FormData fd_excell = new FormData();
 		fd_excell.right = new FormAttachment(0, 669);
@@ -211,6 +213,19 @@ public class SecondaryGUI extends Shell {
 			}
 		});
 		excell.setText("Selecionar ficheiro");
+		
+		Menu menu = new Menu(this, SWT.BAR);
+		setMenuBar(menu);
+		
+		MenuItem mntmAjuda = new MenuItem(menu, SWT.NONE);
+		mntmAjuda.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				HelpSecondaryGUI hsg = new HelpSecondaryGUI(Display.getDefault());
+				hsg.loadGUI();
+			}
+		});
+		mntmAjuda.setText("Ajuda");
 	
 
 		createContents(name);
@@ -236,7 +251,7 @@ public class SecondaryGUI extends Shell {
 	 */
 	protected void createContents(String name) {
 		setText(name);
-		setSize(697, 805);
+		setSize(697, 829);
 
 	}
 
