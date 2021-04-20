@@ -541,21 +541,55 @@ public class mainGUI extends Shell {
 						}
 
 					}
-					if (method1.equals("WMC_class")) {
-						System.out.println("Valor do terceiro método: " + currentRule.getMethod3()  );
-						if (signal1.equals(">") && signal2.equals("<") ) {
+					if (method1.equals("WMC_class") && !currentRule.getMethod3().contains("a")) {
+						if (signal1.equals(">") && signal2.equals(">") ) {
 							CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
 							ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassBiggerBigger();
 							SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcsList2);
 							for (HasCodeSmell hascodesmell : hcsList2) {
-								//								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								System.out.println("ID: " + hascodesmell.getMethod_ID());
 								codesmells2.addCodeSmellsInfo(hascodesmell, false);
 							}
 							codesmells2.loadGUI();
 						}
+						if (signal1.equals("<") && signal2.equals("<") ) {
+							CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassSmallerSmaller();
+							SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcsList2);
+							for (HasCodeSmell hascodesmell : hcsList2) {
+								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells2.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells2.loadGUI();
+						}
+						if (signal1.equals(">") && signal2.equals("<") ) {
+							CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassBiggerSmaller();
+							SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcsList2);
+							for (HasCodeSmell hascodesmell : hcsList2) {
+								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells2.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells2.loadGUI();
+						}
+						if (signal1.equals("<") && signal2.equals(">") ) {
+							CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassSmallerBigger();
+							SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcsList2);
+							for (HasCodeSmell hascodesmell : hcsList2) {
+								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells2.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells2.loadGUI();
+						}
+						
+						
 					} 
 
+				} else {
+					JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
 				}
+				
 			}
 
 		});
