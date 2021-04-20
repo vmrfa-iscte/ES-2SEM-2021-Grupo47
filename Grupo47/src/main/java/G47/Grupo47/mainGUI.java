@@ -96,6 +96,7 @@ public class mainGUI extends Shell {
 	private ArrayList<Metrics> actualmetrics;
 	private Label lblDefinaUmaRegra;
 	private Combo metrica2;
+	private Combo metrica3;
 	private Label validation;
 	private Label validation1;
 	private Button btnSelecionarFicheirohistrico;
@@ -103,6 +104,13 @@ public class mainGUI extends Shell {
 	private File pastaselecionada;
 	private Button guardarhistorico;
 	private File historico;
+	private Text limite_3;
+	private Combo sinal;
+	private Combo sinal2;
+	private Combo sinal3;
+	private Combo operador2;
+	private String content;
+	private String update;
 
 	/**
 	 * Launch the application.
@@ -177,7 +185,7 @@ public class mainGUI extends Shell {
 		ficheirosexcel.setBounds(10, 77, 345, 164);
 
 		composite = new Composite(this, SWT.NONE);
-		composite.setBounds(10, 257, 772, 424);
+		composite.setBounds(10, 257, 842, 424);
 
 		txtNmeroDeMtodos = new Text(this, SWT.BORDER);
 		txtNmeroDeMtodos.setEditable(false);
@@ -283,28 +291,33 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		metrica1.setBounds(10, 65, 181, 28);
+		metrica1.setBounds(10, 65, 117, 28);
 		metrica1.setText("");
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
 
 		Combo operador = new Combo(composite, SWT.READ_ONLY);
-		operador.setBounds(287, 65, 84, 28);
+		operador.setBounds(243, 65, 59, 28);
 		operador.setText("");
 		operador.add("OR");
 		operador.add("AND");
 
-		metrica2 = new Combo(composite, SWT.READ_ONLY);
-		metrica2.setBounds(390, 65, 180, 28);
+		metrica2 = new Combo(composite, SWT.BORDER);
+		metrica2.setBounds(313, 65, 94, 28);
 		metrica2.setText("");
+
+		metrica3 = new Combo(composite, SWT.BORDER);
+		metrica3.setBounds(592, 65, 117, 28);
+		metrica3.setText("");
+		metrica3.add("tommy_roto");
 
 		limite_1 = new Text(composite, SWT.BORDER);
 
-		limite_1.setBounds(197, 65, 84, 30);
+		limite_1.setBounds(178, 65, 59, 30);
 		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
-		limite_2.setBounds(599, 65, 145, 28);
+		limite_2.setBounds(460, 65, 60, 28);
 		limite_2.setText("Limite");
 
 		List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -314,10 +327,16 @@ public class mainGUI extends Shell {
 				i = regras.getSelectionIndex();
 				currentRule = list.get(i);
 				metrica1.setText(currentRule.getMethod1());
+				sinal.setText(currentRule.getSinal1());
 				limite_1.setText(currentRule.getLimit1());
-				metrica2.setText(currentRule.getMethod2());
-				limite_2.setText(currentRule.getLimit2());
 				operador.setText(currentRule.getOperator());
+				metrica2.setText(currentRule.getMethod2());
+				sinal2.setText(currentRule.getSinal2());
+				limite_2.setText(currentRule.getLimit2());
+				operador2.setText(currentRule.getOperator2());
+				metrica3.setText(currentRule.getMethod3());
+				sinal3.setText(currentRule.getSinal3());
+				limite_3.setText(currentRule.getLimit3());
 			}
 		});
 		regras.setLocation(10, 144);
@@ -327,52 +346,52 @@ public class mainGUI extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
+				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText()) || !isValid(limite_3.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
 					boolean v = false;
-					// if (!text_1.getText().isEmpty()) {
 					if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
 							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
 							&& validation.getText().isEmpty() && validation1.getText().isEmpty()) {
+						if (!metrica3.getText().isEmpty() && !operador2.getText().isEmpty()
+								&& !limite_3.getText().isEmpty() && !sinal3.getText().isEmpty()) {
+							rule = new Rules(metrica1.getText(), sinal.getText(), limite_1.getText(),
+									operador.getText(), metrica2.getText(), sinal2.getText(), limite_2.getText(),
+									operador2.getText(), metrica3.getText(), sinal3.getText(), limite_3.getText());
+							content = rule.toString();
+							for (int i = 0; i < list.size(); i++) {
+								if (list.get(i).toString().contentEquals(rule.toString())) {
+									JOptionPane.showMessageDialog(null, "Regra já imposta.");
+									v = true;
+									break;
 
-						rule = new Rules(metrica1.getText(), limite_1.getText(), operador.getText(), metrica2.getText(),
-								limite_2.getText());
-						String content = rule.toString();
-						System.out.println(content);
-						for (int i = 0; i < list.size(); i++) {
-							if (list.get(i).toString().contentEquals(rule.toString())) {
-								JOptionPane.showMessageDialog(null, "Regra já imposta.");
-								v = true;
-								break;
+								}
+							}
+						} else {
+							rule = new Rules(metrica1.getText(), sinal.getText(), limite_1.getText(),
+									operador.getText(), metrica2.getText(), sinal2.getText(), limite_2.getText(), "",
+									"", "", "");
+							content = rule.toString();
+							for (int i = 0; i < list.size(); i++) {
+								if (list.get(i).toString().contentEquals(rule.toString())) {
+									JOptionPane.showMessageDialog(null, "Regra já imposta.");
+									v = true;
+									break;
 
+								}
 							}
 						}
+
+						System.out.println(content);
 						if (v == false) {
 							regras.add(content);
 							list.add(rule);
 							System.out.println(list.size());
-							// try {
-							// FileWriter fw = new FileWriter(new File(text_1.getText()), true);
-							// BufferedWriter bw = new BufferedWriter(fw);
-							// System.out.println(rules.length());
-							// bw.write(content);
-							// bw.newLine();
-							// bw.close();
-							//
-							// } catch (IOException e1) {
-							// // TODO Auto-generated catch block
-							// e1.printStackTrace();
-							// }
 						}
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos.");
 					}
-					// } else {
-					// JOptionPane.showMessageDialog(null, "Selecione o ficheiro destino para o
-					// histórico.");
-					// }
 
 				}
 			}
@@ -392,29 +411,22 @@ public class mainGUI extends Shell {
 						System.out.println(list.get(i).toString());
 						list.get(i).setLimit1(limite_1.getText());
 						list.get(i).setLimit2(limite_2.getText());
+						list.get(i).setLimit3(limite_3.getText());
 						list.get(i).setMethod1(metrica1.getText());
 						list.get(i).setMethod2(metrica2.getText());
+						list.get(i).setMethod3(metrica3.getText());
 						list.get(i).setOperator(operador.getText());
+						list.get(i).setOperator2(operador2.getText());
+						list.get(i).setSinal1(sinal.getText());
+						list.get(i).setSinal2(sinal2.getText());
+						list.get(i).setSinal3(sinal3.getText());
 						System.out.println(list.get(i).toString());
 						System.out.println(regras.getItem(i));
-						String update = list.get(i).toString();
+						update = list.get(i).toString();
 						for (int x = 0; x < list.size(); x++) {
 							if (x == i) {
 								regras.remove(x);
 								regras.add(update, x);
-								// FileWriter fw;
-								// try {
-								// fw = new FileWriter(new File(text_1.getText()), true);
-								// BufferedWriter bw = new BufferedWriter(fw);
-								// System.out.println(rules.length());
-								// bw.write(update);
-								// bw.newLine();
-								// bw.close();
-								//
-								// } catch (IOException e1) {
-								// // TODO Auto-generated catch block
-								// e1.printStackTrace();
-								// }
 
 							}
 						}
@@ -512,9 +524,18 @@ public class mainGUI extends Shell {
 							for (int i = 0; i < rules.length; i++) {
 								System.out.println(rules[i]);
 							}
-							Rules x = new Rules(rules[0], rules[2], rules[3], rules[4], rules[6]);
-							list.add(x);
-							regras.add(line);
+							if (rules.length > 9) {
+								Rules x = new Rules(rules[0], rules[1], rules[2], rules[3], rules[4], rules[5],
+										rules[6], rules[7], rules[8], rules[9], rules[10]);
+								list.add(x);
+								regras.add(line);
+							} else {
+								Rules x = new Rules(rules[0], rules[1], rules[2], rules[3], rules[4], rules[5],
+										rules[6], "", "", "", "");
+								list.add(x);
+								regras.add(line);
+							}
+
 						}
 						reader.close();
 
@@ -589,6 +610,31 @@ public class mainGUI extends Shell {
 		guardarhistorico.setBounds(228, 380, 214, 30);
 		guardarhistorico.setText("Guardar histórico");
 
+		sinal = new Combo(composite, SWT.NONE);
+		sinal.setBounds(139, 65, 33, 28);
+		sinal.add(">");
+		sinal.add("<");
+
+		operador2 = new Combo(composite, SWT.BORDER);
+		operador2.setBounds(526, 65, 60, 28);
+		operador2.setText("");
+		operador2.add("OR");
+		operador2.add("AND");
+
+		sinal3 = new Combo(composite, SWT.NONE);
+		sinal3.setBounds(726, 65, 40, 28);
+		sinal3.add(">");
+		sinal3.add("<");
+
+		limite_3 = new Text(composite, SWT.BORDER);
+		limite_3.setText("");
+		limite_3.setBounds(772, 65, 60, 28);
+
+		sinal2 = new Combo(composite, SWT.NONE);
+		sinal2.setBounds(414, 65, 40, 28);
+		sinal2.add(">");
+		sinal2.add("<");
+
 		Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
 		lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
 		lblProjetoJavaescolha.setBounds(10, 9, 528, 20);
@@ -646,7 +692,7 @@ public class mainGUI extends Shell {
 	 */
 	protected void createContents() {
 		setText("Interface gráfica- Grupo 47");
-		setSize(810, 768);
+		setSize(880, 768);
 
 	}
 

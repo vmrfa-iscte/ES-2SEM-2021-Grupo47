@@ -70,7 +70,7 @@ public class Historico extends Shell {
 
 				}
 				if (!nomef.getText().isEmpty()) {
-					nomep.setText(ficheiro.getPath() + "\\" + nomef.getText()+".txt");
+					nomep.setText(ficheiro.getPath() + "\\" + nomef.getText() + ".txt");
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha o campo 'Nome do ficheiro'");
 				}
@@ -147,7 +147,7 @@ public class Historico extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!nomep.getText().isEmpty() && !nomef.getText().isEmpty()) {
-					File f = new File(nomep.getText() );
+					File f = new File(nomep.getText());
 					System.out.println(f.getPath());
 					if (!f.exists()) {
 						try {
