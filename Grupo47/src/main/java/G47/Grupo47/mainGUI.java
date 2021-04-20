@@ -62,7 +62,6 @@ import org.eclipse.swt.events.GestureEvent;
 
 public class mainGUI extends Shell {
 
-//	private Color c = new Color (211,211,211);
 	private int indice;
 	private List ficheirosexcel;
 	private Text foldername;
@@ -271,6 +270,11 @@ public class mainGUI extends Shell {
 								hasCyclo = true;
 							}
 						}
+						for (int y = 0; y < metrica3.getItems().length; y++) {
+							if (metrica3.getItems()[y].equals("LOC_class")) {
+								metrica3.remove(y);
+							}
+						}
 						if (!hasCyclo) {
 							metrica2.add("CYCLO_method");
 						}
@@ -303,13 +307,45 @@ public class mainGUI extends Shell {
 		operador.add("AND");
 
 		metrica2 = new Combo(composite, SWT.BORDER);
+		metrica2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("SelectionIndex: " + metrica2.getSelectionIndex());
+				if (metrica2.getSelectionIndex() != -1 && metrica3.getSelectionIndex() != -1) {
+					System.out.println(metrica2.getItem(metrica2.getSelectionIndex()));
+					if (metrica2.getItem(metrica2.getSelectionIndex()).equals("NOM_class")) {
+						boolean hasLOC = false;
+						for (int i = 0; i < metrica2.getItems().length; i++) {
+							if (!metrica3.getItems()[i].equals("LOC_class")) {
+								metrica3.remove(i);
+							} else {
+								hasLOC = true;
+							}
+						}
+						if (!hasLOC) {
+							metrica3.add("LOC_class");
+						}
+
+					}
+				} else {
+					metrica3.add("LOC_class");
+				}
+				if (metrica2.getItem(metrica2.getSelectionIndex()).equals("CYCLO_method")) {
+					for (int y = 0; y < metrica3.getItems().length; y++) {
+						if (metrica3.getItems()[y].equals("LOC_class")) {
+							metrica3.remove(y);
+						}
+					}
+
+				}
+			}
+		});
 		metrica2.setBounds(313, 65, 94, 28);
 		metrica2.setText("");
 
 		metrica3 = new Combo(composite, SWT.BORDER);
 		metrica3.setBounds(592, 65, 117, 28);
 		metrica3.setText("");
-		metrica3.add("tommy_roto");
 
 		limite_1 = new Text(composite, SWT.BORDER);
 
