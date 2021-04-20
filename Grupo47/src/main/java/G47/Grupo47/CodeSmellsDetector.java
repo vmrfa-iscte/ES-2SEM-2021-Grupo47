@@ -17,7 +17,7 @@ public class CodeSmellsDetector {
 
 	}
 
-	public ArrayList<HasCodeSmell> detectLongMethod() {
+	public ArrayList<HasCodeSmell> detectLongMethodBiggerBigger() {
 		ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
 		ArrayList<HasCodeSmell> auxview = new ArrayList<HasCodeSmell>();
 		String lastclass = "";
@@ -417,13 +417,12 @@ public class CodeSmellsDetector {
 		return view;
 	}
 
-	public ArrayList<HasCodeSmell> detectGodClass() {
+	public ArrayList<HasCodeSmell> detectGodClassBiggerBigger() {
 		ArrayList<String> namesClasses = new ArrayList<>();
 		ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
 		ArrayList<HasCodeSmell> auxview = new ArrayList<HasCodeSmell>();
 		String lastclass = "";
 		String lastclassview = results.get(0).getClasse();
-
 		if (operator.equals("AND")) {
 			for (Metrics metric : results) {
 				if(!lastclassview.equals(metric.getClasse())) {

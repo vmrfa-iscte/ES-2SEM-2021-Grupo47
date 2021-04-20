@@ -489,71 +489,72 @@ public class mainGUI extends Shell {
 					String operator = currentRule.getOperator();
 					String signal2 = currentRule.getSinal2();
 					int limit2 = Integer.parseInt(currentRule.getLimit2());
-//					String operator2 = currentRule.getOperator2();
-//					String signal3 = currentRule.getSinal3();
-//					int limit3 = Integer.parseInt(currentRule.getLimit3());
+					//					String operator2 = currentRule.getOperator2();
+					//					String signal3 = currentRule.getSinal3();
+					//					int limit3 = Integer.parseInt(currentRule.getLimit3());
 					if (method1.equals("LOC_method")) {
 						if (signal1.equals(">") && signal2.equals(">")) {
-								CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-								ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
-								SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
-								for (HasCodeSmell hascodesmell : hcsList) {
-									System.out.println("ID: " + hascodesmell.getMethod_ID());
-									codesmells.addCodeSmellsInfo(hascodesmell, false);
-								}
-								codesmells.loadGUI();				
+							CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodBiggerBigger();
+							SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
+							for (HasCodeSmell hascodesmell : hcsList) {
+								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells.loadGUI();		
+							System.out.println("Corri Bigger Bigger");
 						}
 						if (signal1.equals(">") && signal2.equals("<")) {
-								CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-								ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodBiggerSmaller();
-								SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
-								for (HasCodeSmell hascodesmell : hcsList) {
-									System.out.println("ID: " + hascodesmell.getMethod_ID());
-									codesmells.addCodeSmellsInfo(hascodesmell, false);
-								}
-								codesmells.loadGUI();
-						
+							CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodBiggerSmaller();
+							SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
+							for (HasCodeSmell hascodesmell : hcsList) {
+								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells.loadGUI();
+							System.out.println("Corri Bigger Smaller");
+
 						}
 						if (signal1.equals("<") && signal2.equals(">")) {
-								CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-								ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerBigger();
-								SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
-								for (HasCodeSmell hascodesmell : hcsList) {
-									System.out.println("ID: " + hascodesmell.getMethod_ID());
-									codesmells.addCodeSmellsInfo(hascodesmell, false);
-								}
-								codesmells.loadGUI();	
+							CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerBigger();
+							SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
+							for (HasCodeSmell hascodesmell : hcsList) {
+								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells.loadGUI();	
+							System.out.println("Corri Smaller Bigger");
 						}
 
 						if (signal1.equals("<") && signal2.equals("<")) {
-								CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-								ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerSmaller();
-								SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
-								for (HasCodeSmell hascodesmell : hcsList) {
-									System.out.println("ID: " + hascodesmell.getMethod_ID());
-									codesmells.addCodeSmellsInfo(hascodesmell, false);
-								}
-								codesmells.loadGUI();
+							CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerSmaller();
+							SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
+							for (HasCodeSmell hascodesmell : hcsList) {
+								//								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells.loadGUI();
+							System.out.println("Corri Smaller Smaller");
 						}
-//						if (method1.equals("WMC_class")) {
-//							ArrayList<HasCodeSmell> hcslist2 = detector.detectGodClass();
-//							System.out.println("hcslist2 size: " + hcslist2.size());
-//							try {
-//								a.fillWithCodeSmellResults(hcslist2, false);
-//							} catch (IOException e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//							}
-//							SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcslist2);
-//							codesmells2.loadGUI();
-//
-//						}
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
-//
-					}
 
-					
+					}
+					if (method1.equals("WMC_class")) {
+						System.out.println("Valor do terceiro método: " + currentRule.getMethod3()  );
+						if (signal1.equals(">") && signal2.equals("<") ) {
+							CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+							ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassBiggerBigger();
+							SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcsList2);
+							for (HasCodeSmell hascodesmell : hcsList2) {
+								//								System.out.println("ID: " + hascodesmell.getMethod_ID());
+								codesmells2.addCodeSmellsInfo(hascodesmell, false);
+							}
+							codesmells2.loadGUI();
+						}
+					} 
+
 				}
 			}
 
