@@ -489,10 +489,10 @@ public class mainGUI extends Shell {
 					String operator = currentRule.getOperator();
 					String signal2 = currentRule.getSinal2();
 					int limit2 = Integer.parseInt(currentRule.getLimit2());
-					String operator2 = currentRule.getOperator2();
-					String signal3 = currentRule.getSinal3();
-					int limit3 = Integer.parseInt(currentRule.getLimit3());
-					System.out.println("actualmetrics size 2: " + actualmetrics.size());
+//					String operator2 = currentRule.getOperator2();
+//					String signal3 = currentRule.getSinal3();
+//					int limit3 = Integer.parseInt(currentRule.getLimit3());
+
 					ExcelManip a = new ExcelManip(selectedFile1);
 					if (method1.equals("LOC_method")) {
 						if (signal1.equals(">") && signal2.equals(">")) {
