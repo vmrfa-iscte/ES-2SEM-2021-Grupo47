@@ -116,35 +116,7 @@ public class ExcelManip {
 
 	}
 
-	public void fillWithCodeSmellResults(ArrayList<HasCodeSmell> result, boolean isLongMethod) throws IOException {
-		ArrayList<HasCodeSmell> aux = new ArrayList<HasCodeSmell>();
-		for (HasCodeSmell code : result) {
-			if (code.getMethodName().contains("(")) {
-				aux.add(code);
-			}		
-		}		
-		FileInputStream file = new FileInputStream(new File(this.getFilePath()));
-		XSSFWorkbook workbook = new XSSFWorkbook(file);
-		XSSFSheet sheet = workbook.getSheetAt(0);
-		Iterator<Row> it = sheet.iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			Row row = it.next();
-			if ( isLongMethod == true && row.getRowNum() != 0) {
-				row.createCell(10).setCellValue(aux.get(i).getHasCodeSmell());
-				i++;
-			}
-			if ( isLongMethod == false && row.getRowNum() != 0) {
-				row.createCell(7).setCellValue(aux.get(i).getHasCodeSmell());
-				i++;
-			}
-		}
 
-		FileOutputStream excel = new FileOutputStream(this.getFilePath());
-		workbook.write(excel);
-		workbook.close();
-
-	}
 
 	public ArrayList<HasCodeSmell> toComparables(int a) throws IOException {
 		FileInputStream fileTo = new FileInputStream(file.getAbsoluteFile());
