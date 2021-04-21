@@ -90,9 +90,9 @@ public class CodeSmellsDetector {
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
 
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -110,9 +110,9 @@ public class CodeSmellsDetector {
 			}else {
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -131,9 +131,9 @@ public class CodeSmellsDetector {
 			}else  {
 				if (metric.getLOC_method() < rule1_threshold || metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -151,9 +151,9 @@ public class CodeSmellsDetector {
 			}else  {
 				if (metric.getLOC_method() < rule1_threshold || metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -171,9 +171,9 @@ public class CodeSmellsDetector {
 			}else {
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}
 			else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -192,9 +192,9 @@ public class CodeSmellsDetector {
 			}else  {
 				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}
 			else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -212,9 +212,9 @@ public class CodeSmellsDetector {
 			}else {
 				if (metric.getLOC_method() < rule1_threshold || metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}
 			else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -234,9 +234,9 @@ public class CodeSmellsDetector {
 				if (metric.getLOC_method() < rule1_threshold || metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
 
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}
 			else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -263,9 +263,9 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() > rule1_threshold || metric.getNOM_class() > rule2_threshold || metric.getLOC_class() > rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -291,13 +291,12 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() < rule1_threshold || metric.getNOM_class() < rule2_threshold || metric.getLOC_class() < rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
-
 			}
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
@@ -321,9 +320,9 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() > rule1_threshold || metric.getNOM_class() < rule2_threshold || metric.getLOC_class() < rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());	
 			}
@@ -349,9 +348,10 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() > rule1_threshold || metric.getNOM_class() < rule2_threshold || metric.getLOC_class() > rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
+			
 			if (hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -377,10 +377,10 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() > rule1_threshold || metric.getNOM_class() > rule2_threshold || metric.getLOC_class() < rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
+			
 			if (hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
-
+				lastclass = changeLastClass(lastclass,metric);
 			}
 			else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -407,9 +407,10 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() < rule1_threshold || metric.getNOM_class() < rule2_threshold || metric.getLOC_class() > rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
+			
 			if (hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -435,10 +436,9 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() < rule1_threshold || metric.getNOM_class() > rule2_threshold || metric.getLOC_class() > rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if (hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
-
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
@@ -464,9 +464,9 @@ public class CodeSmellsDetector {
 					if (metric.getWMC_class() < rule1_threshold || metric.getNOM_class() > rule2_threshold || metric.getLOC_class() < rule3_threshold) hasDetection = true;
 				}
 			}
-			lastclass = changeLastClass(lastclass,metric);
 			if (hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());		
+				lastclass = changeLastClass(lastclass,metric);
 			}else {
 				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
 			}
