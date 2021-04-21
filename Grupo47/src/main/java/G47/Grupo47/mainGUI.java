@@ -118,7 +118,9 @@ public class mainGUI extends Shell {
 					selectedFile1 = pathpasta.getSelectedFile();
 					nomepath = selectedFile1.getAbsolutePath();
 				}
+				if(selectedFile1 != null) {
 				foldername.setText(selectedFile1.getPath());
+				}
 			}
 		});
 		pasta.setBounds(372, 33, 166, 30);
@@ -202,6 +204,9 @@ public class mainGUI extends Shell {
 		extrair.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if(selectedFile1 == null) {
+					JOptionPane.showMessageDialog(null, "Escolha uma pasta");
+				}else {
 				DirExplorer dirEx = new DirExplorer(selectedFile1);
 				try {
 					actualmetrics = dirEx.explore();
@@ -226,6 +231,7 @@ public class mainGUI extends Shell {
 				}
 
 			}
+			}
 		});
 
 		Combo metrica1 = new Combo(composite, SWT.READ_ONLY);
@@ -240,61 +246,17 @@ public class mainGUI extends Shell {
 						sinal3.setVisible(false);
 						metrica3.setVisible(false);
 						limite_3.setVisible(false);
-						boolean hasCyclo = false;
-						System.out.println("length:"+metrica2.getItems().length);
-						String[] options = metrica2.getItems();
-						System.out.println(options.toString());
-						for (int i = 0; i < options.length; i++) {
-							System.out.println("index: "+i);
-							if (options[i].equals("CYCLO_method")) {
-								hasCyclo = true;
-								System.out.println("has cyclo");
-							} else {
-								metrica2.remove(options[i]);
-								System.out.println("removeu: "+metrica2.getItem(i));
-							}
-						}
-						if (!hasCyclo) {
-							metrica2.add("CYCLO_method");
-						}
+						metrica2.removeAll();
+						metrica2.add("CYCLO_method");
 
 					} else {
-						boolean hasNOM = false;
-						boolean hasLOC = false;
-						System.out.println("length:"+metrica2.getItems().length);
-						for (int i = 0; i < metrica2.getItems().length; i++) {
-							System.out.println("index: "+i);
-							if (metrica2.getItems()[i].equals("CYCLO_method")) {
-								metrica2.remove(metrica2.getItems()[i]);
-							}
-							if(metrica2.getItems()[i].equals("LOC_class")) {
-								hasLOC = true;
-							}
-							if(metrica2.getItems()[i].equals("NOM_class")) {
-								hasNOM = true;
-							}
-						}
-						if(!hasNOM) {
-							metrica2.add("NOM_class");
-						}
-						if(!hasLOC) {
-							metrica2.add("LOC_class");
-						}
+						metrica2.removeAll();
+						metrica2.add("NOM_class");
+						metrica2.add("LOC_class");
 						operador2.setVisible(true);
 						sinal3.setVisible(true);
 						metrica3.setVisible(true);
 						limite_3.setVisible(true);
-//						boolean hasNOM = false;
-//						for (int i = 0; i < metrica2.getItems().length; i++) {
-//							if (!metrica2.getItems()[i].equals("NOM_class") || !metrica2.getItems()[i].equals(" ")) {
-//								metrica2.remove(i);
-//							} else {
-//								hasNOM = true;
-//							}
-//						}
-//						if (!hasNOM) {
-//							metrica2.add("NOM_class");
-//						}
 					}
 				}
 			}
@@ -303,7 +265,6 @@ public class mainGUI extends Shell {
 		metrica1.setText("");
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
-		metrica1.select(0);
 
 		Combo operador = new Combo(composite, SWT.READ_ONLY);
 		operador.setBounds(440, 58, 117, 28);
@@ -312,16 +273,33 @@ public class mainGUI extends Shell {
 		operador.add("AND");
 		
 		metrica2 = new Combo(composite, SWT.READ_ONLY);
+		metrica2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(metrica2.getSelectionIndex() != -1) {
+					if(metrica2.getItem(metrica2.getSelectionIndex()).equals("LOC_class")) {
+						operador2.setVisible(false);
+						sinal3.setVisible(false);
+						metrica3.setVisible(false);
+						limite_3.setVisible(false);
+					}else if(metrica2.getItem(metrica2.getSelectionIndex()).equals("NOM_class")) {
+						operador2.setVisible(true);
+						sinal3.setVisible(true);
+						metrica3.setVisible(true);
+						limite_3.setVisible(true);
+					}
+				}
+			}
+		});
 		metrica2.setBounds(10, 92, 155, 28);
-		metrica2.select(0);
 		metrica2.setText("");
 
 		metrica3 = new Combo(composite, SWT.READ_ONLY);
 		metrica3.setBounds(10, 126, 155, 28);
 		metrica3.setText("");
-		metrica3.add(" ");
+		metrica3.add("");
+		metrica3.add("LOC_class");
 		metrica3.setVisible(false);
-		metrica3.select(0);
 		
 		limite_1 = new Text(composite, SWT.BORDER);
 		limite_1.setBounds(313, 58, 94, 30);
@@ -360,8 +338,8 @@ public class mainGUI extends Shell {
 				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText()) ) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
-					String textlimit3 = limite_3.getText();
-	
+					if((metrica3.getText().isBlank() && operador2.getText().isBlank() && (limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && sinal3.getText().isBlank()) || (!metrica3.getText().isBlank() && !operador2.getText().isBlank() && !(limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && !sinal3.getText().isBlank())){
+
 						boolean v = false;
 						if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
 								&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
@@ -404,9 +382,13 @@ public class mainGUI extends Shell {
 						} else {
 							JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos.");
 						}
-					
+					}else {
+						JOptionPane.showMessageDialog(null, "Preencha todos os campos");
+					}
 				}
+
 			}
+
 		});
 
 		btnDefinirRegras.setBounds(447, 185, 142, 30);
@@ -419,31 +401,35 @@ public class mainGUI extends Shell {
 				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
-					if (regras.isSelected(i)) {
-						System.out.println(list.get(i).toString());
-						list.get(i).setLimit1(limite_1.getText());
-						list.get(i).setLimit2(limite_2.getText());
-						list.get(i).setLimit3(limite_3.getText());
-						list.get(i).setMethod1(metrica1.getText());
-						list.get(i).setMethod2(metrica2.getText());
-						list.get(i).setMethod3(metrica3.getText());
-						list.get(i).setOperator(operador.getText());
-						list.get(i).setOperator2(operador2.getText());
-						list.get(i).setSinal1(sinal.getText());
-						list.get(i).setSinal2(sinal2.getText());
-						list.get(i).setSinal3(sinal3.getText());
-						System.out.println(list.get(i).toString());
-						System.out.println(regras.getItem(i));
-						update = list.get(i).toString();
-						for (int x = 0; x < list.size(); x++) {
-							if (x == i) {
-								regras.remove(x);
-								regras.add(update, x);
+					if((metrica3.getText().isBlank() && operador2.getText().isBlank() && (limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && sinal3.getText().isBlank()) || (!metrica3.getText().isBlank() && !operador2.getText().isBlank() && !(limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && !sinal3.getText().isBlank())){
+						if (regras.isSelected(i)) {
+							System.out.println(list.get(i).toString());
+							list.get(i).setLimit1(limite_1.getText());
+							list.get(i).setLimit2(limite_2.getText());
+							list.get(i).setLimit3(limite_3.getText());
+							list.get(i).setMethod1(metrica1.getText());
+							list.get(i).setMethod2(metrica2.getText());
+							list.get(i).setMethod3(metrica3.getText());
+							list.get(i).setOperator(operador.getText());
+							list.get(i).setOperator2(operador2.getText());
+							list.get(i).setSinal1(sinal.getText());
+							list.get(i).setSinal2(sinal2.getText());
+							list.get(i).setSinal3(sinal3.getText());
+							System.out.println(list.get(i).toString());
+							System.out.println(regras.getItem(i));
+							update = list.get(i).toString();
+							for (int x = 0; x < list.size(); x++) {
+								if (x == i) {
+									regras.remove(x);
+									regras.add(update, x);
 
+								}
 							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
+					}else {
+						JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos");
 					}
 
 				}
@@ -458,7 +444,10 @@ public class mainGUI extends Shell {
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-
+				if(actualmetrics == null) {
+					JOptionPane.showMessageDialog(null, "Não foram extraidas métricas");
+					
+				}else {
 				if (regras.isSelected(i)) {
 					String method1 = currentRule.getMethod1();
 					String method2 = currentRule.getMethod2();
@@ -469,7 +458,6 @@ public class mainGUI extends Shell {
 					int limit2 = Integer.parseInt(currentRule.getLimit2());
 					if (method1.equals("LOC_method")) {
 						evaluateLocMethod(signal1,signal2,limit1,limit2,operator);
-
 					}
 					if (method1.equals("WMC_class") && method2.equals("NOM_class") && !currentRule.getMethod3().contains("a")) {
 						evaluateGodClassWithWMC_NOM(signal1,signal2,limit1,limit2,operator);
@@ -495,6 +483,7 @@ public class mainGUI extends Shell {
 				}
 				
 			}
+			}
 
 		});
 
@@ -516,8 +505,10 @@ public class mainGUI extends Shell {
 					historico = pathpasta.getSelectedFile();
 
 				}
-				if (historico.getPath().endsWith(".txt")) {
-					try {
+				if(historico == null) {
+				}else {
+					if (historico.getPath().endsWith(".txt")) {
+						try {
 						FileReader reader = new FileReader(new File(historico.getPath()));
 						BufferedReader bufferedReader = new BufferedReader(reader);
 						String line;
@@ -541,17 +532,19 @@ public class mainGUI extends Shell {
 
 						}
 						reader.close();
-					} catch (FileNotFoundException e1) {
-					
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
+						} catch (FileNotFoundException e1) {
+
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Ficheiro inválido");
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Ficheiro inválido");
 				}
 
 			}
+
 		});
 
 		carregarhist.setBounds(10, 422, 212, 30);
@@ -684,6 +677,8 @@ public class mainGUI extends Shell {
 		btnVerFicheiro.setText("Ver ficheiro");
 		createContents();
 	}
+	
+	
 
 	private boolean isValid(String text) {
 		System.out.println("text: " + text);
