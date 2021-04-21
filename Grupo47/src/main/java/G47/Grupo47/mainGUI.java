@@ -482,6 +482,7 @@ public class mainGUI extends Shell {
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+
 				if (regras.isSelected(i)) {
 					String method1 = currentRule.getMethod1();
 					String signal1 = currentRule.getSinal1();
