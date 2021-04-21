@@ -79,8 +79,7 @@ public class CodeSmellsDetector {
 		}
 		return lastclass;
 	}
-
-
+	
 	public ArrayList<HasCodeSmell> detectLongMethodBiggerBigger() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
