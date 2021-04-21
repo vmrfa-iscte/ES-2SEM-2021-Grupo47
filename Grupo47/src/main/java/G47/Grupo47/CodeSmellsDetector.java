@@ -98,6 +98,7 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
 		}
+		System.out.println("Corri Bigger Bigger para o LONG_METHOD");
 		return view;
 	}
 
@@ -118,7 +119,7 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
 		}
-
+		System.out.println("Corri Bigger Smaller para LongMethod");
 		return view;
 	}
 
@@ -139,6 +140,7 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
 		}
+		System.out.println("Corri SmallerBigger para Long Method");
 		return view;
 	}
 
@@ -159,10 +161,11 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = true;
 		}
+		System.out.println("Corri Smaller Smaller para Long Method");
 		return view;
 	}
 
-	public ArrayList<HasCodeSmell> detectGodClassBiggerBigger() {
+	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
@@ -180,10 +183,11 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
 		}
+		System.out.println("Corri Bigger Bigger para WMC_NOM");
 		return view;
 	}
 
-	public ArrayList<HasCodeSmell> detectGodClassBiggerSmaller() {
+	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
@@ -201,9 +205,10 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
 		}
+		System.out.println("Corri Bigger Smaller para WMC_NOM");
 		return view;
 	}
-	public ArrayList<HasCodeSmell> detectGodClassSmallerSmaller() {
+	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
@@ -221,10 +226,11 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
 		}
+		System.out.println("Corri Smaller Smaller para WMC_NOM");
 		return view;
 	}
 
-	public ArrayList<HasCodeSmell> detectGodClassSmallerBigger() {
+	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
@@ -243,8 +249,188 @@ public class CodeSmellsDetector {
 			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
 			hasDetection = false;
 		}
+		System.out.println("Corri Smaller Bigger para WMC_NOM");
 		return view;
 	}
+	
+	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerWMC_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getWMC_class() > rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
+			}else {
+				if (metric.getWMC_class() > rule1_threshold || metric.getLOC_class() > rule2_threshold) hasDetection = true;
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corru Bigger Bigger para WMC_LOC");
+		return view;
+	}
+
+	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerWMC_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getWMC_class() > rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
+			}else  {
+				if (metric.getWMC_class() > rule1_threshold || metric.getLOC_class() < rule2_threshold) hasDetection = true;
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corri Bigger Smaller para WMC_LOC");
+		return view;
+	}
+	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerWMC_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getWMC_class() < rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
+			}else {
+				if (metric.getWMC_class() < rule1_threshold || metric.getLOC_class() < rule2_threshold) hasDetection = true;
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corri Smaller Smaller para WMC_LOC");
+		return view;
+	}
+	
+	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerWMC_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getWMC_class() < rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
+			}else {
+				if (metric.getWMC_class() < rule1_threshold || metric.getLOC_class() > rule2_threshold) hasDetection = true;
+
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corri Smaller Bigger para WMC_LOC");
+		return view;
+	}
+
+	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerNOM_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getNOM_class() > rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
+			}else {
+				if (metric.getNOM_class() > rule1_threshold || metric.getLOC_class() > rule2_threshold) hasDetection = true;
+
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corri Bigger Bigger para NOM_LOC");
+		return view;
+	}
+	
+	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerNOM_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getNOM_class() > rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
+			}else {
+				if (metric.getNOM_class() > rule1_threshold || metric.getLOC_class() < rule2_threshold) hasDetection = true;
+
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corri Bigger Smaller para NOM_LOC");
+		return view;
+	}
+	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerNOM_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getNOM_class() < rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
+			}else {
+				if (metric.getNOM_class() < rule1_threshold || metric.getLOC_class() > rule2_threshold) hasDetection = true;
+
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corri Smaller Bigger para NOM_LOC");
+		return view;
+	}
+	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerNOM_LOC() {
+		for (Metrics metric : results) {
+			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
+			if (operator.equals("AND")) {
+				if (metric.getNOM_class() < rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
+			}else {
+				if (metric.getNOM_class() < rule1_threshold || metric.getLOC_class() < rule2_threshold) hasDetection = true;
+
+			}
+			if(hasDetection) {
+				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+				lastclass = changeLastClass(lastclass,metric);
+			}
+			else {
+				createAndAdd(auxview,metric.getNome_metodo(),"FALSE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
+			}
+			lastclassview = lastVerification(lastclassview,results,metric,namesClasses,view,auxview);
+			hasDetection = false;
+		}
+		System.out.println("Corri Smaller Smaller para NOM LOC");
+		return view;
+	}
+
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerBigger() {
 		for (Metrics metric : results) {
@@ -474,4 +660,7 @@ public class CodeSmellsDetector {
 		}
 		return view;
 	}
+	
+	
+	
 }
