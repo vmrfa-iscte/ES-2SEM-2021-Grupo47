@@ -166,9 +166,9 @@ public class CodeSmellsDetector {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
-				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() > rule1_threshold && metric.getNOM_class() > rule2_threshold) hasDetection = true;
 			}else {
-				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() > rule1_threshold || metric.getNOM_class() > rule2_threshold) hasDetection = true;
 			}
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -187,9 +187,9 @@ public class CodeSmellsDetector {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
-				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() > rule1_threshold && metric.getNOM_class() < rule2_threshold) hasDetection = true;
 			}else  {
-				if (metric.getLOC_method() > rule1_threshold || metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() > rule1_threshold || metric.getNOM_class() < rule2_threshold) hasDetection = true;
 			}
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -207,9 +207,9 @@ public class CodeSmellsDetector {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
-				if (metric.getLOC_method() < rule1_threshold && metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() < rule1_threshold && metric.getNOM_class() < rule2_threshold) hasDetection = true;
 			}else {
-				if (metric.getLOC_method() < rule1_threshold || metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() < rule1_threshold || metric.getNOM_class() < rule2_threshold) hasDetection = true;
 			}
 			if(hasDetection) {
 				createAndAdd(auxview,metric.getNome_metodo(),"TRUE",String.valueOf(metric.getMethod_ID()),metric.getPacote(),metric.getClasse());
@@ -228,9 +228,9 @@ public class CodeSmellsDetector {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
-				if (metric.getLOC_method() < rule1_threshold && metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() < rule1_threshold && metric.getNOM_class() > rule2_threshold) hasDetection = true;
 			}else {
-				if (metric.getLOC_method() < rule1_threshold || metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
+				if (metric.getWMC_class() < rule1_threshold || metric.getNOM_class() > rule2_threshold) hasDetection = true;
 
 			}
 			if(hasDetection) {
