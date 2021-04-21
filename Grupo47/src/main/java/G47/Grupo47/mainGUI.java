@@ -62,54 +62,27 @@ import org.eclipse.swt.events.GestureEvent;
 
 public class mainGUI extends Shell {
 
-	private int indice;
+	private int indice,i;
 	private List ficheirosexcel;
-	private Text foldername;
+	private Text foldername,txtNmeroDeMtodos,NumClasses,txtNmeroDeClasses,txtNmeroDeLinhas,txtNmeroDePackages,NumPackages,NumMethods,NumLines,text_1,limite_1,limite_2,limite_3;
 	private StyledText styledText;
 	private Composite composite;
-	private Button btnDefinirRegras;
-	private Text limite_1;
-	private Text limite_2;
-	private Text codesmells;
-	private String diretoria = new String();
-	String nomepath = new String();
-	File selectedFile1 = null;
-	String nameFile = "";
-	private Text txtNmeroDeMtodos;
-	private Text NumClasses;
-	private Text txtNmeroDeClasses;
-	private Text txtNmeroDeLinhas;
-	private Text txtNmeroDePackages;
-	private Text NumPackages;
-	private Text NumMethods;
-	private Text NumLines;
-	private HashMap<String, ArrayList<String>> mapStats = new HashMap<>();
+	private Button btnDefinirRegras,btnSelecionarFicheirohistrico,guardarhistorico;
+	private String diretoria,nomepath = new String();
+	private File selectedFile1 = null;
+	private String nameFile = "";
+	private HashMap<String,ArrayList<String>> mapStats = new HashMap<>();
 	private String username = System.getProperty("user.name");
-	private File rules;
+	private File rules,pastaselecionada,historico;
 	private FileWriter fw;
 	private BufferedWriter bw;
 	private ArrayList<Rules> list = new ArrayList<Rules>();
 	private Rules rule, currentRule;
-	private int i;
 	private String[] selected_rule;
 	private ArrayList<Metrics> actualmetrics;
 	private Label lblDefinaUmaRegra;
-	private Combo metrica2;
-	private Combo metrica3;
-	private Label validation;
-	private Label validation1;
-	private Button btnSelecionarFicheirohistrico;
-	private Text text_1;
-	private File pastaselecionada;
-	private Button guardarhistorico;
-	private File historico;
-	private Text limite_3;
-	private Combo sinal;
-	private Combo sinal2;
-	private Combo sinal3;
-	private Combo operador2;
-	private String content;
-	private String update;
+	private Combo metrica2,metrica3,sinal,sinal2,sinal3,operador2;
+	private String content,update;
 
 	/**
 	 * Launch the application.
@@ -184,7 +157,7 @@ public class mainGUI extends Shell {
 		ficheirosexcel.setBounds(10, 77, 345, 164);
 
 		composite = new Composite(this, SWT.NONE);
-		composite.setBounds(10, 257, 842, 424);
+		composite.setBounds(10, 283, 670, 465);
 
 		txtNmeroDeMtodos = new Text(this, SWT.BORDER);
 		txtNmeroDeMtodos.setEditable(false);
@@ -193,7 +166,7 @@ public class mainGUI extends Shell {
 
 		NumClasses = new Text(this, SWT.BORDER);
 		NumClasses.setEditable(false);
-		NumClasses.setBounds(544, 78, 78, 26);
+		NumClasses.setBounds(544, 78, 136, 26);
 
 		txtNmeroDeClasses = new Text(this, SWT.BORDER);
 		txtNmeroDeClasses.setEditable(false);
@@ -212,18 +185,18 @@ public class mainGUI extends Shell {
 
 		NumPackages = new Text(this, SWT.BORDER);
 		NumPackages.setEditable(false);
-		NumPackages.setBounds(544, 127, 78, 26);
+		NumPackages.setBounds(544, 127, 136, 26);
 
 		NumMethods = new Text(this, SWT.BORDER);
 		NumMethods.setEditable(false);
-		NumMethods.setBounds(544, 172, 78, 26);
+		NumMethods.setBounds(544, 172, 136, 26);
 
 		NumLines = new Text(this, SWT.BORDER);
 		NumLines.setEditable(false);
-		NumLines.setBounds(544, 215, 78, 26);
+		NumLines.setBounds(544, 215, 136, 26);
 
 		Button extrair = new Button(this, SWT.NONE);
-		extrair.setBounds(544, 33, 179, 30);
+		extrair.setBounds(544, 33, 136, 30);
 		extrair.setText("Extrair métricas");
 		extrair.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -262,6 +235,16 @@ public class mainGUI extends Shell {
 				if (metrica1.getSelectionIndex() != -1) {
 					System.out.println(metrica1.getItem(metrica1.getSelectionIndex()));
 					if (metrica1.getItem(metrica1.getSelectionIndex()).equals("LOC_method")) {
+						operador2.setVisible(false);
+						sinal3.setVisible(false);
+						metrica3.setVisible(false);
+						limite_3.setVisible(false);
+						for(int j = 0; j < operador2.getItems().length;i++) {
+							if(operador2.getItems()[j].equals("OR") || operador2.getItems()[j].equals("AND")) operador2.remove(j);
+						}
+						for(int j = 0; j < sinal3.getItems().length;i++) {
+							if(sinal3.getItems()[j].equals(">") || sinal3.getItems()[j].equals("<")) sinal3.remove(j);
+						}
 						boolean hasCyclo = false;
 						for (int i = 0; i < metrica2.getItems().length; i++) {
 							if (!metrica2.getItems()[i].equals("CYCLO_method")) {
@@ -280,6 +263,18 @@ public class mainGUI extends Shell {
 						}
 
 					} else {
+						operador2.setVisible(true);
+						sinal3.setVisible(true);
+						metrica3.setVisible(true);
+						limite_3.setVisible(true);
+						if(operador2.getItems().length == 0) {
+							operador2.add("OR");
+							operador2.add("AND");
+						}
+						if(sinal3.getItems().length == 0) {
+							sinal3.add(">");
+							sinal3.add("<");
+						}
 						boolean hasNOM = false;
 						for (int i = 0; i < metrica2.getItems().length; i++) {
 							if (!metrica2.getItems()[i].equals("NOM_class")) {
@@ -295,18 +290,18 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		metrica1.setBounds(10, 65, 117, 28);
+		metrica1.setBounds(10, 58, 155, 28);
 		metrica1.setText("");
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
 
 		Combo operador = new Combo(composite, SWT.READ_ONLY);
-		operador.setBounds(243, 65, 59, 28);
+		operador.setBounds(440, 58, 117, 28);
 		operador.setText("");
 		operador.add("OR");
 		operador.add("AND");
 
-		metrica2 = new Combo(composite, SWT.BORDER);
+		metrica2 = new Combo(composite, SWT.READ_ONLY);
 		metrica2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -314,6 +309,7 @@ public class mainGUI extends Shell {
 				if (metrica2.getSelectionIndex() != -1 && metrica3.getSelectionIndex() != -1) {
 					System.out.println(metrica2.getItem(metrica2.getSelectionIndex()));
 					if (metrica2.getItem(metrica2.getSelectionIndex()).equals("NOM_class")) {
+						
 						boolean hasLOC = false;
 						for (int i = 0; i < metrica2.getItems().length; i++) {
 							if (!metrica3.getItems()[i].equals("LOC_class")) {
@@ -340,20 +336,20 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		metrica2.setBounds(313, 65, 94, 28);
+		metrica2.setBounds(10, 92, 155, 28);
 		metrica2.setText("");
 
-		metrica3 = new Combo(composite, SWT.BORDER);
-		metrica3.setBounds(592, 65, 117, 28);
+		metrica3 = new Combo(composite, SWT.READ_ONLY);
+		metrica3.setBounds(10, 126, 155, 28);
 		metrica3.setText("");
-
+		metrica3.setVisible(false);
+		
 		limite_1 = new Text(composite, SWT.BORDER);
-
-		limite_1.setBounds(178, 65, 59, 30);
+		limite_1.setBounds(313, 58, 94, 30);
 		limite_1.setText("Limite");
 
 		limite_2 = new Text(composite, SWT.BORDER);
-		limite_2.setBounds(460, 65, 60, 28);
+		limite_2.setBounds(313, 92, 94, 28);
 		limite_2.setText("Limite");
 
 		List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -375,7 +371,7 @@ public class mainGUI extends Shell {
 				limite_3.setText(currentRule.getLimit3());
 			}
 		});
-		regras.setLocation(10, 144);
+		regras.setLocation(10, 186);
 		regras.setSize(431, 230);
 
 		btnDefinirRegras = new Button(composite, SWT.NONE);
@@ -387,8 +383,7 @@ public class mainGUI extends Shell {
 				} else {
 					boolean v = false;
 					if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
-							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()
-							&& validation.getText().isEmpty() && validation1.getText().isEmpty()) {
+							&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
 						if (!metrica3.getText().isEmpty() && !operador2.getText().isEmpty()
 								&& !limite_3.getText().isEmpty() && !sinal3.getText().isEmpty()) {
 							rule = new Rules(metrica1.getText(), sinal.getText(), limite_1.getText(),
@@ -433,7 +428,7 @@ public class mainGUI extends Shell {
 			}
 		});
 
-		btnDefinirRegras.setBounds(451, 143, 142, 30);
+		btnDefinirRegras.setBounds(447, 185, 142, 30);
 		btnDefinirRegras.setText("Definir regra");
 
 		Button alterarregra = new Button(composite, SWT.NONE);
@@ -475,7 +470,7 @@ public class mainGUI extends Shell {
 		});
 		;
 
-		alterarregra.setBounds(599, 143, 145, 30);
+		alterarregra.setBounds(447, 224, 145, 30);
 		alterarregra.setText("Alterar regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
@@ -556,12 +551,10 @@ public class mainGUI extends Shell {
 
 						}
 						reader.close();
-
 					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
+					
 						e1.printStackTrace();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				} else {
@@ -571,31 +564,19 @@ public class mainGUI extends Shell {
 			}
 		});
 
-		carregarhist.setBounds(10, 380, 212, 30);
+		carregarhist.setBounds(10, 422, 212, 30);
 		carregarhist.setText("Carregar histórico de regras");
 
-		codesmells.setBounds(451, 380, 293, 30);
+		codesmells.setBounds(451, 422, 167, 30);
 		codesmells.setText("Deteção de codesmells");
 
 		Label lblRegrasGuardadas = new Label(composite, SWT.NONE);
-		lblRegrasGuardadas.setBounds(10, 118, 155, 20);
+		lblRegrasGuardadas.setBounds(10, 160, 155, 20);
 		lblRegrasGuardadas.setText("Regras guardadas:");
 
 		lblDefinaUmaRegra = new Label(composite, SWT.NONE);
 		lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
-		lblDefinaUmaRegra.setBounds(10, 23, 397, 20);
-
-		validation = new Label(composite, SWT.NONE);
-		validation.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		validation.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
-		validation.setBounds(197, 99, 84, 20);
-		validation.setText("");
-
-		validation1 = new Label(composite, SWT.NONE);
-		validation1.setText("");
-		validation1.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		validation1.setFont(SWTResourceManager.getFont("Segoe UI", 8, SWT.NORMAL));
-		validation1.setBounds(599, 99, 145, 20);
+		lblDefinaUmaRegra.setBounds(10, 32, 397, 20);
 
 		guardarhistorico = new Button(composite, SWT.NONE);
 		guardarhistorico.addSelectionListener(new SelectionAdapter() {
@@ -625,31 +606,34 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		guardarhistorico.setBounds(228, 380, 214, 30);
+		guardarhistorico.setBounds(227, 422, 214, 30);
 		guardarhistorico.setText("Guardar histórico");
 
-		sinal = new Combo(composite, SWT.NONE);
-		sinal.setBounds(139, 65, 33, 28);
+		sinal = new Combo(composite, SWT.READ_ONLY);
+		sinal.setBounds(196, 58, 80, 28);
 		sinal.add(">");
 		sinal.add("<");
 
-		operador2 = new Combo(composite, SWT.BORDER);
-		operador2.setBounds(526, 65, 60, 28);
+		operador2 = new Combo(composite, SWT.READ_ONLY);
+		operador2.setBounds(440, 70, 117, 28);
 		operador2.setText("");
 		operador2.add("OR");
 		operador2.add("AND");
+		operador2.setVisible(false);
 
-		sinal3 = new Combo(composite, SWT.NONE);
-		sinal3.setBounds(726, 65, 40, 28);
+		sinal3 = new Combo(composite, SWT.READ_ONLY);
+		sinal3.setBounds(196, 126, 80, 28);
 		sinal3.add(">");
 		sinal3.add("<");
+		sinal3.setVisible(false);
 
 		limite_3 = new Text(composite, SWT.BORDER);
-		limite_3.setText("");
-		limite_3.setBounds(772, 65, 60, 28);
+		limite_3.setText("Limite");
+		limite_3.setBounds(313, 126, 94, 28);
+		limite_3.setVisible(false);
 
-		sinal2 = new Combo(composite, SWT.NONE);
-		sinal2.setBounds(414, 65, 40, 28);
+		sinal2 = new Combo(composite, SWT.READ_ONLY);
+		sinal2.setBounds(195, 92, 81, 28);
 		sinal2.add(">");
 		sinal2.add("<");
 
@@ -688,6 +672,21 @@ public class mainGUI extends Shell {
 			}
 		});
 		mntmInformaoSobreMtricas.setText("Informação sobre métricas");
+		
+		Button btnVerFicheiro = new Button(this, SWT.NONE);
+		btnVerFicheiro.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(actualmetrics!=null) {
+					ShowExcelGUI showGUI = new ShowExcelGUI(display,"Visualizar ficheiro",actualmetrics);
+					showGUI.loadGUI();
+				}else {
+					JOptionPane.showMessageDialog(null, "Escolha um projeto e extraia métricas");
+				}
+			}
+		});
+		btnVerFicheiro.setBounds(10, 247, 109, 30);
+		btnVerFicheiro.setText("Ver ficheiro");
 		createContents();
 	}
 
@@ -711,141 +710,45 @@ public class mainGUI extends Shell {
 			results.addCodeSmellsInfo(hascodesmell, false);
 		}
 	}
-	
+
 	private void evaluateLocMethod(String signal1, String signal2, int limit1, int limit2, String operator) {
-		if (signal1.equals(">") && signal2.equals(">")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodBiggerBigger();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
-			fillSecondaryGUI(hcsList,codesmells);
-			codesmells.loadGUI();		
-			System.out.println("Corri Bigger Bigger");
-		}
-		if (signal1.equals(">") && signal2.equals("<")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodBiggerSmaller();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
-			fillSecondaryGUI(hcsList,codesmells);
-			codesmells.loadGUI();
-			System.out.println("Corri Bigger Smaller");
-
-		}
-		if (signal1.equals("<") && signal2.equals(">")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerBigger();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
-			fillSecondaryGUI(hcsList,codesmells);
-			codesmells.loadGUI();	
-			System.out.println("Corri Smaller Bigger");
-		}
-
-		if (signal1.equals("<") && signal2.equals("<")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerSmaller();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
-			fillSecondaryGUI(hcsList,codesmells);
-			codesmells.loadGUI();
-			System.out.println("Corri Smaller Smaller");
-		}
+		CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+		ArrayList<HasCodeSmell> hcsList = new ArrayList<>();
+		if (signal1.equals(">") && signal2.equals(">")) hcsList = detector.detectLongMethodBiggerBigger();
+		else if(signal1.equals(">") && signal2.equals("<")) hcsList = detector.detectLongMethodBiggerSmaller();
+		else if(signal1.equals("<") && signal2.equals(">")) hcsList = detector.detectLongMethodBiggerSmaller();
+		else if(signal1.equals("<") && signal2.equals("<")) hcsList = detector.detectLongMethodSmallerSmaller();
+		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
+		fillSecondaryGUI(hcsList,codesmells);
+		codesmells.loadGUI();	
 	}
 	
 	private void evaluateGodClassWith2Parameters(String signal1, String signal2, int limit1, int limit2, String operator) {
-	
-	if (signal1.equals(">") && signal2.equals(">") ) {
+		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
 		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassBiggerBigger();
+		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassBiggerBigger();
+		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassSmallerSmaller();
+		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassBiggerSmaller();
+		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassSmallerBigger();
 		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
 		fillSecondaryGUI(hcsList2,codesmells2);
 		codesmells2.loadGUI();
 	}
-	if (signal1.equals("<") && signal2.equals("<") ) {
-		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassSmallerSmaller();
-		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2,codesmells2);
-		codesmells2.loadGUI();
-	}
-	if (signal1.equals(">") && signal2.equals("<") ) {
-		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassBiggerSmaller();
-		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2,codesmells2);
-		codesmells2.loadGUI();
-	}
-	if (signal1.equals("<") && signal2.equals(">") ) {
-		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassSmallerBigger();
-		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2,codesmells2);
-		codesmells2.loadGUI();
-	}
-}
 	
 	private void evaluateGodClassWith3Parameters(String signal1,String signal2,String signal3,int limit1,int limit2,int limit3,String operator,String operator2) {
-		if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerBiggerBigger();
+		ArrayList<HasCodeSmell> hcslist = new ArrayList<>();
+		CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerBiggerBigger();
+			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<")) hcslist = detector.detectGodClassSmallerSmallerSmaller();
+			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerSmallerSmaller();
+			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerSmallerBigger();
+			else if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<")) hcslist = detector.detectGodClassBiggerBiggerSmaller();
+			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassSmallerSmallerBigger();
+			else if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassSmallerBiggerBigger();
+			else if (signal1.equals("<") && signal2.equals(">") && signal3.equals("<")) hcslist = detector.detectGodClassSmallerBiggerSmaller();
 			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
 			fillSecondaryGUI(hcslist,codesmells);
 			codesmells.loadGUI();
-			
-		}
-		if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerSmallerSmaller();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
-			
-		}
-		if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerSmallerSmaller();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
-			
-		}
-		if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerSmallerBigger();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
-			
-		}
-		if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerBiggerSmaller();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
-			
-		}
-		if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerSmallerBigger();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
-			
-		}
-		if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerBiggerBigger();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
-			
-		}
-		if (signal1.equals("<") && signal2.equals(">") && signal3.equals("<")) {
-			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerBiggerSmaller();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
-			
-		}
 	}
 
 	/**
@@ -853,7 +756,7 @@ public class mainGUI extends Shell {
 	 */
 	protected void createContents() {
 		setText("Interface gráfica- Grupo 47");
-		setSize(880, 768);
+		setSize(726, 861);
 
 	}
 

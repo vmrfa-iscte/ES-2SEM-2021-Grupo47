@@ -198,6 +198,7 @@ public class ExtractMetrics {
 			}
 			if(separated[i].contains("src")) src = true;
 		}
+		if(packageName.equals("") && file.getAbsolutePath().contains("src")) packageName = "Default Package";
 
 			return packageName;
 		
