@@ -62,7 +62,6 @@ import org.eclipse.swt.events.GestureEvent;
 
 public class mainGUI extends Shell {
 
-//	private Color c = new Color (211,211,211);
 	private int indice;
 	private List ficheirosexcel;
 	private Text foldername;
@@ -271,6 +270,11 @@ public class mainGUI extends Shell {
 								hasCyclo = true;
 							}
 						}
+						for (int y = 0; y < metrica3.getItems().length; y++) {
+							if (metrica3.getItems()[y].equals("LOC_class")) {
+								metrica3.remove(y);
+							}
+						}
 						if (!hasCyclo) {
 							metrica2.add("CYCLO_method");
 						}
@@ -303,13 +307,45 @@ public class mainGUI extends Shell {
 		operador.add("AND");
 
 		metrica2 = new Combo(composite, SWT.BORDER);
+		metrica2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("SelectionIndex: " + metrica2.getSelectionIndex());
+				if (metrica2.getSelectionIndex() != -1 && metrica3.getSelectionIndex() != -1) {
+					System.out.println(metrica2.getItem(metrica2.getSelectionIndex()));
+					if (metrica2.getItem(metrica2.getSelectionIndex()).equals("NOM_class")) {
+						boolean hasLOC = false;
+						for (int i = 0; i < metrica2.getItems().length; i++) {
+							if (!metrica3.getItems()[i].equals("LOC_class")) {
+								metrica3.remove(i);
+							} else {
+								hasLOC = true;
+							}
+						}
+						if (!hasLOC) {
+							metrica3.add("LOC_class");
+						}
+
+					}
+				} else {
+					metrica3.add("LOC_class");
+				}
+				if (metrica2.getItem(metrica2.getSelectionIndex()).equals("CYCLO_method")) {
+					for (int y = 0; y < metrica3.getItems().length; y++) {
+						if (metrica3.getItems()[y].equals("LOC_class")) {
+							metrica3.remove(y);
+						}
+					}
+
+				}
+			}
+		});
 		metrica2.setBounds(313, 65, 94, 28);
 		metrica2.setText("");
 
 		metrica3 = new Combo(composite, SWT.BORDER);
 		metrica3.setBounds(592, 65, 117, 28);
 		metrica3.setText("");
-		metrica3.add("tommy_roto");
 
 		limite_1 = new Text(composite, SWT.BORDER);
 
@@ -446,51 +482,33 @@ public class mainGUI extends Shell {
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+
 				if (regras.isSelected(i)) {
 					String method1 = currentRule.getMethod1();
+					String signal1 = currentRule.getSinal1();
 					int limit1 = Integer.parseInt(currentRule.getLimit1());
 					String operator = currentRule.getOperator();
+					String signal2 = currentRule.getSinal2();
 					int limit2 = Integer.parseInt(currentRule.getLimit2());
-					System.out.println("actualmetrics size 2: " + actualmetrics.size());
-					ExcelManip a = new ExcelManip(selectedFile1);
-					CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
 					if (method1.equals("LOC_method")) {
-						ArrayList<HasCodeSmell> hcsList = detector.detectLongMethod();
-
-						try {
-							a.fillWithCodeSmellResults(hcsList, true);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						SecondaryGUI codesmells = new SecondaryGUI(display, "IsLong Method Detection", hcsList);
-						for (HasCodeSmell hascodesmell : hcsList) {
-							System.out.println("ID: " + hascodesmell.getMethod_ID());
-							codesmells.addCodeSmellsInfo(hascodesmell, false);
-						}
-						codesmells.loadGUI();
-					}
-					if (method1.equals("WMC_class")) {
-						ArrayList<HasCodeSmell> hcslist2 = detector.detectGodClass();
-						System.out.println("hcslist2 size: " + hcslist2.size());
-						try {
-							a.fillWithCodeSmellResults(hcslist2, false);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						SecondaryGUI codesmells2 = new SecondaryGUI(display, "IsGod Class Detection", hcslist2);
-						for (HasCodeSmell hascodesmell : hcslist2) {
-							codesmells2.addCodeSmellsInfo(hascodesmell, false);
-						}
-						codesmells2.loadGUI();
+						evaluateLocMethod(signal1,signal2,limit1,limit2,operator);
 
 					}
+					if (method1.equals("WMC_class") && !currentRule.getMethod3().contains("a")) {
+						evaluateGodClassWith2Parameters(signal1,signal2,limit1,limit2,operator);
+					} 
+					
+					if(method1.equals("WMC_class") && currentRule.getMethod3().contains("a")) {
+						String operator2 = currentRule.getOperator2();
+						String signal3 = currentRule.getSinal3();
+						int limit3 = Integer.parseInt(currentRule.getLimit3());
+						evaluateGodClassWith3Parameters(signal1,signal2,signal3,limit1,limit2,limit3,operator,operator2);
+					}
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
-
 				}
-
+				
 			}
 
 		});
@@ -585,7 +603,7 @@ public class mainGUI extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				if (!list.isEmpty()) {
 					Historico hist = new Historico(display, regras, list);
-//					hist.loadGUI();
+					//					hist.loadGUI();
 					for (int y = 0; y < list.size(); y++) {
 						FileWriter fw;
 						try {
@@ -685,6 +703,149 @@ public class mainGUI extends Shell {
 			}
 		}
 		return true;
+	}
+	
+	private void fillSecondaryGUI(ArrayList<HasCodeSmell> toFill, SecondaryGUI results) {
+		for (HasCodeSmell hascodesmell : toFill) {
+			System.out.println("ID: " + hascodesmell.getMethod_ID());
+			results.addCodeSmellsInfo(hascodesmell, false);
+		}
+	}
+	
+	private void evaluateLocMethod(String signal1, String signal2, int limit1, int limit2, String operator) {
+		if (signal1.equals(">") && signal2.equals(">")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodBiggerBigger();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
+			fillSecondaryGUI(hcsList,codesmells);
+			codesmells.loadGUI();		
+			System.out.println("Corri Bigger Bigger");
+		}
+		if (signal1.equals(">") && signal2.equals("<")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodBiggerSmaller();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
+			fillSecondaryGUI(hcsList,codesmells);
+			codesmells.loadGUI();
+			System.out.println("Corri Bigger Smaller");
+
+		}
+		if (signal1.equals("<") && signal2.equals(">")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerBigger();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
+			fillSecondaryGUI(hcsList,codesmells);
+			codesmells.loadGUI();	
+			System.out.println("Corri Smaller Bigger");
+		}
+
+		if (signal1.equals("<") && signal2.equals("<")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+			ArrayList<HasCodeSmell> hcsList = detector.detectLongMethodSmallerSmaller();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
+			fillSecondaryGUI(hcsList,codesmells);
+			codesmells.loadGUI();
+			System.out.println("Corri Smaller Smaller");
+		}
+	}
+	
+	private void evaluateGodClassWith2Parameters(String signal1, String signal2, int limit1, int limit2, String operator) {
+	
+	if (signal1.equals(">") && signal2.equals(">") ) {
+		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassBiggerBigger();
+		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
+		fillSecondaryGUI(hcsList2,codesmells2);
+		codesmells2.loadGUI();
+	}
+	if (signal1.equals("<") && signal2.equals("<") ) {
+		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassSmallerSmaller();
+		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
+		fillSecondaryGUI(hcsList2,codesmells2);
+		codesmells2.loadGUI();
+	}
+	if (signal1.equals(">") && signal2.equals("<") ) {
+		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassBiggerSmaller();
+		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
+		fillSecondaryGUI(hcsList2,codesmells2);
+		codesmells2.loadGUI();
+	}
+	if (signal1.equals("<") && signal2.equals(">") ) {
+		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
+		ArrayList<HasCodeSmell> hcsList2 = detector2.detectGodClassSmallerBigger();
+		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
+		fillSecondaryGUI(hcsList2,codesmells2);
+		codesmells2.loadGUI();
+	}
+}
+	
+	private void evaluateGodClassWith3Parameters(String signal1,String signal2,String signal3,int limit1,int limit2,int limit3,String operator,String operator2) {
+		if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerBiggerBigger();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
+		if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerSmallerSmaller();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
+		if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerSmallerSmaller();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
+		if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerSmallerBigger();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
+		if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassBiggerBiggerSmaller();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
+		if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerSmallerBigger();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
+		if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerBiggerBigger();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
+		if (signal1.equals("<") && signal2.equals(">") && signal3.equals("<")) {
+			CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
+			ArrayList<HasCodeSmell> hcslist = detector.detectGodClassSmallerBiggerSmaller();
+			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+			fillSecondaryGUI(hcslist,codesmells);
+			codesmells.loadGUI();
+			
+		}
 	}
 
 	/**
