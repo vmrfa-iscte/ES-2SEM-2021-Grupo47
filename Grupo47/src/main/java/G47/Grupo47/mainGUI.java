@@ -70,7 +70,7 @@ public class mainGUI extends Shell {
 	private Button btnDefinirRegras,btnSelecionarFicheirohistrico,guardarhistorico;
 	private String diretoria,nomepath = new String();
 	private File selectedFile1 = null;
-	private String nameFile = "";
+	private String nameFile,pathToExtract = "";
 	private HashMap<String,ArrayList<String>> mapStats = new HashMap<>();
 	private String username = System.getProperty("user.name");
 	private File rules,pastaselecionada,historico;
@@ -84,6 +84,8 @@ public class mainGUI extends Shell {
 	private Combo metrica3,sinal,sinal2,sinal3,operador2;
 	private String content,update;
 	private Combo metrica2;
+	private Text folderToExtract;
+	private File folderextraction = null;
 
 	/**
 	 * Launch the application.
@@ -103,8 +105,8 @@ public class mainGUI extends Shell {
 
 		setLayout(null);
 
-		foldername = new Text(this, SWT.BORDER);
-		foldername.setBounds(10, 35, 345, 26);
+		foldername = new Text(this, SWT.BORDER | SWT.READ_ONLY);
+		foldername.setBounds(10, 67, 345, 26);
 
 		Button pasta = new Button(this, SWT.NONE);
 		pasta.addSelectionListener(new SelectionAdapter() {
@@ -123,8 +125,8 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		pasta.setBounds(372, 33, 166, 30);
-		pasta.setText("Selecionar pasta");
+		pasta.setBounds(372, 67, 166, 28);
+		pasta.setText("Selecionar projeto (src)");
 
 		ficheirosexcel = new List(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		ficheirosexcel.addMouseListener(new MouseAdapter() {
@@ -157,80 +159,85 @@ public class mainGUI extends Shell {
 			}
 		});
 
-		ficheirosexcel.setBounds(10, 77, 345, 164);
+		ficheirosexcel.setBounds(10, 108, 345, 164);
 
 		composite = new Composite(this, SWT.NONE);
-		composite.setBounds(10, 283, 670, 465);
+		composite.setBounds(10, 314, 670, 465);
 
 		txtNmeroDeMtodos = new Text(this, SWT.BORDER);
 		txtNmeroDeMtodos.setEditable(false);
 		txtNmeroDeMtodos.setText("Número de Métodos");
-		txtNmeroDeMtodos.setBounds(372, 172, 166, 26);
+		txtNmeroDeMtodos.setBounds(372, 198, 166, 26);
 
 		NumClasses = new Text(this, SWT.BORDER);
 		NumClasses.setEditable(false);
-		NumClasses.setBounds(544, 78, 136, 26);
+		NumClasses.setBounds(544, 109, 136, 26);
 
 		txtNmeroDeClasses = new Text(this, SWT.BORDER);
 		txtNmeroDeClasses.setEditable(false);
 		txtNmeroDeClasses.setText("Número de Classes");
-		txtNmeroDeClasses.setBounds(372, 78, 166, 26);
+		txtNmeroDeClasses.setBounds(372, 109, 166, 26);
 
 		txtNmeroDeLinhas = new Text(this, SWT.BORDER);
 		txtNmeroDeLinhas.setEditable(false);
 		txtNmeroDeLinhas.setText("Número de Linhas");
-		txtNmeroDeLinhas.setBounds(372, 215, 166, 26);
+		txtNmeroDeLinhas.setBounds(372, 246, 166, 26);
 
 		txtNmeroDePackages = new Text(this, SWT.BORDER);
 		txtNmeroDePackages.setEditable(false);
 		txtNmeroDePackages.setText("Número de Packages");
-		txtNmeroDePackages.setBounds(372, 127, 166, 26);
+		txtNmeroDePackages.setBounds(372, 152, 166, 26);
 
 		NumPackages = new Text(this, SWT.BORDER);
 		NumPackages.setEditable(false);
-		NumPackages.setBounds(544, 127, 136, 26);
+		NumPackages.setBounds(544, 152, 136, 26);
 
 		NumMethods = new Text(this, SWT.BORDER);
 		NumMethods.setEditable(false);
-		NumMethods.setBounds(544, 172, 136, 26);
+		NumMethods.setBounds(544, 198, 136, 26);
 
 		NumLines = new Text(this, SWT.BORDER);
 		NumLines.setEditable(false);
-		NumLines.setBounds(544, 215, 136, 26);
+		NumLines.setBounds(544, 246, 136, 26);
 
 		Button extrair = new Button(this, SWT.NONE);
-		extrair.setBounds(544, 33, 136, 30);
+		extrair.setBounds(544, 48, 136, 30);
 		extrair.setText("Extrair métricas");
 		extrair.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(selectedFile1 == null) {
+				if(selectedFile1 == null || folderextraction == null ) {
 					JOptionPane.showMessageDialog(null, "Escolha uma pasta");
 				}else {
-				DirExplorer dirEx = new DirExplorer(selectedFile1);
-				try {
-					actualmetrics = dirEx.explore();
-					System.out.println("actualmetrics size: " + actualmetrics.size());
-					ExcelManip em = new ExcelManip(selectedFile1);
-					em.createExcel(actualmetrics);
-					Statistics stats = new Statistics(actualmetrics);
-					ArrayList<String> StringStats = new ArrayList<>();
-					StringStats.add(String.valueOf(stats.countLinesOfCode()));
-					StringStats.add(String.valueOf(stats.countNumberOfMethods()));
-					StringStats.add(String.valueOf(stats.countClasses()));
-					StringStats.add(String.valueOf(stats.countPackages()));
-					System.out.println("em.getFileName(): " + em.getFileName());
-					mapStats.put(em.getFileName(), StringStats);
-					ficheirosexcel.add(em.getFileName());
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+					DirExplorer dirEx = new DirExplorer(selectedFile1);
+					try {
+						if(folderextraction.exists() && selectedFile1.exists()) {
+							actualmetrics = dirEx.explore();
+							System.out.println("actualmetrics size: " + actualmetrics.size());
+							System.out.println(pathToExtract);
+							ExcelManip em = new ExcelManip(selectedFile1);
+							em.createExcel(actualmetrics,folderToExtract.getText());
+							Statistics stats = new Statistics(actualmetrics);
+							ArrayList<String> StringStats = new ArrayList<>();
+							StringStats.add(String.valueOf(stats.countLinesOfCode()));
+							StringStats.add(String.valueOf(stats.countNumberOfMethods()));
+							StringStats.add(String.valueOf(stats.countClasses()));
+							StringStats.add(String.valueOf(stats.countPackages()));
+							System.out.println("em.getFileName(): " + em.getFileName());
+							mapStats.put(em.getFileName(), StringStats);
+							ficheirosexcel.add(em.getFileName());
+						}
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
-			}
+
+
+				}
 			}
 		});
 
@@ -249,7 +256,7 @@ public class mainGUI extends Shell {
 						metrica2.removeAll();
 						metrica2.add("CYCLO_method");
 
-					} else {
+					} else if(metrica1.getItem(metrica1.getSelectionIndex()).equals("WMC_class")) {
 						metrica2.removeAll();
 						metrica2.add("NOM_class");
 						metrica2.add("LOC_class");
@@ -257,6 +264,13 @@ public class mainGUI extends Shell {
 						sinal3.setVisible(true);
 						metrica3.setVisible(true);
 						limite_3.setVisible(true);
+					}else if(metrica1.getItem(metrica1.getSelectionIndex()).equals("NOM_class")) {
+						operador2.setVisible(false);
+						sinal3.setVisible(false);
+						metrica3.setVisible(false);
+						limite_3.setVisible(false);
+						metrica2.removeAll();
+						metrica2.add("LOC_class");
 					}
 				}
 			}
@@ -265,6 +279,7 @@ public class mainGUI extends Shell {
 		metrica1.setText("");
 		metrica1.add("LOC_method");
 		metrica1.add("WMC_class");
+		metrica1.add("NOM_class");
 
 		Combo operador = new Combo(composite, SWT.READ_ONLY);
 		operador.setBounds(440, 58, 117, 28);
@@ -671,8 +686,35 @@ public class mainGUI extends Shell {
 				}
 			}
 		});
-		btnVerFicheiro.setBounds(10, 247, 109, 30);
+		btnVerFicheiro.setBounds(10, 278, 109, 30);
 		btnVerFicheiro.setText("Ver ficheiro");
+		
+		folderToExtract = new Text(this, SWT.BORDER | SWT.READ_ONLY);
+		folderToExtract.setBounds(10, 35, 345, 26);
+		
+		
+		Button choosePathToExtract = new Button(this, SWT.NONE);
+		choosePathToExtract.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JFileChooser pathpasta = new JFileChooser(".");
+				pathpasta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int returnValue = pathpasta.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+					folderextraction = pathpasta.getSelectedFile();
+					
+				}
+				if(folderextraction != null) {
+				folderToExtract.setText(folderextraction.getPath());
+				pathToExtract = folderextraction.getPath();
+				
+				}
+		
+			}
+		});
+		choosePathToExtract.setBounds(372, 35, 166, 28);
+		choosePathToExtract.setText("Selecionar destino");
 		createContents();
 	}
 	

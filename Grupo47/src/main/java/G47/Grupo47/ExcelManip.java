@@ -35,7 +35,7 @@ public class ExcelManip {
 
 	public ExcelManip(File file) {
 		this.file = file;
-		this.toCopy = getFilePath();
+		
 		headers = new ArrayList<String>();
 		headers.add(HEADER1);headers.add(HEADER2);headers.add(HEADER3);headers.add(HEADER4);headers.add(HEADER5);
 		headers.add(HEADER6);headers.add(HEADER7);headers.add(HEADER8);headers.add(HEADER9);headers.add(HEADER10);
@@ -48,7 +48,7 @@ public class ExcelManip {
 		String fileName = "";
 		for(int i = 0; i< separated.length;i++) {
 			if(separated[i].contains("src")) {
-				fileName = "result_"+separated[i-1]+".xlsx";
+				fileName = "results_"+separated[i-1]+".xlsx";
 			}
 		}
 		return fileName;
@@ -76,7 +76,8 @@ public class ExcelManip {
 		return headers;
 	}
 
-	public void createExcel(ArrayList<Metrics> data) throws IOException {
+	public void createExcel(ArrayList<Metrics> data,String toCopy) throws IOException {
+		toCopy = toCopy +"\\" + getFileName();
 		ArrayList<String> headers = extractHeaders();
 		XSSFWorkbook create = new XSSFWorkbook();
 		XSSFSheet sheet = create.createSheet();
