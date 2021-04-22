@@ -19,30 +19,27 @@ import com.github.javaparser.ast.body.Parameter;
 
 public class ExtractMetrics {
 
-	private String path;
-	private File file;
+	private File fileToExtract;
 	private int method_id;
 
 
-	public ExtractMetrics(File file, String path) {
-		this.file = file;
-		this.path = path;
+	public ExtractMetrics(File file) {
+		this.fileToExtract = file;
 	}
 
 	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics,int method_id) throws FileNotFoundException {
 		String packageClass = getPackageName();
-		JavaParser jp  = new JavaParser();
-		ParseResult<CompilationUnit> cu = jp.parse(file);
+		JavaParser parseCodeFromFile  = new JavaParser();
+		ParseResult<CompilationUnit> compilationUnitFromParser = parseCodeFromFile.parse(fileToExtract);
 		int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = 0;
 		String className = "";
-		if(cu.isSuccessful()) {
-			CompilationUnit comp = cu.getResult().get();
-			
+		if(compilationUnitFromParser.isSuccessful()) {
+			CompilationUnit comp = compilationUnitFromParser.getResult().get();
 			for(ClassOrInterfaceDeclaration type : comp.findAll(ClassOrInterfaceDeclaration.class)) {
-				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
+				if(type.getNameAsString().equals(fileToExtract.getName().replace(".java", ""))) {
 					className = type.getNameAsString();
 				}else {
-					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
+					className = fileToExtract.getName().replace(".java", "")+"."+type.getNameAsString();
 				}
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
 				NOM_class = getNOM_class(type.getMethods(),type.getConstructors());
@@ -62,14 +59,13 @@ public class ExtractMetrics {
 					metrics.add(metric);
 					method_id++;
 				}
-				
 
 			}
 			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
-				if(type.getNameAsString().equals(file.getName().replace(".java", ""))) {
+				if(type.getNameAsString().equals(fileToExtract.getName().replace(".java", ""))) {
 					className = type.getNameAsString();
 				}else {
-					className = file.getName().replace(".java", "")+"."+type.getNameAsString();
+					className = fileToExtract.getName().replace(".java", "")+"."+type.getNameAsString();
 				}
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
 				NOM_class = type.getMethods().size() + type.getConstructors().size();
@@ -99,16 +95,16 @@ public class ExtractMetrics {
 	}
 
 
-	int getLOC_method_Cons(ConstructorDeclaration md) {
-		return (md.getEnd().get().line - md.getBegin().get().line)+1;
+	int getLOC_method_Cons(ConstructorDeclaration constructorFromParsedClass) {
+		return (constructorFromParsedClass.getEnd().get().line - constructorFromParsedClass.getBegin().get().line)+1;
 	}
 
-	protected int getLOC_method_Met(MethodDeclaration md) {
-		return (md.getEnd().get().line - md.getBegin().get().line)+1;
+	protected int getLOC_method_Met(MethodDeclaration methodFromParsedClass) {
+		return (methodFromParsedClass.getEnd().get().line - methodFromParsedClass.getBegin().get().line)+1;
 	}
 	
-	protected int getNOM_class(List<MethodDeclaration> md, List<ConstructorDeclaration> cd) {
-		return md.size()+ cd.size();
+	protected int getNOM_class(List<MethodDeclaration> allMethodsFromParsedClass, List<ConstructorDeclaration> allConstructorsFromParsedClass) {
+		return allMethodsFromParsedClass.size()+ allConstructorsFromParsedClass.size();
 	}
 
 	protected String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
@@ -116,18 +112,21 @@ public class ExtractMetrics {
 			return ClassName+"()";
 		}else {
 			ClassName = ClassName+"(";
-			for(Node n: nodeList) {
-				String pars[] = n.toString().split(" ");
-				String par = pars[0];
-				if(nodeList.indexOf(n) == nodeList.size()-1) {
-					ClassName = ClassName + par + ")";
-				}else {
-					ClassName = ClassName + par +",";
-				}
-
-			}
-			return ClassName;
+			return addParametersToClassName(ClassName,nodeList);
 		}
+	}
+	
+	private String addParametersToClassName(String className,NodeList<Parameter> parametersList) {
+		for(Node n: parametersList) {
+			String pars[] = n.toString().split(" ");
+			String par = pars[0];
+			if(parametersList.indexOf(n) == parametersList.size()-1) {
+				className = className + par + ")";
+			}else {
+				className = className + par +",";
+			}
+		}
+		return className;
 	}
 
 	protected int getLOC_classCID(ClassOrInterfaceDeclaration cid) throws FileNotFoundException {
@@ -187,7 +186,7 @@ public class ExtractMetrics {
 	protected String getPackageName() {
 		String packageName = "";
 		boolean src = false;
-		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
+		String[] separated = fileToExtract.getAbsolutePath().split(Pattern.quote(File.separator));
 		for(int i = 0; i< separated.length-1;i++) {
 			if(src && i <= separated.length-2) {
 				if(i < separated.length-2) {
@@ -198,7 +197,7 @@ public class ExtractMetrics {
 			}
 			if(separated[i].contains("src")) src = true;
 		}
-		if(packageName.equals("") && file.getAbsolutePath().contains("src")) packageName = "Default Package";
+		if(packageName.equals("") && fileToExtract.getAbsolutePath().contains("src")) packageName = "Default Package";
 
 			return packageName;
 		

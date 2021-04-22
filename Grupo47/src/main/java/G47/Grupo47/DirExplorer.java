@@ -13,42 +13,40 @@ import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class DirExplorer {
-	public interface FileHandler {
-        ArrayList<Metrics> handle(int level, String path, File file,ArrayList<Metrics> metrics);
-    }
- 
-    private File file;
-    private ArrayList<Metrics> metrics;
-    private int method_id;
+	
+    private File fileToSearch; //Directory chosen to search for .java Files
+    private ArrayList<Metrics> accumulateMetrics; //List where all metrics will be accumulated
+    private int currentMethod_id; //Last method's method_id to keep track of current method_id
+    private static int START_LEVEL = 0,FIRST_METHOD_ID = 1;
+    private static String FILE_ENDING = ".java";
 
-    public DirExplorer(File file) {
-        this.file = file;
-        this.metrics = new ArrayList<>();
-        this.method_id = 1;
+    public DirExplorer(File fileToSearch) {
+        this.fileToSearch = fileToSearch;
+        this.accumulateMetrics = new ArrayList<>();
+        this.currentMethod_id = FIRST_METHOD_ID;
     }
            
     public ArrayList<Metrics> explore() throws FileNotFoundException {
-        return explore(0, "", file);
-        
+        return explore(START_LEVEL, "",fileToSearch);
     }
     
-    private ArrayList<Metrics> explore(int level, String path,File file) throws FileNotFoundException {
-        if (file.isDirectory()) {
-            for (File child : file.listFiles()) {
-                explore(level + 1, path + "/" + child.getName(), child);
-            }
-        } else {
-            if (path.endsWith(".java")) {
-            	
-                ExtractMetrics a = new ExtractMetrics(file,path);
-                a.extrair_Metricas(metrics,method_id);
-                method_id = a.getCurrentMethodID();
-            }
-        }
-        return metrics;
+    private ArrayList<Metrics> explore(int level, String currentPath,File currentFile) throws FileNotFoundException {
+    	if (currentFile.isDirectory()) goThroughFiles(currentFile,level,currentPath); //If currentFile is a directory keep searching for files
+    	else verifyAndExtractMetrics(currentFile,currentPath); //If current file is not a directory verify and extract metrics for that file
+    	return accumulateMetrics;
     }
     
-
+    private void verifyAndExtractMetrics(File currentFile,String filePath) throws FileNotFoundException {
+    	if(filePath.endsWith(FILE_ENDING)) { //Verify if the currentFile is a java file
+    		ExtractMetrics extractMetricsFromFile = new ExtractMetrics(currentFile); //Creating ExtractMetrics object with currentFile
+    		extractMetricsFromFile.extrair_Metricas(accumulateMetrics,currentMethod_id); //Extract metrics for given file (currentFile) given the current method_id and metrics list
+    		currentMethod_id = extractMetricsFromFile.getCurrentMethodID(); //Update current method_id
+    	}
+    }
     
-
+    private void goThroughFiles(File currentFile,int level,String currentPath) throws FileNotFoundException {
+    	for (File child : currentFile.listFiles()) {
+			explore(level + 1, currentPath + "/" + child.getName(), child); //Recursive, going through every file inside given file (currentFile) when its a Directory
+		}
+    }
 }
