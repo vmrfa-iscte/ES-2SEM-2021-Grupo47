@@ -338,7 +338,7 @@ public class mainGUI extends Shell {
 				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText()) ) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
-					if((metrica3.getText().isBlank() && operador2.getText().isBlank() && (limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && sinal3.getText().isBlank()) || (!metrica3.getText().isBlank() && !operador2.getText().isBlank() && !(limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && !sinal3.getText().isBlank())){
+					if((metrica3.getText().isEmpty() && operador2.getText().isEmpty() && (limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && sinal3.getText().isEmpty()) || (!metrica3.getText().isEmpty() && !operador2.getText().isEmpty() && !(limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && !sinal3.getText().isEmpty())){
 
 						boolean v = false;
 						if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
@@ -401,7 +401,7 @@ public class mainGUI extends Shell {
 				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
-					if((metrica3.getText().isBlank() && operador2.getText().isBlank() && (limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && sinal3.getText().isBlank()) || (!metrica3.getText().isBlank() && !operador2.getText().isBlank() && !(limite_3.getText().isBlank() || limite_3.getText().equals("Limite")) && !sinal3.getText().isBlank())){
+					if((metrica3.getText().isEmpty() && operador2.getText().isEmpty() && (limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && sinal3.getText().isEmpty()) || (!metrica3.getText().isEmpty() && !operador2.getText().isEmpty() && !(limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && !sinal3.getText().isEmpty())){
 						if (regras.isSelected(i)) {
 							System.out.println(list.get(i).toString());
 							list.get(i).setLimit1(limite_1.getText());
@@ -567,23 +567,23 @@ public class mainGUI extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				if (!list.isEmpty()) {
 					Historico hist = new Historico(display, regras, list);
-					//					hist.loadGUI();
-					for (int y = 0; y < list.size(); y++) {
-						FileWriter fw;
-						try {
-							fw = new FileWriter(new File(text_1.getText()), true);
-							BufferedWriter bw = new BufferedWriter(fw);
-							System.out.println(rules.length());
-							bw.write(list.get(y).toString());
-							bw.newLine();
-							bw.close();
-
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-					}
+					hist.loadGUI();
+//					for (int y = 0; y < list.size(); y++) {
+//						FileWriter fw;
+//						try {
+//							fw = new FileWriter(new File(text_1.getText()), true);
+//							BufferedWriter bw = new BufferedWriter(fw);
+//							System.out.println(rules.length());
+//							bw.write(list.get(y).toString());
+//							bw.newLine();
+//							bw.close();
+//
+//						} catch (IOException e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+//
+//					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Lista de regras vazia");
 				}
@@ -621,8 +621,6 @@ public class mainGUI extends Shell {
 		sinal2.setBounds(195, 92, 81, 28);
 		sinal2.add(">");
 		sinal2.add("<");
-		
-		
 		
 
 		Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
