@@ -20,9 +20,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FormLayout;
 
-public class Historico extends Shell {
+public class SaveHistoryGUI extends Shell {
 
 	private ArrayList<Rules> rules;
 	private List regras;
@@ -45,12 +44,11 @@ public class Historico extends Shell {
 	 * 
 	 * @param display
 	 */
-	public Historico(Display display, List regras, ArrayList<Rules> rules) {
-//		super(display, SWT.SHELL_TRIM);
-		setImage(SWTResourceManager.getImage(Historico.class, "/G47/Grupo47/iscte_logo2.jpg"));
+	public SaveHistoryGUI(Display display, List regras, ArrayList<Rules> rules) {
+		super(display, SWT.SHELL_TRIM);
+		setImage(SWTResourceManager.getImage(SaveHistoryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
 		this.regras = regras;
 		this.rules = rules;
-		this.display = display;
 
 		Label lblDefinaONome = new Label(this, SWT.NONE);
 		lblDefinaONome.setBounds(10, 37, 185, 20);
@@ -166,11 +164,6 @@ public class Historico extends Shell {
 		});
 		btnCriarFicheiro.setBounds(237, 113, 185, 30);
 		btnCriarFicheiro.setText("Criar ficheiro 'historico'");
-
-		createContents();
-	}
-
-	public void loadGUI() {
 		try {
 			open();
 			layout();
@@ -182,6 +175,10 @@ public class Historico extends Shell {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		createContents();
+	}
+
+	public void loadGUI() {
 
 	}
 

@@ -86,6 +86,8 @@ public class mainGUI extends Shell {
 	private Combo metrica2;
 	private Text folderToExtract;
 	private File folderextraction = null;
+	private static final int ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9;
+	private static final String LOGO = "/G47/Grupo47/iscte_logo2.jpg", GUI_NAME = "Interface gráfica- Grupo 47";
 
 	/**
 	 * Launch the application.
@@ -101,7 +103,7 @@ public class mainGUI extends Shell {
 	public mainGUI(Display display) {
 		super(display, SWT.SHELL_TRIM);
 		setMinimumSize(new Point(170, 47));
-		setImage(SWTResourceManager.getImage(mainGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
+		setImage(SWTResourceManager.getImage(mainGUI.class, LOGO));
 
 		setLayout(null);
 
@@ -581,24 +583,8 @@ public class mainGUI extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!list.isEmpty()) {
-					Historico hist = new Historico(display, regras, list);
+					SaveHistoryGUI hist = new SaveHistoryGUI(display, regras, list);
 					hist.loadGUI();
-//					for (int y = 0; y < list.size(); y++) {
-//						FileWriter fw;
-//						try {
-//							fw = new FileWriter(new File(text_1.getText()), true);
-//							BufferedWriter bw = new BufferedWriter(fw);
-//							System.out.println(rules.length());
-//							bw.write(list.get(y).toString());
-//							bw.newLine();
-//							bw.close();
-//
-//						} catch (IOException e1) {
-//							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-//						}
-//
-//					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Lista de regras vazia");
 				}
@@ -724,9 +710,9 @@ public class mainGUI extends Shell {
 		System.out.println("text: " + text);
 		for (int i = 0; i < text.length(); i++) {
 			System.out.println(text.charAt(i));
-			if (text.charAt(i) == '0' || text.charAt(i) == '1' || text.charAt(i) == '2' || text.charAt(i) == '3'
-					|| text.charAt(i) == '4' || text.charAt(i) == '5' || text.charAt(i) == '6' || text.charAt(i) == '7'
-					|| text.charAt(i) == '8' || text.charAt(i) == '9') {
+			if (text.charAt(i) == ZERO || text.charAt(i) == ONE || text.charAt(i) == TWO || text.charAt(i) == THREE
+					|| text.charAt(i) == FOUR || text.charAt(i) == FIVE || text.charAt(i) == SIX || text.charAt(i) == SEVEN
+					|| text.charAt(i) == EIGHT || text.charAt(i) == NINE) {
 				System.out.println("true");
 				return true;
 			}
@@ -736,7 +722,7 @@ public class mainGUI extends Shell {
 	
 	private void fillSecondaryGUI(ArrayList<HasCodeSmell> toFill, SecondaryGUI results) {
 		for (HasCodeSmell hascodesmell : toFill) {
-			System.out.println("ID: " + hascodesmell.getMethod_ID());
+//			System.out.println("ID: " + hascodesmell.getMethod_ID());
 			results.addCodeSmellsInfo(hascodesmell, false);
 		}
 	}
@@ -809,7 +795,7 @@ public class mainGUI extends Shell {
 	 * Create contents of the shell.
 	 */
 	protected void createContents() {
-		setText("Interface gráfica- Grupo 47");
+		setText(GUI_NAME);
 		setSize(726, 861);
 
 	}

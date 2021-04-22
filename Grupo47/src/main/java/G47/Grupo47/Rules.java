@@ -93,10 +93,7 @@ public class Rules {
 		this.operator = operator;
 	}
 
-//	@Override
-//	public String toString() {
-//		return method1 + " " + sinal1 + " " + limit1 + " " + operator + " " + method2 + " " + sinal2 + " " + limit2;
-//	}
+
 
 	public String toString() {
 		return method1 + " " + sinal1 + " " + limit1 + " " + operator + " " + method2 + " " + sinal2 + " " + limit2
