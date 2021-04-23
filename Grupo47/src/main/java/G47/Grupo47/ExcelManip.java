@@ -21,9 +21,9 @@ public class ExcelManip {
 	private static ArrayList<String> headers;
 	public String toCopy;
 	private File file;
-	private static final String HEADER1 = "MethodID", HEADER2 = "Package", HEADER3 = "Class", HEADER4 = "Method", HEADER5= "NOM_Class", 
-			HEADER6= "LOC_Class", HEADER7 = "WMC_Class", HEADER8= "is_God_Class", HEADER9= "LOC_Method", HEADER10= "CYCLO_Method",
-					HEADER11= "Is_Long_Method";	
+	private static final String METHOD_ID_HEADER = "MethodID", PACKAGE_HEADER = "Package", CLASS_HEADER = "Class", METHOD_HEADER = "Method", 
+			NOM_CLASS_HEADER= "NOM_Class", LOC_CLASS_HEADER= "LOC_Class", WMC_CLASS_HEADER = "WMC_Class", IS_GOD_CLASS_HEADER= "is_God_Class", 
+			LOC_METHOD_HEADER= "LOC_Method", CYCLO_METHOD_HEADER= "CYCLO_Method",IS_LONG_METHOD_HEADER= "Is_Long_Method";	
 	
 	private static final int ZERO = 0, ONE = 1,  LETTER_HEIGHT = 10;
 	private static final String SRC = "src", RESULTS_ = "results_", FILE_TYPE = ".xlsx", DOUBLE_LEFT_SLASH = "\\", EMPTY_PATH = "";
@@ -38,9 +38,10 @@ public class ExcelManip {
 	public ExcelManip(File file) {
 		this.file = file;
 		headers = new ArrayList<String>();
-		headers.add(HEADER1);headers.add(HEADER2);headers.add(HEADER3);headers.add(HEADER4);headers.add(HEADER5);
-		headers.add(HEADER6);headers.add(HEADER7);headers.add(HEADER8);headers.add(HEADER9);headers.add(HEADER10);
-		headers.add(HEADER11);
+		headers.add(METHOD_ID_HEADER);headers.add(PACKAGE_HEADER);headers.add(CLASS_HEADER);headers.add(METHOD_HEADER);
+		headers.add(NOM_CLASS_HEADER);headers.add(LOC_CLASS_HEADER);headers.add(WMC_CLASS_HEADER);
+		headers.add(IS_GOD_CLASS_HEADER);headers.add(LOC_METHOD_HEADER);headers.add(CYCLO_METHOD_HEADER);
+		headers.add(IS_LONG_METHOD_HEADER);
 	}
 
 
@@ -49,9 +50,7 @@ public class ExcelManip {
 		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
 		String fileName = EMPTY_PATH;
 		for(int i = ZERO; i< separated.length;i++) {
-			if(separated[i].contains(SRC)) {
-				fileName = RESULTS_+separated[i-ONE]+FILE_TYPE;
-			}
+			if(separated[i].contains(SRC)) { fileName = RESULTS_+separated[i-ONE]+FILE_TYPE; }
 		}
 		return fileName;
 	}
@@ -67,7 +66,7 @@ public class ExcelManip {
 	
 	
 	public void createExcel(ArrayList<Metrics> data,String toCopy) throws IOException {
-		toCopy = toCopy +DOUBLE_LEFT_SLASH + getFileName();
+		toCopy = toCopy + DOUBLE_LEFT_SLASH + getFileName();
 		ArrayList<String> headers = extractHeaders();
 		XSSFWorkbook create = new XSSFWorkbook();
 		XSSFSheet sheet = create.createSheet();
@@ -89,6 +88,7 @@ public class ExcelManip {
 		//Adicionar dados ao Excel, linha a linha, provenientes do ArrayList<Metrics> data
 		double rowNumbToCreate = 1;
 		for (Metrics m: data) {
+			// enquanto houverem objetos no array data
 			Row row = sheet.createRow((int) rowNumbToCreate);
 			row.createCell(METHOD_ID_COLUMN_INDEX).setCellValue(m.getMethod_ID());
 			row.createCell(PACKAGE_COLUMN_INDEX).setCellValue(m.getPacote());
@@ -118,6 +118,7 @@ public class ExcelManip {
 		// Criação de Array para adicionar os resultados
 		Iterator<Row> it = sheet.iterator();
 		while (it.hasNext()) {
+			// enquanto houverem linhas para ler
 			Row row = it.next();
 			String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
 			String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
