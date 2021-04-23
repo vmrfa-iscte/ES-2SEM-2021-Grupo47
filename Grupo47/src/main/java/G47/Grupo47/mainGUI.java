@@ -352,6 +352,7 @@ public class mainGUI extends Shell {
 		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("limite_1 "+limite_1.getText()+"   limite_2 "+limite_2.getText());
 				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText()) ) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
@@ -710,9 +711,9 @@ public class mainGUI extends Shell {
 		System.out.println("text: " + text);
 		for (int i = 0; i < text.length(); i++) {
 			System.out.println(text.charAt(i));
-			if (text.charAt(i) == ZERO || text.charAt(i) == ONE || text.charAt(i) == TWO || text.charAt(i) == THREE
-					|| text.charAt(i) == FOUR || text.charAt(i) == FIVE || text.charAt(i) == SIX || text.charAt(i) == SEVEN
-					|| text.charAt(i) == EIGHT || text.charAt(i) == NINE) {
+			if (text.charAt(i) == '0' || text.charAt(i) == '1' || text.charAt(i) == '2' || text.charAt(i) == '3'
+					|| text.charAt(i) == '4' || text.charAt(i) == '5' || text.charAt(i) == '6' || text.charAt(i) == '7'
+					|| text.charAt(i) == '8' || text.charAt(i) == '9') {
 				System.out.println("true");
 				return true;
 			}
