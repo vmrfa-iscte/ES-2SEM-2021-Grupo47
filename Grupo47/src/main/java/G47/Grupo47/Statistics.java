@@ -13,58 +13,60 @@ public class Statistics {
 		this.metrics = metrics;
 		
 	}
-	//Tendo em conta a forma como as métricas estão organizadas, para saber o numero de métodos do projeto, basta saber o numero de elementos
-	// do ArrayList que é passado no construtor
+	
 	public int countNumberOfMethods() {
 		return metrics.size();
+		// O numero de metodos será o numero de elementos no Array
 	}
 	
-	// Tendo em conta que os objeto metrics irá conter um atributo Lines of Code, representando as linhas de código do método, basta apenas somar
-	// todas as lines of code dos objetos que constituem o ArrayList de Metrics
+	
 	public int countLinesOfCode() {
 		int aux = ZERO;
 		for (Metrics m : metrics) {
 			aux = aux + m.getLOC_method();
 		}
 		return aux;
+		// O numero total de linha de codigo do projeto é a soma de todas as linhas de codigo de cada metodo
 	}
 
-	// Tendo em conta que os objetos metrics contêm um atributo String package, basta-nos contar todas as packages diferentes
-	// para isto é utilizado um array auxiliar e a função contains
-	// caso a package do objeto metrics já esteja contida neste array, não é adicionada, caso contrário é adicionada
-	// no fim é retornado o tamanho do array list auxiliar
+
 	public int countPackages() {
 		ArrayList<String> aux = new ArrayList<String>();
+		// Criação de Array auxiliar
 		for (Metrics m : metrics) {
 			if (aux.contains(m.getPacote())) {
-				
+				//Caso a String com o pacote já esteja contida no Array aux, não adiciona
 			}
 			else {
+				//Caso a String com o pacote não esteja contida no Array aux,  adiciona-a
 				aux.add(m.getPacote());
 			}
 			
 		}
 		return aux.size();
+		// Retorna o tamanho do array List após percorrer todos os métodos do Array metrics 
 	}
 	
 	
-	// Tendo em conta que os objetos metrics contêm um atributo String classe, basta-nos contar todas as classes diferentes
-	// para isto é utilizado um array auxiliar e a função contains
-	// caso a classe do objeto metrics já esteja contida neste array, não é adicionada, caso contrário é adicionada
-	// no fim é retornado o tamanho do array list auxiliar
+
 	public int countClasses() {
 		ArrayList<String> aux = new ArrayList<String>();
+		// Criação de Array auxiliar
 		for (Metrics m : metrics) {
 			if (aux.contains(m.getClasse())) {
+				//Caso a String com a classe já esteja contida no Array aux, não adiciona
 				
 			}
 			else {
 				aux.add(m.getClasse());
+				//Caso a String com a classe não esteja contida no Array aux,  adiciona-a
 			}
 			
 		}
 		return aux.size();
-	}
+		// Retorna o tamanho do array List após percorrer todos os métodos do Array metrics 
+			}
+	
 	
 
 }
