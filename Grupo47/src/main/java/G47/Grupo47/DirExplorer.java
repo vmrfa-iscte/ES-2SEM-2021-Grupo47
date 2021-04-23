@@ -39,7 +39,7 @@ public class DirExplorer {
     private void verifyAndExtractMetrics(File currentFile,String filePath) throws FileNotFoundException {
     	if(filePath.endsWith(FILE_ENDING)) { //Verify if the currentFile is a java file
     		ExtractMetrics extractMetricsFromFile = new ExtractMetrics(currentFile); //Creating ExtractMetrics object with currentFile
-    		extractMetricsFromFile.extrair_Metricas(accumulateMetrics,currentMethod_id); //Extract metrics for given file (currentFile) given the current method_id and metrics list
+    		extractMetricsFromFile.doExtractMetrics(accumulateMetrics,currentMethod_id); //Extract metrics for given file (currentFile) given the current method_id and metrics list
     		currentMethod_id = extractMetricsFromFile.getCurrentMethodID(); //Update current method_id
     	}
     }

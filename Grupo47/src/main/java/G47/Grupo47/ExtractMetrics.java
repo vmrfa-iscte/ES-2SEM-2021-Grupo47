@@ -21,38 +21,34 @@ public class ExtractMetrics {
 
 	private File fileToExtract;
 	private int method_id;
+	private static int METRICS_INITIAL_VALUE = 0;
 
 
 	public ExtractMetrics(File file) {
 		this.fileToExtract = file;
 	}
 
-	public ArrayList<Metrics> extrair_Metricas(ArrayList<Metrics> metrics,int method_id) throws FileNotFoundException {
+	public ArrayList<Metrics> doExtractMetrics(ArrayList<Metrics> metrics,int method_id) throws FileNotFoundException {
 		String packageClass = getPackageName();
 		JavaParser parseCodeFromFile  = new JavaParser();
 		ParseResult<CompilationUnit> compilationUnitFromParser = parseCodeFromFile.parse(fileToExtract);
-		int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = 0;
+		int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = METRICS_INITIAL_VALUE;
 		String className = "";
 		if(compilationUnitFromParser.isSuccessful()) {
 			CompilationUnit comp = compilationUnitFromParser.getResult().get();
-			for(ClassOrInterfaceDeclaration type : comp.findAll(ClassOrInterfaceDeclaration.class)) {
-				if(type.getNameAsString().equals(fileToExtract.getName().replace(".java", ""))) {
-					className = type.getNameAsString();
-				}else {
-					className = fileToExtract.getName().replace(".java", "")+"."+type.getNameAsString();
-				}
-				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
-				NOM_class = getNOM_class(type.getMethods(),type.getConstructors());
-				LOC_class = getLOC_classCID(type);
-				for(ConstructorDeclaration md: type.getConstructors()) {
+			for(ClassOrInterfaceDeclaration classTypeFromParser : comp.findAll(ClassOrInterfaceDeclaration.class)) {
+				className = getClassName(classTypeFromParser);
+				WMC_class = getClassComplexity(classTypeFromParser.getMethods(),classTypeFromParser.getConstructors());
+				NOM_class = getNOM_class(classTypeFromParser.getMethods(),classTypeFromParser.getConstructors());
+				LOC_class = getLOC_classCID(classTypeFromParser);
+				for(ConstructorDeclaration md: classTypeFromParser.getConstructors()) {
 					LOC_method = getLOC_method_Cons(md);
 					CYCLO_method = getConstructorComplexity(md);
-
 					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass, method_id,LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
 					metrics.add(metric);
 					method_id++;
 				}
-				for(MethodDeclaration md: type.getMethods()) {
+				for(MethodDeclaration md: classTypeFromParser.getMethods()) {
 					LOC_method = getLOC_method_Met(md);
 					CYCLO_method = getMethodComplexity(md);
 					Metrics metric = new Metrics(getMethodNameWithParameters(md.getNameAsString(),md.getParameters()), className, packageClass,method_id, LOC_method, LOC_class, CYCLO_method, NOM_class,WMC_class);
@@ -62,11 +58,7 @@ public class ExtractMetrics {
 
 			}
 			for(EnumDeclaration type : comp.findAll(EnumDeclaration.class)) {
-				if(type.getNameAsString().equals(fileToExtract.getName().replace(".java", ""))) {
-					className = type.getNameAsString();
-				}else {
-					className = fileToExtract.getName().replace(".java", "")+"."+type.getNameAsString();
-				}
+				className = getClassNameForEnum(type);
 				WMC_class = getClassComplexity(type.getMethods(),type.getConstructors());
 				NOM_class = type.getMethods().size() + type.getConstructors().size();
 				LOC_class = getLOC_classENUM(type);
@@ -95,10 +87,19 @@ public class ExtractMetrics {
 	}
 
 
-	int getLOC_method_Cons(ConstructorDeclaration constructorFromParsedClass) {
+	private int getLOC_method_Cons(ConstructorDeclaration constructorFromParsedClass) {
 		return (constructorFromParsedClass.getEnd().get().line - constructorFromParsedClass.getBegin().get().line)+1;
 	}
-
+	
+	private String getClassName(ClassOrInterfaceDeclaration classFromFile) {
+		if(classFromFile.getNameAsString().equals(fileToExtract.getName().replace(".java", ""))) return classFromFile.getNameAsString();
+		else return fileToExtract.getName().replace(".java", "")+"."+classFromFile.getNameAsString();
+	}
+	private String getClassNameForEnum(EnumDeclaration enumFromFile) {
+		if(enumFromFile.getNameAsString().equals(fileToExtract.getName().replace(".java", ""))) return enumFromFile.getNameAsString();
+		else return fileToExtract.getName().replace(".java", "")+"."+enumFromFile.getNameAsString();
+	}
+	
 	protected int getLOC_method_Met(MethodDeclaration methodFromParsedClass) {
 		return (methodFromParsedClass.getEnd().get().line - methodFromParsedClass.getBegin().get().line)+1;
 	}
@@ -108,9 +109,8 @@ public class ExtractMetrics {
 	}
 
 	protected String getMethodNameWithParameters(String ClassName,NodeList<Parameter> nodeList) {
-		if(nodeList.size() == 0) {
-			return ClassName+"()";
-		}else {
+		if(nodeList.size() == 0) return ClassName+"()";
+		else {
 			ClassName = ClassName+"(";
 			return addParametersToClassName(ClassName,nodeList);
 		}
@@ -120,11 +120,8 @@ public class ExtractMetrics {
 		for(Node n: parametersList) {
 			String pars[] = n.toString().split(" ");
 			String par = pars[0];
-			if(parametersList.indexOf(n) == parametersList.size()-1) {
-				className = className + par + ")";
-			}else {
-				className = className + par +",";
-			}
+			if(parametersList.indexOf(n) == parametersList.size()-1) className = className + par + ")";
+			else className = className + par +",";
 		}
 		return className;
 	}
@@ -158,7 +155,6 @@ public class ExtractMetrics {
 		int numbcase = getCycloComplex("case",md.toString());
 		int numbdefault = getCycloComplex("default",md.toString());
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
-
 	}
 
 	protected int getCycloComplex (String wordToSearch, String data) {
@@ -173,14 +169,9 @@ public class ExtractMetrics {
 
 	protected int getClassComplexity(List<MethodDeclaration> md,List<ConstructorDeclaration> cd) {
 		int complexity = 0;
-		for(MethodDeclaration metdec: md) {
-			complexity = complexity + getMethodComplexity(metdec);
-		}
-		for(ConstructorDeclaration consdec: cd) {
-			complexity = complexity + getConstructorComplexity(consdec);
-		}
+		for(MethodDeclaration metdec: md) complexity = complexity + getMethodComplexity(metdec);
+		for(ConstructorDeclaration consdec: cd) complexity = complexity + getConstructorComplexity(consdec);
 		return complexity;
-
 	}
 
 	protected String getPackageName() {
@@ -189,17 +180,13 @@ public class ExtractMetrics {
 		String[] separated = fileToExtract.getAbsolutePath().split(Pattern.quote(File.separator));
 		for(int i = 0; i< separated.length-1;i++) {
 			if(src && i <= separated.length-2) {
-				if(i < separated.length-2) {
-					packageName = packageName + separated[i] + ".";
-				}else {
-					packageName = packageName + separated[i];							
-				}
+				if(i < separated.length-2) packageName = packageName + separated[i] + ".";
+				else packageName = packageName + separated[i];							
 			}
 			if(separated[i].contains("src")) src = true;
 		}
 		if(packageName.equals("") && fileToExtract.getAbsolutePath().contains("src")) packageName = "Default Package";
-
-			return packageName;
+		return packageName;
 		
 	}
 	
