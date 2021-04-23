@@ -15,8 +15,15 @@ public class CodeSmellsDetector {
 	private ArrayList<String> namesClasses = new ArrayList<>();
 	private boolean hasDetection = false;
 
-
-	// two metrics
+	//Os objetos poderão ser criados com 2 construtores diferentes. Por exemplo, caso o user insira a regra "WMC_class > 12 OR LOC_class > 12" e tendo
+	// em conta que esta apenas limita dos métricas, é usado o construtor para duas métricas.
+	// Caso o user insira, por exemplo, a regra "WMC_class > 12 OR LOC_class > 12 AND NOM_class < 12" e tendo em conta que esta limita três métricas,
+	// é usado o construtor para três métricas.
+	// Os atributos passados como argumento no construtor são portanto, os limites definidos, o operador escolhido e o ArrayList com métricas
+	// que irá ser analisado.
+	
+	
+	// Construtor para duas metricas
 	public CodeSmellsDetector (int rule1, int rule2, String operator, ArrayList<Metrics> results) {
 		this.rule1_threshold = rule1;
 		this.rule2_threshold = rule2;
@@ -25,7 +32,7 @@ public class CodeSmellsDetector {
 		this.lastclassview = results.get(0).getClasse();
 	}
 
-	//three metrics
+	// Construtor para três métricas
 	public CodeSmellsDetector (int rule1, int rule2, int rule3, String operator, String operator2, ArrayList<Metrics> results) {
 		this.rule1_threshold = rule1;
 		this.rule2_threshold = rule2;
@@ -36,6 +43,10 @@ public class CodeSmellsDetector {
 		this.lastclassview = results.get(0).getClasse();
 	}
 
+	// Esta função tem como objetivo, criar um objeto HasCodeSmell, e adicioná-lo a um arrayList de resultados que eventualmente
+	// seram integrados na SecondaryGUI.
+	// De notar que quando o objeto é adicionado ao ArrayList, já lhe foi atribuida a classificação de Verdadeiro/Falso Positivo ou Negativo
+	// Esta classificação é representada pelo atributo detection.
 	private void createAndAdd(ArrayList<HasCodeSmell> view, String lastclassview, String detection,String methodId,String classpackage,String className) {
 		HasCodeSmell codesmell = new HasCodeSmell(lastclassview,detection,methodId,classpackage,className,null);
 		view.add(codesmell);
@@ -80,6 +91,14 @@ public class CodeSmellsDetector {
 		return lastclass;
 	}
 	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
+	// das métricas com um sinal de maior. Por exemplo, quando insere uma regra do género "LOC_Method > 12 OR CYCLO_Method > 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
+
 	public ArrayList<HasCodeSmell> detectLongMethodBiggerBigger() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -101,7 +120,15 @@ public class CodeSmellsDetector {
 		System.out.println("Corri Bigger Bigger para o LONG_METHOD");
 		return view;
 	}
-
+	
+	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
+	// das métricas com um sinal de maior para a primeira métrica e um de menor para a segunda. Por exemplo, quando insere uma regra do género "LOC_Method > 12 OR CYCLO_Method < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectLongMethodBiggerSmaller() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -123,6 +150,7 @@ public class CodeSmellsDetector {
 		return view;
 	}
 
+	
 	public ArrayList<HasCodeSmell> detectLongMethodSmallerBigger() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -144,6 +172,13 @@ public class CodeSmellsDetector {
 		return view;
 	}
 
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
+	// das métricas com um sinal de menor para a primeira métrica e um de maior para a segunda. Por exemplo, quando insere uma regra do género "LOC_Method < 12 OR CYCLO_Method > 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectLongMethodSmallerSmaller() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -165,6 +200,14 @@ public class CodeSmellsDetector {
 		return view;
 	}
 
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e NOM_Class, e para esta deteção define os limites com o sinal de maior para ambas.
+	// Por exemplo, quando insere uma regra do género "WMC_Class > 12 OR NOM_Class > 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -187,6 +230,14 @@ public class CodeSmellsDetector {
 		return view;
 	}
 
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e NOM_Class, e para esta deteção define os limites 
+	// com um sinal de maior para a primeira métrica e um de menor para a segunda. Por exemplo, quando insere uma regra do género "WMC_Class > 12 OR NOM_Class < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -208,6 +259,15 @@ public class CodeSmellsDetector {
 		System.out.println("Corri Bigger Smaller para WMC_NOM");
 		return view;
 	}
+	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e NOM_Class, e para esta deteção define os limites 
+	// com um sinal de menor para a primeira métrica e um de menor para a segunda. Por exemplo, quando insere uma regra do género "WMC_Class < 12 OR NOM_Class < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -230,6 +290,14 @@ public class CodeSmellsDetector {
 		return view;
 	}
 
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e NOM_Class, e para esta deteção define os limites 
+	// com um sinal de menor para a primeira métrica e um de maior para a segunda. Por exemplo, quando insere uma regra do género "WMC_Class < 12 OR NOM_Class > 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerWMC_NOM() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -253,6 +321,14 @@ public class CodeSmellsDetector {
 		return view;
 	}
 	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de maior para a primeira métrica e um de maior para a segunda. Por exemplo, quando insere uma regra do género "WMC_Class > 12 OR LOC_Class > 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerWMC_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -275,6 +351,14 @@ public class CodeSmellsDetector {
 		return view;
 	}
 
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de maior para a primeira métrica e um de menor para a segunda. Por exemplo, quando insere uma regra do género "WMC_Class > 12 OR LOC_Class < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerWMC_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -296,6 +380,15 @@ public class CodeSmellsDetector {
 		System.out.println("Corri Bigger Smaller para WMC_LOC");
 		return view;
 	}
+	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de menor para a primeira métrica e um de menor para a segunda. Por exemplo, quando insere uma regra do género "WMC_Class < 12 OR LOC_Class < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerWMC_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -318,6 +411,14 @@ public class CodeSmellsDetector {
 		return view;
 	}
 	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de menor para a primeira métrica e um de maior para a segunda. Por exemplo, quando insere uma regra do género "WMC_Class < 12 OR LOC_Class > 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerWMC_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -340,7 +441,14 @@ public class CodeSmellsDetector {
 		System.out.println("Corri Smaller Bigger para WMC_LOC");
 		return view;
 	}
-
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de maior para a primeira métrica e um de maior para a segunda. Por exemplo, quando insere uma regra do género "NOM_Class > 12 OR LOC_Class > 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerNOM_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -364,6 +472,14 @@ public class CodeSmellsDetector {
 		return view;
 	}
 	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de maior para a primeira métrica e um de menor para a segunda. Por exemplo, quando insere uma regra do género "NOM_Class > 12 OR LOC_Class < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerNOM_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -386,6 +502,15 @@ public class CodeSmellsDetector {
 		System.out.println("Corri Bigger Smaller para NOM_LOC");
 		return view;
 	}
+	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de menor para a primeira métrica e um de maior para a segunda. Por exemplo, quando insere uma regra do género "NOM_Class > 12 OR LOC_Class < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerNOM_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
@@ -408,6 +533,16 @@ public class CodeSmellsDetector {
 		System.out.println("Corri Smaller Bigger para NOM_LOC");
 		return view;
 	}
+	
+	
+	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	// as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
+	// com um sinal de menor para a primeira métrica e um de menor para a segunda. Por exemplo, quando insere uma regra do género "NOM_Class < 12 OR LOC_Class < 12".
+	// De notar que o método está preparado para para operar, quer o sinal lógico seja OR ou AND.
+	// O método vai portanto percorrer o ArrayList<HasCodeSmell> results passado como argumento no construtor e aplicar a regra definida pelo
+	// utilizador a cada elemento deste ArrayList. Após aplicada a regra, o elemento é adicionado a um ArrayList auxiliar através da 
+	// função createAndAdd, com a única diferença de que o seu atributo hasCodeSmell está preenchido com a classificação "TRUE" ou "FALSE"
+	// derivada da aplicação da regra
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerNOM_LOC() {
 		for (Metrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);

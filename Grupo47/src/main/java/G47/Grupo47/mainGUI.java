@@ -86,7 +86,7 @@ public class mainGUI extends Shell {
 	private Combo metrica2;
 	private Text folderToExtract;
 	private File folderextraction = null;
-	private static final int ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9;
+	private static final int ZER0 = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9;
 	private static final String LOGO = "/G47/Grupo47/iscte_logo2.jpg", GUI_NAME = "Interface gráfica- Grupo 47";
 
 	/**
@@ -710,7 +710,7 @@ public class mainGUI extends Shell {
 		System.out.println("text: " + text);
 		for (int i = 0; i < text.length(); i++) {
 			System.out.println(text.charAt(i));
-			if (text.charAt(i) == ZERO || text.charAt(i) == ONE || text.charAt(i) == TWO || text.charAt(i) == THREE
+			if (text.charAt(i) == '0' || text.charAt(i) == ONE || text.charAt(i) == TWO || text.charAt(i) == THREE
 					|| text.charAt(i) == FOUR || text.charAt(i) == FIVE || text.charAt(i) == SIX || text.charAt(i) == SEVEN
 					|| text.charAt(i) == EIGHT || text.charAt(i) == NINE) {
 				System.out.println("true");
