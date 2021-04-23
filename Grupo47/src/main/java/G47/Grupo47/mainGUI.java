@@ -146,7 +146,7 @@ public class mainGUI extends Shell {
 							NumClasses.setText(statsToWrite.get(2));
 							NumMethods.setText(statsToWrite.get(1));
 							NumPackages.setText(statsToWrite.get(3));
-							FileHandler dirEx = new FileHandler(selectedFile1);
+							DirExplorer dirEx = new DirExplorer(selectedFile1);
 							try {
 								actualmetrics = dirEx.exploreAndExtract();
 							} catch (FileNotFoundException e1) {
@@ -211,7 +211,7 @@ public class mainGUI extends Shell {
 				if(selectedFile1 == null || folderextraction == null ) {
 					JOptionPane.showMessageDialog(null, "Escolha uma pasta");
 				}else {
-					FileHandler dirEx = new FileHandler(selectedFile1);
+					DirExplorer dirEx = new DirExplorer(selectedFile1);
 					try {
 						if(folderextraction.exists() && selectedFile1.exists()) {
 							actualmetrics = dirEx.exploreAndExtract();

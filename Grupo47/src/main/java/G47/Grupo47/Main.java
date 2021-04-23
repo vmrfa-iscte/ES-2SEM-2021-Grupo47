@@ -8,10 +8,8 @@ import org.eclipse.swt.widgets.Display;
 
 public class Main {
 
-
 	public static void main(String[] args) throws IOException {
 		try {
-
 			Display display = Display.getDefault();
 			mainGUI shell = new mainGUI(display);
 			shell.open();
