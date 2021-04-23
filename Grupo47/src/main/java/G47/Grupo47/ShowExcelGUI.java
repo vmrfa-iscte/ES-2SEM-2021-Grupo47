@@ -14,73 +14,87 @@ import org.eclipse.swt.widgets.TableItem;
 public class ShowExcelGUI extends Shell{
 	
 	private Display display;
-	private Table table;
+	private Table tableForMetrics;
+	private ArrayList<MethodMetrics> metricsToShow;
 	
-	private ArrayList<Metrics> metricsToShow;
-	
-	public ShowExcelGUI(Display display,String name,ArrayList<Metrics> metricsToShow) {
+	public ShowExcelGUI(Display display,String name,ArrayList<MethodMetrics> metricsToShow) {
+		this.display = display;
 		this.metricsToShow = metricsToShow;
+		// Escolher tamanho, imagem e nome da GUI
 		setSize(1016, 635);
 		setImage(SWTResourceManager.getImage(ShowExcelGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
-		this.display = display;
 		setText(name);
+		setContents();
+	}
+	
+	private void setContents() {
+		// Criar tabela para mostrar os metodos e as suas métricas
+		tableForMetrics = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
+		tableForMetrics.setBounds(10, 10, 978, 568);
+		tableForMetrics.setHeaderVisible(true);
+		tableForMetrics.setLinesVisible(true);
 		
-		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(10, 10, 978, 568);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		
-		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.CENTER);
-		tblclmnNewColumn.setWidth(86);
-		tblclmnNewColumn.setText("Method ID");
-		
-		TableColumn tblclmnPackage = new TableColumn(table, SWT.CENTER);
-		tblclmnPackage.setWidth(120);
-		tblclmnPackage.setText("Package");
-		
-		TableColumn tblclmnClass = new TableColumn(table, SWT.CENTER);
-		tblclmnClass.setWidth(137);
-		tblclmnClass.setText("Class");
-		
-		TableColumn tblclmnMethod = new TableColumn(table, SWT.CENTER);
-		tblclmnMethod.setWidth(152);
-		tblclmnMethod.setText("Method");
-		
-		TableColumn tblclmnNomclass = new TableColumn(table, SWT.CENTER);
-		tblclmnNomclass.setWidth(93);
-		tblclmnNomclass.setText("NOM_class");
-		
-		TableColumn tblclmnLocclass = new TableColumn(table, SWT.CENTER);
-		tblclmnLocclass.setWidth(85);
-		tblclmnLocclass.setText("LOC_class");
-		
-		TableColumn tblclmnWmcclass = new TableColumn(table, SWT.CENTER);
-		tblclmnWmcclass.setWidth(91);
-		tblclmnWmcclass.setText("WMC_class");
-		
-		TableColumn tblclmnLocmethod = new TableColumn(table, SWT.CENTER);
-		tblclmnLocmethod.setWidth(96);
-		tblclmnLocmethod.setText("LOC_method");
-		
-		TableColumn tblclmnCyclomethod = new TableColumn(table, SWT.CENTER);
-		tblclmnCyclomethod.setWidth(116);
-		tblclmnCyclomethod.setText("CYCLO_method");
+		// Criar coluna para method_id
+		TableColumn methodIDColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		methodIDColumn.setWidth(86);
+		methodIDColumn.setText("Method ID");
 		
 		
+		// Criar coluna para o nome do pacote a que o método pertence
+		TableColumn packageColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		packageColumn.setWidth(120);
+		packageColumn.setText("Package");
 		
-		for(Metrics metric: metricsToShow) {
-			TableItem tableItem = new TableItem(table,SWT.NONE);
+		// Criar coluna para o nome da classe a que o pacote pertence
+		TableColumn classNameColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		classNameColumn.setWidth(137);
+		classNameColumn.setText("Class");
+		
+		// Criar coluna para o nome do método
+		TableColumn methodNameColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		methodNameColumn.setWidth(152);
+		methodNameColumn.setText("Method");
+		
+		// Criar coluna para a métrica NOM_class
+		TableColumn nomClassColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		nomClassColumn.setWidth(93);
+		nomClassColumn.setText("NOM_class");
+		
+		// Criar coluna para a métrica LOC_class
+		TableColumn locClassColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		locClassColumn.setWidth(85);
+		locClassColumn.setText("LOC_class");
+		
+		// Criar coluna para a métrica WMC_class
+		TableColumn wmcClassColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		wmcClassColumn.setWidth(91);
+		wmcClassColumn.setText("WMC_class");
+		
+		// Criar coluna para a métrica LOC_method
+		TableColumn locMethodColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		locMethodColumn.setWidth(96);
+		locMethodColumn.setText("LOC_method");
+		
+		//Criar coluna para a métrica CYCLO_method
+		TableColumn cycloMethodColumn = new TableColumn(tableForMetrics, SWT.CENTER);
+		cycloMethodColumn.setWidth(116);
+		cycloMethodColumn.setText("CYCLO_method");
+		
+		// Percorrer a lista de métricas recebida aquando da criação do objeto e mostrar os valores na tabela criada
+		for(MethodMetrics metric: metricsToShow) {
+			TableItem metricToInsert = new TableItem(tableForMetrics,SWT.NONE);
 			String methodid = String.valueOf(metric.getMethod_ID());
 			String nom_class = String.valueOf(metric.getNOM_class());
 			String loc_class = String.valueOf(metric.getLOC_class());
 			String wmc_class = String.valueOf(metric.getWMC_class());
 			String cyclo_method = String.valueOf(metric.getCYCLO_method());
 			String loc_method = String.valueOf(metric.getLOC_method());
-			tableItem.setText(new String[] {methodid,metric.getPacote(),metric.getClasse(),metric.getNome_metodo(),nom_class,loc_class,wmc_class,loc_method,cyclo_method});
+			metricToInsert.setText(new String[] {methodid,metric.getPacote(),metric.getClasse(),metric.getNome_metodo(),nom_class,loc_class,wmc_class,loc_method,cyclo_method});
 		}
 	}
 	
 	public void loadGUI () {
+		// Abrir e mostrar a GUI
 		try {
 			open();
 			layout();

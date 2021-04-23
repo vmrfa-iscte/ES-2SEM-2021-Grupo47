@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Statistics {
 	
-	ArrayList<Metrics> metrics;
+	ArrayList<MethodMetrics> metrics;
 	
-	public Statistics (ArrayList<Metrics> metrics) {
+	public Statistics (ArrayList<MethodMetrics> metrics) {
 		this.metrics = metrics;
 		
 	}
@@ -17,7 +17,7 @@ public class Statistics {
 
 	public int countLinesOfCode() {
 		int aux = 0;
-		for (Metrics m : metrics) {
+		for (MethodMetrics m : metrics) {
 			aux = aux + m.getLOC_method();
 		}
 		return aux;
@@ -25,7 +25,7 @@ public class Statistics {
 
 	public int countPackages() {
 		ArrayList<String> aux = new ArrayList<String>();
-		for (Metrics m : metrics) {
+		for (MethodMetrics m : metrics) {
 			if (aux.contains(m.getPacote())) {
 				
 			}
@@ -39,7 +39,7 @@ public class Statistics {
 	
 	public int countClasses() {
 		ArrayList<String> aux = new ArrayList<String>();
-		for (Metrics m : metrics) {
+		for (MethodMetrics m : metrics) {
 			if (aux.contains(m.getClasse())) {
 				
 			}

@@ -79,7 +79,7 @@ public class mainGUI extends Shell {
 	private ArrayList<Rules> list = new ArrayList<Rules>();
 	private Rules rule, currentRule;
 	private String[] selected_rule;
-	private ArrayList<Metrics> actualmetrics;
+	private ArrayList<MethodMetrics> actualmetrics;
 	private Label lblDefinaUmaRegra;
 	private Combo metrica3,sinal,sinal2,sinal3,operador2;
 	private String content,update;
@@ -146,9 +146,9 @@ public class mainGUI extends Shell {
 							NumClasses.setText(statsToWrite.get(2));
 							NumMethods.setText(statsToWrite.get(1));
 							NumPackages.setText(statsToWrite.get(3));
-							DirExplorer dirEx = new DirExplorer(selectedFile1);
+							FileHandler dirEx = new FileHandler(selectedFile1);
 							try {
-								actualmetrics = dirEx.explore();
+								actualmetrics = dirEx.exploreAndExtract();
 							} catch (FileNotFoundException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -211,10 +211,10 @@ public class mainGUI extends Shell {
 				if(selectedFile1 == null || folderextraction == null ) {
 					JOptionPane.showMessageDialog(null, "Escolha uma pasta");
 				}else {
-					DirExplorer dirEx = new DirExplorer(selectedFile1);
+					FileHandler dirEx = new FileHandler(selectedFile1);
 					try {
 						if(folderextraction.exists() && selectedFile1.exists()) {
-							actualmetrics = dirEx.explore();
+							actualmetrics = dirEx.exploreAndExtract();
 							System.out.println("actualmetrics size: " + actualmetrics.size());
 							System.out.println(pathToExtract);
 							ExcelManip em = new ExcelManip(selectedFile1);

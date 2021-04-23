@@ -76,7 +76,7 @@ public class ExcelManip {
 		return headers;
 	}
 
-	public void createExcel(ArrayList<Metrics> data,String toCopy) throws IOException {
+	public void createExcel(ArrayList<MethodMetrics> data,String toCopy) throws IOException {
 		toCopy = toCopy +"\\" + getFileName();
 		ArrayList<String> headers = extractHeaders();
 		XSSFWorkbook create = new XSSFWorkbook();
@@ -98,7 +98,7 @@ public class ExcelManip {
 		}
 		//Adicionar dados 
 		double i = 1;
-		for (Metrics m: data) {
+		for (MethodMetrics m: data) {
 			Row a = sheet.createRow((int) i);
 			a.createCell(0).setCellValue(m.getMethod_ID());
 			a.createCell(1).setCellValue(m.getPacote());

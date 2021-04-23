@@ -7,7 +7,7 @@ public class CodeSmellsDetector {
 
 	private int rule1_threshold,rule2_threshold,rule3_threshold;
 	private String operator, operator2;
-	private ArrayList<Metrics> results;
+	private ArrayList<MethodMetrics> results;
 	private ArrayList<HasCodeSmell> view = new ArrayList<HasCodeSmell>();
 	private ArrayList<HasCodeSmell> auxview = new ArrayList<HasCodeSmell>();
 	private String lastclass = "";
@@ -17,7 +17,7 @@ public class CodeSmellsDetector {
 
 
 	// two metrics
-	public CodeSmellsDetector (int rule1, int rule2, String operator, ArrayList<Metrics> results) {
+	public CodeSmellsDetector (int rule1, int rule2, String operator, ArrayList<MethodMetrics> results) {
 		this.rule1_threshold = rule1;
 		this.rule2_threshold = rule2;
 		this.operator = operator;
@@ -26,7 +26,7 @@ public class CodeSmellsDetector {
 	}
 
 	//three metrics
-	public CodeSmellsDetector (int rule1, int rule2, int rule3, String operator, String operator2, ArrayList<Metrics> results) {
+	public CodeSmellsDetector (int rule1, int rule2, int rule3, String operator, String operator2, ArrayList<MethodMetrics> results) {
 		this.rule1_threshold = rule1;
 		this.rule2_threshold = rule2;
 		this.rule3_threshold = rule3;
@@ -41,7 +41,7 @@ public class CodeSmellsDetector {
 		view.add(codesmell);
 	}
 
-	private String verifyLastClass(String lastclassview, Metrics metric,ArrayList<String> namesClasses,ArrayList<HasCodeSmell> view,ArrayList<HasCodeSmell> auxview) {
+	private String verifyLastClass(String lastclassview, MethodMetrics metric,ArrayList<String> namesClasses,ArrayList<HasCodeSmell> view,ArrayList<HasCodeSmell> auxview) {
 		if(!lastclassview.equals(metric.getClasse())) {
 			if(namesClasses.indexOf(lastclassview) != -1 ) {
 				createAndAdd(view,lastclassview,"Classe: Verdadeiro",null,null,null);
@@ -55,7 +55,7 @@ public class CodeSmellsDetector {
 		return lastclassview;
 	}
 
-	private String lastVerification(String lastclassview,ArrayList<Metrics> results,Metrics metric, ArrayList<String> namesClasses,ArrayList<HasCodeSmell> view, ArrayList<HasCodeSmell> auxview) {
+	private String lastVerification(String lastclassview,ArrayList<MethodMetrics> results,MethodMetrics metric, ArrayList<String> namesClasses,ArrayList<HasCodeSmell> view, ArrayList<HasCodeSmell> auxview) {
 		if(results.indexOf(metric) == results.size()-1) {
 			if(namesClasses.indexOf(metric.getClasse()) != -1 ) {
 				HasCodeSmell positiveClass = new HasCodeSmell(metric.getClasse(),"Classe: Verdadeiro",null,null,null,null);
@@ -72,7 +72,7 @@ public class CodeSmellsDetector {
 		return lastclassview;
 	}
 
-	private String changeLastClass(String lastclass,Metrics metric) {
+	private String changeLastClass(String lastclass,MethodMetrics metric) {
 		if(!lastclass.equals(metric.getClasse())) {
 			lastclass = metric.getClasse();
 			namesClasses.add(metric.getClasse());
@@ -81,7 +81,7 @@ public class CodeSmellsDetector {
 	}
 	
 	public ArrayList<HasCodeSmell> detectLongMethodBiggerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
@@ -103,7 +103,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectLongMethodBiggerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if (metric.getLOC_method() > rule1_threshold && metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
@@ -124,7 +124,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectLongMethodSmallerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getLOC_method() < rule1_threshold && metric.getCYCLO_method() > rule2_threshold) hasDetection = true;
@@ -145,7 +145,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectLongMethodSmallerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getLOC_method() < rule1_threshold && metric.getCYCLO_method() < rule2_threshold) hasDetection = true;
@@ -166,7 +166,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerWMC_NOM() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() > rule1_threshold && metric.getNOM_class() > rule2_threshold) hasDetection = true;
@@ -188,7 +188,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerWMC_NOM() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() > rule1_threshold && metric.getNOM_class() < rule2_threshold) hasDetection = true;
@@ -209,7 +209,7 @@ public class CodeSmellsDetector {
 		return view;
 	}
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerWMC_NOM() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() < rule1_threshold && metric.getNOM_class() < rule2_threshold) hasDetection = true;
@@ -231,7 +231,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerWMC_NOM() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() < rule1_threshold && metric.getNOM_class() > rule2_threshold) hasDetection = true;
@@ -254,7 +254,7 @@ public class CodeSmellsDetector {
 	}
 	
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerWMC_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() > rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
@@ -276,7 +276,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerWMC_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() > rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
@@ -297,7 +297,7 @@ public class CodeSmellsDetector {
 		return view;
 	}
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerWMC_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() < rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
@@ -319,7 +319,7 @@ public class CodeSmellsDetector {
 	}
 	
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerWMC_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getWMC_class() < rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
@@ -342,7 +342,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerNOM_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getNOM_class() > rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
@@ -365,7 +365,7 @@ public class CodeSmellsDetector {
 	}
 	
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerNOM_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getNOM_class() > rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
@@ -387,7 +387,7 @@ public class CodeSmellsDetector {
 		return view;
 	}
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerNOM_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getNOM_class() < rule1_threshold && metric.getLOC_class() > rule2_threshold) hasDetection = true;
@@ -409,7 +409,7 @@ public class CodeSmellsDetector {
 		return view;
 	}
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerNOM_LOC() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if (operator.equals("AND")) {
 				if (metric.getNOM_class() < rule1_threshold && metric.getLOC_class() < rule2_threshold) hasDetection = true;
@@ -433,7 +433,7 @@ public class CodeSmellsDetector {
 
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -461,7 +461,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -490,7 +490,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -518,7 +518,7 @@ public class CodeSmellsDetector {
 
 	}
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -547,7 +547,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -577,7 +577,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -606,7 +606,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -634,7 +634,7 @@ public class CodeSmellsDetector {
 	}
 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
