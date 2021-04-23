@@ -33,6 +33,7 @@ public class HelpInterface extends Shell {
 	 * Create the shell.
 	 * @param display
 	 */
+	//CONSTRUTOR DA INTERFACE "HelpInterface" COM TODO O CONTEÚDO QUE A COMPÕE.
 	public HelpInterface(Display display) {
 		super(display, SWT.SHELL_TRIM);
 		
@@ -66,6 +67,7 @@ public class HelpInterface extends Shell {
 		createContents();
 	}
 	
+	//MÉTODO PARA ABRIR A INTERFACE "AJUDA-UTILIZAÇÃO DA INTERFACE" COM O FORMATO CORRETO.
 	public void loadGUI () {
 		try {
 			open();
@@ -83,6 +85,7 @@ public class HelpInterface extends Shell {
 	/**
 	 * Create contents of the shell.
 	 */
+	
 	protected void createContents() {
 		setText("Ajuda-Utilização da interface");
 		setSize(934, 558);
