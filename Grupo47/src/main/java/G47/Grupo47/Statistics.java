@@ -34,8 +34,8 @@ public class Statistics {
 		ArrayList<String> aux = new ArrayList<String>();
 		// Criação de Array auxiliar
 		for (Metrics m : metrics) {
-			if (aux.contains(m.getPacote())) {} //Caso a String com o pacote já esteja contida no Array aux, não adiciona 
-			else { aux.add(m.getPacote()); }
+			if (aux.contains(m.getPacote()));//Caso a String com o pacote já esteja contida no Array aux, não adiciona 
+			else aux.add(m.getPacote());
 				//Caso a String com o pacote não esteja contida no Array aux,  adiciona-a
 		}
 		return aux.size();
@@ -48,8 +48,8 @@ public class Statistics {
 		ArrayList<String> aux = new ArrayList<String>();
 		// Criação de Array auxiliar
 		for (Metrics m : metrics) {
-			if (aux.contains(m.getClasse())) {} //Caso a String com a classe já esteja contida no Array aux, não adiciona	
-			else {} aux.add(m.getClasse()); //Caso a String com a classe não esteja contida no Array aux,  adiciona-a
+			if (aux.contains(m.getClasse())); //Caso a String com a classe já esteja contida no Array aux, não adiciona	
+			else  aux.add(m.getClasse()); //Caso a String com a classe não esteja contida no Array aux,  adiciona-a
 		}
 		return aux.size();
 		// Retorna o tamanho do array List após percorrer todos os métodos do Array metrics 
