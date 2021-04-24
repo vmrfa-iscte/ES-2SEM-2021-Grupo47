@@ -39,10 +39,14 @@ public class CodeSmellsDetector {
 	
 	private void checkDetection(boolean hasDetection,MethodMetrics methodWithMetrics) {
 		if (hasDetection) {
-			createAndAddNotReady(methodWithMetrics.getNome_metodo(),POSITIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());		
+//			createAndAddNotReady(methodWithMetrics.getNome_metodo(),POSITIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());		
+			HasCodeSmell codesmell = new HasCodeSmell(methodWithMetrics.getNome_metodo(),POSITIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse(),null);
+			notReady.add(codesmell);
 			addToCodeSmellsList(methodWithMetrics);
 		}else {
-			createAndAddNotReady(methodWithMetrics.getNome_metodo(),NEGATIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());
+//			createAndAddNotReady(methodWithMetrics.getNome_metodo(),NEGATIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());
+			HasCodeSmell codesmell = new HasCodeSmell(methodWithMetrics.getNome_metodo(),NEGATIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse(),null);
+			notReady.add(codesmell);
 		}
 		lastclassview = lastVerification(methodWithMetrics);
 		hasDetection = false;
@@ -64,8 +68,16 @@ public class CodeSmellsDetector {
 
 	private String verifyLastClass(MethodMetrics methodWithMetrics) {
 		if(!lastclassview.equals(methodWithMetrics.getClasse())) {
-			if(classWithSmell.indexOf(lastclassview) != -1 ) createAndAddNotReady(lastclassview,POSITIVE_CLASS,null,null,null);
-			else createAndAddReady(lastclassview,NEGATIVE_CLASS,null,null,null);
+			if(classWithSmell.indexOf(lastclassview) != -1 ) {
+//				createAndAddNotReady(lastclassview,POSITIVE_CLASS,null,null,null);
+				HasCodeSmell codesmell = new HasCodeSmell(lastclassview,POSITIVE_CLASS,null,null,null,null);
+				readyToShow.add(codesmell);
+			}
+			else {
+//				createAndAddReady(lastclassview,NEGATIVE_CLASS,null,null,null);
+				HasCodeSmell codesmell = new HasCodeSmell(lastclassview,NEGATIVE_CLASS,null,null,null,null);
+				readyToShow.add(codesmell);
+			}
 			lastclassview = methodWithMetrics.getClasse();
 			readyToShow.addAll(notReady);
 			notReady.removeAll(notReady);
@@ -83,8 +95,12 @@ public class CodeSmellsDetector {
 	}
 
 	private void checkClassSmell(MethodMetrics methodWithMetrics) {
-		if (classWithSmell.indexOf(methodWithMetrics.getClasse()) != -1) createAndAddReady(lastclassview,POSITIVE_CLASS,null,null,null);
-		else createAndAddReady(lastclassview,NEGATIVE_CLASS,null,null,null);
+		if (classWithSmell.indexOf(methodWithMetrics.getClasse()) != -1) {
+			createAndAddReady(lastclassview,POSITIVE_CLASS,null,null,null);
+		}
+		else {
+			createAndAddReady(lastclassview,NEGATIVE_CLASS,null,null,null);
+		}
 		readyToShow.addAll(notReady);
 	}
 
