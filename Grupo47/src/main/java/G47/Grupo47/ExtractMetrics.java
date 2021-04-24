@@ -18,8 +18,8 @@ import com.github.javaparser.ast.body.Parameter;
 
 public class ExtractMetrics {
 
+	private NameByFile classNameByFile = new NameByFile();
 	private MetricParser metricParser = new MetricParser();
-	private File fileToExtract;
 	private int method_id;
 	/* Todas as métricas são inicializadas a 0 com exceção da complexidade ciclomática que é inicializada a 1
 	  	Os contadores utilizados são inicializados também a 0
@@ -34,8 +34,8 @@ public class ExtractMetrics {
 	
 
 	public ExtractMetrics(File file) {
-		this.fileToExtract = file;
-		this.packageClass = getPackageName();
+		classNameByFile.setFileToExtract(file);
+		this.packageClass = classNameByFile.getPackageName();
 	}
 
 	public ArrayList<MethodMetrics> doExtractMetrics(ArrayList<MethodMetrics> extractedMetrics,int method_id) throws FileNotFoundException {
@@ -43,7 +43,7 @@ public class ExtractMetrics {
 		this.extractedMetrics = extractedMetrics;
 		// Obter o código do ficheiro 'FileToExtract' através do objeto JavaParser
 		JavaParser parseCodeFromFile  = new JavaParser();
-		ParseResult<CompilationUnit> compilationUnitFromParser = parseCodeFromFile.parse(fileToExtract); 
+		ParseResult<CompilationUnit> compilationUnitFromParser = parseCodeFromFile.parse(classNameByFile.getFileToExtract()); 
 		if(compilationUnitFromParser.isSuccessful()) {
 			extract(compilationUnitFromParser);
 		}
@@ -62,7 +62,7 @@ public class ExtractMetrics {
 		// Percorrer todas as classes e interfaces dentro do ficheiro dado
 		for(ClassOrInterfaceDeclaration classTypeFromParser : actualCompilationUnit.findAll(ClassOrInterfaceDeclaration.class)) {
 			// Obter nome, complexidade ciclomática, número de métodos e número de linhas da classe
-			className = getClassName(classTypeFromParser);
+			className = classNameByFile.getClassName(classTypeFromParser);
 			WMC_class = metricParser.getClassComplexity(classTypeFromParser.getMethods(),classTypeFromParser.getConstructors());
 			NOM_class = metricParser.getNOM_class(classTypeFromParser.getMethods(),classTypeFromParser.getConstructors());
 			LOC_class = metricParser.getLOC_classFromClass(classTypeFromParser);
@@ -76,7 +76,7 @@ public class ExtractMetrics {
 		// Percorrer todos os enumerdos dentro do ficheiro
 		for(EnumDeclaration enumTypeFromParser : actualCompilationUnit.findAll(EnumDeclaration.class)) {
 			// Obter nome, complexidade ciclomática, número de métodos e número de linhas do enumerado
-			className = getClassNameForEnum(enumTypeFromParser);
+			className = classNameByFile.getClassNameForEnum(enumTypeFromParser);
 			WMC_class = metricParser.getClassComplexity(enumTypeFromParser.getMethods(),enumTypeFromParser.getConstructors());
 			NOM_class = enumTypeFromParser.getMethods().size() + enumTypeFromParser.getConstructors().size();
 			// Adicionar construtores e métodos juntamente com as métricas associadas à lista de métricas extraídas
@@ -158,22 +158,6 @@ public class ExtractMetrics {
 		createMetricsAndAdd(methodNameWithParameters);
 	}
 	
-	private String getClassName(ClassOrInterfaceDeclaration classFromFile) {
-		/** Obter nome da classe ou interface, caso o nome da classe seja igual ao nome do ficheiro a que pertence sem ".java", 
-		 * então o nome da classe será esse mesmo.
-		 * Por outro lado, se o nome da classe não corresponder ao nome do ficheiro estamos perante uma Inner Classe e portanto o nome da classe terá 
-		 * a formatação NomeDoFicheiro.NomeDaClasse
-		 */
-		if(classFromFile.getNameAsString().equals(fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING))) return classFromFile.getNameAsString();
-		else return fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING)+ "." +classFromFile.getNameAsString();
-	}
-	
-	private String getClassNameForEnum(EnumDeclaration enumFromFile) {
-		// A obtenção do nome da classe para os enumerados segue exatamente a mesma lógica que para as classes e interfaces
-		if(enumFromFile.getNameAsString().equals(fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING))) return enumFromFile.getNameAsString();
-		else return fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING)+ "." +enumFromFile.getNameAsString();
-	}
-
 	private String getMethodNameWithParameters(String methodName,NodeList<Parameter> nodeList) {
 		// Adicionar os parâmetros ao nome do método para evitar confusões com outros métodos com o mesmo nome e parâmetros diferentes
 		// Se não tiver parâmetros então o nome do método será nomeMetodo()
@@ -198,37 +182,6 @@ public class ExtractMetrics {
 		return methodName;
 	}
 
-	private String getPackageName() {
-		// Método para obter o nome do pacote a que a classe pertence através do caminho do ficheiro
-		String packageName = EMPTY_STRING;
-		boolean src = false;
-		// Separar o caminho do ficheiro para obter as diretorias a que o ficheiro pertence e depois percorrê-las
-		String[] separated = fileToExtract.getAbsolutePath().split(Pattern.quote(File.separator));
-		/** O ciclo for seguinte vai procurar a primeira ocorrência da diretoria "src" pois é dentro desta diretoria que se encontram os pacotes 
-		 * se já tiver passado a ocrrência da diretoria "src" vai verificar se está na penúltima posição do array, caso esteja, vai apenas adicionar
-		 * o nome da diretoria à variável "packageName", caso não seja a penúltima posição do array então vai adicionar a diretoria à variável "packageName"
-		 * mais um ponto final para separar
-		 */
-		for(int i = 0; i< separated.length-1;i++) {
-			if(src && i <= separated.length-2) {
-				if(i < separated.length-2) packageName += separated[i] + ".";
-				else packageName += separated[i];							
-			}
-			if(separated[i].contains(SRC_DIR)) src = true;
-		}
-		if(isDefaultPackage(packageName,fileToExtract)) packageName = DEFAULT_PACKAGE;
-		return packageName;
-		
-	}
-	
-	private boolean isDefaultPackage(String packageName,File fileToExtract) {
-		/** Verifica se a classe está no "Default Package", vai verificar se a variável packageName se encontra vazia, se estiver vazia 
-		 * e o caminho do ficheiro contiver a pasta "src" então o ficheiro encontra-se diretamente dentro dessa diretoria
-		 */
-		if(packageName.equals(EMPTY_STRING) && fileToExtract.getAbsolutePath().contains(SRC_DIR)) return true;
-		else return false;
-	}
-	
 	private void createMetricsAndAdd(String methodName) {
 		MethodIdentity currentMethod = new MethodIdentity(methodName, className, packageClass, method_id);
 		Metrics metricsForMethod = new Metrics(LOC_method, LOC_class, CYCLO_method, NOM_class, WMC_class);

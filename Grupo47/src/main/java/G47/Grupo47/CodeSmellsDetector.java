@@ -660,7 +660,7 @@ public class CodeSmellsDetector {
 	// as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
 	// com um sinal de maior para a primeira métrica,um de menor para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -692,7 +692,7 @@ public class CodeSmellsDetector {
 	// as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
 	// com um sinal de maior para a primeira métrica,um de maior para a segunda e um de menor para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassBiggerBiggerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -725,7 +725,7 @@ public class CodeSmellsDetector {
 	// as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
 	// com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerSmallerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -757,7 +757,7 @@ public class CodeSmellsDetector {
 	// as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
 	// com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerBigger() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {
@@ -788,7 +788,7 @@ public class CodeSmellsDetector {
 	// as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
 	// com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerSmaller() {
-		for (Metrics metric : results) {
+		for (MethodMetrics metric : results) {
 			lastclassview = verifyLastClass(lastclassview,metric,namesClasses,view,auxview);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) {

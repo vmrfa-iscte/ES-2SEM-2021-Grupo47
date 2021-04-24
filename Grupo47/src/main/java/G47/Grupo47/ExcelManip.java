@@ -21,12 +21,13 @@ public class ExcelManip {
 	private static ArrayList<String> headers;
 	public String toCopy;
 	private File file;
+	private NameByFile excelFileName = new NameByFile(); 
 	private static final String METHOD_ID_HEADER = "MethodID", PACKAGE_HEADER = "Package", CLASS_HEADER = "Class", METHOD_HEADER = "Method", 
 			NOM_CLASS_HEADER= "NOM_Class", LOC_CLASS_HEADER= "LOC_Class", WMC_CLASS_HEADER = "WMC_Class", IS_GOD_CLASS_HEADER= "is_God_Class", 
 			LOC_METHOD_HEADER= "LOC_Method", CYCLO_METHOD_HEADER= "CYCLO_Method",IS_LONG_METHOD_HEADER= "Is_Long_Method";	
 	
-	private static final int ZERO = 0, ONE = 1,  LETTER_HEIGHT = 10;
-	private static final String SRC = "src", RESULTS_ = "results_", FILE_TYPE = ".xlsx", DOUBLE_LEFT_SLASH = "\\", EMPTY_PATH = "";
+	private static final int ZERO = 0, LETTER_HEIGHT = 10;
+	private static final String  DOUBLE_LEFT_SLASH = "\\";
 	private static final int METHOD_ID_COLUMN_INDEX = 0, PACKAGE_COLUMN_INDEX = 1,CLASS_COLUMN_INDEX = 2,METHOD_COLUMN_INDEX = 3,
 	NOMCLASS_COLUMN_INDEX = 4,LOC_CLASS_COLUMN_INDEX = 5, WMC_CLASS_COLUMN_INDEX = 6, LOC_METHOD_COLUMN_INDEX = 8, CYCLO_METHOD_COLUMN_INDEX = 9;
 	
@@ -37,25 +38,13 @@ public class ExcelManip {
 	// Estes cabeçalhos são adicionados ao atributo ArrayList da classe, assim que o objeto é instanciado
 	public ExcelManip(File file) {
 		this.file = file;
+		this.excelFileName.setFileToExtract(file);
 		headers = new ArrayList<String>();
 		headers.add(METHOD_ID_HEADER);headers.add(PACKAGE_HEADER);headers.add(CLASS_HEADER);headers.add(METHOD_HEADER);
 		headers.add(NOM_CLASS_HEADER);headers.add(LOC_CLASS_HEADER);headers.add(WMC_CLASS_HEADER);
 		headers.add(IS_GOD_CLASS_HEADER);headers.add(LOC_METHOD_HEADER);headers.add(CYCLO_METHOD_HEADER);
 		headers.add(IS_LONG_METHOD_HEADER);
 	}
-
-
-	// Esta função é utilizada para retornar o nome, e apenas o nome do Ficheiro que foi passado como argumento
-	public String getFileName() {
-		String[] separated = file.getAbsolutePath().split(Pattern.quote(File.separator));
-		String fileName = EMPTY_PATH;
-		for(int i = ZERO; i< separated.length;i++) {
-			if(separated[i].contains(SRC)) { fileName = RESULTS_+separated[i-ONE]+FILE_TYPE; }
-		}
-		return fileName;
-	}
-
-
 
 	// Este método é bastante simples e apenas retorna o ArrayList que contem os cabeçalhos que irão constituir o excel a criar
 	// Cada um destes cabeçalhos representará uma coluna
@@ -65,8 +54,8 @@ public class ExcelManip {
 
 	
 	
-	public void createExcel(ArrayList<Metrics> data,String toCopy) throws IOException {
-		toCopy = toCopy + DOUBLE_LEFT_SLASH + getFileName();
+	public void createExcel(ArrayList<MethodMetrics> data,String toCopy) throws IOException {
+		toCopy = toCopy + DOUBLE_LEFT_SLASH + excelFileName.getFileName();
 		ArrayList<String> headers = extractHeaders();
 		XSSFWorkbook create = new XSSFWorkbook();
 		XSSFSheet sheet = create.createSheet();
@@ -87,7 +76,7 @@ public class ExcelManip {
 		}
 		//Adicionar dados ao Excel, linha a linha, provenientes do ArrayList<Metrics> data
 		double rowNumbToCreate = 1;
-		for (Metrics m: data) {
+		for (MethodMetrics m: data) {
 			// enquanto houverem objetos no array data
 			Row row = sheet.createRow((int) rowNumbToCreate);
 			row.createCell(METHOD_ID_COLUMN_INDEX).setCellValue(m.getMethod_ID());
@@ -101,11 +90,14 @@ public class ExcelManip {
 			row.createCell(CYCLO_METHOD_COLUMN_INDEX).setCellValue(m.getCYCLO_method());
 			rowNumbToCreate++;
 		}
+		createFile(toCopy, create);
+
+	}
+
+	private void createFile(String toCopy, XSSFWorkbook create) throws FileNotFoundException, IOException {
 		FileOutputStream excel = new FileOutputStream(new File(toCopy));
 		create.write(excel);
 		create.close();
-		// Escrita no ficheiro excel 
-
 	}
 	
 
@@ -118,21 +110,23 @@ public class ExcelManip {
 		// Criação de Array para adicionar os resultados
 		Iterator<Row> it = sheet.iterator();
 		while (it.hasNext()) {
-			// enquanto houverem linhas para ler
-			Row row = it.next();
-			String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
-			String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
-			// No ficheiro CodeSmells os resultados estão em colunas diferentes consoante o code smell a avaliar, o argumento columnOfCodeSmell
-			// serve para aceder a colunas diferentes consoante o CodeSmell, isLongMehtod ou isGodClass
-			String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
-			String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
-			String class_name = row.getCell(CLASS_COLUMN_INDEX).toString();
-			HasCodeSmell toadd = new HasCodeSmell(method_name,hasCodeSmell,methodID,package_name,class_name,null);
+			HasCodeSmell toadd = readExcelRow(columnOfCodeSmell, it);
 			toCompare.add(toadd);
 			// leitura dos dados existentes no ficheiro Code_Smells e criação de um Array<HasCodeSmell> com esses mesmos dados
 		}
 		workbook.close();
 		return toCompare;
+	}
+
+	private HasCodeSmell readExcelRow(int columnOfCodeSmell, Iterator<Row> it) {
+		Row row = it.next();
+		String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
+		String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
+		String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
+		String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
+		String class_name = row.getCell(CLASS_COLUMN_INDEX).toString();
+		HasCodeSmell toadd = new HasCodeSmell(method_name, hasCodeSmell, methodID, package_name, class_name, null);
+		return toadd;
 	}
 
 

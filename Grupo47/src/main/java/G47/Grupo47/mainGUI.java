@@ -214,6 +214,8 @@ public class mainGUI extends Shell {
 					DirExplorer dirEx = new DirExplorer(selectedFile1);
 					try {
 						if(folderextraction.exists() && selectedFile1.exists()) {
+							NameByFile excelFileName = new NameByFile();
+							excelFileName.setFileToExtract(selectedFile1);
 							actualmetrics = dirEx.exploreAndExtract();
 							System.out.println("actualmetrics size: " + actualmetrics.size());
 							System.out.println(pathToExtract);
@@ -225,9 +227,9 @@ public class mainGUI extends Shell {
 							StringStats.add(String.valueOf(stats.countNumberOfMethods()));
 							StringStats.add(String.valueOf(stats.countClasses()));
 							StringStats.add(String.valueOf(stats.countPackages()));
-							System.out.println("em.getFileName(): " + em.getFileName());
-							mapStats.put(em.getFileName(), StringStats);
-							ficheirosexcel.add(em.getFileName());
+							System.out.println("em.getFileName(): " + excelFileName.getFileName());
+							mapStats.put(excelFileName.getFileName(), StringStats);
+							ficheirosexcel.add(excelFileName.getFileName());
 						}
 					} catch (FileNotFoundException e1) {
 						// TODO Auto-generated catch block
