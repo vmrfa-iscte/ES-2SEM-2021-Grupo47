@@ -26,8 +26,7 @@ public class ExtractMetrics {
 	 */
 	public static final int METRICS_INITIAL_VALUE = 0, COUNTER_INITIAL_VALUE = 0, COMPLEXITY_INITIAL_VALUE = 1; 
 	public static final String SRC_DIR = "src", DEFAULT_PACKAGE = "Default Package", EMPTY_STRING = "", SPACE_STRING = " ", IF_CYCLE = "if",
-			FOR_CYCLE = "for", WHILE_CYCLE = "while", CASE_CYCLE = "case", ELSE = "else", DEFAULT = "default", JAVA_FILE = ".java", DOT = ".",
-			LEFT_PARANTESES = "(", RIGHT_PARENTESES = ")", COMMA = ",", CLOSED_PARENTESES = "()";
+			FOR_CYCLE = "for", WHILE_CYCLE = "while", CASE_CYCLE = "case", ELSE = "else", JAVA_FILE = ".java", DEFAULT_CYCLE = "default";
 	private String className = EMPTY_STRING;
 	private int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = METRICS_INITIAL_VALUE;
 	private String packageClass;
@@ -68,8 +67,8 @@ public class ExtractMetrics {
 			NOM_class = metricParser.getNOM_class(classTypeFromParser.getMethods(),classTypeFromParser.getConstructors());
 			LOC_class = metricParser.getLOC_classFromClass(classTypeFromParser);
 			// Adicionar construtores e métodos juntamente com as métricas associadas, à lista de métricas extraídas
-			addConstructorsToList(classTypeFromParser);
-			addMethodsToList(classTypeFromParser);
+			searchConstructorsForClass(classTypeFromParser);
+			searchMethodsForClass(classTypeFromParser);
 		}
 	}
 	
@@ -82,12 +81,12 @@ public class ExtractMetrics {
 			NOM_class = enumTypeFromParser.getMethods().size() + enumTypeFromParser.getConstructors().size();
 			// Adicionar construtores e métodos juntamente com as métricas associadas à lista de métricas extraídas
 			LOC_class = metricParser.getLOC_classFromEnum(enumTypeFromParser);
-			addEnumConstructorsToList(enumTypeFromParser);
-			addEnumMethodsToList(enumTypeFromParser);
+			searchConstructorsForEnum(enumTypeFromParser);
+			searchMethodsForEnum(enumTypeFromParser);
 		}
 	}
 
-	private void addEnumMethodsToList(EnumDeclaration enumTypeFromParser) {
+	private void searchMethodsForEnum(EnumDeclaration enumTypeFromParser) {
 		// Percorrer todos os métodos dentro do enumerado
 		for(MethodDeclaration methodFromEnum: enumTypeFromParser.getMethods()) {
 			extractMethodMetricsForEnum(methodFromEnum);
@@ -101,13 +100,11 @@ public class ExtractMetrics {
 		LOC_method = metricParser.getLOC_methodMethod(methodFromEnum);
 		CYCLO_method = metricParser.getMethodComplexity(methodFromEnum);
 		// Criar objeto Metrics e adicioná-lo à lista
-		MethodIdentity currentMethod = new MethodIdentity(getMethodNameWithParameters(methodFromEnum.getNameAsString(), methodFromEnum.getParameters()), className, packageClass, method_id);
-		Metrics metricsForMethod = new Metrics(LOC_method, LOC_class, CYCLO_method, NOM_class, WMC_class);
-		MethodMetrics metricToAdd = new MethodMetrics(currentMethod,metricsForMethod);
-		extractedMetrics.add(metricToAdd);
+		String methodNameWithParameters = getMethodNameWithParameters(methodFromEnum.getNameAsString(), methodFromEnum.getParameters());
+		createMetricsAndAdd(methodNameWithParameters);
 	}
 
-	private void addEnumConstructorsToList(EnumDeclaration enumTypeFromParser) {
+	private void searchConstructorsForEnum(EnumDeclaration enumTypeFromParser) {
 		// Percorrer todos os construtores dentro do enumerado
 		for(ConstructorDeclaration constructorFromEnum: enumTypeFromParser.getConstructors()) {
 			extractConstructorsMetricsForEnum(constructorFromEnum);
@@ -121,13 +118,11 @@ public class ExtractMetrics {
 		LOC_method = metricParser.getLOC_methodConstructor(constructorFromEnum);
 		CYCLO_method = metricParser.getConstructorComplexity(constructorFromEnum);
 		// Criar objeto Metrics e adicioná-lo à lista
-		MethodIdentity currentMethod = new MethodIdentity(getMethodNameWithParameters(constructorFromEnum.getNameAsString(), constructorFromEnum.getParameters()), className, packageClass, method_id);
-		Metrics metricsForMethod = new Metrics(LOC_method, LOC_class, CYCLO_method, NOM_class, WMC_class);
-		MethodMetrics metricToAdd = new MethodMetrics(currentMethod,metricsForMethod);
-		extractedMetrics.add(metricToAdd);
+		String constructorNameWithParameters = getMethodNameWithParameters(constructorFromEnum.getNameAsString(), constructorFromEnum.getParameters());
+		createMetricsAndAdd(constructorNameWithParameters);
 	}
 
-	private void addConstructorsToList(ClassOrInterfaceDeclaration classTypeFromParser) {
+	private void searchConstructorsForClass(ClassOrInterfaceDeclaration classTypeFromParser) {
 		// Percorrer todos os construtores dentro da classe
 		for(ConstructorDeclaration constructorFromClass: classTypeFromParser.getConstructors()) {
 			extractConstructorMetrics(constructorFromClass);
@@ -141,15 +136,11 @@ public class ExtractMetrics {
 		LOC_method = metricParser.getLOC_methodConstructor(constructorFromClass);
 		CYCLO_method = metricParser.getConstructorComplexity(constructorFromClass);
 		// Criar objeto Metrics com todas as métricas obtidas da classe e do método
-		Metrics metricsForMethod = new Metrics(LOC_method, LOC_class, CYCLO_method, NOM_class, WMC_class);
-		MethodIdentity currentMethod = new MethodIdentity(getMethodNameWithParameters(constructorFromClass.getNameAsString(),
-				constructorFromClass.getParameters()), className, packageClass, method_id);
-		MethodMetrics metric = new MethodMetrics(currentMethod,metricsForMethod);
-		// Adicionar objeto Metrics à lista
-		extractedMetrics.add(metric);
+		String constructorNameWithParameters = getMethodNameWithParameters(constructorFromClass.getNameAsString(),constructorFromClass.getParameters());
+		createMetricsAndAdd(constructorNameWithParameters);
 	}
 	
-	private void addMethodsToList(ClassOrInterfaceDeclaration classTypeFromParser) {
+	private void searchMethodsForClass(ClassOrInterfaceDeclaration classTypeFromParser) {
 		// Percorrer todos os métodos dentro da classe
 		for(MethodDeclaration methodFromClass: classTypeFromParser.getMethods()) {
 			extractMethodMetrics(methodFromClass);
@@ -163,10 +154,8 @@ public class ExtractMetrics {
 		LOC_method = metricParser.getLOC_methodMethod(methodFromClass);
 		CYCLO_method = metricParser.getMethodComplexity(methodFromClass);
 		// Criar objeto Metrics e adicioná-lo à lista
-		MethodIdentity currentMethod = new MethodIdentity(getMethodNameWithParameters(methodFromClass.getNameAsString(), methodFromClass.getParameters()), className, packageClass, method_id);
-		Metrics metricsForMethod = new Metrics(LOC_method, LOC_class, CYCLO_method, NOM_class, WMC_class);
-		MethodMetrics metric = new MethodMetrics(currentMethod,metricsForMethod);
-		extractedMetrics.add(metric);
+		String methodNameWithParameters = getMethodNameWithParameters(methodFromClass.getNameAsString(), methodFromClass.getParameters());
+		createMetricsAndAdd(methodNameWithParameters);
 	}
 	
 	private String getClassName(ClassOrInterfaceDeclaration classFromFile) {
@@ -176,22 +165,22 @@ public class ExtractMetrics {
 		 * a formatação NomeDoFicheiro.NomeDaClasse
 		 */
 		if(classFromFile.getNameAsString().equals(fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING))) return classFromFile.getNameAsString();
-		else return fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING)+ DOT +classFromFile.getNameAsString();
+		else return fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING)+ "." +classFromFile.getNameAsString();
 	}
 	
 	private String getClassNameForEnum(EnumDeclaration enumFromFile) {
 		// A obtenção do nome da classe para os enumerados segue exatamente a mesma lógica que para as classes e interfaces
 		if(enumFromFile.getNameAsString().equals(fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING))) return enumFromFile.getNameAsString();
-		else return fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING)+ DOT +enumFromFile.getNameAsString();
+		else return fileToExtract.getName().replace(JAVA_FILE, EMPTY_STRING)+ "." +enumFromFile.getNameAsString();
 	}
 
 	private String getMethodNameWithParameters(String methodName,NodeList<Parameter> nodeList) {
 		// Adicionar os parâmetros ao nome do método para evitar confusões com outros métodos com o mesmo nome e parâmetros diferentes
 		// Se não tiver parâmetros então o nome do método será nomeMetodo()
-		if(nodeList.isEmpty()) return methodName+ CLOSED_PARENTESES;
+		if(nodeList.isEmpty()) return methodName+ "()";
 		// Se tiver parâmetros é necessário abrir parênteses e adicionar o tipo dos parâmetros
 		else {
-			methodName = methodName+ LEFT_PARANTESES;
+			methodName = methodName+ "(";
 			return addParametersToClassName(methodName,nodeList);
 		}
 	}
@@ -202,9 +191,9 @@ public class ExtractMetrics {
 			String separatedParameter[] = parameter.toString().split(SPACE_STRING);
 			String parameterType = separatedParameter[0];
 			// Caso a posição atual da lista seja a última então será adicionado o tipo do parâmetros juntamente com o parênteses que faltava
-			if(parametersList.indexOf(parameter) == parametersList.size()-1) methodName = methodName + parameterType + RIGHT_PARENTESES;
+			if(parametersList.indexOf(parameter) == parametersList.size()-1) methodName = methodName + parameterType + ")";
 			// Se ainda não for a última posição da lista adiciona-se o tipo do parâmetro e uma vírgula para posteriormente adicionar mais um tipo de parâmetro
-			else methodName = methodName + parameterType + COMMA;
+			else methodName = methodName + parameterType + ",";
 		}
 		return methodName;
 	}
@@ -222,7 +211,7 @@ public class ExtractMetrics {
 		 */
 		for(int i = 0; i< separated.length-1;i++) {
 			if(src && i <= separated.length-2) {
-				if(i < separated.length-2) packageName += separated[i] + DOT;
+				if(i < separated.length-2) packageName += separated[i] + ".";
 				else packageName += separated[i];							
 			}
 			if(separated[i].contains(SRC_DIR)) src = true;
@@ -238,6 +227,13 @@ public class ExtractMetrics {
 		 */
 		if(packageName.equals(EMPTY_STRING) && fileToExtract.getAbsolutePath().contains(SRC_DIR)) return true;
 		else return false;
+	}
+	
+	private void createMetricsAndAdd(String methodName) {
+		MethodIdentity currentMethod = new MethodIdentity(methodName, className, packageClass, method_id);
+		Metrics metricsForMethod = new Metrics(LOC_method, LOC_class, CYCLO_method, NOM_class, WMC_class);
+		MethodMetrics metricToAdd = new MethodMetrics(currentMethod,metricsForMethod);
+		extractedMetrics.add(metricToAdd);
 	}
 	
 	public int getCurrentMethodID() {

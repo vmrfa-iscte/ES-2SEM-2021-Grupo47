@@ -19,7 +19,7 @@ public class MetricParser {
 		int numbfor = getCycloComplex(ExtractMetrics.FOR_CYCLE, methodFromClass.toString());
 		int numbelse = getCycloComplex(ExtractMetrics.ELSE, methodFromClass.toString());
 		int numbcase = getCycloComplex(ExtractMetrics.CASE_CYCLE, methodFromClass.toString());
-		int numbdefault = getCycloComplex(ExtractMetrics.DEFAULT, methodFromClass.toString());
+		int numbdefault = getCycloComplex(ExtractMetrics.DEFAULT_CYCLE, methodFromClass.toString());
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
 	}
 
@@ -40,7 +40,7 @@ public class MetricParser {
 		int numbfor = getCycloComplex(ExtractMetrics.FOR_CYCLE, md.toString());
 		int numbelse = getCycloComplex(ExtractMetrics.ELSE, md.toString());
 		int numbcase = getCycloComplex(ExtractMetrics.CASE_CYCLE, md.toString());
-		int numbdefault = getCycloComplex(ExtractMetrics.DEFAULT, md.toString());
+		int numbdefault = getCycloComplex(ExtractMetrics.DEFAULT_CYCLE, md.toString());
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
 	}
 
