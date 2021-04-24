@@ -13,18 +13,18 @@ public class Rules {
 	private String method3;
 	private String sinal3;
 	private String limit3;
-//
-//	public Rules(String method1, String sinal1, String limit1, String operator, String method2, String sinal2,
-//			String limit2) {
-//		this.sinal1 = sinal1;
-//		this.sinal2 = sinal2;
-//		this.method1 = method1;
-//		this.limit1 = limit1;
-//		this.operator = operator;
-//		this.method2 = method2;
-//		this.limit2 = limit2;
-//
-//	}
+
+	public Rules(String method1, String sinal1, String limit1, String operator, String method2, String sinal2,
+			String limit2) {
+		this.sinal1 = sinal1;
+		this.sinal2 = sinal2;
+		this.method1 = method1;
+		this.limit1 = limit1;
+		this.operator = operator;
+		this.method2 = method2;
+		this.limit2 = limit2;
+
+	}
 
 	public Rules(String method1, String sinal1, String limit1, String operator, String method2, String sinal2,
 			String limit2, String operator2, String method3, String sinal3, String limit3) {

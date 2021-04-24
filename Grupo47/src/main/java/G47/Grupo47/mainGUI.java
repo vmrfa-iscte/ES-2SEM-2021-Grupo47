@@ -733,10 +733,10 @@ public class mainGUI extends Shell {
 	private void evaluateLocMethod(String signal1, String signal2, int limit1, int limit2, String operator) {
 		CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
 		ArrayList<HasCodeSmell> hcsList = new ArrayList<>();
-		if (signal1.equals(">") && signal2.equals(">")) hcsList = detector.detectLongMethodBiggerBigger();
-		else if(signal1.equals(">") && signal2.equals("<")) hcsList = detector.detectLongMethodBiggerSmaller();
-		else if(signal1.equals("<") && signal2.equals(">")) hcsList = detector.detectLongMethodBiggerSmaller();
-		else if(signal1.equals("<") && signal2.equals("<")) hcsList = detector.detectLongMethodSmallerSmaller();
+		if (signal1.equals(">") && signal2.equals(">")) hcsList = detector.detectLongMethodGreaterGreater();
+		else if(signal1.equals(">") && signal2.equals("<")) hcsList = detector.detectLongMethodGreaterLesser();
+		else if(signal1.equals("<") && signal2.equals(">")) hcsList = detector.detectLongMethodGreaterLesser();
+		else if(signal1.equals("<") && signal2.equals("<")) hcsList = detector.detectLongMethodLesserLesser();
 		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
 		fillSecondaryGUI(hcsList,codesmells);
 		codesmells.loadGUI();	
@@ -745,10 +745,10 @@ public class mainGUI extends Shell {
 	private void evaluateGodClassWithWMC_NOM(String signal1, String signal2, int limit1, int limit2, String operator) {
 		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
 		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassBiggerBiggerWMC_NOM();
-		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassSmallerSmallerWMC_NOM();
-		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassBiggerSmallerWMC_NOM();
-		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassSmallerBiggerWMC_NOM();
+		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassGreaterGreaterWMC_NOM();
+		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassLesserLesserWMC_NOM();
+		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassGreaterLesserWMC_NOM();
+		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassLesserGreaterWMC_NOM();
 		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
 		fillSecondaryGUI(hcsList2,codesmells2);
 		codesmells2.loadGUI();
@@ -757,10 +757,10 @@ public class mainGUI extends Shell {
 	private void evaluateGodClassWithWMC_LOC(String signal1, String signal2, int limit1, int limit2, String operator) {
 		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
 		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassBiggerBiggerWMC_LOC();
-		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassSmallerSmallerWMC_LOC();
+		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassGreaterGreaterWMC_LOC();
+		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassLesserLesserWMC_LOC();
 		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassBiggerSmallerWMC_LOC();
-		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassSmallerBiggerWMC_LOC();
+		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassLesserGreaterWMC_LOC();
 		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
 		fillSecondaryGUI(hcsList2,codesmells2);
 		codesmells2.loadGUI();
@@ -769,10 +769,10 @@ public class mainGUI extends Shell {
 	private void evaluateGodClassWithNOM_LOC(String signal1, String signal2, int limit1, int limit2, String operator) {
 		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
 		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassBiggerBiggerNOM_LOC();
-		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassSmallerSmallerNOM_LOC();
-		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassBiggerSmallerNOM_LOC();
-		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassSmallerBiggerNOM_LOC();
+		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassGreaterGreaterNOM_LOC();
+		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassLesserLesserNOM_LOC();
+		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassGreaterLesserNOM_LOC();
+		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassLesserGreaterNOM_LOC();
 		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
 		fillSecondaryGUI(hcsList2,codesmells2);
 		codesmells2.loadGUI();
@@ -781,13 +781,13 @@ public class mainGUI extends Shell {
 	private void evaluateGodClassWithWMC_NOM_LOC(String signal1,String signal2,String signal3,int limit1,int limit2,int limit3,String operator,String operator2) {
 		ArrayList<HasCodeSmell> hcslist = new ArrayList<>();
 		CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerBiggerBigger();
-			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<")) hcslist = detector.detectGodClassSmallerSmallerSmaller();
-			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerSmallerSmaller();
-			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerSmallerBigger();
-			else if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<")) hcslist = detector.detectGodClassBiggerBiggerSmaller();
-			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassSmallerSmallerBigger();
-			else if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassSmallerBiggerBigger();
+			if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassGreaterGreaterGreater();
+			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<")) hcslist = detector.detectGodClassLesserLesserLesser();
+			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassGreaterLesserLesser();
+			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassGreaterLesserGreater();
+			else if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<")) hcslist = detector.detectGodClassGreateGreaterLesser();
+			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassLesserLesserGreater();
+			else if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassLesserGreaterGreater();
 			else if (signal1.equals("<") && signal2.equals(">") && signal3.equals("<")) hcslist = detector.detectGodClassSmallerBiggerSmaller();
 			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
 			fillSecondaryGUI(hcslist,codesmells);
