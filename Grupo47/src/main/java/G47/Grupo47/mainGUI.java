@@ -399,6 +399,10 @@ public class mainGUI extends Shell {
 									&& !(limit_3.getText().isEmpty() || limit_3.getText().equals("Limite"))
 									&& !signal3.getText().isEmpty())) {
 						if (listrulestoshow.isSelected(i)) {
+//							limit_3.setSelection(1);
+							metric2.setText("TESTEEEE");
+							metric2.deselectAll();
+							metric2.select(0);
 							System.out.println(list.get(i).toString());
 							list.get(i).setLimit1(limit_1.getText());
 							list.get(i).setLimit2(limit_2.getText());

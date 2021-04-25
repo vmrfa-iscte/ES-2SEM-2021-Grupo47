@@ -25,336 +25,265 @@ public class CheckRuleCombinations {
 
 	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&&" e "&&"
 	public boolean isGodLesserGreaterLesser_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold;
 	}
 	
 	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&&" e "||"
 	public boolean isGodLesserGreaterLesser_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) ;
 	}
 	
 	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "||" e "&&"
 	public boolean isGodLesserGreaterLesser_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "||" e "||"
 	public boolean isGodLesserGreaterLesser_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&&" e "&&"
 	public boolean isGodLesserGreaterGreater_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&&" e "||"
 	public boolean isGodLesserGreaterGreater_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "||" e "&&"
 	public boolean isGodLesserGreaterGreater_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodLesserGreaterGreater_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserGreater_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserGreater_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserGreater_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserGreater_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);		
 	}
 	
 	public boolean isGodGreaterGreaterLesser_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterLesser_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterLesser_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterLesser_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserGreater_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserGreater_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserGreater_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserGreater_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserLesser_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserLesser_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserLesser_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterLesserLesser_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserLesser_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserLesser_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserLesser_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserLesser_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterGreater_AndAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterGreater_AndOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterGreater_OrAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterGreater_OrOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
 	public boolean isGodLesserLesserNOMLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() < rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() < rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
 	public boolean isGodLesserLesserNOMLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() < rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() < rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
 	public boolean isGodLesserGreaterNOMLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() < rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() < rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodLesserGreaterNOMLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() < rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() < rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodGreaterLesserNOMLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() > rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() > rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
 	public boolean isGodGreaterLesserNOMLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() > rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() > rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);	
 	}
 	
 	public boolean isGodGreaterGreaterNOMLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() > rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() > rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterNOMLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getNOM_class() > rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getNOM_class() > rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodLesserGreaterLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodLesserGreaterLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodLesserLesserLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
 	public boolean isGodLesserLesserLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
 	public boolean isGodGreaterLesserLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
 	public boolean isGodGreaterLesserLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterLOC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterLOC_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
 	public boolean isGodLesserGreaterNOM_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
 	public boolean isGodLesserGreaterNOM_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
 	public boolean isGodLesserLesserNOM_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
 	public boolean isGodLesserLesserNOM_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
 	public boolean isGodGreaterLesserWMC_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
 	public boolean isGodGreaterLesserNOM_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterNOM_And(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
 	public boolean isGodGreaterGreaterNOM_Or(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
 	public boolean isLongLesserLesserAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() < rule1_threshold && methodWithMetrics.getCYCLO_method() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getLOC_method() < rule1_threshold && methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
 	public boolean isLongLesserLesserOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() < rule1_threshold || methodWithMetrics.getCYCLO_method() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getLOC_method() < rule1_threshold || methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
 	public boolean isLongLesserGreaterAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() < rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getLOC_method() < rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
 	public boolean isLongLesserGreaterOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() < rule1_threshold || methodWithMetrics.getCYCLO_method() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getLOC_method() < rule1_threshold || methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
 	public boolean isLongGGAnd(MethodMetrics methodWithMetrics) {
-		System.out.println("Corri o Greater Greater AND para LONG_METHOD");
-		if (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold) {
-			System.out.println("TRUE: "+methodWithMetrics.getLOC_method()+">"+ rule1_threshold +"&&"+ methodWithMetrics.getCYCLO_method()+ ">"+ rule2_threshold);
-			return true;
-		}
-		else {
-			System.out.println("FALSE: "+methodWithMetrics.getLOC_method()+">"+ rule1_threshold +"&&"+ methodWithMetrics.getCYCLO_method()+ ">"+ rule2_threshold);
-			return false;
-		}
+		return (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
 	public boolean isLongGGOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() > rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
 	public boolean isLongGLAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
 	public boolean isLongGLOr(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() < rule2_threshold) return true;
-		else return false;
+		return (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
 }
