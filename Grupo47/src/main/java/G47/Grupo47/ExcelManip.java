@@ -117,6 +117,7 @@ public class ExcelManip {
 		return toCompare;
 	}
 
+	// Lê uma linha de um ficheiro excel e cria um objeto HasCodeSmell com a informação lida do ficheiro
 	private HasCodeSmell readExcelRow(int columnOfCodeSmell, Iterator<Row> it) {
 		Row row = it.next();
 		String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
