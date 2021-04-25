@@ -15,13 +15,13 @@ public class CodeSmellsDetector {
 	private CheckRuleCombinations ruleCombo;
 
 	// Construtor para o caso em que o utilizador decide limitar 2 métricas
-	public CodeSmellsDetector (ArrayList<MethodMetrics> results, Rules ruleReceived) {
+	public CodeSmellsDetector (ArrayList<MethodMetrics> results, Rule ruleReceived) {
 		int rule1_threshold = Integer.parseInt(ruleReceived.getLimit1());
 		int rule2_threshold = Integer.parseInt(ruleReceived.getLimit2());
 		this.operator = ruleReceived.getOperator();
 		this.results = results;
 		this.lastclassview = results.get(ARRAY_FIRST_ELEMENT_INDEX).getClasse();
-		if(ruleReceived.getOperator2() == null) 
+		if(ruleReceived.getOperator2() == "") 
 			this.ruleCombo = new CheckRuleCombinations(rule1_threshold,rule2_threshold);
 		else {
 			int rule3_threshold = Integer.parseInt(ruleReceived.getLimit3());
@@ -29,61 +29,59 @@ public class CodeSmellsDetector {
 			this.ruleCombo = new CheckRuleCombinations(rule1_threshold,rule2_threshold,rule3_threshold);
 		}
 	}
-
-	// Construtor para o caso em que o utilizador decide limitar 3 métricas
-//	public CodeSmellsDetector (int rule1, int rule2, int rule3, String operator, String operator2, ArrayList<MethodMetrics> results) {
-//		this.rule1_threshold = rule1;
-//		this.rule2_threshold = rule2;
-//		this.rule3_threshold = rule3;
-//		this.operator = operator;
-//		this.operator2 = operator2;
-//		this.results = results;
-//		this.lastclassview = results.get(ARRAY_FIRST_ELEMENT_INDEX).getClasse();
-//		this.ruleCombo = new CheckRuleCombinations(rule1,rule2,rule3);
-//	}
 	
-	private void createAndAddNotReady(String name,String detection,String methodId,String classpackage,String className) {
-		HasCodeSmell codesmell = new HasCodeSmell(name,detection,methodId,classpackage,className,null);
+	// Cria e adiciona um objeto HasCodeSmell à lista de métodos ainda não prontos para serem mostrados
+	private void createAndAddNotReady(String detection,MethodMetrics methodWithMetrics) {
+		HasCodeSmell codesmell = new HasCodeSmell(detection,null,methodWithMetrics);
 		notReady.add(codesmell);
 		
 	}
 	
+	// Verifica se foi detetado um code smell
 	private void checkDetection(boolean hasDetection,MethodMetrics methodWithMetrics) {
 		if (hasDetection) {
-			createAndAddNotReady(methodWithMetrics.getNome_metodo(),POSITIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());
+			// Se foi detetado então é criado e adicionado um objeto HasCodeSmell e é adicionado o nome da classe à lista de classes com code smells
+			createAndAddNotReady(POSITIVE_METHOD,methodWithMetrics);
 			addToCodeSmellsList(methodWithMetrics);
 		}else {
-			createAndAddNotReady(methodWithMetrics.getNome_metodo(),NEGATIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());
+			// Se não foi detatado code smell cria-se um objeto HasCodeSmell mas com deteção NEGATIVE_METHOD
+			createAndAddNotReady(NEGATIVE_METHOD,methodWithMetrics);
 		}
 		lastclassview = lastVerification(methodWithMetrics);
 		this.hasDetection = false;
-		
 	}
 
+	// Adiciona o nome da classe de um método à lista de classes com code smells
 	private void addToCodeSmellsList(MethodMetrics methodWithMetrics) {
 		if(classWithSmell.indexOf(methodWithMetrics.getClasse()) == -1) classWithSmell.add(methodWithMetrics.getClasse());
 	}
 	
-	private void createAndAdd(String name,String detection,String methodId,String classpackage,String className) {
-		HasCodeSmell codesmell = new HasCodeSmell(name,detection,methodId,classpackage,className,null);
+	private void createAndAdd(String detection,MethodMetrics methodWithMetrics) {
+		HasCodeSmell codesmell = new HasCodeSmell(detection,null,methodWithMetrics);
 		readyToShow.add(codesmell);
 		// Adicionar objeto HasCodeSmell com a qualidade de deteção já determinada a um array que compõe todos os resultados
 	}
 
+	// Caso a classe tenha se alterado vai se verificar se a classe anterior tinha algum método com code smells
 	private String verifyLastClass(MethodMetrics metric) {
 		if(!lastclassview.equals(metric.getClasse())) {
+			// se o nome da classe estiver presente na lista classWithSmell então a classe tem um método com code smells
 			if(classWithSmell.indexOf(lastclassview) != -1 ) {
-				createAndAdd(lastclassview,POSITIVE_CLASS,null,null,null);
+				createAndAdd(POSITIVE_CLASS,metric);
 			}else {
-				createAndAdd(lastclassview,NEGATIVE_CLASS,null,null,null);
+				createAndAdd(NEGATIVE_CLASS,metric);
 			}
+			//muda o nome da classe atual
 			lastclassview = metric.getClasse();
+			// Adiciona os métodos que não estavam prontos à lista de métodos prontos
 			readyToShow.addAll(notReady);
+			// Remove todos os métodos que foram adicionados à lista de métodos prontos
 			notReady.removeAll(notReady);
 		}
 		return lastclassview;
 	}
 
+	// Para o caso da última classe da lista faz-se uma verificação parecida para ver se a classe tem code smells
 	private String lastVerification(MethodMetrics metric) {
 		if(results.indexOf(metric) == results.size()-1) {
 			checkClassSmell(metric);
@@ -95,9 +93,9 @@ public class CodeSmellsDetector {
 
 	private void checkClassSmell(MethodMetrics metric) {
 		if (classWithSmell.indexOf(metric.getClasse()) != -1) {
-			createAndAdd(lastclassview,POSITIVE_CLASS,null,null,null);
+			createAndAdd(POSITIVE_CLASS,metric);
 		} else {
-			createAndAdd(lastclassview,NEGATIVE_CLASS,null,null,null);
+			createAndAdd(NEGATIVE_CLASS,metric);
 		}
 		readyToShow.addAll(notReady);
 	}
@@ -282,7 +280,7 @@ public class CodeSmellsDetector {
 	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
 	// as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
 	// com um sinal de maior para a primeira métrica e um de menor para a segunda. 
-	public ArrayList<HasCodeSmell> detectGodClassBiggerSmallerWMC_LOC() {
+	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastclassview = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
@@ -520,7 +518,7 @@ public class CodeSmellsDetector {
 	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
 	// as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
 	// com um sinal de maior para a primeira métrica,um de maior para a segunda e um de menor para a teceira. 
-	public ArrayList<HasCodeSmell> detectGodClassGreateGreaterLesser() {
+	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastclassview = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
@@ -587,19 +585,19 @@ public class CodeSmellsDetector {
 	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
 	// as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
 	// com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
-	public ArrayList<HasCodeSmell> detectGodClassSmallerBiggerSmaller() {
+	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastclassview = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) 
-					if (ruleCombo.isGodLGLAndAnd(methodWithMetrics)) hasDetection = true;
+					if (ruleCombo.isGodLesserGreaterLesser_AndAnd(methodWithMetrics)) hasDetection = true;
 				else 
-					if (ruleCombo.isGodLGLAndOr(methodWithMetrics)) hasDetection = true;
+					if (ruleCombo.isGodLesserGreaterLesser_AndOr(methodWithMetrics)) hasDetection = true;
 			}else {
 				if(operator2.equals("AND")) 
-					if (ruleCombo.isGodLGLOrAnd(methodWithMetrics)) hasDetection = true;
+					if (ruleCombo.isGodLesserGreaterLesser_OrAnd(methodWithMetrics)) hasDetection = true;
 				else 
-					if (ruleCombo.isGodLGLOrOr(methodWithMetrics)) hasDetection = true;
+					if (ruleCombo.isGodLesserGreaterLesser_OrOr(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}

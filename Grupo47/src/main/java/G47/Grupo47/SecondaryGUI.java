@@ -256,7 +256,6 @@ public class SecondaryGUI extends Shell {
 	}
 
 	public void addCodeSmellsInfo(HasCodeSmell hcs,boolean withQuality) {
-		
 		TableItem tableItem = new TableItem(table,SWT.NONE);
 		if(withQuality) {
 			tableItem.setText(new String[] {hcs.getMethod_ID(),hcs.getMethodName(),hcs.getHasCodeSmell(),hcs.getQuality()});
@@ -345,5 +344,11 @@ public class SecondaryGUI extends Shell {
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
+	}
+
+	public void fillSecondaryGUI(ArrayList<HasCodeSmell> toFill) {
+		for (HasCodeSmell hascodesmell : toFill) {
+			addCodeSmellsInfo(hascodesmell, false);
+		}
 	}
 }

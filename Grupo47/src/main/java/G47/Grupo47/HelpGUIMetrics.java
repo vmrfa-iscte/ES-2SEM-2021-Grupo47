@@ -16,8 +16,6 @@ public class HelpGUIMetrics extends Shell {
 	public HelpGUIMetrics(Display display) {
 		this.display = display;
 		
-	
-		
 		Group grpExtraoDeMtricas = new Group(this, SWT.NONE);
 		grpExtraoDeMtricas.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
 		grpExtraoDeMtricas.setText("Extração de métricas");

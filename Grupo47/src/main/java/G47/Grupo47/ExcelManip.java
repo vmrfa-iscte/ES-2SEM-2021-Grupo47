@@ -53,7 +53,6 @@ public class ExcelManip {
 	}
 
 	
-	
 	public void createExcel(ArrayList<MethodMetrics> data,String toCopy) throws IOException {
 		toCopy = toCopy + DOUBLE_LEFT_SLASH + excelFileName.getFileName();
 		ArrayList<String> headers = extractHeaders();
@@ -125,7 +124,7 @@ public class ExcelManip {
 		String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
 		String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
 		String class_name = row.getCell(CLASS_COLUMN_INDEX).toString();
-		HasCodeSmell toadd = new HasCodeSmell(method_name, hasCodeSmell, methodID, package_name, class_name, null);
+		HasCodeSmell toadd = new HasCodeSmell(hasCodeSmell, null, null);
 		return toadd;
 	}
 
