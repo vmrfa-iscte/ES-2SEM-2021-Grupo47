@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class CodeSmellsDetector {
 
-	private int rule1_threshold,rule2_threshold,rule3_threshold;
 	private String operator, operator2,lastclassview;
 	private ArrayList<MethodMetrics> results;
 	private ArrayList<HasCodeSmell> readyToShow = new ArrayList<HasCodeSmell>();
@@ -16,98 +15,92 @@ public class CodeSmellsDetector {
 	private CheckRuleCombinations ruleCombo;
 
 	// Construtor para o caso em que o utilizador decide limitar 2 métricas
-	public CodeSmellsDetector (int rule1, int rule2, String operator, ArrayList<MethodMetrics> results) {
-		this.rule1_threshold = rule1;
-		this.rule2_threshold = rule2;
-		this.operator = operator;
+	public CodeSmellsDetector (ArrayList<MethodMetrics> results, Rules ruleReceived) {
+		int rule1_threshold = Integer.parseInt(ruleReceived.getLimit1());
+		int rule2_threshold = Integer.parseInt(ruleReceived.getLimit2());
+		this.operator = ruleReceived.getOperator();
 		this.results = results;
 		this.lastclassview = results.get(ARRAY_FIRST_ELEMENT_INDEX).getClasse();
-		this.ruleCombo = new CheckRuleCombinations(rule1,rule2);
+		if(ruleReceived.getOperator2() == null) 
+			this.ruleCombo = new CheckRuleCombinations(rule1_threshold,rule2_threshold);
+		else {
+			int rule3_threshold = Integer.parseInt(ruleReceived.getLimit3());
+			this.operator2 = ruleReceived.getOperator2();
+			this.ruleCombo = new CheckRuleCombinations(rule1_threshold,rule2_threshold,rule3_threshold);
+		}
 	}
 
 	// Construtor para o caso em que o utilizador decide limitar 3 métricas
-	public CodeSmellsDetector (int rule1, int rule2, int rule3, String operator, String operator2, ArrayList<MethodMetrics> results) {
-		this.rule1_threshold = rule1;
-		this.rule2_threshold = rule2;
-		this.rule3_threshold = rule3;
-		this.operator = operator;
-		this.operator2 = operator2;
-		this.results = results;
-		this.lastclassview = results.get(ARRAY_FIRST_ELEMENT_INDEX).getClasse();
-		this.ruleCombo = new CheckRuleCombinations(rule1,rule2,rule3);
-	}
-	
-	private void checkDetection(boolean hasDetection,MethodMetrics methodWithMetrics) {
-		if (hasDetection) {
-//			createAndAddNotReady(methodWithMetrics.getNome_metodo(),POSITIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());		
-			HasCodeSmell codesmell = new HasCodeSmell(methodWithMetrics.getNome_metodo(),POSITIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse(),null);
-			notReady.add(codesmell);
-			addToCodeSmellsList(methodWithMetrics);
-		}else {
-//			createAndAddNotReady(methodWithMetrics.getNome_metodo(),NEGATIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());
-			HasCodeSmell codesmell = new HasCodeSmell(methodWithMetrics.getNome_metodo(),NEGATIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse(),null);
-			notReady.add(codesmell);
-		}
-		lastclassview = lastVerification(methodWithMetrics);
-		hasDetection = false;
-	}
-
-
-	private void createAndAddReady(String name,String detection,String methodId,String classpackage,String className) {
-		HasCodeSmell codesmell = new HasCodeSmell(name,detection,methodId,classpackage,className,null);
-		readyToShow.add(codesmell);
-		// Adicionar objeto HasCodeSmell com a qualidade de deteção já determinada a um array que compõe todos os resultados
-	}
+//	public CodeSmellsDetector (int rule1, int rule2, int rule3, String operator, String operator2, ArrayList<MethodMetrics> results) {
+//		this.rule1_threshold = rule1;
+//		this.rule2_threshold = rule2;
+//		this.rule3_threshold = rule3;
+//		this.operator = operator;
+//		this.operator2 = operator2;
+//		this.results = results;
+//		this.lastclassview = results.get(ARRAY_FIRST_ELEMENT_INDEX).getClasse();
+//		this.ruleCombo = new CheckRuleCombinations(rule1,rule2,rule3);
+//	}
 	
 	private void createAndAddNotReady(String name,String detection,String methodId,String classpackage,String className) {
 		HasCodeSmell codesmell = new HasCodeSmell(name,detection,methodId,classpackage,className,null);
 		notReady.add(codesmell);
-		// Adicionar objeto HasCodeSmell com a qualidade de deteção já determinada a um array que compõe todos os resultados
+		
 	}
-
-
-	private String verifyLastClass(MethodMetrics methodWithMetrics) {
-		if(!lastclassview.equals(methodWithMetrics.getClasse())) {
-			if(classWithSmell.indexOf(lastclassview) != -1 ) {
-//				createAndAddNotReady(lastclassview,POSITIVE_CLASS,null,null,null);
-				HasCodeSmell codesmell = new HasCodeSmell(lastclassview,POSITIVE_CLASS,null,null,null,null);
-				readyToShow.add(codesmell);
-			}
-			else {
-//				createAndAddReady(lastclassview,NEGATIVE_CLASS,null,null,null);
-				HasCodeSmell codesmell = new HasCodeSmell(lastclassview,NEGATIVE_CLASS,null,null,null,null);
-				readyToShow.add(codesmell);
-			}
-			lastclassview = methodWithMetrics.getClasse();
-			readyToShow.addAll(notReady);
-			notReady.removeAll(notReady);
+	
+	private void checkDetection(boolean hasDetection,MethodMetrics methodWithMetrics) {
+		if (hasDetection) {
+			createAndAddNotReady(methodWithMetrics.getNome_metodo(),POSITIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());
+			addToCodeSmellsList(methodWithMetrics);
+		}else {
+			createAndAddNotReady(methodWithMetrics.getNome_metodo(),NEGATIVE_METHOD,String.valueOf(methodWithMetrics.getMethod_ID()),methodWithMetrics.getPacote(),methodWithMetrics.getClasse());
 		}
-		return lastclassview;
-	}
-
-	private String lastVerification(MethodMetrics methodWithMetrics) {
-		if(results.indexOf(methodWithMetrics) == results.size()-1) {
-			checkClassSmell(methodWithMetrics);
-			lastclassview = methodWithMetrics.getClasse();
-			notReady.removeAll(notReady);
-		}
-		return lastclassview;
-	}
-
-	private void checkClassSmell(MethodMetrics methodWithMetrics) {
-		if (classWithSmell.indexOf(methodWithMetrics.getClasse()) != -1) {
-			createAndAddReady(lastclassview,POSITIVE_CLASS,null,null,null);
-		}
-		else {
-			createAndAddReady(lastclassview,NEGATIVE_CLASS,null,null,null);
-		}
-		readyToShow.addAll(notReady);
+		lastclassview = lastVerification(methodWithMetrics);
+		this.hasDetection = false;
+		
 	}
 
 	private void addToCodeSmellsList(MethodMetrics methodWithMetrics) {
 		if(classWithSmell.indexOf(methodWithMetrics.getClasse()) == -1) classWithSmell.add(methodWithMetrics.getClasse());
 	}
 	
+	private void createAndAdd(String name,String detection,String methodId,String classpackage,String className) {
+		HasCodeSmell codesmell = new HasCodeSmell(name,detection,methodId,classpackage,className,null);
+		readyToShow.add(codesmell);
+		// Adicionar objeto HasCodeSmell com a qualidade de deteção já determinada a um array que compõe todos os resultados
+	}
+
+	private String verifyLastClass(MethodMetrics metric) {
+		if(!lastclassview.equals(metric.getClasse())) {
+			if(classWithSmell.indexOf(lastclassview) != -1 ) {
+				createAndAdd(lastclassview,POSITIVE_CLASS,null,null,null);
+			}else {
+				createAndAdd(lastclassview,NEGATIVE_CLASS,null,null,null);
+			}
+			lastclassview = metric.getClasse();
+			readyToShow.addAll(notReady);
+			notReady.removeAll(notReady);
+		}
+		return lastclassview;
+	}
+
+	private String lastVerification(MethodMetrics metric) {
+		if(results.indexOf(metric) == results.size()-1) {
+			checkClassSmell(metric);
+			lastclassview = metric.getClasse();
+			notReady.removeAll(notReady);
+		}
+		return lastclassview;
+	}
+
+	private void checkClassSmell(MethodMetrics metric) {
+		if (classWithSmell.indexOf(metric.getClasse()) != -1) {
+			createAndAdd(lastclassview,POSITIVE_CLASS,null,null,null);
+		} else {
+			createAndAdd(lastclassview,NEGATIVE_CLASS,null,null,null);
+		}
+		readyToShow.addAll(notReady);
+	}
 
 	// Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
 	// das métricas com um sinal de maior.

@@ -318,8 +318,15 @@ public class CheckRuleCombinations {
 	}
 	
 	public boolean isLongGGAnd(MethodMetrics methodWithMetrics) {
-		if (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold) return true;
-		else return false;
+		System.out.println("Corri o Greater Greater AND para LONG_METHOD");
+		if (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold) {
+			System.out.println("TRUE: "+methodWithMetrics.getLOC_method()+">"+ rule1_threshold +"&&"+ methodWithMetrics.getCYCLO_method()+ ">"+ rule2_threshold);
+			return true;
+		}
+		else {
+			System.out.println("FALSE: "+methodWithMetrics.getLOC_method()+">"+ rule1_threshold +"&&"+ methodWithMetrics.getCYCLO_method()+ ">"+ rule2_threshold);
+			return false;
+		}
 	}
 	
 	public boolean isLongGGOr(MethodMetrics methodWithMetrics) {
