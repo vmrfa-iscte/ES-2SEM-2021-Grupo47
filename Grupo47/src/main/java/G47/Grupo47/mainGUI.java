@@ -48,7 +48,7 @@ public class mainGUI extends Shell {
 	private File history;
 	private ArrayList<Rule> list = new ArrayList<Rule>();
 	private Rule rule, currentRule;
-	private ArrayList<Metrics> actualmetrics;
+	private ArrayList<MethodMetrics> actualmetrics;
 	private Label lbldefinerule;
 	private Combo metric3, signal, sinal2, signal3, operator2;
 	private String content, update;
@@ -58,6 +58,7 @@ public class mainGUI extends Shell {
 	private static final char ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8,
 			NINE = 9;
 	private static final String LOGO = "/G47/Grupo47/iscte_logo2.jpg", GUI_NAME = "Interface gráfica- Grupo 47";
+	private DetectionChooser chooser = new DetectionChooser();
 
 	/**
 	 * Launch the application.
@@ -74,9 +75,12 @@ public class mainGUI extends Shell {
 		super(display, SWT.SHELL_TRIM);
 		setMinimumSize(new Point(170, 47));
 		setImage(SWTResourceManager.getImage(mainGUI.class, LOGO));
-
+		addElements(display);
 		setLayout(null);
-
+		createContents();
+	}
+	
+	private void addElements(Display display) {
 		foldername = new Text(this, SWT.BORDER | SWT.READ_ONLY);
 		foldername.setBounds(10, 67, 345, 26);
 
@@ -118,7 +122,7 @@ public class mainGUI extends Shell {
 							NumPackages.setText(statsToWrite.get(3));
 							DirExplorer dirEx = new DirExplorer(selectedFile1);
 							try {
-								actualmetrics = dirEx.explore();
+								actualmetrics = dirEx.exploreAndExtract();
 							} catch (FileNotFoundException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -184,9 +188,9 @@ public class mainGUI extends Shell {
 					DirExplorer dirEx = new DirExplorer(selectedFile1);
 					try {
 						if (folderextraction.exists() && selectedFile1.exists()) {
-							actualmetrics = dirEx.explore();
-							System.out.println("actualmetrics size: " + actualmetrics.size());
-							System.out.println(pathToExtract);
+							NameByFile excelFileName = new NameByFile();
+							excelFileName.setFileToExtract(selectedFile1);
+							actualmetrics = dirEx.exploreAndExtract();
 							ExcelManip em = new ExcelManip(selectedFile1);
 							em.createExcel(actualmetrics, folderToExtract.getText());
 							Statistics stats = new Statistics(actualmetrics);
@@ -195,9 +199,8 @@ public class mainGUI extends Shell {
 							StringStats.add(String.valueOf(stats.countNumberOfMethods()));
 							StringStats.add(String.valueOf(stats.countClasses()));
 							StringStats.add(String.valueOf(stats.countPackages()));
-							System.out.println("em.getFileName(): " + em.getFileName());
-							mapStats.put(em.getFileName(), StringStats);
-							excelfiles.add(em.getFileName());
+							mapStats.put(excelFileName.getFileName(), StringStats);
+							excelfiles.add(excelFileName.getFileName());
 						}
 					} catch (FileNotFoundException e1) {
 						// TODO Auto-generated catch block
@@ -215,9 +218,7 @@ public class mainGUI extends Shell {
 		metric1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("SelectionIndex: " + metric1.getSelectionIndex());
 				if (metric1.getSelectionIndex() != -1) {
-					System.out.println(metric1.getItem(metric1.getSelectionIndex()));
 					if (metric1.getItem(metric1.getSelectionIndex()).equals("LOC_method")) {
 						operator2.setVisible(false);
 						signal3.setVisible(false);
@@ -225,7 +226,6 @@ public class mainGUI extends Shell {
 						limit_3.setVisible(false);
 						metric2.removeAll();
 						metric2.add("CYCLO_method");
-
 					} else if (metric1.getItem(metric1.getSelectionIndex()).equals("WMC_class")) {
 						metric2.removeAll();
 						metric2.add("NOM_class");
@@ -447,35 +447,26 @@ public class mainGUI extends Shell {
 					if (listrulestoshow.isSelected(i)) {
 						String method1 = currentRule.getMethod1();
 						String method2 = currentRule.getMethod2();
-						String signal1 = currentRule.getSinal1();
-						int limit1 = Integer.parseInt(currentRule.getLimit1());
-						String operator = currentRule.getOperator();
-						String signal2 = currentRule.getSinal2();
-						int limit2 = Integer.parseInt(currentRule.getLimit2());
 						if (method1.equals("LOC_method")) {
-							evaluateLocMethod(signal1, signal2, limit1, limit2, operator);
+							evaluateLocMethod(currentRule);
 						}
 						if (method1.equals("WMC_class") && method2.equals("NOM_class")
 								&& !currentRule.getMethod3().contains("a")) {
-							evaluateGodClassWithWMC_NOM(signal1, signal2, limit1, limit2, operator);
+							evaluateGodClassWithWMC_NOM(currentRule);
 						}
 
 						if (method1.equals("WMC_class") && method2.equals("LOC_class")
 								&& !currentRule.getMethod3().contains("a")) {
-							evaluateGodClassWithWMC_LOC(signal1, signal2, limit1, limit2, operator);
+							evaluateGodClassWithWMC_LOC(currentRule);
 						}
 
 						if (method1.equals("NOM_class") && method2.equals("LOC_class")
 								&& !currentRule.getMethod3().contains("a")) {
-							evaluateGodClassWithNOM_LOC(signal1, signal2, limit1, limit2, operator);
+							evaluateGodClassWithNOM_LOC(currentRule);
 						}
 
 						if (method1.equals("WMC_class") && currentRule.getMethod3().contains("a")) {
-							String operator2 = currentRule.getOperator2();
-							String signal3 = currentRule.getSinal3();
-							int limit3 = Integer.parseInt(currentRule.getLimit3());
-							evaluateGodClassWithWMC_NOM_LOC(signal1, signal2, signal3, limit1, limit2, limit3, operator,
-									operator2);
+							evaluateGodClassWithWMC_NOM_LOC(currentRule);
 						}
 
 					} else {
@@ -682,117 +673,48 @@ public class mainGUI extends Shell {
 		});
 		choosePathToExtract.setBounds(372, 35, 166, 28);
 		choosePathToExtract.setText("Selecionar destino");
-		createContents();
 	}
 
 	private boolean isValid(String text) {
-		System.out.println("text: " + text);
-		for (int i = 0; i < text.length(); i++) {
-			System.out.println(text.charAt(i));
-			if (text.charAt(i) == ZERO || text.charAt(i) == ONE || text.charAt(i) == TWO || text.charAt(i) == THREE
-					|| text.charAt(i) == FOUR || text.charAt(i) == FIVE || text.charAt(i) == SIX
-					|| text.charAt(i) == SEVEN || text.charAt(i) == EIGHT || text.charAt(i) == NINE) {
-				System.out.println("true");
-				return true;
-			}
-		}
+		for (int i = 0; i < text.length(); i++) 
+			if (isNumber(text.charAt(i))) return true;
 		return false;
 	}
-
-	private void fillSecondaryGUI(ArrayList<HasCodeSmell> toFill, SecondaryGUI results) {
-		for (HasCodeSmell hascodesmell : toFill) {
-//			System.out.println("ID: " + hascodesmell.getMethod_ID());
-			results.addCodeSmellsInfo(hascodesmell, false);
-		}
+	
+	private boolean isNumber(char charAt) {
+		return charAt == '0' || charAt == '1' || charAt == '2' || charAt == '3'
+				|| charAt == '4' || charAt == '5' || charAt == '6'
+				|| charAt == '7' || charAt == '8' || charAt == '9';
 	}
 
-	private void evaluateLocMethod(String signal1, String signal2, int limit1, int limit2, String operator) {
-		CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		ArrayList<HasCodeSmell> hcsList = new ArrayList<>();
-		if (signal1.equals(">") && signal2.equals(">"))
-			hcsList = detector.detectLongMethodBiggerBigger();
-		else if (signal1.equals(">") && signal2.equals("<"))
-			hcsList = detector.detectLongMethodBiggerSmaller();
-		else if (signal1.equals("<") && signal2.equals(">"))
-			hcsList = detector.detectLongMethodBiggerSmaller();
-		else if (signal1.equals("<") && signal2.equals("<"))
-			hcsList = detector.detectLongMethodSmallerSmaller();
-		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
-		fillSecondaryGUI(hcsList, codesmells);
-		codesmells.loadGUI();
+	private void evaluateLocMethod(Rule ruleReceived) {
+		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionLocMethod(ruleReceived, actualmetrics);
+		createSecondaryGUI("IsLoc Method Class Detection",hasCodeSmellResult);
 	}
 
-	private void evaluateGodClassWithWMC_NOM(String signal1, String signal2, int limit1, int limit2, String operator) {
-		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
-		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">"))
-			hcsList2 = detector2.detectGodClassBiggerBiggerWMC_NOM();
-		else if (signal1.equals("<") && signal2.equals("<"))
-			hcsList2 = detector2.detectGodClassSmallerSmallerWMC_NOM();
-		else if (signal1.equals(">") && signal2.equals("<"))
-			hcsList2 = detector2.detectGodClassBiggerSmallerWMC_NOM();
-		else if (signal1.equals("<") && signal2.equals(">"))
-			hcsList2 = detector2.detectGodClassSmallerBiggerWMC_NOM();
-		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2, codesmells2);
-		codesmells2.loadGUI();
+	private void evaluateGodClassWithWMC_NOM(Rule ruleReceived) {
+		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM(ruleReceived, actualmetrics);
+		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
 	}
 
-	private void evaluateGodClassWithWMC_LOC(String signal1, String signal2, int limit1, int limit2, String operator) {
-		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
-		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">"))
-			hcsList2 = detector2.detectGodClassBiggerBiggerWMC_LOC();
-		else if (signal1.equals("<") && signal2.equals("<"))
-			hcsList2 = detector2.detectGodClassSmallerSmallerWMC_LOC();
-		else if (signal1.equals(">") && signal2.equals("<"))
-			hcsList2 = detector2.detectGodClassBiggerSmallerWMC_LOC();
-		else if (signal1.equals("<") && signal2.equals(">"))
-			hcsList2 = detector2.detectGodClassSmallerBiggerWMC_LOC();
-		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2, codesmells2);
-		codesmells2.loadGUI();
+	private void evaluateGodClassWithWMC_LOC(Rule ruleReceived) {
+		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_LOC(ruleReceived, actualmetrics);
+		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
 	}
 
-	private void evaluateGodClassWithNOM_LOC(String signal1, String signal2, int limit1, int limit2, String operator) {
-		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
-		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">"))
-			hcsList2 = detector2.detectGodClassBiggerBiggerNOM_LOC();
-		else if (signal1.equals("<") && signal2.equals("<"))
-			hcsList2 = detector2.detectGodClassSmallerSmallerNOM_LOC();
-		else if (signal1.equals(">") && signal2.equals("<"))
-			hcsList2 = detector2.detectGodClassBiggerSmallerNOM_LOC();
-		else if (signal1.equals("<") && signal2.equals(">"))
-			hcsList2 = detector2.detectGodClassSmallerBiggerNOM_LOC();
-		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2, codesmells2);
-		codesmells2.loadGUI();
+	private void evaluateGodClassWithNOM_LOC(Rule ruleReceived) {
+		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionNOM_LOC(ruleReceived, actualmetrics);
+		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
 	}
 
-	private void evaluateGodClassWithWMC_NOM_LOC(String signal1, String signal2, String signal3, int limit1, int limit2,
-			int limit3, String operator, String operator2) {
-		ArrayList<HasCodeSmell> hcslist = new ArrayList<>();
-		CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, limit3, operator, operator2,
-				actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">"))
-			hcslist = detector.detectGodClassBiggerBiggerBigger();
-		else if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<"))
-			hcslist = detector.detectGodClassSmallerSmallerSmaller();
-		else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">"))
-			hcslist = detector.detectGodClassBiggerSmallerSmaller();
-		else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">"))
-			hcslist = detector.detectGodClassBiggerSmallerBigger();
-		else if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<"))
-			hcslist = detector.detectGodClassBiggerBiggerSmaller();
-		else if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">"))
-			hcslist = detector.detectGodClassSmallerSmallerBigger();
-		else if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">"))
-			hcslist = detector.detectGodClassSmallerBiggerBigger();
-		else if (signal1.equals("<") && signal2.equals(">") && signal3.equals("<"))
-			hcslist = detector.detectGodClassSmallerBiggerSmaller();
-		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-		fillSecondaryGUI(hcslist, codesmells);
+	private void evaluateGodClassWithWMC_NOM_LOC(Rule ruleReceived) {
+		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM_LOC(ruleReceived, actualmetrics);
+		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
+	}
+	
+	private void createSecondaryGUI(String name,ArrayList<HasCodeSmell> detectionResults) {
+		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), name, detectionResults);
+		codesmells.fillSecondaryGUI(detectionResults);
 		codesmells.loadGUI();
 	}
 

@@ -2,6 +2,12 @@ package G47.Grupo47;
 
 public class CheckRuleCombinations {
 	
+	/* Esta classe retorna um booleano que coincide com o resultado da deteção de um code smell segundo os valores das regras definidas
+	 * para cada método varia os sinais utilizados (maior e menor) e os operadores utilizados ("e" e "ou").
+	 * O objetivo da classe é ter todas as combinações de regras possíveis com as métricas possíveis, tendo em conta os operadores e sinais
+	 */
+	
+	
 	private int rule1_threshold;
 	private int rule2_threshold;
 	private int rule3_threshold;
@@ -17,36 +23,43 @@ public class CheckRuleCombinations {
 		this.rule2_threshold = rule2_threshold;
 	}
 
-	public boolean isGodLGLAndAnd(MethodMetrics methodWithMetrics) {
+	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&&" e "&&"
+	public boolean isGodLesserGreaterLesser_AndAnd(MethodMetrics methodWithMetrics) {
 		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
 		else return false;
 	}
 	
-	public boolean isGodLGLAndOr(MethodMetrics methodWithMetrics) {
+	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&&" e "||"
+	public boolean isGodLesserGreaterLesser_AndOr(MethodMetrics methodWithMetrics) {
 		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
 		else return false;
 	}
 	
-	public boolean isGodLGLOrAnd(MethodMetrics methodWithMetrics) {
+	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "||" e "&&"
+	public boolean isGodLesserGreaterLesser_OrAnd(MethodMetrics methodWithMetrics) {
 		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold) return true;
 		else return false;
 	}
 	
-	public boolean isGodLGLOrOr(MethodMetrics methodWithMetrics) {
+	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "||" e "||"
+	public boolean isGodLesserGreaterLesser_OrOr(MethodMetrics methodWithMetrics) {
 		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold) return true;
 		else return false;
 	}
 	
+	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&&" e "&&"
 	public boolean isGodLesserGreaterGreater_AndAnd(MethodMetrics methodWithMetrics) {
 		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
 		else return false;
 	}
 	
+	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&&" e "||"
 	public boolean isGodLesserGreaterGreater_AndOr(MethodMetrics methodWithMetrics) {
 		if (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold) return true;
 		else return false;
 	}
 	
+	// Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "||" e "&&"
 	public boolean isGodLesserGreaterGreater_OrAnd(MethodMetrics methodWithMetrics) {
 		if (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold) return true;
 		else return false;

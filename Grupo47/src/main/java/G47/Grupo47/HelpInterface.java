@@ -9,8 +9,6 @@ public class HelpInterface extends Shell {
 	
 	private Display display;
 
-
-
 	/**
 	 * Create the shell.
 	 * @param display
