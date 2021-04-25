@@ -23,15 +23,15 @@ import org.eclipse.swt.events.SelectionEvent;
 
 public class SaveHistoryGUI extends Shell {
 
-	private ArrayList<Rules> rules;
-	private List regras;
+	private ArrayList<Rule> rules;
+	private List ruleslist;
 	private Display display;
-	private Text nomef;
-	private Text nomef2;
-	private File ficheiro;
-	private Text nomep;
+	private Text submitedFileName;
+	private Text historyFile;
+	private File file;
+	private Text finaldirectoy;
 	private File rules2;
-	private File ficheirocriado;
+	private File filecreated;
 
 	/**
 	 * Launch the application.
@@ -44,20 +44,22 @@ public class SaveHistoryGUI extends Shell {
 	 * 
 	 * @param display
 	 */
-	public SaveHistoryGUI(Display display, List regras, ArrayList<Rules> rules) {
+	//CONSTRUTOR DA GUI RELATIVA AO BOTÃO "GUARDAR HISTÓRICO"
+	public SaveHistoryGUI(Display display, List regras, ArrayList<Rule> rules) {
 		super(display, SWT.SHELL_TRIM);
 		setImage(SWTResourceManager.getImage(SaveHistoryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
-		this.regras = regras;
+		this.ruleslist = regras;
 		this.rules = rules;
 
 		Label lblDefinaONome = new Label(this, SWT.NONE);
 		lblDefinaONome.setBounds(10, 37, 185, 20);
 		lblDefinaONome.setText("Defina o nome do ficheiro:");
 
-		nomef = new Text(this, SWT.BORDER);
-		nomef.setBounds(211, 34, 211, 26);
+		submitedFileName = new Text(this, SWT.BORDER); //TEXTFIELD QUE PERMITE AO UTILIZADOR DEFINIR O NOME DO FICHEIRO HISTÓRICO;
+		submitedFileName.setBounds(211, 34, 211, 26);
 
-		Button pathpasta = new Button(this, SWT.NONE);
+		//JFILECHOOSER QUE PERMITE AO UTILIZADOR SELECIONAR O DESTINO/DIRETORIA DO FICHEIRO A CRIAR;
+		Button pathpasta = new Button(this, SWT.NONE); 
 		pathpasta.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -66,11 +68,11 @@ public class SaveHistoryGUI extends Shell {
 				int returnValue = pathpasta.showOpenDialog(null);
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 
-					ficheiro = pathpasta.getSelectedFile();
+					file = pathpasta.getSelectedFile();
 
 				}
-				if (!nomef.getText().isEmpty()) {
-					nomep.setText(ficheiro.getPath() + "\\" + nomef.getText() + ".txt");
+				if (!submitedFileName.getText().isEmpty()) {
+					finaldirectoy.setText(file.getPath() + "\\" + submitedFileName.getText() + ".txt"); //CRIAÇÃO DA DIRETORIA FINAL;
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha o campo 'Nome do ficheiro'");
 				}
@@ -79,8 +81,8 @@ public class SaveHistoryGUI extends Shell {
 		pathpasta.setBounds(10, 71, 185, 30);
 		pathpasta.setText("Selecione a pasta destino");
 
-		nomep = new Text(this, SWT.BORDER);
-		nomep.setBounds(211, 73, 211, 26);
+		finaldirectoy = new Text(this, SWT.BORDER);
+		finaldirectoy.setBounds(211, 73, 211, 26);
 
 		Label lblSeAPasta = new Label(this, SWT.NONE);
 		lblSeAPasta.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
@@ -92,11 +94,11 @@ public class SaveHistoryGUI extends Shell {
 		lblNewLabel.setBounds(10, 11, 101, 20);
 		lblNewLabel.setText("Criar ficheiro");
 
-		nomef2 = new Text(this, SWT.BORDER);
-		nomef2.setBounds(10, 184, 236, 26);
+		historyFile = new Text(this, SWT.BORDER);
+		historyFile.setBounds(10, 184, 236, 26);
 
-		Button pathpasta2 = new Button(this, SWT.NONE);
-		pathpasta2.addSelectionListener(new SelectionAdapter() {
+		Button choosenHistoryFile = new Button(this, SWT.NONE);
+		choosenHistoryFile.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JFileChooser pathpasta2 = new JFileChooser(".");
@@ -107,17 +109,17 @@ public class SaveHistoryGUI extends Shell {
 				String apath = new String();
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 
-					ficheirocriado = pathpasta2.getSelectedFile();
-					apath = ficheirocriado.getPath();
+					filecreated = pathpasta2.getSelectedFile();
+					apath = filecreated.getPath();
 
 				}
-				nomef2.setText(apath);
-				if (!nomef2.getText().isEmpty()) {
+				historyFile.setText(apath);
+				if (!historyFile.getText().isEmpty()) {
 					if (!rules.isEmpty()) {
-						for (int x = 0; x < rules.size(); x++) {
+						for (int x = 0; x < rules.size(); x++) {//CICLO QUE ESCREVE TODAS AS REGRAS DA LISTA N FICHEIRO .TXT
 
 							try {
-								FileWriter fw = new FileWriter(new File(nomef2.getText()), true);
+								FileWriter fw = new FileWriter(new File(historyFile.getText()), true);
 								BufferedWriter bw = new BufferedWriter(fw);
 								bw.write(rules.get(x).toString());
 								bw.newLine();
@@ -139,15 +141,16 @@ public class SaveHistoryGUI extends Shell {
 
 			}
 		});
-		pathpasta2.setBounds(265, 182, 157, 30);
-		pathpasta2.setText("Selecionar ficheiro ");
+		choosenHistoryFile.setBounds(265, 182, 157, 30);
+		choosenHistoryFile.setText("Selecionar ficheiro ");
 
-		Button btnCriarFicheiro = new Button(this, SWT.NONE);
-		btnCriarFicheiro.addSelectionListener(new SelectionAdapter() {
+		//CRIAÇÃO DO FICHEIRO HISTÓRICO, APÓS A DEFINIÇÃO DA SUA DIRETORIA E RESPETIVO NOME;
+		Button btnCreateFile = new Button(this, SWT.NONE);
+		btnCreateFile.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!nomep.getText().isEmpty() && !nomef.getText().isEmpty()) {
-					File f = new File(nomep.getText());
+				if (!finaldirectoy.getText().isEmpty() && !submitedFileName.getText().isEmpty()) {
+					File f = new File(finaldirectoy.getText());
 					System.out.println(f.getPath());
 					if (!f.exists()) {
 						try {
@@ -162,8 +165,8 @@ public class SaveHistoryGUI extends Shell {
 				}
 			}
 		});
-		btnCriarFicheiro.setBounds(237, 113, 185, 30);
-		btnCriarFicheiro.setText("Criar ficheiro 'historico'");
+		btnCreateFile.setBounds(237, 113, 185, 30);
+		btnCreateFile.setText("Criar ficheiro 'historico'");
 		try {
 			open();
 			layout();
