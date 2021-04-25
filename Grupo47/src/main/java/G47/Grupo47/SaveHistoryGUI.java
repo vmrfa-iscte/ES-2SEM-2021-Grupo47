@@ -23,7 +23,7 @@ import org.eclipse.swt.events.SelectionEvent;
 
 public class SaveHistoryGUI extends Shell {
 
-	private ArrayList<Rules> rules;
+	private ArrayList<Rule> rules;
 	private List ruleslist;
 	private Display display;
 	private Text submitedFileName;
@@ -45,7 +45,7 @@ public class SaveHistoryGUI extends Shell {
 	 * @param display
 	 */
 	//CONSTRUTOR DA GUI RELATIVA AO BOTÃO "GUARDAR HISTÓRICO"
-	public SaveHistoryGUI(Display display, List regras, ArrayList<Rules> rules) {
+	public SaveHistoryGUI(Display display, List regras, ArrayList<Rule> rules) {
 		super(display, SWT.SHELL_TRIM);
 		setImage(SWTResourceManager.getImage(SaveHistoryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
 		this.ruleslist = regras;

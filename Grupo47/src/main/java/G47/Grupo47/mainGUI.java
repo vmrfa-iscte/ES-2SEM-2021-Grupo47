@@ -1,92 +1,62 @@
 package G47.Grupo47;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
+
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.events.TouchListener;
-import org.eclipse.swt.events.TouchEvent;
-import org.eclipse.swt.events.SelectionListener;
-import java.util.function.Consumer;
-import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.GestureListener;
-import org.eclipse.swt.events.GestureEvent;
 
 public class mainGUI extends Shell {
 
-	private int indice,i;
-	private List ficheirosexcel;
-	private Text foldername,txtNmeroDeMtodos,NumClasses,txtNmeroDeClasses,txtNmeroDeLinhas,txtNmeroDePackages,NumPackages,NumMethods,NumLines,text_1,limite_1,limite_2,limite_3;
-	private StyledText styledText;
+	private int indice, i;
+	private List excelfiles;
+	private Text foldername, txtNmeroDeMtodos, NumClasses, txtNmeroDeClasses, txtNmeroDeLinhas, txtNmeroDePackages,
+			NumPackages, NumMethods, NumLines, limit_1, limit_2, limit_3;
 	private Composite composite;
-	private Button btnDefinirRegras,btnSelecionarFicheirohistrico,guardarhistorico;
-	private String diretoria,nomepath = new String();
+	private Button btnDefineRule, savehistory;
+	private String pathname = new String();
 	private File selectedFile1 = null;
-	private String nameFile,pathToExtract = "";
-	private HashMap<String,ArrayList<String>> mapStats = new HashMap<>();
-	private String username = System.getProperty("user.name");
-	private File rules,pastaselecionada,historico;
-	private FileWriter fw;
-	private BufferedWriter bw;
-	private ArrayList<Rules> list = new ArrayList<Rules>();
-	private Rules rule, currentRule;
-	private String[] selected_rule;
+	private String pathToExtract = "";
+	private HashMap<String, ArrayList<String>> mapStats = new HashMap<>();
+	private File history;
+	private ArrayList<Rule> list = new ArrayList<Rule>();
+	private Rule rule, currentRule;
 	private ArrayList<Metrics> actualmetrics;
-	private Label lblDefinaUmaRegra;
-	private Combo metrica3,sinal,sinal2,sinal3,operador2;
-	private String content,update;
-	private Combo metrica2;
+	private Label lbldefinerule;
+	private Combo metric3, signal, sinal2, signal3, operator2;
+	private String content, update;
+	private Combo metric2;
 	private Text folderToExtract;
 	private File folderextraction = null;
-	private static final int ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9;
+	private static final char ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8,
+			NINE = 9;
 	private static final String LOGO = "/G47/Grupo47/iscte_logo2.jpg", GUI_NAME = "Interface gráfica- Grupo 47";
 
 	/**
@@ -110,8 +80,8 @@ public class mainGUI extends Shell {
 		foldername = new Text(this, SWT.BORDER | SWT.READ_ONLY);
 		foldername.setBounds(10, 67, 345, 26);
 
-		Button pasta = new Button(this, SWT.NONE);
-		pasta.addSelectionListener(new SelectionAdapter() {
+		Button folder = new Button(this, SWT.NONE);
+		folder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JFileChooser pathpasta = new JFileChooser(".");
@@ -120,27 +90,27 @@ public class mainGUI extends Shell {
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 
 					selectedFile1 = pathpasta.getSelectedFile();
-					nomepath = selectedFile1.getAbsolutePath();
+					pathname = selectedFile1.getAbsolutePath();
 				}
-				if(selectedFile1 != null) {
-				foldername.setText(selectedFile1.getPath());
+				if (selectedFile1 != null) {
+					foldername.setText(selectedFile1.getPath());
 				}
 			}
 		});
-		pasta.setBounds(372, 67, 166, 28);
-		pasta.setText("Selecionar projeto (src)");
+		folder.setBounds(372, 67, 166, 28);
+		folder.setText("Selecionar projeto (src)");
 
-		ficheirosexcel = new List(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		ficheirosexcel.addMouseListener(new MouseAdapter() {
+		excelfiles = new List(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		excelfiles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				indice = ficheirosexcel.getSelectionIndex();
+				indice = excelfiles.getSelectionIndex();
 				System.out.println("indice: " + indice);
 
 				if (indice != -1) {
 					for (Entry<String, ArrayList<String>> entry : mapStats.entrySet()) {
-						System.out.println(ficheirosexcel.getItem(indice));
-						if (entry.getKey().equals(ficheirosexcel.getItem(indice))) {
+						System.out.println(excelfiles.getItem(indice));
+						if (entry.getKey().equals(excelfiles.getItem(indice))) {
 							ArrayList<String> statsToWrite = entry.getValue();
 							NumLines.setText(statsToWrite.get(0));
 							NumClasses.setText(statsToWrite.get(2));
@@ -161,7 +131,7 @@ public class mainGUI extends Shell {
 			}
 		});
 
-		ficheirosexcel.setBounds(10, 108, 345, 164);
+		excelfiles.setBounds(10, 108, 345, 164);
 
 		composite = new Composite(this, SWT.NONE);
 		composite.setBounds(10, 314, 670, 465);
@@ -202,23 +172,23 @@ public class mainGUI extends Shell {
 		NumLines.setEditable(false);
 		NumLines.setBounds(544, 246, 136, 26);
 
-		Button extrair = new Button(this, SWT.NONE);
-		extrair.setBounds(544, 48, 136, 30);
-		extrair.setText("Extrair métricas");
-		extrair.addSelectionListener(new SelectionAdapter() {
+		Button extract = new Button(this, SWT.NONE);
+		extract.setBounds(544, 48, 136, 30);
+		extract.setText("Extrair métricas");
+		extract.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(selectedFile1 == null || folderextraction == null ) {
+				if (selectedFile1 == null || folderextraction == null) {
 					JOptionPane.showMessageDialog(null, "Escolha uma pasta");
-				}else {
+				} else {
 					DirExplorer dirEx = new DirExplorer(selectedFile1);
 					try {
-						if(folderextraction.exists() && selectedFile1.exists()) {
+						if (folderextraction.exists() && selectedFile1.exists()) {
 							actualmetrics = dirEx.explore();
 							System.out.println("actualmetrics size: " + actualmetrics.size());
 							System.out.println(pathToExtract);
 							ExcelManip em = new ExcelManip(selectedFile1);
-							em.createExcel(actualmetrics,folderToExtract.getText());
+							em.createExcel(actualmetrics, folderToExtract.getText());
 							Statistics stats = new Statistics(actualmetrics);
 							ArrayList<String> StringStats = new ArrayList<>();
 							StringStats.add(String.valueOf(stats.countLinesOfCode()));
@@ -227,7 +197,7 @@ public class mainGUI extends Shell {
 							StringStats.add(String.valueOf(stats.countPackages()));
 							System.out.println("em.getFileName(): " + em.getFileName());
 							mapStats.put(em.getFileName(), StringStats);
-							ficheirosexcel.add(em.getFileName());
+							excelfiles.add(em.getFileName());
 						}
 					} catch (FileNotFoundException e1) {
 						// TODO Auto-generated catch block
@@ -237,134 +207,138 @@ public class mainGUI extends Shell {
 						e1.printStackTrace();
 					}
 
-
-
 				}
 			}
 		});
 
-		Combo metrica1 = new Combo(composite, SWT.READ_ONLY);
-		metrica1.addSelectionListener(new SelectionAdapter() {
+		Combo metric1 = new Combo(composite, SWT.READ_ONLY);
+		metric1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("SelectionIndex: " + metrica1.getSelectionIndex());
-				if (metrica1.getSelectionIndex() != -1) {
-					System.out.println(metrica1.getItem(metrica1.getSelectionIndex()));
-					if (metrica1.getItem(metrica1.getSelectionIndex()).equals("LOC_method")) {
-						operador2.setVisible(false);
-						sinal3.setVisible(false);
-						metrica3.setVisible(false);
-						limite_3.setVisible(false);
-						metrica2.removeAll();
-						metrica2.add("CYCLO_method");
+				System.out.println("SelectionIndex: " + metric1.getSelectionIndex());
+				if (metric1.getSelectionIndex() != -1) {
+					System.out.println(metric1.getItem(metric1.getSelectionIndex()));
+					if (metric1.getItem(metric1.getSelectionIndex()).equals("LOC_method")) {
+						operator2.setVisible(false);
+						signal3.setVisible(false);
+						metric3.setVisible(false);
+						limit_3.setVisible(false);
+						metric2.removeAll();
+						metric2.add("CYCLO_method");
 
-					} else if(metrica1.getItem(metrica1.getSelectionIndex()).equals("WMC_class")) {
-						metrica2.removeAll();
-						metrica2.add("NOM_class");
-						metrica2.add("LOC_class");
-						operador2.setVisible(true);
-						sinal3.setVisible(true);
-						metrica3.setVisible(true);
-						limite_3.setVisible(true);
-					}else if(metrica1.getItem(metrica1.getSelectionIndex()).equals("NOM_class")) {
-						operador2.setVisible(false);
-						sinal3.setVisible(false);
-						metrica3.setVisible(false);
-						limite_3.setVisible(false);
-						metrica2.removeAll();
-						metrica2.add("LOC_class");
+					} else if (metric1.getItem(metric1.getSelectionIndex()).equals("WMC_class")) {
+						metric2.removeAll();
+						metric2.add("NOM_class");
+						metric2.add("LOC_class");
+						operator2.setVisible(true);
+						signal3.setVisible(true);
+						metric3.setVisible(true);
+						limit_3.setVisible(true);
+					} else if (metric1.getItem(metric1.getSelectionIndex()).equals("NOM_class")) {
+						operator2.setVisible(false);
+						signal3.setVisible(false);
+						metric3.setVisible(false);
+						limit_3.setVisible(false);
+						metric2.removeAll();
+						metric2.add("LOC_class");
 					}
 				}
 			}
 		});
-		metrica1.setBounds(10, 58, 155, 28);
-		metrica1.setText("");
-		metrica1.add("LOC_method");
-		metrica1.add("WMC_class");
-		metrica1.add("NOM_class");
+		metric1.setBounds(10, 58, 155, 28);
+		metric1.setText("");
+		metric1.add("LOC_method");
+		metric1.add("WMC_class");
+		metric1.add("NOM_class");
 
 		Combo operador = new Combo(composite, SWT.READ_ONLY);
 		operador.setBounds(440, 58, 117, 28);
 		operador.setText("");
 		operador.add("OR");
 		operador.add("AND");
-		
-		metrica2 = new Combo(composite, SWT.READ_ONLY);
-		metrica2.addSelectionListener(new SelectionAdapter() {
+
+		metric2 = new Combo(composite, SWT.READ_ONLY);
+		metric2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(metrica2.getSelectionIndex() != -1) {
-					if(metrica2.getItem(metrica2.getSelectionIndex()).equals("LOC_class")) {
-						operador2.setVisible(false);
-						sinal3.setVisible(false);
-						metrica3.setVisible(false);
-						limite_3.setVisible(false);
-					}else if(metrica2.getItem(metrica2.getSelectionIndex()).equals("NOM_class")) {
-						operador2.setVisible(true);
-						sinal3.setVisible(true);
-						metrica3.setVisible(true);
-						limite_3.setVisible(true);
+				if (metric2.getSelectionIndex() != -1) {
+					if (metric2.getItem(metric2.getSelectionIndex()).equals("LOC_class")) {
+						operator2.setVisible(false);
+						signal3.setVisible(false);
+						metric3.setVisible(false);
+						limit_3.setVisible(false);
+					} else if (metric2.getItem(metric2.getSelectionIndex()).equals("NOM_class")) {
+						operator2.setVisible(true);
+						signal3.setVisible(true);
+						metric3.setVisible(true);
+						limit_3.setVisible(true);
 					}
 				}
 			}
 		});
-		metrica2.setBounds(10, 92, 155, 28);
-		metrica2.setText("");
+		metric2.setBounds(10, 92, 155, 28);
+		metric2.setText("");
 
-		metrica3 = new Combo(composite, SWT.READ_ONLY);
-		metrica3.setBounds(10, 126, 155, 28);
-		metrica3.setText("");
-		metrica3.add("");
-		metrica3.add("LOC_class");
-		metrica3.setVisible(false);
-		
-		limite_1 = new Text(composite, SWT.BORDER);
-		limite_1.setBounds(313, 58, 94, 30);
-		limite_1.setText("Limite");
+		metric3 = new Combo(composite, SWT.READ_ONLY);
+		metric3.setBounds(10, 126, 155, 28);
+		metric3.setText("");
+		metric3.add("");
+		metric3.add("LOC_class");
+		metric3.setVisible(false);
 
-		limite_2 = new Text(composite, SWT.BORDER);
-		limite_2.setBounds(313, 92, 94, 28);
-		limite_2.setText("Limite");
+		limit_1 = new Text(composite, SWT.BORDER);
+		limit_1.setBounds(313, 58, 94, 30);
+		limit_1.setText("Limite");
 
-		List regras = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		regras.addSelectionListener(new SelectionAdapter() {
+		limit_2 = new Text(composite, SWT.BORDER);
+		limit_2.setBounds(313, 92, 94, 28);
+		limit_2.setText("Limite");
+
+		List listrulestoshow = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		listrulestoshow.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				i = regras.getSelectionIndex();
+				i = listrulestoshow.getSelectionIndex();
 				currentRule = list.get(i);
-				metrica1.setText(currentRule.getMethod1());
-				sinal.setText(currentRule.getSinal1());
-				limite_1.setText(currentRule.getLimit1());
+				metric1.setText(currentRule.getMethod1());
+				signal.setText(currentRule.getSinal1());
+				limit_1.setText(currentRule.getLimit1());
 				operador.setText(currentRule.getOperator());
-				metrica2.setText(currentRule.getMethod2());
+				metric2.setText(currentRule.getMethod2());
 				sinal2.setText(currentRule.getSinal2());
-				limite_2.setText(currentRule.getLimit2());
-				operador2.setText(currentRule.getOperator2());
-				metrica3.setText(currentRule.getMethod3());
-				sinal3.setText(currentRule.getSinal3());
-				limite_3.setText(currentRule.getLimit3());
+				limit_2.setText(currentRule.getLimit2());
+				operator2.setText(currentRule.getOperator2());
+				metric3.setText(currentRule.getMethod3());
+				signal3.setText(currentRule.getSinal3());
+				limit_3.setText(currentRule.getLimit3());
 			}
 		});
-		regras.setLocation(10, 186);
-		regras.setSize(431, 230);
+		listrulestoshow.setLocation(10, 186);
+		listrulestoshow.setSize(431, 230);
 
-		btnDefinirRegras = new Button(composite, SWT.NONE);
-		btnDefinirRegras.addSelectionListener(new SelectionAdapter() {
+		btnDefineRule = new Button(composite, SWT.NONE);
+		btnDefineRule.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText()) ) {
+				if (!isValid(limit_1.getText()) || !isValid(limit_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
-					if((metrica3.getText().isEmpty() && operador2.getText().isEmpty() && (limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && sinal3.getText().isEmpty()) || (!metrica3.getText().isEmpty() && !operador2.getText().isEmpty() && !(limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && !sinal3.getText().isEmpty())){
+					if ((metric3.getText().isEmpty() && operator2.getText().isEmpty()
+							&& (limit_3.getText().isEmpty() || limit_3.getText().equals("Limite"))
+							&& signal3.getText().isEmpty())
+							|| (!metric3.getText().isEmpty() && !operator2.getText().isEmpty()
+									&& !(limit_3.getText().isEmpty() || limit_3.getText().equals("Limite"))
+									&& !signal3.getText().isEmpty())) {
 
 						boolean v = false;
-						if (!metrica1.getText().isEmpty() && !operador.getText().isEmpty() && !metrica2.getText().isEmpty()
-								&& !limite_2.getText().isEmpty() && !limite_1.getText().isEmpty()) {
-							if (!metrica3.getText().isEmpty() && !operador2.getText().isEmpty()
-									&& !limite_3.getText().isEmpty() && !sinal3.getText().isEmpty()) {
-								rule = new Rules(metrica1.getText(), sinal.getText(), limite_1.getText(),
-										operador.getText(), metrica2.getText(), sinal2.getText(), limite_2.getText(),
-										operador2.getText(), metrica3.getText(), sinal3.getText(), limite_3.getText());
+						if (!metric1.getText().isEmpty() && !operador.getText().isEmpty()
+								&& !metric2.getText().isEmpty() && !limit_2.getText().isEmpty()
+								&& !limit_1.getText().isEmpty()) {
+							if (!metric3.getText().isEmpty() && !operator2.getText().isEmpty()
+									&& !limit_3.getText().isEmpty() && !signal3.getText().isEmpty()) {
+								rule = new Rule(metric1.getText(), signal.getText(), limit_1.getText(),
+										operador.getText(), metric2.getText(), sinal2.getText(), limit_2.getText(),
+										operator2.getText(), metric3.getText(), signal3.getText(), limit_3.getText());
 								content = rule.toString();
 								for (int i = 0; i < list.size(); i++) {
 									if (list.get(i).toString().contentEquals(rule.toString())) {
@@ -375,8 +349,8 @@ public class mainGUI extends Shell {
 									}
 								}
 							} else {
-								rule = new Rules(metrica1.getText(), sinal.getText(), limite_1.getText(),
-										operador.getText(), metrica2.getText(), sinal2.getText(), limite_2.getText(), "",
+								rule = new Rule(metric1.getText(), signal.getText(), limit_1.getText(),
+										operador.getText(), metric2.getText(), sinal2.getText(), limit_2.getText(), "",
 										"", "", "");
 								content = rule.toString();
 								for (int i = 0; i < list.size(); i++) {
@@ -391,7 +365,7 @@ public class mainGUI extends Shell {
 
 							System.out.println(content);
 							if (v == false) {
-								regras.add(content);
+								listrulestoshow.add(content);
 								list.add(rule);
 								System.out.println(list.size());
 							}
@@ -399,7 +373,7 @@ public class mainGUI extends Shell {
 						} else {
 							JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos.");
 						}
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(null, "Preencha todos os campos");
 					}
 				}
@@ -408,44 +382,49 @@ public class mainGUI extends Shell {
 
 		});
 
-		btnDefinirRegras.setBounds(447, 185, 142, 30);
-		btnDefinirRegras.setText("Definir regra");
+		btnDefineRule.setBounds(447, 185, 142, 30);
+		btnDefineRule.setText("Definir regra");
 
-		Button alterarregra = new Button(composite, SWT.NONE);
-		alterarregra.addSelectionListener(new SelectionAdapter() {
+		Button changerule = new Button(composite, SWT.NONE);
+		changerule.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!isValid(limite_1.getText()) || !isValid(limite_2.getText())) {
+				if (!isValid(limit_1.getText()) || !isValid(limit_2.getText())) {
 					JOptionPane.showMessageDialog(null, "Limites inválidos!");
 				} else {
-					if((metrica3.getText().isEmpty() && operador2.getText().isEmpty() && (limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && sinal3.getText().isEmpty()) || (!metrica3.getText().isEmpty() && !operador2.getText().isEmpty() && !(limite_3.getText().isEmpty() || limite_3.getText().equals("Limite")) && !sinal3.getText().isEmpty())){
-						if (regras.isSelected(i)) {
+					if ((metric3.getText().isEmpty() && operator2.getText().isEmpty()
+							&& (limit_3.getText().isEmpty() || limit_3.getText().equals("Limite"))
+							&& signal3.getText().isEmpty())
+							|| (!metric3.getText().isEmpty() && !operator2.getText().isEmpty()
+									&& !(limit_3.getText().isEmpty() || limit_3.getText().equals("Limite"))
+									&& !signal3.getText().isEmpty())) {
+						if (listrulestoshow.isSelected(i)) {
 							System.out.println(list.get(i).toString());
-							list.get(i).setLimit1(limite_1.getText());
-							list.get(i).setLimit2(limite_2.getText());
-							list.get(i).setLimit3(limite_3.getText());
-							list.get(i).setMethod1(metrica1.getText());
-							list.get(i).setMethod2(metrica2.getText());
-							list.get(i).setMethod3(metrica3.getText());
+							list.get(i).setLimit1(limit_1.getText());
+							list.get(i).setLimit2(limit_2.getText());
+							list.get(i).setLimit3(limit_3.getText());
+							list.get(i).setMethod1(metric1.getText());
+							list.get(i).setMethod2(metric2.getText());
+							list.get(i).setMethod3(metric3.getText());
 							list.get(i).setOperator(operador.getText());
-							list.get(i).setOperator2(operador2.getText());
-							list.get(i).setSinal1(sinal.getText());
+							list.get(i).setOperator2(operator2.getText());
+							list.get(i).setSinal1(signal.getText());
 							list.get(i).setSinal2(sinal2.getText());
-							list.get(i).setSinal3(sinal3.getText());
+							list.get(i).setSinal3(signal3.getText());
 							System.out.println(list.get(i).toString());
-							System.out.println(regras.getItem(i));
+							System.out.println(listrulestoshow.getItem(i));
 							update = list.get(i).toString();
 							for (int x = 0; x < list.size(); x++) {
 								if (x == i) {
-									regras.remove(x);
-									regras.add(update, x);
+									listrulestoshow.remove(x);
+									listrulestoshow.add(update, x);
 
 								}
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
 						}
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos");
 					}
 
@@ -454,61 +433,65 @@ public class mainGUI extends Shell {
 		});
 		;
 
-		alterarregra.setBounds(447, 224, 145, 30);
-		alterarregra.setText("Alterar regras");
+		changerule.setBounds(447, 224, 145, 30);
+		changerule.setText("Alterar regras");
 
 		Button codesmells = new Button(composite, SWT.NONE);
 		codesmells.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(actualmetrics == null) {
+				if (actualmetrics == null) {
 					JOptionPane.showMessageDialog(null, "Não foram extraidas métricas");
-					
-				}else {
-				if (regras.isSelected(i)) {
-					String method1 = currentRule.getMethod1();
-					String method2 = currentRule.getMethod2();
-					String signal1 = currentRule.getSinal1();
-					int limit1 = Integer.parseInt(currentRule.getLimit1());
-					String operator = currentRule.getOperator();
-					String signal2 = currentRule.getSinal2();
-					int limit2 = Integer.parseInt(currentRule.getLimit2());
-					if (method1.equals("LOC_method")) {
-						evaluateLocMethod(signal1,signal2,limit1,limit2,operator);
-					}
-					if (method1.equals("WMC_class") && method2.equals("NOM_class") && !currentRule.getMethod3().contains("a")) {
-						evaluateGodClassWithWMC_NOM(signal1,signal2,limit1,limit2,operator);
-					} 
-					
-					if (method1.equals("WMC_class") && method2.equals("LOC_class") && !currentRule.getMethod3().contains("a")) {
-						evaluateGodClassWithWMC_LOC(signal1,signal2,limit1,limit2,operator);
-					}
-					
-					if (method1.equals("NOM_class") && method2.equals("LOC_class") && !currentRule.getMethod3().contains("a")) {
-						evaluateGodClassWithNOM_LOC(signal1,signal2,limit1,limit2,operator);
-					}
-										
-					if(method1.equals("WMC_class") && currentRule.getMethod3().contains("a")) {
-						String operator2 = currentRule.getOperator2();
-						String signal3 = currentRule.getSinal3();
-						int limit3 = Integer.parseInt(currentRule.getLimit3());
-						evaluateGodClassWithWMC_NOM_LOC(signal1,signal2,signal3,limit1,limit2,limit3,operator,operator2);
-					}
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
+					if (listrulestoshow.isSelected(i)) {
+						String method1 = currentRule.getMethod1();
+						String method2 = currentRule.getMethod2();
+						String signal1 = currentRule.getSinal1();
+						int limit1 = Integer.parseInt(currentRule.getLimit1());
+						String operator = currentRule.getOperator();
+						String signal2 = currentRule.getSinal2();
+						int limit2 = Integer.parseInt(currentRule.getLimit2());
+						if (method1.equals("LOC_method")) {
+							evaluateLocMethod(signal1, signal2, limit1, limit2, operator);
+						}
+						if (method1.equals("WMC_class") && method2.equals("NOM_class")
+								&& !currentRule.getMethod3().contains("a")) {
+							evaluateGodClassWithWMC_NOM(signal1, signal2, limit1, limit2, operator);
+						}
+
+						if (method1.equals("WMC_class") && method2.equals("LOC_class")
+								&& !currentRule.getMethod3().contains("a")) {
+							evaluateGodClassWithWMC_LOC(signal1, signal2, limit1, limit2, operator);
+						}
+
+						if (method1.equals("NOM_class") && method2.equals("LOC_class")
+								&& !currentRule.getMethod3().contains("a")) {
+							evaluateGodClassWithNOM_LOC(signal1, signal2, limit1, limit2, operator);
+						}
+
+						if (method1.equals("WMC_class") && currentRule.getMethod3().contains("a")) {
+							String operator2 = currentRule.getOperator2();
+							String signal3 = currentRule.getSinal3();
+							int limit3 = Integer.parseInt(currentRule.getLimit3());
+							evaluateGodClassWithWMC_NOM_LOC(signal1, signal2, signal3, limit1, limit2, limit3, operator,
+									operator2);
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
+					}
+
 				}
-				
-			}
 			}
 
 		});
 
-		Button carregarhist = new Button(composite, SWT.NONE);
-		carregarhist.addSelectionListener(new SelectionAdapter() {
+		Button loadhistoric = new Button(composite, SWT.NONE);
+		loadhistoric.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				regras.removeAll();
+				listrulestoshow.removeAll();
 				list.clear();
 				System.out.println(list.size());
 				JFileChooser pathpasta = new JFileChooser(".txt");
@@ -519,36 +502,36 @@ public class mainGUI extends Shell {
 
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 
-					historico = pathpasta.getSelectedFile();
+					history = pathpasta.getSelectedFile();
 
 				}
-				if(historico == null) {
-				}else {
-					if (historico.getPath().endsWith(".txt")) {
+				if (history == null) {
+				} else {
+					if (history.getPath().endsWith(".txt")) {
 						try {
-						FileReader reader = new FileReader(new File(historico.getPath()));
-						BufferedReader bufferedReader = new BufferedReader(reader);
-						String line;
-						while ((line = bufferedReader.readLine()) != null) {
-							System.out.println(line);
-							String[] rules = line.split(" ");
-							for (int i = 0; i < rules.length; i++) {
-								System.out.println(rules[i]);
-							}
-							if (rules.length > 9) {
-								Rules x = new Rules(rules[0], rules[1], rules[2], rules[3], rules[4], rules[5],
-										rules[6], rules[7], rules[8], rules[9], rules[10]);
-								list.add(x);
-								regras.add(line);
-							} else {
-								Rules x = new Rules(rules[0], rules[1], rules[2], rules[3], rules[4], rules[5],
-										rules[6], "", "", "", "");
-								list.add(x);
-								regras.add(line);
-							}
+							FileReader reader = new FileReader(new File(history.getPath()));
+							BufferedReader bufferedReader = new BufferedReader(reader);
+							String line;
+							while ((line = bufferedReader.readLine()) != null) {
+								System.out.println(line);
+								String[] rules = line.split(" ");
+								for (int i = 0; i < rules.length; i++) {
+									System.out.println(rules[i]);
+								}
+								if (rules.length > 9) {
+									Rule x = new Rule(rules[0], rules[1], rules[2], rules[3], rules[4], rules[5],
+											rules[6], rules[7], rules[8], rules[9], rules[10]);
+									list.add(x);
+									listrulestoshow.add(line);
+								} else {
+									Rule x = new Rule(rules[0], rules[1], rules[2], rules[3], rules[4], rules[5],
+											rules[6], "", "", "", "");
+									list.add(x);
+									listrulestoshow.add(line);
+								}
 
-						}
-						reader.close();
+							}
+							reader.close();
 						} catch (FileNotFoundException e1) {
 
 							e1.printStackTrace();
@@ -564,86 +547,85 @@ public class mainGUI extends Shell {
 
 		});
 
-		carregarhist.setBounds(10, 422, 212, 30);
-		carregarhist.setText("Carregar histórico de regras");
+		loadhistoric.setBounds(10, 422, 212, 30);
+		loadhistoric.setText("Carregar histórico de regras");
 
 		codesmells.setBounds(451, 422, 167, 30);
 		codesmells.setText("Deteção de codesmells");
 
-		Label lblRegrasGuardadas = new Label(composite, SWT.NONE);
-		lblRegrasGuardadas.setBounds(10, 160, 155, 20);
-		lblRegrasGuardadas.setText("Regras guardadas:");
+		Label lblrulessaved = new Label(composite, SWT.NONE);
+		lblrulessaved.setBounds(10, 160, 155, 20);
+		lblrulessaved.setText("Regras guardadas:");
 
-		lblDefinaUmaRegra = new Label(composite, SWT.NONE);
-		lblDefinaUmaRegra.setText("Defina/altere uma regra para a deteção de codesmells: ");
-		lblDefinaUmaRegra.setBounds(10, 32, 397, 20);
+		lbldefinerule = new Label(composite, SWT.NONE);
+		lbldefinerule.setText("Defina/altere uma regra para a deteção de codesmells: ");
+		lbldefinerule.setBounds(10, 32, 397, 20);
 
-		guardarhistorico = new Button(composite, SWT.NONE);
-		guardarhistorico.addSelectionListener(new SelectionAdapter() {
+		savehistory = new Button(composite, SWT.NONE);
+		savehistory.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!list.isEmpty()) {
-					SaveHistoryGUI hist = new SaveHistoryGUI(display, regras, list);
+					SaveHistoryGUI hist = new SaveHistoryGUI(display, listrulestoshow, list);
 					hist.loadGUI();
 				} else {
 					JOptionPane.showMessageDialog(null, "Lista de regras vazia");
 				}
 			}
 		});
-		guardarhistorico.setBounds(227, 422, 214, 30);
-		guardarhistorico.setText("Guardar histórico");
+		savehistory.setBounds(227, 422, 214, 30);
+		savehistory.setText("Guardar histórico");
 
-		sinal = new Combo(composite, SWT.READ_ONLY);
-		sinal.setBounds(196, 58, 80, 28);
-		sinal.add(">");
-		sinal.add("<");
+		signal = new Combo(composite, SWT.READ_ONLY);
+		signal.setBounds(196, 58, 80, 28);
+		signal.add(">");
+		signal.add("<");
 
-		operador2 = new Combo(composite, SWT.READ_ONLY);
-		operador2.setBounds(440, 92, 117, 28);
-		operador2.setText("");
-		operador2.add("OR");
-		operador2.add("AND");
-		operador2.add(" ");
-		operador2.setVisible(false);
+		operator2 = new Combo(composite, SWT.READ_ONLY);
+		operator2.setBounds(440, 92, 117, 28);
+		operator2.setText("");
+		operator2.add("OR");
+		operator2.add("AND");
+		operator2.add(" ");
+		operator2.setVisible(false);
 
-		sinal3 = new Combo(composite, SWT.READ_ONLY);
-		sinal3.setBounds(196, 126, 80, 28);
-		sinal3.add(">");
-		sinal3.add("<");
-		sinal3.add(" ");
-		sinal3.setVisible(false);
+		signal3 = new Combo(composite, SWT.READ_ONLY);
+		signal3.setBounds(196, 126, 80, 28);
+		signal3.add(">");
+		signal3.add("<");
+		signal3.add(" ");
+		signal3.setVisible(false);
 
-		limite_3 = new Text(composite, SWT.BORDER);
-		limite_3.setText("Limite");
-		limite_3.setBounds(313, 126, 94, 28);
-		limite_3.setVisible(false);
+		limit_3 = new Text(composite, SWT.BORDER);
+		limit_3.setText("Limite");
+		limit_3.setBounds(313, 126, 94, 28);
+		limit_3.setVisible(false);
 
 		sinal2 = new Combo(composite, SWT.READ_ONLY);
 		sinal2.setBounds(195, 92, 81, 28);
 		sinal2.add(">");
 		sinal2.add("<");
-		
 
-		Label lblProjetoJavaescolha = new Label(this, SWT.NONE);
-		lblProjetoJavaescolha.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
-		lblProjetoJavaescolha.setBounds(10, 9, 528, 20);
-		lblProjetoJavaescolha.setText("Escolha o projeto java que pretende analisar:");
+		Label lblchoosejavaproject = new Label(this, SWT.NONE);
+		lblchoosejavaproject.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
+		lblchoosejavaproject.setBounds(10, 9, 528, 20);
+		lblchoosejavaproject.setText("Escolha o projeto java que pretende analisar:");
 
 		Menu menu = new Menu(this, SWT.BAR);
 		setMenuBar(menu);
 
-		MenuItem mntmAjuda = new MenuItem(menu, SWT.CASCADE);
-		mntmAjuda.setText("Ajuda");
+		MenuItem mntmHelp = new MenuItem(menu, SWT.CASCADE);
+		mntmHelp.setText("Ajuda");
 
-		Menu menu_1 = new Menu(mntmAjuda);
-		mntmAjuda.setMenu(menu_1);
+		Menu menu_1 = new Menu(mntmHelp);
+		mntmHelp.setMenu(menu_1);
 
 		MenuItem mntmUtilizaoDaInterface = new MenuItem(menu_1, SWT.NONE);
 		mntmUtilizaoDaInterface.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				HelpInterface hi = new HelpInterface(display);
-				hi.loadGUI();
+				HelpInterface helpinterface = new HelpInterface(display);
+				helpinterface.loadGUI();
 
 			}
 		});
@@ -659,26 +641,25 @@ public class mainGUI extends Shell {
 			}
 		});
 		mntmInformaoSobreMtricas.setText("Informação sobre métricas");
-		
-		Button btnVerFicheiro = new Button(this, SWT.NONE);
-		btnVerFicheiro.addSelectionListener(new SelectionAdapter() {
+
+		Button btnViewFile = new Button(this, SWT.NONE);
+		btnViewFile.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(actualmetrics!=null) {
-					ShowExcelGUI showGUI = new ShowExcelGUI(display,"Visualizar ficheiro",actualmetrics);
+				if (actualmetrics != null) {
+					ShowExcelGUI showGUI = new ShowExcelGUI(display, "Visualizar ficheiro", actualmetrics);
 					showGUI.loadGUI();
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(null, "Escolha um projeto e extraia métricas");
 				}
 			}
 		});
-		btnVerFicheiro.setBounds(10, 278, 109, 30);
-		btnVerFicheiro.setText("Ver ficheiro");
-		
+		btnViewFile.setBounds(10, 278, 109, 30);
+		btnViewFile.setText("Ver ficheiro");
+
 		folderToExtract = new Text(this, SWT.BORDER | SWT.READ_ONLY);
 		folderToExtract.setBounds(10, 35, 345, 26);
-		
-		
+
 		Button choosePathToExtract = new Button(this, SWT.NONE);
 		choosePathToExtract.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -689,37 +670,35 @@ public class mainGUI extends Shell {
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
 
 					folderextraction = pathpasta.getSelectedFile();
-					
+
 				}
-				if(folderextraction != null) {
-				folderToExtract.setText(folderextraction.getPath());
-				pathToExtract = folderextraction.getPath();
-				
+				if (folderextraction != null) {
+					folderToExtract.setText(folderextraction.getPath());
+					pathToExtract = folderextraction.getPath();
+
 				}
-		
+
 			}
 		});
 		choosePathToExtract.setBounds(372, 35, 166, 28);
 		choosePathToExtract.setText("Selecionar destino");
 		createContents();
 	}
-	
-	
 
 	private boolean isValid(String text) {
 		System.out.println("text: " + text);
 		for (int i = 0; i < text.length(); i++) {
 			System.out.println(text.charAt(i));
 			if (text.charAt(i) == ZERO || text.charAt(i) == ONE || text.charAt(i) == TWO || text.charAt(i) == THREE
-					|| text.charAt(i) == FOUR || text.charAt(i) == FIVE || text.charAt(i) == SIX || text.charAt(i) == SEVEN
-					|| text.charAt(i) == EIGHT || text.charAt(i) == NINE) {
+					|| text.charAt(i) == FOUR || text.charAt(i) == FIVE || text.charAt(i) == SIX
+					|| text.charAt(i) == SEVEN || text.charAt(i) == EIGHT || text.charAt(i) == NINE) {
 				System.out.println("true");
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	private void fillSecondaryGUI(ArrayList<HasCodeSmell> toFill, SecondaryGUI results) {
 		for (HasCodeSmell hascodesmell : toFill) {
 //			System.out.println("ID: " + hascodesmell.getMethod_ID());
@@ -730,65 +709,91 @@ public class mainGUI extends Shell {
 	private void evaluateLocMethod(String signal1, String signal2, int limit1, int limit2, String operator) {
 		CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
 		ArrayList<HasCodeSmell> hcsList = new ArrayList<>();
-		if (signal1.equals(">") && signal2.equals(">")) hcsList = detector.detectLongMethodBiggerBigger();
-		else if(signal1.equals(">") && signal2.equals("<")) hcsList = detector.detectLongMethodBiggerSmaller();
-		else if(signal1.equals("<") && signal2.equals(">")) hcsList = detector.detectLongMethodBiggerSmaller();
-		else if(signal1.equals("<") && signal2.equals("<")) hcsList = detector.detectLongMethodSmallerSmaller();
+		if (signal1.equals(">") && signal2.equals(">"))
+			hcsList = detector.detectLongMethodBiggerBigger();
+		else if (signal1.equals(">") && signal2.equals("<"))
+			hcsList = detector.detectLongMethodBiggerSmaller();
+		else if (signal1.equals("<") && signal2.equals(">"))
+			hcsList = detector.detectLongMethodBiggerSmaller();
+		else if (signal1.equals("<") && signal2.equals("<"))
+			hcsList = detector.detectLongMethodSmallerSmaller();
 		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsLong Method Detection", hcsList);
-		fillSecondaryGUI(hcsList,codesmells);
-		codesmells.loadGUI();	
+		fillSecondaryGUI(hcsList, codesmells);
+		codesmells.loadGUI();
 	}
-	
+
 	private void evaluateGodClassWithWMC_NOM(String signal1, String signal2, int limit1, int limit2, String operator) {
 		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
 		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassBiggerBiggerWMC_NOM();
-		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassSmallerSmallerWMC_NOM();
-		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassBiggerSmallerWMC_NOM();
-		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassSmallerBiggerWMC_NOM();
+		if (signal1.equals(">") && signal2.equals(">"))
+			hcsList2 = detector2.detectGodClassBiggerBiggerWMC_NOM();
+		else if (signal1.equals("<") && signal2.equals("<"))
+			hcsList2 = detector2.detectGodClassSmallerSmallerWMC_NOM();
+		else if (signal1.equals(">") && signal2.equals("<"))
+			hcsList2 = detector2.detectGodClassBiggerSmallerWMC_NOM();
+		else if (signal1.equals("<") && signal2.equals(">"))
+			hcsList2 = detector2.detectGodClassSmallerBiggerWMC_NOM();
 		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2,codesmells2);
+		fillSecondaryGUI(hcsList2, codesmells2);
 		codesmells2.loadGUI();
 	}
-	
+
 	private void evaluateGodClassWithWMC_LOC(String signal1, String signal2, int limit1, int limit2, String operator) {
 		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
 		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassBiggerBiggerWMC_LOC();
-		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassSmallerSmallerWMC_LOC();
-		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassBiggerSmallerWMC_LOC();
-		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassSmallerBiggerWMC_LOC();
+		if (signal1.equals(">") && signal2.equals(">"))
+			hcsList2 = detector2.detectGodClassBiggerBiggerWMC_LOC();
+		else if (signal1.equals("<") && signal2.equals("<"))
+			hcsList2 = detector2.detectGodClassSmallerSmallerWMC_LOC();
+		else if (signal1.equals(">") && signal2.equals("<"))
+			hcsList2 = detector2.detectGodClassBiggerSmallerWMC_LOC();
+		else if (signal1.equals("<") && signal2.equals(">"))
+			hcsList2 = detector2.detectGodClassSmallerBiggerWMC_LOC();
 		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2,codesmells2);
+		fillSecondaryGUI(hcsList2, codesmells2);
 		codesmells2.loadGUI();
 	}
-	
+
 	private void evaluateGodClassWithNOM_LOC(String signal1, String signal2, int limit1, int limit2, String operator) {
 		ArrayList<HasCodeSmell> hcsList2 = new ArrayList<>();
 		CodeSmellsDetector detector2 = new CodeSmellsDetector(limit1, limit2, operator, actualmetrics);
-		if (signal1.equals(">") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassBiggerBiggerNOM_LOC();
-		else if (signal1.equals("<") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassSmallerSmallerNOM_LOC();
-		else if (signal1.equals(">") && signal2.equals("<") ) hcsList2 = detector2.detectGodClassBiggerSmallerNOM_LOC();
-		else if (signal1.equals("<") && signal2.equals(">") ) hcsList2 = detector2.detectGodClassSmallerBiggerNOM_LOC();
+		if (signal1.equals(">") && signal2.equals(">"))
+			hcsList2 = detector2.detectGodClassBiggerBiggerNOM_LOC();
+		else if (signal1.equals("<") && signal2.equals("<"))
+			hcsList2 = detector2.detectGodClassSmallerSmallerNOM_LOC();
+		else if (signal1.equals(">") && signal2.equals("<"))
+			hcsList2 = detector2.detectGodClassBiggerSmallerNOM_LOC();
+		else if (signal1.equals("<") && signal2.equals(">"))
+			hcsList2 = detector2.detectGodClassSmallerBiggerNOM_LOC();
 		SecondaryGUI codesmells2 = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcsList2);
-		fillSecondaryGUI(hcsList2,codesmells2);
+		fillSecondaryGUI(hcsList2, codesmells2);
 		codesmells2.loadGUI();
 	}
-	
-	private void evaluateGodClassWithWMC_NOM_LOC(String signal1,String signal2,String signal3,int limit1,int limit2,int limit3,String operator,String operator2) {
+
+	private void evaluateGodClassWithWMC_NOM_LOC(String signal1, String signal2, String signal3, int limit1, int limit2,
+			int limit3, String operator, String operator2) {
 		ArrayList<HasCodeSmell> hcslist = new ArrayList<>();
-		CodeSmellsDetector detector = new CodeSmellsDetector(limit1,limit2,limit3,operator,operator2,actualmetrics);
-			if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerBiggerBigger();
-			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<")) hcslist = detector.detectGodClassSmallerSmallerSmaller();
-			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerSmallerSmaller();
-			else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassBiggerSmallerBigger();
-			else if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<")) hcslist = detector.detectGodClassBiggerBiggerSmaller();
-			else if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">")) hcslist = detector.detectGodClassSmallerSmallerBigger();
-			else if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">")) hcslist = detector.detectGodClassSmallerBiggerBigger();
-			else if (signal1.equals("<") && signal2.equals(">") && signal3.equals("<")) hcslist = detector.detectGodClassSmallerBiggerSmaller();
-			SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
-			fillSecondaryGUI(hcslist,codesmells);
-			codesmells.loadGUI();
+		CodeSmellsDetector detector = new CodeSmellsDetector(limit1, limit2, limit3, operator, operator2,
+				actualmetrics);
+		if (signal1.equals(">") && signal2.equals(">") && signal3.equals(">"))
+			hcslist = detector.detectGodClassBiggerBiggerBigger();
+		else if (signal1.equals("<") && signal2.equals("<") && signal3.equals("<"))
+			hcslist = detector.detectGodClassSmallerSmallerSmaller();
+		else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">"))
+			hcslist = detector.detectGodClassBiggerSmallerSmaller();
+		else if (signal1.equals(">") && signal2.equals("<") && signal3.equals(">"))
+			hcslist = detector.detectGodClassBiggerSmallerBigger();
+		else if (signal1.equals(">") && signal2.equals(">") && signal3.equals("<"))
+			hcslist = detector.detectGodClassBiggerBiggerSmaller();
+		else if (signal1.equals("<") && signal2.equals("<") && signal3.equals(">"))
+			hcslist = detector.detectGodClassSmallerSmallerBigger();
+		else if (signal1.equals("<") && signal2.equals(">") && signal3.equals(">"))
+			hcslist = detector.detectGodClassSmallerBiggerBigger();
+		else if (signal1.equals("<") && signal2.equals(">") && signal3.equals("<"))
+			hcslist = detector.detectGodClassSmallerBiggerSmaller();
+		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), "IsGod Class Detection", hcslist);
+		fillSecondaryGUI(hcslist, codesmells);
+		codesmells.loadGUI();
 	}
 
 	/**
