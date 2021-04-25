@@ -44,6 +44,7 @@ public class HelpInterface extends Shell {
 		lblHistory.setBounds(10, 291, 870, 113);
 		lblHistory.setText("5-Após a definição das regras desejadas, tem a possibilidade de as guardar num histórico não volátil. Para tal, basta clicar no botão 'Guardar histórico', da qual resultará a abertura de uma nova interface. Nesta nova interface, terá duas possibilidades: Se já tiver um ficheiro histórico criado, basta selecionar o mesmo através do botão 'Selecionar ficheiro'. Caso pretenda criar um ficheiro novo, basta preencher os campos relativos ao nome do ficheiro e à localização destino do mesmo. Por fim, basta pressionar o botão 'Criar ficheiro histórico'.");
 		
+		
 		//INSTRUÇÃO 6-Deteção de codesmells
 		Label lblCodesmellsDetect = new Label(this, SWT.BORDER | SWT.WRAP);
 		lblCodesmellsDetect.setBounds(10, 410, 870, 91);
