@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class CodeSmellsDetector {
 
-	private String operator, operator2,lastclassview;
+	private String operator, operator2;
+	private MethodMetrics lastMethod;
 	private ArrayList<MethodMetrics> results;
 	private ArrayList<HasCodeSmell> readyToShow = new ArrayList<HasCodeSmell>();
 	private ArrayList<HasCodeSmell> notReady = new ArrayList<HasCodeSmell>();
@@ -20,7 +21,7 @@ public class CodeSmellsDetector {
 		int rule2_threshold = Integer.parseInt(ruleReceived.getLimit2());
 		this.operator = ruleReceived.getOperator();
 		this.results = results;
-		this.lastclassview = results.get(ARRAY_FIRST_ELEMENT_INDEX).getClasse();
+		this.lastMethod = results.get(ARRAY_FIRST_ELEMENT_INDEX);
 		if(ruleReceived.getOperator2() == "") 
 			this.ruleCombo = new CheckRuleCombinations(rule1_threshold,rule2_threshold);
 		else {
@@ -32,7 +33,7 @@ public class CodeSmellsDetector {
 	
 	// Cria e adiciona um objeto HasCodeSmell à lista de métodos ainda não prontos para serem mostrados
 	private void createAndAddNotReady(String detection,MethodMetrics methodWithMetrics) {
-		HasCodeSmell codesmell = new HasCodeSmell(detection,null,methodWithMetrics);
+		HasCodeSmell codesmell = new HasCodeSmell(detection,null,methodWithMetrics,true);
 		notReady.add(codesmell);
 		
 	}
@@ -47,7 +48,7 @@ public class CodeSmellsDetector {
 			// Se não foi detatado code smell cria-se um objeto HasCodeSmell mas com deteção NEGATIVE_METHOD
 			createAndAddNotReady(NEGATIVE_METHOD,methodWithMetrics);
 		}
-		lastclassview = lastVerification(methodWithMetrics);
+		lastMethod = lastVerification(methodWithMetrics);
 		this.hasDetection = false;
 	}
 
@@ -57,38 +58,38 @@ public class CodeSmellsDetector {
 	}
 	
 	private void createAndAdd(String detection,MethodMetrics methodWithMetrics) {
-		HasCodeSmell codesmell = new HasCodeSmell(detection,null,methodWithMetrics);
+		HasCodeSmell codesmell = new HasCodeSmell(detection,null,methodWithMetrics,false);
 		readyToShow.add(codesmell);
 		// Adicionar objeto HasCodeSmell com a qualidade de deteção já determinada a um array que compõe todos os resultados
 	}
 
 	// Caso a classe tenha se alterado vai se verificar se a classe anterior tinha algum método com code smells
-	private String verifyLastClass(MethodMetrics metric) {
-		if(!lastclassview.equals(metric.getClasse())) {
+	private MethodMetrics verifyLastClass(MethodMetrics metric) {
+		if(!lastMethod.getClasse().equals(metric.getClasse())) {
 			// se o nome da classe estiver presente na lista classWithSmell então a classe tem um método com code smells
-			if(classWithSmell.indexOf(lastclassview) != -1 ) {
-				createAndAdd(POSITIVE_CLASS,metric);
+			if(classWithSmell.indexOf(lastMethod.getClasse()) != -1 ) {
+				createAndAdd(POSITIVE_CLASS,lastMethod);
 			}else {
-				createAndAdd(NEGATIVE_CLASS,metric);
+				createAndAdd(NEGATIVE_CLASS,lastMethod);
 			}
 			//muda o nome da classe atual
-			lastclassview = metric.getClasse();
+			lastMethod = metric;
 			// Adiciona os métodos que não estavam prontos à lista de métodos prontos
 			readyToShow.addAll(notReady);
 			// Remove todos os métodos que foram adicionados à lista de métodos prontos
 			notReady.removeAll(notReady);
 		}
-		return lastclassview;
+		return lastMethod;
 	}
 
 	// Para o caso da última classe da lista faz-se uma verificação parecida para ver se a classe tem code smells
-	private String lastVerification(MethodMetrics metric) {
+	private MethodMetrics lastVerification(MethodMetrics metric) {
 		if(results.indexOf(metric) == results.size()-1) {
 			checkClassSmell(metric);
-			lastclassview = metric.getClasse();
+			lastMethod = metric;
 			notReady.removeAll(notReady);
 		}
-		return lastclassview;
+		return lastMethod;
 	}
 
 	private void checkClassSmell(MethodMetrics metric) {
@@ -104,7 +105,7 @@ public class CodeSmellsDetector {
 	// das métricas com um sinal de maior.
 	public ArrayList<HasCodeSmell> detectLongMethodGreaterGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				// Caso em que o perador é AND
 				if (ruleCombo.isLongGGAnd(methodWithMetrics)) hasDetection = true;
@@ -124,7 +125,7 @@ public class CodeSmellsDetector {
 	// das métricas com um sinal de maior para a primeira métrica e um de menor para a segunda. 
 	public ArrayList<HasCodeSmell> detectLongMethodGreaterLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				// Caso em que o perador é AND
 				if (ruleCombo.isLongGLAnd(methodWithMetrics)) hasDetection = true;
@@ -141,7 +142,7 @@ public class CodeSmellsDetector {
 	
 	public ArrayList<HasCodeSmell> detectLongMethodSmallerBigger() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é AND
 				if (ruleCombo.isLongLesserGreaterAnd(methodWithMetrics)) hasDetection = true;
@@ -161,7 +162,7 @@ public class CodeSmellsDetector {
 	// das métricas com um sinal de menor para a primeira métrica e um de maior para a segunda. 
 	public ArrayList<HasCodeSmell> detectLongMethodLesserLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é AND
 				if (ruleCombo.isLongLesserLesserAnd(methodWithMetrics)) hasDetection = true;
@@ -181,7 +182,7 @@ public class CodeSmellsDetector {
 	// as métricas WMC_Class e NOM_Class, e para esta deteção define os limites com o sinal de maior para ambas.
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterWMC_NOM() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodGreaterGreaterNOM_And(methodWithMetrics)) hasDetection = true;
@@ -202,7 +203,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica e um de menor para a segunda. 
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserWMC_NOM() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				if (ruleCombo.isGodGreaterLesserWMC_And(methodWithMetrics)) hasDetection = true;
 			}else  {
@@ -221,7 +222,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica e um de menor para a segunda.
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserWMC_NOM() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				if (ruleCombo.isGodLesserLesserNOM_And(methodWithMetrics)) hasDetection = true;
 			}else {
@@ -240,7 +241,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica e um de maior para a segunda. 
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterWMC_NOM() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// 	Caso em que o operador é AND
 				if (ruleCombo.isGodLesserGreaterNOM_And(methodWithMetrics)) hasDetection = true;
@@ -261,7 +262,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica e um de maior para a segunda.
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é ANDA
 				if (ruleCombo.isGodGreaterGreaterLOC_And(methodWithMetrics)) hasDetection = true;
@@ -282,7 +283,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica e um de menor para a segunda. 
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodGreaterLesserLOC_And(methodWithMetrics)) hasDetection = true;
@@ -303,7 +304,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica e um de menor para a segunda. 
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodLesserLesserLOC_And(methodWithMetrics)) hasDetection = true;
@@ -324,7 +325,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica e um de maior para a segunda. 
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodLesserGreaterLOC_And(methodWithMetrics)) hasDetection = true;
@@ -344,7 +345,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica e um de maior para a segunda.
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND")) {
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodGreaterGreaterNOMLOC_And(methodWithMetrics)) hasDetection = true;
@@ -364,7 +365,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica e um de menor para a segunda. 
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND"))
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodGreaterLesserNOMLOC_And(methodWithMetrics)) hasDetection = true;
@@ -385,7 +386,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica e um de maior para a segunda.
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND"))
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodLesserGreaterNOMLOC_And(methodWithMetrics)) hasDetection = true;
@@ -407,7 +408,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica e um de menor para a segunda. 
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals("AND"))
 				// Caso em que o operador é AND
 				if (ruleCombo.isGodLesserLesserNOMLOC_And(methodWithMetrics)) hasDetection = true;
@@ -427,7 +428,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) 
 					if (ruleCombo.isGodGreaterGreaterGreater_AndAnd(methodWithMetrics)) hasDetection = true;
@@ -450,7 +451,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica,um de menor para a segunda e um de menor para a teceira.
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) 
 					if (ruleCombo.isGodLesserLesserLesser_AndAnd(methodWithMetrics)) hasDetection = true;
@@ -473,7 +474,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica,um de menor para a segunda e um de menor para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) 
 					if (ruleCombo.isGodGreaterLesserLesser_AndAnd(methodWithMetrics)) hasDetection = true;
@@ -497,7 +498,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica,um de menor para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND"))
 					if (ruleCombo.isGodGreaterLesserGreater_AndAnd(methodWithMetrics)) hasDetection = true;
@@ -520,7 +521,7 @@ public class CodeSmellsDetector {
 	// com um sinal de maior para a primeira métrica,um de maior para a segunda e um de menor para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) 
 					if (ruleCombo.isGodGreaterGreaterLesser_AndAnd(methodWithMetrics)) hasDetection = true;
@@ -543,7 +544,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND"))
 					if (ruleCombo.isGodLesserLesserGreater_AndAnd(methodWithMetrics)) hasDetection = true;
@@ -565,7 +566,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) 
 					if (ruleCombo.isGodLesserGreaterGreater_AndAnd(methodWithMetrics)) hasDetection = true;
@@ -587,7 +588,7 @@ public class CodeSmellsDetector {
 	// com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
-			lastclassview = verifyLastClass(methodWithMetrics);
+			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals("AND")) {
 				if(operator2.equals("AND")) 
 					if (ruleCombo.isGodLesserGreaterLesser_AndAnd(methodWithMetrics)) hasDetection = true;

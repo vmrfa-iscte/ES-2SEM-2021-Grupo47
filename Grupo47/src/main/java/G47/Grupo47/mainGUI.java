@@ -300,15 +300,53 @@ public class mainGUI extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				i = listrulestoshow.getSelectionIndex();
 				currentRule = list.get(i);
-				metric1.setText(currentRule.getMethod1());
+				for (int l = 0; l < metric1.getItemCount(); l++) {
+					if (metric1.getItem(l).contentEquals(currentRule.getMethod1())) {
+						metric1.select(l);
+					}
+				}
+				if (metric1.getItem(metric1.getSelectionIndex()).equals("LOC_method")) {
+					metric2.removeAll();
+					metric2.add("CYCLO_method");
+				} else if (metric1.getItem(metric1.getSelectionIndex()).equals("WMC_class")) {
+					metric2.removeAll();
+					metric2.add("NOM_class");
+					metric2.add("LOC_class");
+				} else if (metric1.getItem(metric1.getSelectionIndex()).equals("NOM_class")) {
+					metric2.removeAll();
+					metric2.add("LOC_class");
+				}
+				for (int k = 0; k < metric2.getItemCount(); k++) {
+//					System.out.println(metric2.getItem(k) + "kkkkk");
+					if (metric2.getItem(k).contentEquals(currentRule.getMethod2())) {
+						metric2.select(k);
+					}
+				}
+				if (!currentRule.getLimit3().isEmpty()) {
+
+					metric3.setVisible(true);
+					limit_3.setVisible(true);
+					operator2.setVisible(true);
+					signal3.setVisible(true);
+					for (int z = 0; z < metric3.getItemCount(); z++) {
+						if (metric3.getItem(z).contentEquals(currentRule.getMethod3())) {
+							metric3.select(z);
+						}
+					}
+				} else {
+					operator2.setVisible(false);
+					signal3.setVisible(false);
+					metric3.setVisible(false);
+					limit_3.setVisible(false);
+				}
+//				metric1.setText(currentRule.getMethod1());
 				signal.setText(currentRule.getSinal1());
 				limit_1.setText(currentRule.getLimit1());
 				operador.setText(currentRule.getOperator());
-				metric2.setText(currentRule.getMethod2());
+//				metric2.setText(currentRule.getMethod2());
 				sinal2.setText(currentRule.getSinal2());
 				limit_2.setText(currentRule.getLimit2());
 				operator2.setText(currentRule.getOperator2());
-				metric3.setText(currentRule.getMethod3());
 				signal3.setText(currentRule.getSinal3());
 				limit_3.setText(currentRule.getLimit3());
 			}
@@ -399,6 +437,10 @@ public class mainGUI extends Shell {
 									&& !(limit_3.getText().isEmpty() || limit_3.getText().equals("Limite"))
 									&& !signal3.getText().isEmpty())) {
 						if (listrulestoshow.isSelected(i)) {
+//							limit_3.setSelection(1);
+							metric2.setText("TESTEEEE");
+							metric2.deselectAll();
+							metric2.select(0);
 							System.out.println(list.get(i).toString());
 							list.get(i).setLimit1(limit_1.getText());
 							list.get(i).setLimit2(limit_2.getText());

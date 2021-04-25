@@ -7,16 +7,28 @@ public class HasCodeSmell {
 	private String package_name;
 	private String class_name;
 	private String isPositiveOrNegative;
+	private boolean isMethod;
 	
-	public HasCodeSmell(String hasCodeSmell, String PositiveOrNegative,MethodMetrics method) {
-		this.method_name = method.getNome_metodo();
+	public HasCodeSmell(String hasCodeSmell, String PositiveOrNegative,MethodMetrics method,boolean isMethod) {
+		this.isMethod = isMethod;
+		if(isMethod) {
+			this.method_name = method.getNome_metodo();
+			this.method_id = String.valueOf(method.getMethod_ID());
+		}
 		this.hasCodeSmell = hasCodeSmell;
-		this.method_id = String.valueOf(method.getMethod_ID());
 		this.package_name = method.getPacote();
 		this.class_name = method.getClasse();
 		this.isPositiveOrNegative = isPositiveOrNegative;
 	}
 	
+	public boolean isMethod() {
+		return isMethod;
+	}
+
+	public void setMethod(boolean isMethod) {
+		this.isMethod = isMethod;
+	}
+
 	public String getMethod_ID() {
 		return method_id;
 	}

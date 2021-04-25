@@ -258,9 +258,11 @@ public class SecondaryGUI extends Shell {
 	public void addCodeSmellsInfo(HasCodeSmell hcs,boolean withQuality) {
 		TableItem tableItem = new TableItem(table,SWT.NONE);
 		if(withQuality) {
-			tableItem.setText(new String[] {hcs.getMethod_ID(),hcs.getMethodName(),hcs.getHasCodeSmell(),hcs.getQuality()});
+			if(hcs.isMethod()) tableItem.setText(new String[] {hcs.getMethod_ID(),hcs.getMethodName(),hcs.getHasCodeSmell(),hcs.getQuality()});
+			else tableItem.setText(new String[] {hcs.getMethod_ID(),hcs.getClassName(),hcs.getHasCodeSmell(),hcs.getQuality()});
 		}else {
-		tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell(),""});
+			if(hcs.isMethod()) tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell(),""});
+			else  tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getClassName(), hcs.getHasCodeSmell(),""});
 		}
 
 	}

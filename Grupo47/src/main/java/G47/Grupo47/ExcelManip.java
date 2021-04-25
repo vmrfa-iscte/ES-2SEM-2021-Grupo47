@@ -124,7 +124,9 @@ public class ExcelManip {
 		String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
 		String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
 		String class_name = row.getCell(CLASS_COLUMN_INDEX).toString();
-		HasCodeSmell toadd = new HasCodeSmell(hasCodeSmell, null, null);
+		MethodIdentity method = new MethodIdentity(method_name,class_name,package_name,Integer.parseInt(methodID));
+		MethodMetrics methodWithMetrics = new MethodMetrics(method,null);
+		HasCodeSmell toadd = new HasCodeSmell(hasCodeSmell, null, methodWithMetrics,true);
 		return toadd;
 	}
 
