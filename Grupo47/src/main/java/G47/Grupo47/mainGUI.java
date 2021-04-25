@@ -79,7 +79,7 @@ public class mainGUI extends Shell {
 		setLayout(null);
 		createContents();
 	}
-	
+
 	private void addElements(Display display) {
 		foldername = new Text(this, SWT.BORDER | SWT.READ_ONLY);
 		foldername.setBounds(10, 67, 345, 26);
@@ -597,6 +597,23 @@ public class mainGUI extends Shell {
 		sinal2.add(">");
 		sinal2.add("<");
 
+		Button cleanHistoryList = new Button(composite, SWT.NONE);
+		cleanHistoryList.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println(listrulestoshow.getItemCount());
+
+				if (listrulestoshow.getItemCount() != 0) {
+					listrulestoshow.removeAll();
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Lista de regras já vazia");
+				}
+			}
+		});
+		cleanHistoryList.setBounds(449, 267, 140, 30);
+		cleanHistoryList.setText("Limpar lista");
+
 		Label lblchoosejavaproject = new Label(this, SWT.NONE);
 		lblchoosejavaproject.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
 		lblchoosejavaproject.setBounds(10, 9, 528, 20);
@@ -676,43 +693,43 @@ public class mainGUI extends Shell {
 	}
 
 	private boolean isValid(String text) {
-		for (int i = 0; i < text.length(); i++) 
-			if (isNumber(text.charAt(i))) return true;
+		for (int i = 0; i < text.length(); i++)
+			if (isNumber(text.charAt(i)))
+				return true;
 		return false;
 	}
-	
+
 	private boolean isNumber(char charAt) {
-		return charAt == '0' || charAt == '1' || charAt == '2' || charAt == '3'
-				|| charAt == '4' || charAt == '5' || charAt == '6'
-				|| charAt == '7' || charAt == '8' || charAt == '9';
+		return charAt == '0' || charAt == '1' || charAt == '2' || charAt == '3' || charAt == '4' || charAt == '5'
+				|| charAt == '6' || charAt == '7' || charAt == '8' || charAt == '9';
 	}
 
 	private void evaluateLocMethod(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionLocMethod(ruleReceived, actualmetrics);
-		createSecondaryGUI("IsLoc Method Class Detection",hasCodeSmellResult);
+		createSecondaryGUI("IsLoc Method Class Detection", hasCodeSmellResult);
 	}
 
 	private void evaluateGodClassWithWMC_NOM(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM(ruleReceived, actualmetrics);
-		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
+		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
 
 	private void evaluateGodClassWithWMC_LOC(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_LOC(ruleReceived, actualmetrics);
-		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
+		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
 
 	private void evaluateGodClassWithNOM_LOC(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionNOM_LOC(ruleReceived, actualmetrics);
-		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
+		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
 
 	private void evaluateGodClassWithWMC_NOM_LOC(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM_LOC(ruleReceived, actualmetrics);
-		createSecondaryGUI("IsGod Class Detection",hasCodeSmellResult);
+		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
-	
-	private void createSecondaryGUI(String name,ArrayList<HasCodeSmell> detectionResults) {
+
+	private void createSecondaryGUI(String name, ArrayList<HasCodeSmell> detectionResults) {
 		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), name, detectionResults);
 		codesmells.fillSecondaryGUI(detectionResults);
 		codesmells.loadGUI();
