@@ -3,7 +3,6 @@ package G47.Grupo47;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
