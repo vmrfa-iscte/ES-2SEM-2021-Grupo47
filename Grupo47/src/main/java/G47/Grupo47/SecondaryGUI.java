@@ -1,92 +1,61 @@
 package G47.Grupo47;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.event.WindowListener;
+
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.custom.TableCursor;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
-import javafx.stage.Stage;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-
-
-import org.jfree.chart.plot.PiePlot;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Composite;
 
 public class SecondaryGUI extends Shell {
 
-	private Table table;
-	private TableColumn classmethod,detecao;
+	private static final int IS_GOD_EXCEL_COLUMN = 7;
+	private static final int IS_LONG_EXCEL_COLUMN = 10;
+	private static final String ISGOD_CLASS_DETECTION = "IsGod Class Detection";
+	private static final String ISLONG_METHOD_DETECTION = "IsLong Method Detection";
+	private static final String IMAGE_LOCATION = "/G47/Grupo47/iscte_logo2.jpg";
+	private static final String HELP_MENU_TEXT = "Ajuda";
+	private static final String SELECT_FILE_BUTTON_TEXT = "Selecionar ficheiro";
+	private static final String QUALITY_COLUMN_TEXT = "Qualidade";
+	private static final String DETECTION_COLUMN_TEXT = "Deteção";
+	private static final String NAME_COLUMN_TEXT = "Classe/método";
+	private static final String ID_COLUMN_TEXT = "Method id";
+	private static final String EVALUATE_SMELL_BUTTON_TEXT = "Avaliar codesmell";
+	private FillTable fillTable;
+	private TableColumn nameColumn,detectionColumn;
 	private Display display;
-	private TableColumn tblclmnMethodId;
-	private Text text;
+	private TableColumn methodIDColumn;
+	private Text fileNametext;
 	private File selectedFile;
-	private ArrayList<HasCodeSmell> result;
-	private TableColumn tblclmnQualidade;
+	private TableColumn qualityColumn;
 	private HashMap<String,Integer> mapValues;
-	private Composite composite;
-	private Frame frame;
+	private ChartToShow chartToShow;
+	private Button evaluateButton;
+	private ArrayList<HasCodeSmell> result;
+	private String name;
+	private Table table;
+	private Button selectFileButton_1;
+	private FormData fd_table;
 
 
 	/**
@@ -99,136 +68,145 @@ public class SecondaryGUI extends Shell {
 	 * @param display
 	 */
 	public SecondaryGUI(Display display,String name,ArrayList<HasCodeSmell> result) {
-
 		super(display, SWT.SHELL_TRIM);
-		setImage(SWTResourceManager.getImage(SecondaryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
-		this.display = display;
+		this.chartToShow = new ChartToShow(result);
 		this.result = result;
+		this.display = display;
+		this.name = name;
+		setImage(SWTResourceManager.getImage(SecondaryGUI.class, IMAGE_LOCATION));
 		setLayout(new FormLayout());
-		
-		Button btnNewButton = new Button(this, SWT.NONE);
-		FormData fd_btnNewButton = new FormData();
-		fd_btnNewButton.right = new FormAttachment(0, 190);
-		fd_btnNewButton.top = new FormAttachment(0, 707);
-		fd_btnNewButton.left = new FormAttachment(0, 10);
-		btnNewButton.setLayoutData(fd_btnNewButton);
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-				ExcelManip aux = new ExcelManip(selectedFile);
-				ArrayList<HasCodeSmell> trueResults = new ArrayList<HasCodeSmell>(); 
-				if(name.equals("IsLong Method Detection")) {
-					try {
-						trueResults = aux.toComparables(10);
-						mapValues = setResults(trueResults);
-						table.removeAll();
-						for (HasCodeSmell a : result) {
-							addCodeSmellsInfo(a,true);
-						}
-						createPieChart(mapValues);
-						
-						
-						
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-				if(name.equals("IsGod Class Detection")) {
-					try {
-						trueResults = aux.toComparables(7);
-						mapValues = setResults(trueResults);
-						table.removeAll();
-						for (HasCodeSmell a : result) {
-
-							addCodeSmellsInfo(a,true);
-						}
-						createPieChart(mapValues);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-
-
-			}
-		});
-		btnNewButton.setText("Avaliar codesmell");
-
-		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION);
-		FormData fd_table = new FormData();
-		fd_table.bottom = new FormAttachment(0, 689);
+		addElements();
+		fillTable = new FillTable(table);
+		fillTable.fillSecondaryGUI(result,false);
+		createContents(name);
+	}
+	
+	
+	private void addElements() {
+		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		fd_table = new FormData();
 		fd_table.top = new FormAttachment(0, 10);
 		fd_table.left = new FormAttachment(0, 10);
-		table.setLayoutData(fd_table);
-		int[] valores = new int[3];
-		valores[0] = 1;
-		valores[1] = 2;
-		valores[2] = 3;
+		fd_table.right = new FormAttachment(100, 560);
+		
+		evaluateButton = new Button(this, SWT.NONE);
+		fd_table.bottom = new FormAttachment(evaluateButton, -18);
+		FormData fd_evaluateButton = new FormData();
+		evaluateButtonListener();
+		fd_evaluateButton.right = new FormAttachment(0, 190);
+		fd_evaluateButton.top = new FormAttachment(0, 707);
+		fd_evaluateButton.left = new FormAttachment(0, 10);
+		evaluateButton.setLayoutData(fd_evaluateButton);		
+		evaluateButton.setText(EVALUATE_SMELL_BUTTON_TEXT);
+
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 
-		tblclmnMethodId = new TableColumn(table, SWT.CENTER);
-		tblclmnMethodId.setWidth(100);
-		tblclmnMethodId.setText("Method id");
+		methodIDColumn = new TableColumn(table, SWT.CENTER);
+		methodIDColumn.setWidth(100);
+		methodIDColumn.setText(ID_COLUMN_TEXT);
 
-		classmethod = new TableColumn(table, SWT.CENTER);
-		classmethod.setWidth(260);
-		classmethod.setText("Classe/método");
+		nameColumn = new TableColumn(table, SWT.CENTER);
+		nameColumn.setWidth(312);
+		nameColumn.setText(NAME_COLUMN_TEXT);
 
-		detecao = new TableColumn(table, SWT.CENTER);
-		detecao.setWidth(147);
-		detecao.setText("Deteção");
+		detectionColumn = new TableColumn(table, SWT.CENTER);
+		detectionColumn.setWidth(147);
+		detectionColumn.setText(DETECTION_COLUMN_TEXT);
 		
-		tblclmnQualidade = new TableColumn(table, SWT.NONE);
-		tblclmnQualidade.setWidth(150);
-		tblclmnQualidade.setText("Qualidade");
+		qualityColumn = new TableColumn(table, SWT.NONE);
+		qualityColumn.setWidth(267);
+		qualityColumn.setText(QUALITY_COLUMN_TEXT);
 
-		text = new Text(this, SWT.BORDER);
-		FormData fd_text = new FormData();
-		fd_text.top = new FormAttachment(btnNewButton, 2, SWT.TOP);
-		fd_text.left = new FormAttachment(btnNewButton, 25);
-		text.setLayoutData(fd_text);
+		fileNametext = new Text(this, SWT.BORDER);
+		FormData fd_fileNametext = new FormData();
+		fd_fileNametext.top = new FormAttachment(evaluateButton, 2, SWT.TOP);
+		fd_fileNametext.left = new FormAttachment(evaluateButton, 25);
+		fileNametext.setLayoutData(fd_fileNametext);
 
-		Button excell = new Button(this, SWT.NONE);
-		fd_text.right = new FormAttachment(excell, -22);
-		fd_table.right = new FormAttachment(excell, 0, SWT.RIGHT);
-		FormData fd_excell = new FormData();
-		fd_excell.right = new FormAttachment(0, 669);
-		fd_excell.top = new FormAttachment(0, 707);
-		fd_excell.left = new FormAttachment(0, 512);
-		excell.setLayoutData(fd_excell);
-		excell.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JFileChooser pathpasta = new JFileChooser(".");
-				pathpasta.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int returnValue = pathpasta.showOpenDialog(null);
-
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
-
-					selectedFile = pathpasta.getSelectedFile();
-				}
-				text.setText(selectedFile.getPath());
-			}
-		});
-		excell.setText("Selecionar ficheiro");
+		selectFileButton_1 = new Button(this, SWT.NONE);
+		fd_fileNametext.right = new FormAttachment(selectFileButton_1, -22);
+		fd_table.right = new FormAttachment(selectFileButton_1, 0, SWT.RIGHT);
+		FormData fd_selectFileButton_1 = new FormData();
+		fd_selectFileButton_1.right = new FormAttachment(0, 669);
+		fd_selectFileButton_1.top = new FormAttachment(0, 707);
+		fd_selectFileButton_1.left = new FormAttachment(0, 512);
+		selectFileButton_1.setLayoutData(fd_selectFileButton_1);
+		selectFileButtonListener(selectFileButton_1);
+		selectFileButton_1.setText(SELECT_FILE_BUTTON_TEXT);
 		
-		Menu menu = new Menu(this, SWT.BAR);
-		setMenuBar(menu);
+		Menu helpMenu = new Menu(this, SWT.BAR);
+		setMenuBar(helpMenu);
 		
-		MenuItem mntmAjuda = new MenuItem(menu, SWT.NONE);
-		mntmAjuda.addSelectionListener(new SelectionAdapter() {
+		MenuItem helpMenuItem = new MenuItem(helpMenu, SWT.NONE);
+		helpMenuItemListener(helpMenuItem);
+		helpMenuItem.setText(HELP_MENU_TEXT);
+		table.setLayoutData(fd_table);
+		
+	}
+
+
+	private void helpMenuItemListener(MenuItem helpMenuItem) {
+		helpMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				HelpSecondaryGUI hsg = new HelpSecondaryGUI(Display.getDefault());
 				hsg.loadGUI();
 			}
 		});
-		mntmAjuda.setText("Ajuda");
-	
+	}
 
-		createContents(name);
+
+	private void selectFileButtonListener(Button selectFileButton) {
+		selectFileButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JFileChooser pathpasta = new JFileChooser(".");
+				pathpasta.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int returnValue = pathpasta.showOpenDialog(null);
+				if (returnValue == JFileChooser.APPROVE_OPTION) selectedFile = pathpasta.getSelectedFile();
+				fileNametext.setText(selectedFile.getPath());
+			}
+		});
+	}
+	
+	private void evaluateButtonListener() {
+		evaluateButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Entrei no listener!");
+				ExcelManip aux = new ExcelManip(selectedFile);
+				ArrayList<HasCodeSmell> trueResults = new ArrayList<HasCodeSmell>(); 
+				if(name.equals(ISLONG_METHOD_DETECTION)) {
+					try {
+						trueResults = aux.toComparables(IS_LONG_EXCEL_COLUMN);
+						ArrayList<HasCodeSmell> toFill = fillTable.calculateQuality(trueResults, result);
+						fillSecondaryGUI(toFill,true);
+						createPieChartWithResults(trueResults);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				if(name.equals(ISGOD_CLASS_DETECTION)) {
+					try {
+						trueResults = aux.toComparables(IS_GOD_EXCEL_COLUMN);
+						ArrayList<HasCodeSmell> toFill = fillTable.calculateQuality(trueResults, result);
+						fillSecondaryGUI(toFill,true);
+						createPieChartWithResults(trueResults);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+
+
+			}
+
+			private void createPieChartWithResults(ArrayList<HasCodeSmell> trueResults) {
+				mapValues = chartToShow.setResults(trueResults);
+				chartToShow.createPieChart(mapValues);
+			}
+		});
+		
 	}
 
 	public void loadGUI () {
@@ -251,106 +229,22 @@ public class SecondaryGUI extends Shell {
 	 */
 	protected void createContents(String name) {
 		setText(name);
-		setSize(697, 829);
+		setSize(905, 829);
 
 	}
-
-	public void addCodeSmellsInfo(HasCodeSmell hcs,boolean withQuality) {
-		TableItem tableItem = new TableItem(table,SWT.NONE);
-		if(withQuality) {
-			if(hcs.isMethod()) tableItem.setText(new String[] {hcs.getMethod_ID(),hcs.getMethodName(),hcs.getHasCodeSmell(),hcs.getQuality()});
-			else tableItem.setText(new String[] {hcs.getMethod_ID(),hcs.getClassName(),hcs.getHasCodeSmell(),hcs.getQuality()});
-		}else {
-			if(hcs.isMethod()) tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getMethodName(), hcs.getHasCodeSmell(),""});
-			else  tableItem.setText(new String[]{hcs.getMethod_ID(),hcs.getClassName(), hcs.getHasCodeSmell(),""});
-		}
-
-	}
-	
-	public HashMap<String,Integer> setResults(ArrayList<HasCodeSmell> trueResults) {
-		HashMap<String,Integer> mapValues = new HashMap<>();
-		int falsepositive = 0;
-		int falsenegative = 0;
-		int truepositive = 0;
-		int truenegative = 0;
-		for (HasCodeSmell indicator : trueResults) {
-			for (HasCodeSmell calculated : result) {
-				if (indicator.getMethodName().equals(calculated.getMethodName()) && indicator.getClassName().equals(calculated.getClassName()) && indicator.getPackageName().equals(calculated.getPackageName())) {
-					if(calculated.getHasCodeSmell().equals("TRUE") && indicator.getHasCodeSmell().equals("TRUE")) {
-						truepositive++;
-					}else if(calculated.getHasCodeSmell().equals("TRUE") && indicator.getHasCodeSmell().equals("FALSE")) {
-						falsepositive++;
-					}else if(calculated.getHasCodeSmell().equals("FALSE") && indicator.getHasCodeSmell().equals("TRUE")) {
-						falsenegative++;
-					}else if(calculated.getHasCodeSmell().equals("FALSE") && indicator.getHasCodeSmell().equals("FALSE")) {
-						truenegative++;
-					}
-					if (!indicator.getHasCodeSmell().equals(calculated.getHasCodeSmell())) {
-						calculated.setQuality("Negativo");
-					}
-					else {
-						calculated.setQuality("Positivo");
-					}
-				}
-				
-			}
-		}
-		
-		mapValues.put("falsepositive", falsepositive);
-		mapValues.put("falsenegative", falsenegative);
-		mapValues.put("truepositive", truepositive);
-		mapValues.put("truenegative", truenegative);
-		return mapValues;
-		
-		
-	}
-	
-	private void createPieChart(HashMap<String,Integer> mapValues) {
-
-	    PieDataset dataset = createDataset(mapValues);
-
-	    JFreeChart chart = ChartFactory.createPieChart(
-	        "Quality of Detection Pie Chart",
-	        dataset,
-	        true, 
-	        true,
-	        false);
-
-	    PieSectionLabelGenerator labelGenerator = new StandardPieSectionLabelGenerator(
-	        "Quality {0} : ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
-	    ((PiePlot) chart.getPlot()).setLabelGenerator(labelGenerator);
-    
-	    ChartPanel panel = new ChartPanel(chart); 
-	    System.out.println(panel.getSize());
-	    JFrame jframe = new JFrame();
-	    jframe.add(panel);
-	    jframe.setVisible(true);
-	    jframe.pack();
-	    
-
-	  }
-
-	  private PieDataset createDataset(HashMap<String,Integer> mapValues) {
-
-	    DefaultPieDataset dataset=new DefaultPieDataset();
-	    Iterator<?> iterador = mapValues.entrySet().iterator();
-		while(iterador.hasNext()) {
-			Map.Entry pair = (Map.Entry)iterador.next();
-			System.out.println(pair.getKey());
-			dataset.setValue((String)pair.getKey(),(Integer)pair.getValue());
-		}
-	    return dataset;
-	  }
-
 
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public void fillSecondaryGUI(ArrayList<HasCodeSmell> toFill) {
-		for (HasCodeSmell hascodesmell : toFill) {
-			addCodeSmellsInfo(hascodesmell, false);
-		}
+
+
+	
+
+
+	public void fillSecondaryGUI(ArrayList<HasCodeSmell> detectionResults,boolean withQuality) {
+		fillTable.fillSecondaryGUI(detectionResults, withQuality);
+		
 	}
 }

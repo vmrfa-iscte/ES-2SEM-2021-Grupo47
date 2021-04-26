@@ -17,11 +17,13 @@ public class MethodMetrics {
 		this.methodName = methodIdentity.getMethodName();
 		this.className = methodIdentity.getClassName();
 		this.packageName = methodIdentity.getPackageName();
-		this.LOC_method = extractedMetrics.getLOC_method();
-		this.LOC_class = extractedMetrics.getLOC_class();
-		this.CYCLO_method = extractedMetrics.getCYCLO_method();
-		this.NOM_class = extractedMetrics.getNOM_class();
-		this.WMC_class = extractedMetrics.getWMC_class();
+		if(extractedMetrics != null) {
+			this.LOC_method = extractedMetrics.getLOC_method();
+			this.LOC_class = extractedMetrics.getLOC_class();
+			this.CYCLO_method = extractedMetrics.getCYCLO_method();
+			this.NOM_class = extractedMetrics.getNOM_class();
+			this.WMC_class = extractedMetrics.getWMC_class();
+		}
 		this.method_id = methodIdentity.getMethod_id();
 	}
 

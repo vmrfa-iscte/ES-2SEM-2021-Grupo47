@@ -56,6 +56,11 @@ public class HasCodeSmell {
 	public void setQuality (String a)  {
 		this.isPositiveOrNegative = a;
 	}
+
+	public boolean isEqual(HasCodeSmell calculated) {
+		return getMethodName().equals(calculated.getMethodName()) && getClassName().equals(calculated.getClassName())
+				&& getPackageName().equals(calculated.getPackageName());
+	}
 	
 	
 

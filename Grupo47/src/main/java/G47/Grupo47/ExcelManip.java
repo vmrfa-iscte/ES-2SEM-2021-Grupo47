@@ -108,8 +108,19 @@ public class ExcelManip {
 		// Criação de Array para adicionar os resultados
 		Iterator<Row> it = sheet.iterator();
 		while (it.hasNext()) {
-			HasCodeSmell toadd = readExcelRow(columnOfCodeSmell, it);
+			Row row = it.next();
+			if(row.getRowNum()>0) {
+			String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
+			System.out.println(method_name);
+			String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
+			String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
+			String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
+			String class_name = row.getCell(CLASS_COLUMN_INDEX).toString();
+			MethodIdentity method = new MethodIdentity(method_name,class_name,package_name,0);
+			MethodMetrics methodWithMetrics = new MethodMetrics(method,null);
+			HasCodeSmell toadd = new HasCodeSmell(hasCodeSmell, null, methodWithMetrics,true);
 			toCompare.add(toadd);
+			}
 			// leitura dos dados existentes no ficheiro Code_Smells e criação de um Array<HasCodeSmell> com esses mesmos dados
 		}
 		workbook.close();
@@ -120,6 +131,7 @@ public class ExcelManip {
 	private HasCodeSmell readExcelRow(int columnOfCodeSmell, Iterator<Row> it) {
 		Row row = it.next();
 		String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
+		System.out.println(method_name);
 		String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
 		String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
 		String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
