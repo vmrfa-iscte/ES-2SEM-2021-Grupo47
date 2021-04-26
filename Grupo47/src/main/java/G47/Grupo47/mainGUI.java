@@ -58,6 +58,8 @@ public class mainGUI extends Shell {
 	private static final char ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7, EIGHT = 8,
 			NINE = 9;
 	private static final String LOGO = "/G47/Grupo47/iscte_logo2.jpg", GUI_NAME = "Interface gráfica- Grupo 47";
+	private static final String NO_METRICS_EXTRACTED_ERROR_MESSAGE = "Não foram extraidas métricas ou não existe nenhum projeto selecionado",
+	NO_RULE_SELECTED_ERROR_MESSAGE = "Nenhuma regra selecionada";
 	private DetectionChooser chooser = new DetectionChooser();
 
 	/**
@@ -300,15 +302,53 @@ public class mainGUI extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				i = listrulestoshow.getSelectionIndex();
 				currentRule = list.get(i);
-				metric1.setText(currentRule.getMethod1());
+				for (int l = 0; l < metric1.getItemCount(); l++) {
+					if (metric1.getItem(l).contentEquals(currentRule.getMethod1())) {
+						metric1.select(l);
+					}
+				}
+				if (metric1.getItem(metric1.getSelectionIndex()).equals("LOC_method")) {
+					metric2.removeAll();
+					metric2.add("CYCLO_method");
+				} else if (metric1.getItem(metric1.getSelectionIndex()).equals("WMC_class")) {
+					metric2.removeAll();
+					metric2.add("NOM_class");
+					metric2.add("LOC_class");
+				} else if (metric1.getItem(metric1.getSelectionIndex()).equals("NOM_class")) {
+					metric2.removeAll();
+					metric2.add("LOC_class");
+				}
+				for (int k = 0; k < metric2.getItemCount(); k++) {
+//					System.out.println(metric2.getItem(k) + "kkkkk");
+					if (metric2.getItem(k).contentEquals(currentRule.getMethod2())) {
+						metric2.select(k);
+					}
+				}
+				if (!currentRule.getLimit3().isEmpty()) {
+
+					metric3.setVisible(true);
+					limit_3.setVisible(true);
+					operator2.setVisible(true);
+					signal3.setVisible(true);
+					for (int z = 0; z < metric3.getItemCount(); z++) {
+						if (metric3.getItem(z).contentEquals(currentRule.getMethod3())) {
+							metric3.select(z);
+						}
+					}
+				} else {
+					operator2.setVisible(false);
+					signal3.setVisible(false);
+					metric3.setVisible(false);
+					limit_3.setVisible(false);
+				}
+//				metric1.setText(currentRule.getMethod1());
 				signal.setText(currentRule.getSinal1());
 				limit_1.setText(currentRule.getLimit1());
 				operador.setText(currentRule.getOperator());
-				metric2.setText(currentRule.getMethod2());
+//				metric2.setText(currentRule.getMethod2());
 				sinal2.setText(currentRule.getSinal2());
 				limit_2.setText(currentRule.getLimit2());
 				operator2.setText(currentRule.getOperator2());
-				metric3.setText(currentRule.getMethod3());
 				signal3.setText(currentRule.getSinal3());
 				limit_3.setText(currentRule.getLimit3());
 			}
@@ -445,36 +485,20 @@ public class mainGUI extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (actualmetrics == null) {
-					JOptionPane.showMessageDialog(null, "Não foram extraidas métricas");
+					// Caso não tenham sido extraídas métricas de um projeto, mensagem de erro
+					JOptionPane.showMessageDialog(null, NO_METRICS_EXTRACTED_ERROR_MESSAGE);
 
 				} else {
+					// Caso contrário a existencia de code smells no projeto é averiguada 
 					if (listrulestoshow.isSelected(i)) {
+						// Apenas é averiguada caso exista uma regra selecionada
 						String method1 = currentRule.getMethod1();
 						String method2 = currentRule.getMethod2();
-						if (method1.equals("LOC_method")) {
-							evaluateLocMethod(currentRule);
-						}
-						if (method1.equals("WMC_class") && method2.equals("NOM_class")
-								&& !currentRule.getMethod3().contains("a")) {
-							evaluateGodClassWithWMC_NOM(currentRule);
-						}
-
-						if (method1.equals("WMC_class") && method2.equals("LOC_class")
-								&& !currentRule.getMethod3().contains("a")) {
-							evaluateGodClassWithWMC_LOC(currentRule);
-						}
-
-						if (method1.equals("NOM_class") && method2.equals("LOC_class")
-								&& !currentRule.getMethod3().contains("a")) {
-							evaluateGodClassWithNOM_LOC(currentRule);
-						}
-
-						if (method1.equals("WMC_class") && currentRule.getMethod3().contains("a")) {
-							evaluateGodClassWithWMC_NOM_LOC(currentRule);
-						}
+						evaluationChooser(method1,method2);
 
 					} else {
-						JOptionPane.showMessageDialog(null, "Nenhuma regra selecionada");
+						// Caso contário é mostrada uma mensagem de erro
+						JOptionPane.showMessageDialog(null, NO_RULE_SELECTED_ERROR_MESSAGE);
 					}
 
 				}
@@ -703,40 +727,72 @@ public class mainGUI extends Shell {
 		return false;
 	}
 
+	// Avaliar se um determinado char é um número
 	private boolean isNumber(char charAt) {
 		return charAt == '0' || charAt == '1' || charAt == '2' || charAt == '3' || charAt == '4' || charAt == '5'
 				|| charAt == '6' || charAt == '7' || charAt == '8' || charAt == '9';
 	}
 
+	// Deteção de CodeSmell Long Method
 	private void evaluateLocMethod(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionLocMethod(ruleReceived, actualmetrics);
 		createSecondaryGUI("IsLoc Method Class Detection", hasCodeSmellResult);
 	}
 
+	// Deteção de CodeSmell God Class, para a combinação de métricas WMC_Class e Nom_Class
 	private void evaluateGodClassWithWMC_NOM(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM(ruleReceived, actualmetrics);
 		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
 
+	// Deteção de CodeSmell God Class, para o combinação de métricas WMC_Class e LOC_Class
 	private void evaluateGodClassWithWMC_LOC(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_LOC(ruleReceived, actualmetrics);
 		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
-
+	
+	// Deteção de CodeSmell God Class, para o combinação de métricas NOM_Class e LOC_Class
 	private void evaluateGodClassWithNOM_LOC(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionNOM_LOC(ruleReceived, actualmetrics);
 		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
 
+	// Deteção de CodeSmell God Class, para o combinação de métricas WMC_Class, NOM_Class e LOC_Class
 	private void evaluateGodClassWithWMC_NOM_LOC(Rule ruleReceived) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM_LOC(ruleReceived, actualmetrics);
 		createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
 	}
 
+	//Criar GUI secundária, importar os resultados da aplicação da regra e lançar a GUI
 	private void createSecondaryGUI(String name, ArrayList<HasCodeSmell> detectionResults) {
 		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), name, detectionResults);
 		codesmells.fillSecondaryGUI(detectionResults);
 		codesmells.loadGUI();
+	}
+	
+	// Consoante a regra selecionada, o método invocado para detetar CodeSmells é distinto
+	private void evaluationChooser(String method1, String method2) {
+		if (method1.equals("LOC_method")) {
+			evaluateLocMethod(currentRule);
+		}
+		if (method1.equals("WMC_class") && method2.equals("NOM_class")
+				&& !currentRule.getMethod3().contains("a")) {
+			evaluateGodClassWithWMC_NOM(currentRule);
+		}
+
+		if (method1.equals("WMC_class") && method2.equals("LOC_class")
+				&& !currentRule.getMethod3().contains("a")) {
+			evaluateGodClassWithWMC_LOC(currentRule);
+		}
+
+		if (method1.equals("NOM_class") && method2.equals("LOC_class")
+				&& !currentRule.getMethod3().contains("a")) {
+			evaluateGodClassWithNOM_LOC(currentRule);
+		}
+
+		if (method1.equals("WMC_class") && currentRule.getMethod3().contains("a")) {
+			evaluateGodClassWithWMC_NOM_LOC(currentRule);
+		}
 	}
 
 	/**
