@@ -1,10 +1,10 @@
 package G47.Grupo47;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.eclipse.swt.widgets.Display;
+
+import gui.mainGUI;
 
 public class Main {
 

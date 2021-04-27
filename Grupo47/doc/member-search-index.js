@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"gui","c":"HelpGUIMetrics","l":"HelpGUIMetrics(Display)","u":"%3Cinit%3E(org.eclipse.swt.widgets.Display)"},{"p":"gui","c":"HelpGUIMetrics","l":"loadGUI()"}];updateSearchResults();

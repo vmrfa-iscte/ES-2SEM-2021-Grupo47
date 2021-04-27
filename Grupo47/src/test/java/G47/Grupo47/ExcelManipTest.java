@@ -1,77 +1,87 @@
-//package G47.Grupo47;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.util.ArrayList;
-//
-//import junit.framework.TestCase;
-//
-//public class ExcelManipTest extends TestCase {
+package G47.Grupo47;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import classes.HasCodeSmell;
+import classes.MethodMetrics;
+import classes.Metrics;
+import excel.ExcelManip;
+import extraction.DirExplorer;
+import junit.framework.TestCase;
+
+public class ExcelManipTest extends TestCase {
+	
+	private File projectDir,projectDir2;
+	protected ExcelManip manip;
+	protected ExcelManip manip2;
+	
+	
+	protected void setUp() throws Exception {
+		super.setUp();
+		projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10\\src\\com");
+		manip = new ExcelManip(projectDir);
+		projectDir2 = new File("C:\\Users\\Tomás Mendes\\Desktop\\Code_Smells.xlsx");
+		manip2 = new ExcelManip(projectDir2);
+		
+	}
+
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		
+	}
+	
+	public void testeCreation() {
+		
+		manip = new ExcelManip(projectDir);
+		assertNotNull(manip);
+		
+	}
+	
+
 //	
-//	private File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
-//	
-//	public void testeCreation() {
-//		
-//		ExcelManip a = new ExcelManip(projectDir);
-//		assertNotNull(a);
-//		
-//	}
-//	
-//	public void testPath()  {
-//
-//	ExcelManip a = new ExcelManip(projectDir);
-//	String s = new String("C:\\Users\\rui.fontoura\\Desktop\\result_jasml_0_10.xlsx");
-//	assertNotNull(s);
-//	assertNotNull(a.toCopy);
-//	assertEquals(a.toCopy,s);
-//
-//	
-//	}
-//	
-//	public void testHeadersExtraction() throws IOException {
-//		ExcelManip a = new ExcelManip(projectDir);
-//		ArrayList<String> toCompare = new ArrayList<>();
-//		toCompare.add("MethodID");
-//		toCompare.add("package");
-//		toCompare.add("class");
-//		toCompare.add("method");
-//		toCompare.add("NOM_class");
-//		toCompare.add("LOC_class");
-//		toCompare.add("WMC_class");
-//		toCompare.add("is_God_Class");
-//		toCompare.add("LOC_method");
-//		toCompare.add("CYCLO_method");
-//		toCompare.add("is_Long_Method");
-//		assertNotNull(toCompare);
-//		ArrayList<String> result = a.extractHeaders();
-//		assertNotNull(result);
-////		assertEquals(result,toCompare);
-//		
-//		
-//	}
-//	
-//	public void testExcelCreation() throws IOException {
-//		// already tested but necessary
-//		ExcelManip a = new ExcelManip(projectDir);
-//		ArrayList<String> result = a.extractHeaders();
-//		// already tested but necessary
-//		
-//		// tested in respective class but necessary
-//		File projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10");
-//		DirExplorer de = new DirExplorer(projectDir);
-//		ArrayList<Metrics> metrics = de.explore();
-//		ExcelManip manip = new ExcelManip(projectDir);
-//		manip.createExcel(metrics , "false");
-//		
-//		
-//
-//
-//		
-//		
-//		
-//		
-//		
-//	}
-//	
-//
-//}
+	public void testHeadersExtraction() throws IOException {
+		// Headers Extraction
+		ArrayList<String> toCompare = new ArrayList<>();
+		toCompare.add("MethodID");
+		toCompare.add("Package");
+		toCompare.add("Class");
+		toCompare.add("Method");
+		toCompare.add("NOM_class");
+		toCompare.add("LOC_class");
+		toCompare.add("WMC_class");
+		toCompare.add("LOC_method");
+		toCompare.add("CYCLO_method");
+		assertNotNull(toCompare);
+		ArrayList<String> result = manip.extractHeaders();
+		assertNotNull(result);
+
+
+		
+		
+	}
+	
+	public void testExcelCreation() throws IOException {
+
+		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10\\src\\com");
+		assertNotNull(projectDir);
+		DirExplorer de = new DirExplorer(projectDir);
+		assertNotNull(de);
+		ArrayList<MethodMetrics> metrics = de.exploreAndExtract();
+		assertNotNull(manip);
+		manip.createExcel(metrics,"C:\\Users\\Tomás Mendes\\Desktop");	
+	}
+	
+	public void testConverionToArray() throws IOException {
+	
+	
+		ArrayList<HasCodeSmell> converted = manip2.toComparables(7);
+		assertNotNull(converted);
+		ArrayList<HasCodeSmell> converted2 = manip2.toComparables(10);
+		assertNotNull(converted2);
+		
+	}
+	
+
+}
