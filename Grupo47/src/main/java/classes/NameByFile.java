@@ -9,20 +9,35 @@ import extraction.ExtractMetrics;
 
 import java.util.regex.Pattern;
 
+/**
+ * @author Vasco Fontoura
+ *
+ */
 public class NameByFile {
+	
 	private File fileToExtract;
 	private static final String SRC = "src", RESULTS_ = "results_", FILE_TYPE = ".xlsx", EMPTY_PATH = "";
 
+	/**
+	 * @return um ficheiro dado
+	 */
 	public File getFileToExtract() {
 		return fileToExtract;
 	}
 
+	/**
+	 * @param um dado ficheiro
+	 */
 	public void setFileToExtract(File fileToExtract) {
 		this.fileToExtract = fileToExtract;
 	}
-
-	// Retorna o nome utilizado para definir a classe no excel através do nome da classe e do nome do ficheiro
+	
+	/**
+	 * @param uma dada classe ou interface
+	 * @return o nome da classe na correta formatação
+	 */
 	public String getClassName(ClassOrInterfaceDeclaration classFromFile) {
+		// Retorna o nome utilizado para definir a classe no excel através do nome da classe e do nome do ficheiro
 		if (classFromFile.getNameAsString()
 				.equals(fileToExtract.getName().replace(ExtractMetrics.JAVA_FILE, ExtractMetrics.EMPTY_STRING)))
 			return classFromFile.getNameAsString();
@@ -31,8 +46,13 @@ public class NameByFile {
 					+ classFromFile.getNameAsString();
 	}
 
-	// Faz o mesmo que o método em cima mas para classes que sejam Enumerados
+	
+	/**
+	 * @param um dado enumerado
+	 * @return o nome do enumerado na correta formatação
+	 */
 	public String getClassNameForEnum(EnumDeclaration enumFromFile) {
+		// Faz o mesmo que o método em cima mas para classes que sejam Enumerados
 		if (enumFromFile.getNameAsString()
 				.equals(fileToExtract.getName().replace(ExtractMetrics.JAVA_FILE, ExtractMetrics.EMPTY_STRING)))
 			return enumFromFile.getNameAsString();
@@ -41,8 +61,12 @@ public class NameByFile {
 					+ enumFromFile.getNameAsString();
 	}
 
-	// Retorna o nome do pacote segundo um ficheiro
+	
+	/**
+	 * @return nome do pacote na correta formatação do ficheiro dado
+	 */
 	public String getPackageName() {
+		// Retorna o nome do pacote segundo um ficheiro
 		String packageName = ExtractMetrics.EMPTY_STRING;
 		boolean src = false;
 		String[] separated = fileToExtract.getAbsolutePath().split(Pattern.quote(File.separator));
@@ -60,8 +84,14 @@ public class NameByFile {
 		return packageName;
 	}
 
-	// Verifica se a classe está no pacote pré definido
+	
+	/**
+	 * @param o nome de um pacote
+	 * @param um dado ficheiro
+	 * @return indicador se o ficheiro se encontra no pacote 'DefaultPackage'
+	 */
 	public boolean isDefaultPackage(String packageName, File fileToExtract) {
+		// Verifica se a classe está no pacote pré definido
 		// caso o caminho dado contenha uma pasta "src" e o nome do pacote esteja vazio quer dizer que está diretamente dentro da pasta "src
 		// logo, pertence ao pacote pré-definido
 		if (packageName.equals(ExtractMetrics.EMPTY_STRING)
@@ -71,8 +101,12 @@ public class NameByFile {
 			return false;
 	}
 	
-	// Esta função é utilizada para retornar o nome, e apenas o nome do Ficheiro que foi passado como argumento
+	
+	/**
+	 * @return nome do ficheiro dado na correta formatação
+	 */
 	public String getFileName() {
+		// Esta função é utilizada para retornar o nome, e apenas o nome do Ficheiro que foi passado como argumento
 		String[] separated = fileToExtract.getAbsolutePath().split(Pattern.quote(File.separator));
 		String fileName = EMPTY_PATH;
 		for(int i = 0; i< separated.length;i++) {

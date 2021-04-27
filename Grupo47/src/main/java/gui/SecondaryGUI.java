@@ -81,7 +81,7 @@ public class SecondaryGUI extends Shell {
 		setLayout(new FormLayout());
 		addElements();
 		fillTable = new FillTable(table);
-		fillTable.fillSecondaryGUI(result,false);
+		fillTable.fillTable(result,false);
 		createContents(name);
 	}
 	
@@ -264,7 +264,7 @@ public class SecondaryGUI extends Shell {
 
 
 	public void fillSecondaryGUI(ArrayList<HasCodeSmell> detectionResults,boolean withQuality) {
-		fillTable.fillSecondaryGUI(detectionResults, withQuality);
+		fillTable.fillTable(detectionResults, withQuality);
 		
 	}
 }

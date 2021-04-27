@@ -7,10 +7,17 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * @author Vasco Fontoura
+ *
+ */
 public class HelpSecondaryGUI extends Shell {
 	
 	private Display display;
 	
+	/**
+	 * @param display
+	 */
 	public HelpSecondaryGUI(Display display) {
 		// Definir tamanho, nome e imagem da GUI
 		this.display = display;
@@ -35,6 +42,9 @@ public class HelpSecondaryGUI extends Shell {
 		labelSecondInstruction.setBounds(10, 129, 818, 176);
 	}
 	
+	/**
+	 * abre e mostra a GUI
+	 */
 	public void loadGUI () {
 		// Abrir e mostrar a GUI
 		try {

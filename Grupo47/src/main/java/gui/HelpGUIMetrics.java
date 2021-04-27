@@ -8,10 +8,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+/**
+ * @author Vasco Fontoura
+ *
+ */
 public class HelpGUIMetrics extends Shell {
 	
 	private Display display;
 	
+	/**
+	 * @param display
+	 */
 	public HelpGUIMetrics(Display display) {
 		this.display = display;
 		
@@ -60,6 +67,9 @@ public class HelpGUIMetrics extends Shell {
 		createContents();
 	}
 	
+	/**
+	 * abre a GUI
+	 */
 	public void loadGUI () {
 		try {
 			open();
@@ -79,6 +89,9 @@ public class HelpGUIMetrics extends Shell {
 		// Disable the check that prevents subclassing of SWT components
 	}
 	
+	/**
+	 * define características da GUI
+	 */
 	protected void createContents() {
 		setText("Informaçã sobre métricas");
 		setSize(930, 682);

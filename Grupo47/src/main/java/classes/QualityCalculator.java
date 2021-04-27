@@ -1,5 +1,9 @@
 package classes;
 
+/**
+ * @author Vasco Fontoura
+ *
+ */
 public class QualityCalculator {
 	
 	public static final String TRUE_NEGATIVE = "Verdadeiro Negativo";
@@ -11,31 +15,56 @@ public class QualityCalculator {
 	public static final String DETECTION_FALSE = "FALSE";
 	public static final String DETECTION_TRUE = "TRUE";
 	
-	// Método que deteta verdadeiros negativos
+	
+	/**
+	 * @param HasCodeSmell detetado
+	 * @param HasCodeSmell calculado
+	 * @return boleano que indica a qualidade do HasCodeSmell detetado
+	 */
 	public boolean isTrueNegative(HasCodeSmell indicator, HasCodeSmell calculated) {
+		// Método que deteta verdadeiros negativos
 		return calculated.getHasCodeSmell().equals(DETECTION_FALSE)
 				&& indicator.getHasCodeSmell().equals(DETECTION_FALSE);
 	}
 	
-	// Método que deteta falsos positivos
+	/**
+	 * @param HasCodeSmell detetado
+	 * @param HasCodeSmell calculado
+	 * @return boleano que indica a qualidade do HasCodeSmell detetado
+	 */
 	public boolean isFalsePositive(HasCodeSmell indicator, HasCodeSmell calculated) {
+		// Método que deteta falsos positivos
 		return calculated.getHasCodeSmell().equals(DETECTION_FALSE)
 				&& indicator.getHasCodeSmell().equals(DETECTION_TRUE);
 	}
 	
-	// Método que deteta falsos negativos
+	/**
+	 * @param HasCodeSmell detetado
+	 * @param HasCodeSmell calculado
+	 * @return boleano que indica a qualidade do HasCodeSmell detetado
+	 */
 	public boolean isFalseNegative(HasCodeSmell indicator, HasCodeSmell calculated) {
+		// Método que deteta falsos negativos
 		return calculated.getHasCodeSmell().equals(DETECTION_TRUE)
 				&& indicator.getHasCodeSmell().equals(DETECTION_FALSE);
 	}
 
-	// Método que deteta verdadeiros positivos
+	/**
+	* @param HasCodeSmell detetado
+	 * @param HasCodeSmell calculado
+	 * @return boleano que indica a qualidade do HasCodeSmell detetado
+	 */
 	public boolean isTruePositive(HasCodeSmell indicator, HasCodeSmell calculated) {
+		// Método que deteta verdadeiros positivos
 		return calculated.getHasCodeSmell().equals(DETECTION_TRUE) && indicator.getHasCodeSmell().equals(DETECTION_TRUE);
 	}
 	
-	// Compara dois HasCodeSmells e consoante a deteção da qualidade edita a qualidade do "indicator"
+	/**
+	 * @param HasCodeSmell detetado
+	 * @param HasCodeSmell calculado
+	 */
 	public void setQuality(HasCodeSmell indicator, HasCodeSmell calculated) {
+		// Compara dois HasCodeSmells e consoante a deteção da qualidade edita a qualidade do "indicator"
 		if (isFalsePositive(indicator,calculated)) 
 			indicator.setQuality("Falso Positivo");
 		else if (isFalsePositive(indicator,calculated))

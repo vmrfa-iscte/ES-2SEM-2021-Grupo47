@@ -14,10 +14,19 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+/**
+ * @author Vasco Fontoura
+ *
+ */
 public class ShowExcelGUI extends Shell{
 	
 	private Display display;
 	private Table tableForMetrics;
+	/**
+	 * @param display
+	 * @param nome da GUI
+	 * @param métricas para ser mostradas
+	 */
 	public ShowExcelGUI(Display display,String name,ArrayList<MethodMetrics> metricsToShow) {
 		this.display = display;
 		// Escolher tamanho, imagem e nome da GUI
@@ -79,6 +88,9 @@ public class ShowExcelGUI extends Shell{
 		}
 	}
 	
+	/**
+	 * abre e mostra a GUI
+	 */
 	public void loadGUI () {
 		// Abrir e mostrar a GUI
 		try {
