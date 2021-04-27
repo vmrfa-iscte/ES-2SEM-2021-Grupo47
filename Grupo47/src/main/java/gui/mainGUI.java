@@ -32,14 +32,19 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import classes.HasCodeSmell;
+import classes.NameByFile;
 import classes.Rule;
 import classes.Statistics;
+import detection.EvaluateAndDetect;
+import excel.ExcelManip;
+import extraction.DirExplorer;
 
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 public class mainGUI extends Shell {
 
+	private static final String SELECT_SRC_MESSAGE = "Selecione a pasta 'src'";
 	private static final String EXTRACT_PROJECT_MESSAGE = "Escolha um projeto e extraia métricas", ALREADY_EMPTY_MESSAGE = "Lista de regras já vazia",INVALID_FILE_MESSAGE = "Ficheiro inválido",
 			EMPTY_RULE_LIST_MESSAGE = "Lista de regras vazia",INCORRECT_FIELDS = "Preencha corretamente todos os campos",NO_RULE_SELECTED = "Nenhuma regra selecionada", REPEATED_RULE = "Regra já imposta.",
 					FIELDS_INCORRECT_MESSAGE = "Preencha corretamente todos os campos.", DEFAULT_LIMIT_TEXT = "Limite",INVALID_LIMITS = "Limites inválidos!", 
@@ -54,7 +59,7 @@ public class mainGUI extends Shell {
 	private Menu menuWithButtons;
 	private MenuItem guiInstructionsButton,metricInfoButton;
 	private List excelfiles,listrulestoshow;
-	private Text projectFolderPath, numOfMethodText, numOfClasses, numOfClassesText, numOfLinesText, numOfPackagesText,
+	private Text projectFolderPath,numOfClasses,
 			numOfPackages, numOfMethods, numOfLines, firstLimit, secondLimit, thirdLimit,folderToSavePath;
 	private Composite composite;
 	private Button defineRuleButton, savehistory,projectSelection,extractMetricsButton,changeRuleButton,detectSmellsButton,loadHistoryButton,cleanHistoryList,
@@ -97,13 +102,14 @@ public class mainGUI extends Shell {
 		projectSelection.setText("Selecionar projeto (src)");
 
 		excelfiles = new List(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		addExcelFilesListener();
+		excelfilesListener();
+		
 		excelfiles.setBounds(10, 108, 345, 164);
 
 		composite = new Composite(this, SWT.NONE);
 		composite.setBounds(10, 314, 670, 465);
 
-		numOfMethodText = new Text(this, SWT.BORDER);
+		Text numOfMethodText = new Text(this, SWT.BORDER);
 		numOfMethodText.setEditable(false);
 		numOfMethodText.setText("Número de Métodos");
 		numOfMethodText.setBounds(372, 198, 166, 26);
@@ -112,17 +118,17 @@ public class mainGUI extends Shell {
 		numOfClasses.setEditable(false);
 		numOfClasses.setBounds(544, 109, 136, 26);
 
-		numOfClassesText = new Text(this, SWT.BORDER);
+		Text numOfClassesText = new Text(this, SWT.BORDER);
 		numOfClassesText.setEditable(false);
 		numOfClassesText.setText("Número de Classes");
 		numOfClassesText.setBounds(372, 109, 166, 26);
 
-		numOfLinesText = new Text(this, SWT.BORDER);
+		Text numOfLinesText = new Text(this, SWT.BORDER);
 		numOfLinesText.setEditable(false);
 		numOfLinesText.setText("Número de Linhas");
 		numOfLinesText.setBounds(372, 246, 166, 26);
 
-		numOfPackagesText = new Text(this, SWT.BORDER);
+		Text numOfPackagesText = new Text(this, SWT.BORDER);
 		numOfPackagesText.setEditable(false);
 		numOfPackagesText.setText("Número de Packages");
 		numOfPackagesText.setBounds(372, 152, 166, 26);
@@ -285,6 +291,19 @@ public class mainGUI extends Shell {
 		choosePathToExtractListener();
 		choosePathToExtract.setBounds(372, 35, 166, 28);
 		choosePathToExtract.setText("Selecionar destino");
+	}
+
+	private void excelfilesListener() {
+		excelfiles.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				index = excelfiles.getSelectionIndex();
+				if (index != -1) {
+					changeSelectedFile();
+					writeStatistics();
+				}
+			}
+		});
 	}
 	
 	private boolean isThirdMetricEmpty() {
@@ -473,29 +492,23 @@ public class mainGUI extends Shell {
 				JFileChooser pathpasta = new JFileChooser(".");
 				pathpasta.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				int returnValue = pathpasta.showOpenDialog(null);
+				File choosenFile = null;
 				if (returnValue == JFileChooser.APPROVE_OPTION) {
-					selectedFile = pathpasta.getSelectedFile();
-					selectedFile.getAbsolutePath();
-					fileList.add(selectedFile);
+					choosenFile = pathpasta.getSelectedFile();
+					String path = choosenFile.getAbsolutePath();
+					if(!path.contains("src")) JOptionPane.showMessageDialog(null, SELECT_SRC_MESSAGE);
+					else fileList.add(choosenFile);
+					
 				}
-				if (selectedFile != null) projectFolderPath.setText(selectedFile.getPath());
+				if (choosenFile != null && choosenFile.getAbsolutePath().contains("src")) {
+					projectFolderPath.setText(choosenFile.getPath());
+					selectedFile = choosenFile;
+				}
 		
 			}
 		});
 	}
 	
-	private void addExcelFilesListener() {
-		excelfiles.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				index = excelfiles.getSelectionIndex();
-				if (index != -1) {
-					changeSelectedFile();
-					writeStatistics();
-				}
-			}
-		});
-	}
 
 	private void extractMetricsListener() {
 		extractMetricsButton.addSelectionListener(new SelectionAdapter() {

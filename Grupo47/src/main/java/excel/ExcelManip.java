@@ -115,16 +115,8 @@ public class ExcelManip {
 		while (it.hasNext()) {
 			Row row = it.next();
 			if(row.getRowNum()>0) {
-			String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
-			System.out.println(method_name);
-			String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
-			String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
-			String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
-			String class_name = row.getCell(CLASS_COLUMN_INDEX).toString();
-			MethodIdentity method = new MethodIdentity(method_name,class_name,package_name,0);
-			MethodMetrics methodWithMetrics = new MethodMetrics(method,null);
-			HasCodeSmell toadd = new HasCodeSmell(hasCodeSmell, null, methodWithMetrics,true);
-			toCompare.add(toadd);
+				HasCodeSmell toadd = readExcelRow(columnOfCodeSmell,row);
+				toCompare.add(toadd);
 			}
 			// leitura dos dados existentes no ficheiro Code_Smells e criação de um Array<HasCodeSmell> com esses mesmos dados
 		}
@@ -133,15 +125,12 @@ public class ExcelManip {
 	}
 
 	// Lê uma linha de um ficheiro excel e cria um objeto HasCodeSmell com a informação lida do ficheiro
-	private HasCodeSmell readExcelRow(int columnOfCodeSmell, Iterator<Row> it) {
-		Row row = it.next();
+	private HasCodeSmell readExcelRow(int columnOfCodeSmell, Row row) {
 		String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
-		System.out.println(method_name);
 		String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
-		String methodID = row.getCell(METHOD_ID_COLUMN_INDEX).toString();
 		String package_name = row.getCell(PACKAGE_COLUMN_INDEX).toString();
 		String class_name = row.getCell(CLASS_COLUMN_INDEX).toString();
-		MethodIdentity method = new MethodIdentity(method_name,class_name,package_name,Integer.parseInt(methodID));
+		MethodIdentity method = new MethodIdentity(method_name,class_name,package_name,0);
 		MethodMetrics methodWithMetrics = new MethodMetrics(method,null);
 		HasCodeSmell toadd = new HasCodeSmell(hasCodeSmell, null, methodWithMetrics,true);
 		return toadd;

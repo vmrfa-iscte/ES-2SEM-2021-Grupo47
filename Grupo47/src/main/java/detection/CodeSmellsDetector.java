@@ -72,11 +72,11 @@ public class CodeSmellsDetector {
 	private MethodMetrics verifyLastClass(MethodMetrics metric) {
 		if(!lastMethod.getClasse().equals(metric.getClasse())) {
 			// se o nome da classe estiver presente na lista classWithSmell então a classe tem um método com code smells
-			if(classWithSmell.indexOf(lastMethod.getClasse()) != -1 ) {
+			if(classWithSmell.indexOf(lastMethod.getClasse()) != -1 )
 				createAndAdd(POSITIVE_CLASS,lastMethod);
-			}else {
+			else
 				createAndAdd(NEGATIVE_CLASS,lastMethod);
-			}
+
 			//muda o nome da classe atual
 			lastMethod = metric;
 			// Adiciona os métodos que não estavam prontos à lista de métodos prontos

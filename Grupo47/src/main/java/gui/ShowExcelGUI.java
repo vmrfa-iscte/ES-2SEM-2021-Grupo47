@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.TableItem;
 
 public class ShowExcelGUI extends Shell{
 	
-//	private ShowExcelGUIElements showExcelGUIElement = new ShowExcelGUIElements();
 	private Display display;
 	private Table tableForMetrics;
 	public ShowExcelGUI(Display display,String name,ArrayList<MethodMetrics> metricsToShow) {

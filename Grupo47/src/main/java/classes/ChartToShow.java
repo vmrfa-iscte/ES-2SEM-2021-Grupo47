@@ -26,6 +26,7 @@ public class ChartToShow {
 		this.result = result;
 	}
 	
+	// Cria o PieChart numa nova janela (JFrame)
 	public void createPieChart(HashMap<String,Integer> mapValues) {
 	    PieDataset dataset = createDataset(mapValues);
 	    JFreeChart chart = ChartFactory.createPieChart(
@@ -38,13 +39,13 @@ public class ChartToShow {
 	        "Quality {0} : ({2})", new DecimalFormat("0"), new DecimalFormat("0%"));
 	    ((PiePlot) chart.getPlot()).setLabelGenerator(labelGenerator);
 	    ChartPanel panel = new ChartPanel(chart); 
-	    System.out.println(panel.getSize());
 	    JFrame jframe = new JFrame();
 	    jframe.add(panel);
 	    jframe.setVisible(true);
 	    jframe.pack();
 	  }
 
+	// Cria os dados para o PieChart 
 	  @SuppressWarnings("rawtypes")
 	private PieDataset createDataset(HashMap<String,Integer> mapValues) {
 	    DefaultPieDataset dataset=new DefaultPieDataset();
@@ -56,6 +57,8 @@ public class ChartToShow {
 	    return dataset;
 	  }
 	  
+	 // Compara a deteção de code smells atrvés da regra definida com a deteção presente no ficheiro excel escolhido
+	 // retorna os resultados para posteriormente ser criado o PieChart 
 	  public HashMap<String, Integer> setResults(ArrayList<HasCodeSmell> trueResults) {
 			HashMap<String, Integer> mapValues = new HashMap<>();
 			int falsepositive = 0;

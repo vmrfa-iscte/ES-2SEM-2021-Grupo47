@@ -26,15 +26,20 @@ import org.eclipse.swt.events.SelectionEvent;
 
 public class SaveHistoryGUI extends Shell {
 
+	private static final String SELECT_DESTINATION_MESSAGE = "Selecione o ficheiro destino";
+	private static final String EMPTY_RULE_LIST_MESSAGE = "Lista de regras vazia, defina regras";
+	private static final String SUCESS_MESSAGE = "Histórico guardado com sucesso!";
+	private static final String EMPTY_FIELD_MESSAGE = "Preencha o campo 'Nome do ficheiro'";
 	private ArrayList<Rule> rules;
-	private List ruleslist;
 	private Display display;
 	private Text submitedFileName;
-	private Text historyFile;
+	private Text historyFilePath;
 	private File file;
-	private Text finaldirectoy;
-	private File rules2;
+	private Text destinationPath;
 	private File filecreated;
+	private Button selectedDestinationFolder;
+	private Button chooseHistoryFile;
+	private Button btnCreateFile;
 
 	/**
 	 * Launch the application.
@@ -51,19 +56,94 @@ public class SaveHistoryGUI extends Shell {
 	public SaveHistoryGUI(Display display, List regras, ArrayList<Rule> rules) {
 		super(display, SWT.SHELL_TRIM);
 		setImage(SWTResourceManager.getImage(SaveHistoryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
-		this.ruleslist = regras;
 		this.rules = rules;
 
-		Label lblDefinaONome = new Label(this, SWT.NONE);
-		lblDefinaONome.setBounds(10, 37, 185, 20);
-		lblDefinaONome.setText("Defina o nome do ficheiro:");
+		createContents();
+	}
+	
+	public void addElements() {
+		Label defineFileNameLabel = new Label(this, SWT.NONE);
+		defineFileNameLabel.setBounds(10, 37, 185, 20);
+		defineFileNameLabel.setText("Defina o nome do ficheiro:");
 
-		submitedFileName = new Text(this, SWT.BORDER); //TEXTFIELD QUE PERMITE AO UTILIZADOR DEFINIR O NOME DO FICHEIRO HISTÓRICO;
+		submitedFileName = new Text(this, SWT.BORDER | SWT.READ_ONLY); //TEXTFIELD QUE PERMITE AO UTILIZADOR DEFINIR O NOME DO FICHEIRO HISTÓRICO;
 		submitedFileName.setBounds(211, 34, 211, 26);
 
-		//JFILECHOOSER QUE PERMITE AO UTILIZADOR SELECIONAR O DESTINO/DIRETORIA DO FICHEIRO A CRIAR;
-		Button pathpasta = new Button(this, SWT.NONE); 
-		pathpasta.addSelectionListener(new SelectionAdapter() {
+		selectedDestinationFolder = new Button(this, SWT.NONE); 
+		selectedDestinationFolderListener();
+		selectedDestinationFolder.setBounds(10, 71, 185, 30);
+		selectedDestinationFolder.setText("Selecione a pasta destino");
+
+		destinationPath = new Text(this, SWT.BORDER | SWT.READ_ONLY);
+		destinationPath.setBounds(211, 73, 211, 26);
+
+		Label ifFileExistsLabel = new Label(this, SWT.NONE);
+		ifFileExistsLabel.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
+		ifFileExistsLabel.setBounds(10, 147, 252, 20);
+		ifFileExistsLabel.setText("Após criação/Se o ficheiro já existir:");
+
+		Label createFileLabel = new Label(this, SWT.NONE);
+		createFileLabel.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
+		createFileLabel.setBounds(10, 11, 101, 20);
+		createFileLabel.setText("Criar ficheiro");
+
+		historyFilePath = new Text(this, SWT.BORDER | SWT.READ_ONLY);
+		historyFilePath.setBounds(10, 184, 236, 26);
+
+		chooseHistoryFile = new Button(this, SWT.NONE);
+		chooseHistoryFileListener();
+		chooseHistoryFile.setBounds(265, 182, 157, 30);
+		chooseHistoryFile.setText("Selecionar ficheiro ");
+
+		btnCreateFile = new Button(this, SWT.NONE);
+		btnCreateFileListener();
+		btnCreateFile.setBounds(237, 113, 185, 30);
+		btnCreateFile.setText("Criar ficheiro 'historico'");
+	}
+
+	private void btnCreateFileListener() {
+		btnCreateFile.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (!destinationPath.getText().isEmpty() && !submitedFileName.getText().isEmpty()) {
+					File f = new File(destinationPath.getText());
+					if (!f.exists()) {
+						try {
+							f.createNewFile();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
+				}
+			}
+		});
+	}
+
+	private void chooseHistoryFileListener() {
+		chooseHistoryFile.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				JFileChooser fileLocation = new JFileChooser(".");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+				fileLocation.setFileFilter(filter);
+				fileLocation.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				int returnValue = fileLocation.showOpenDialog(null);
+				String filePath = new String();
+				if (returnValue == JFileChooser.APPROVE_OPTION) {
+					filecreated = fileLocation.getSelectedFile();
+					filePath = filecreated.getPath();
+				}
+				historyFilePath.setText(filePath);
+				writeHistory();
+			}
+		});
+	}
+
+
+	private void selectedDestinationFolderListener() {
+		selectedDestinationFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JFileChooser pathpasta = new JFileChooser(".");
@@ -75,101 +155,42 @@ public class SaveHistoryGUI extends Shell {
 
 				}
 				if (!submitedFileName.getText().isEmpty()) {
-					finaldirectoy.setText(file.getPath() + "\\" + submitedFileName.getText() + ".txt"); //CRIAÇÃO DA DIRETORIA FINAL;
+					destinationPath.setText(file.getPath() + "\\" + submitedFileName.getText() + ".txt"); //CRIAÇÃO DA DIRETORIA FINAL;
 				} else {
-					JOptionPane.showMessageDialog(null, "Preencha o campo 'Nome do ficheiro'");
+					JOptionPane.showMessageDialog(null, EMPTY_FIELD_MESSAGE);
 				}
 			}
 		});
-		pathpasta.setBounds(10, 71, 185, 30);
-		pathpasta.setText("Selecione a pasta destino");
+	}
+	
+	private void writeHistory() {
+		if (!historyFilePath.getText().isEmpty()) {
+			if (!rules.isEmpty()) {
+				for (int x = 0; x < rules.size(); x++) {//CICLO QUE ESCREVE TODAS AS REGRAS DA LISTA N FICHEIRO .TXT
 
-		finaldirectoy = new Text(this, SWT.BORDER);
-		finaldirectoy.setBounds(211, 73, 211, 26);
+					try {
+						FileWriter fw = new FileWriter(new File(historyFilePath.getText()), true);
+						BufferedWriter bw = new BufferedWriter(fw);
+						bw.write(rules.get(x).toString());
+						bw.newLine();
+						bw.close();
 
-		Label lblSeAPasta = new Label(this, SWT.NONE);
-		lblSeAPasta.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-		lblSeAPasta.setBounds(10, 147, 252, 20);
-		lblSeAPasta.setText("Após criação/Se o ficheiro já existir:");
-
-		Label lblNewLabel = new Label(this, SWT.NONE);
-		lblNewLabel.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-		lblNewLabel.setBounds(10, 11, 101, 20);
-		lblNewLabel.setText("Criar ficheiro");
-
-		historyFile = new Text(this, SWT.BORDER);
-		historyFile.setBounds(10, 184, 236, 26);
-
-		Button choosenHistoryFile = new Button(this, SWT.NONE);
-		choosenHistoryFile.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JFileChooser pathpasta2 = new JFileChooser(".");
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-				pathpasta2.setFileFilter(filter);
-				pathpasta2.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				int returnValue = pathpasta2.showOpenDialog(null);
-				String apath = new String();
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
-
-					filecreated = pathpasta2.getSelectedFile();
-					apath = filecreated.getPath();
-
-				}
-				historyFile.setText(apath);
-				if (!historyFile.getText().isEmpty()) {
-					if (!rules.isEmpty()) {
-						for (int x = 0; x < rules.size(); x++) {//CICLO QUE ESCREVE TODAS AS REGRAS DA LISTA N FICHEIRO .TXT
-
-							try {
-								FileWriter fw = new FileWriter(new File(historyFile.getText()), true);
-								BufferedWriter bw = new BufferedWriter(fw);
-								bw.write(rules.get(x).toString());
-								bw.newLine();
-								bw.close();
-
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-						JOptionPane.showMessageDialog(null, "Histórico guardado com sucesso!");
-					} else {
-						JOptionPane.showMessageDialog(null, "Lista de regras vazia, defina regras");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-
-				} else {
-					JOptionPane.showMessageDialog(null, "Selecione o ficheiro destino");
 				}
-
+				JOptionPane.showMessageDialog(null, SUCESS_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, EMPTY_RULE_LIST_MESSAGE);
 			}
-		});
-		choosenHistoryFile.setBounds(265, 182, 157, 30);
-		choosenHistoryFile.setText("Selecionar ficheiro ");
 
-		//CRIAÇÃO DO FICHEIRO HISTÓRICO, APÓS A DEFINIÇÃO DA SUA DIRETORIA E RESPETIVO NOME;
-		Button btnCreateFile = new Button(this, SWT.NONE);
-		btnCreateFile.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if (!finaldirectoy.getText().isEmpty() && !submitedFileName.getText().isEmpty()) {
-					File f = new File(finaldirectoy.getText());
-					System.out.println(f.getPath());
-					if (!f.exists()) {
-						try {
-							f.createNewFile();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos");
-				}
-			}
-		});
-		btnCreateFile.setBounds(237, 113, 185, 30);
-		btnCreateFile.setText("Criar ficheiro 'historico'");
+		} else {
+			JOptionPane.showMessageDialog(null, SELECT_DESTINATION_MESSAGE);
+		}
+	}
+
+	public void loadGUI() {
 		try {
 			open();
 			layout();
@@ -181,11 +202,6 @@ public class SaveHistoryGUI extends Shell {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		createContents();
-	}
-
-	public void loadGUI() {
-
 	}
 
 	/**

@@ -30,7 +30,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Composite;
 
 public class SecondaryGUI extends Shell {
 
@@ -89,18 +88,9 @@ public class SecondaryGUI extends Shell {
 	
 	private void addElements() {
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-		fd_table = new FormData();
-		fd_table.top = new FormAttachment(0, 10);
-		fd_table.left = new FormAttachment(0, 10);
-		fd_table.right = new FormAttachment(100, 560);
-		
-		evaluateButton = new Button(this, SWT.NONE);
-		fd_table.bottom = new FormAttachment(evaluateButton, -18);
-		FormData fd_evaluateButton = new FormData();
+		fd_table();
+		FormData fd_evaluateButton = fd_evaluateButton();
 		evaluateButtonListener();
-		fd_evaluateButton.right = new FormAttachment(0, 190);
-		fd_evaluateButton.top = new FormAttachment(0, 707);
-		fd_evaluateButton.left = new FormAttachment(0, 10);
 		evaluateButton.setLayoutData(fd_evaluateButton);		
 		evaluateButton.setText(EVALUATE_SMELL_BUTTON_TEXT);
 
@@ -129,13 +119,8 @@ public class SecondaryGUI extends Shell {
 		fd_fileNametext.left = new FormAttachment(evaluateButton, 25);
 		fileNametext.setLayoutData(fd_fileNametext);
 
-		selectFileButton_1 = new Button(this, SWT.NONE);
 		fd_fileNametext.right = new FormAttachment(selectFileButton_1, -22);
-		fd_table.right = new FormAttachment(selectFileButton_1, 0, SWT.RIGHT);
-		FormData fd_selectFileButton_1 = new FormData();
-		fd_selectFileButton_1.right = new FormAttachment(0, 669);
-		fd_selectFileButton_1.top = new FormAttachment(0, 707);
-		fd_selectFileButton_1.left = new FormAttachment(0, 512);
+		FormData fd_selectFileButton_1 = fd_selectFileButton();
 		selectFileButton_1.setLayoutData(fd_selectFileButton_1);
 		selectFileButtonListener(selectFileButton_1);
 		selectFileButton_1.setText(SELECT_FILE_BUTTON_TEXT);
@@ -148,6 +133,36 @@ public class SecondaryGUI extends Shell {
 		helpMenuItem.setText(HELP_MENU_TEXT);
 		table.setLayoutData(fd_table);
 		
+	}
+
+
+	private FormData fd_selectFileButton() {
+		FormData fd_selectFileButton_1 = new FormData();
+		fd_selectFileButton_1.right = new FormAttachment(0, 669);
+		fd_selectFileButton_1.top = new FormAttachment(0, 707);
+		fd_selectFileButton_1.left = new FormAttachment(0, 512);
+		return fd_selectFileButton_1;
+	}
+
+
+	private FormData fd_evaluateButton() {
+		FormData fd_evaluateButton = new FormData();
+		fd_evaluateButton.right = new FormAttachment(0, 190);
+		fd_evaluateButton.top = new FormAttachment(0, 707);
+		fd_evaluateButton.left = new FormAttachment(0, 10);
+		return fd_evaluateButton;
+	}
+
+
+	private void fd_table() {
+		fd_table = new FormData();
+		fd_table.top = new FormAttachment(0, 10);
+		fd_table.left = new FormAttachment(0, 10);
+		fd_table.right = new FormAttachment(100, 560);
+		evaluateButton = new Button(this, SWT.NONE);
+		fd_table.bottom = new FormAttachment(evaluateButton, -18);
+		selectFileButton_1 = new Button(this, SWT.NONE);
+		fd_table.right = new FormAttachment(selectFileButton_1, 0, SWT.RIGHT);
 	}
 
 
