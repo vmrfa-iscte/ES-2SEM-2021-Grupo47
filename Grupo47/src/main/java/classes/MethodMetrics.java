@@ -18,8 +18,8 @@ public class MethodMetrics {
 	
 
 	/**
-	 * @param identidade do método
-	 * @param métricas do método
+	 * @param methodIdentity identidade do método
+	 * @param extractedMetrics métricas do método
 	 */
 	public MethodMetrics(MethodIdentity methodIdentity,Metrics extractedMetrics) {
 		// Objeto que agrupa a identificação de um método e as suas métricas
@@ -101,63 +101,63 @@ public class MethodMetrics {
 	}
 
 	/**
-	 * @param métrica LOC_method
+	 * @param lOC_method métrica LOC_method
 	 */
 	public void setLOC_method(int lOC_method) {
 		LOC_method = lOC_method;
 	}
 
 	/**
-	 * @param nome do pacote
+	 * @param pacote nome do pacote
 	 */
 	public void setPacote(String pacote) {
 		this.packageName = pacote;
 	}
 
 	/**
-	 * @param nome da classe
+	 * @param classe nome da classe
 	 */
 	public void setClasse(String classe) {
 		this.className = classe;
 	}
 
 	/**
-	 * @param nome do método
+	 * @param nome_metodo nome do método
 	 */
 	public void setNome_metodo(String nome_metodo) {
 		this.methodName = nome_metodo;
 	}
 
 	/**
-	 * @param métrica LOC_class
+	 * @param lOC_class métrica LOC_class
 	 */
 	public void setLOC_class(int lOC_class) {
 		this.LOC_class = lOC_class;
 	}
 
 	/**
-	 * @param métrica WMC_class
+	 * @param wMC_class métrica WMC_class
 	 */
 	public void setWMC_class(int wMC_class) {
 		this.WMC_class = wMC_class;
 	}
 
 	/**
-	 * @param métrica CYCLO_method
+	 * @param cYCLO_method métrica CYCLO_method
 	 */
 	public void setCYCLO_method(int cYCLO_method) {
 		this.CYCLO_method = cYCLO_method;
 	}
 	
 	/**
-	 * @param métrica NOM_class
+	 * @param NOM_class métrica NOM_class
 	 */
 	public void setNOM_class(int NOM_class) {
 		this.NOM_class = NOM_class;
 	}
 	
 	/**
-	 * @param id do método
+	 * @param method_id id do método
 	 */
 	public void setMethod_ID(int method_id) {
 		this.method_id = method_id;

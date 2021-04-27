@@ -14,11 +14,11 @@ public class Metrics {
 	
 	
 	/**
-	 * @param métrica LOC_method
-	 * @param métrica LOC_class
-	 * @param métrica CYCLO_method
-	 * @param métrica NOM_class
-	 * @param métrica WMC_class
+	 * @param LOC_method métrica LOC_method
+	 * @param LOC_class métrica LOC_class
+	 * @param CYCLO_method métrica CYCLO_method
+	 * @param NOM_class métrica NOM_class
+	 * @param WMC_class métrica WMC_class
 	 */
 	public Metrics(int LOC_method,int LOC_class, int CYCLO_method,int NOM_class,int WMC_class) {
 		// Objeto que agrupa todas as métricas
@@ -66,35 +66,35 @@ public class Metrics {
 	}
 
 	/**
-	 * @param métrica LOC_method
+	 * @param lOC_method métrica LOC_method
 	 */
 	public void setLOC_method(int lOC_method) {
 		LOC_method = lOC_method;
 	}
 
 	/**
-	 * @param métrica LOC_class
+	 * @param lOC_class métrica LOC_class
 	 */
 	public void setLOC_class(int lOC_class) {
 		this.LOC_class = lOC_class;
 	}
 
 	/**
-	 * @param métrica WMC_class
+	 * @param wMC_class métrica WMC_class
 	 */
 	public void setWMC_class(int wMC_class) {
 		this.WMC_class = wMC_class;
 	}
 
 	/**
-	 * @param métrica CYCLO_method
+	 * @param cYCLO_method métrica CYCLO_method
 	 */
 	public void setCYCLO_method(int cYCLO_method) {
 		this.CYCLO_method = cYCLO_method;
 	}
 	
 	/**
-	 * @param métrica NOM_class
+	 * @param NOM_class métrica NOM_class
 	 */
 	public void setNOM_class(int NOM_class) {
 		this.NOM_class = NOM_class;

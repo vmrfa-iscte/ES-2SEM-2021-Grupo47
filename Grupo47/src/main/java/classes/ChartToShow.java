@@ -27,7 +27,7 @@ public class ChartToShow {
 	private QualityCalculator calculator = new QualityCalculator();
 	
 	/**
-	 * @param uma lista de HasCodeSmell resultantes da deteção
+	 * @param result uma lista de HasCodeSmell resultantes da deteção
 	 */
 	public ChartToShow(ArrayList<HasCodeSmell> result) {
 		this.result = result;
@@ -35,7 +35,7 @@ public class ChartToShow {
 	
 	
 	/**
-	 * @param um mapa com os tipos de qualidade e o número de ocurrências de cada
+	 * @param mapValues um mapa com os tipos de qualidade e o número de ocurrências de cada
 	 */
 	public void createPieChart(HashMap<String,Integer> mapValues) {
 		// Cria o PieChart numa nova janela (JFrame)
@@ -58,7 +58,7 @@ public class ChartToShow {
 
 	
 	  /**
-	 * @param um mapa com os tipos de qualidade e o número de ocorrências de cada
+	 * @param mapValues um mapa com os tipos de qualidade e o número de ocorrências de cada
 	 * @return uma base de dados para criação de um PieChart
 	 */
 	@SuppressWarnings("rawtypes")
@@ -75,7 +75,7 @@ public class ChartToShow {
 	  
 	
 	  /**
-	 * @param uma lista de HasCodeSmell's vinda da leitura do excel fornecido
+	 * @param trueResults uma lista de HasCodeSmell's vinda da leitura do excel fornecido
 	 * @return um mapa com os tipos de qualidade e número de ocorrências
 	 */
 	public HashMap<String, Integer> setResults(ArrayList<HasCodeSmell> trueResults) {

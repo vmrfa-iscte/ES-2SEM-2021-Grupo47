@@ -16,7 +16,7 @@ public class FillTable {
 
 
 	/**
-	 * @param uma tabela
+	 * @param table uma tabela
 	 */
 	public FillTable(Table table) {
 		this.table = table;
@@ -30,8 +30,8 @@ public class FillTable {
 	}
 	
 	/**
-	 * @param uma lista de HasCodeSmell para colocar na tabela
-	 * @param um boleano para indicar se se deve colocar a qualidade 
+	 * @param toFill uma lista de HasCodeSmell para colocar na tabela
+	 * @param withQuality um boleano para indicar se se deve colocar a qualidade 
 	 */
 	public void fillTable(ArrayList<HasCodeSmell> toFill,boolean withQuality) {
 		// Percorre uma lista de HasCodeSmell e adiciona a sua informação à tabela 
@@ -42,8 +42,8 @@ public class FillTable {
 
 	
 	/**
-	 * @param um objeto HasCodeSmell para adicionar à tabela
-	 * @param um boleano para indicar se se deve colocar a qualidade 
+	 * @param codesmellToAdd um objeto HasCodeSmell para adicionar à tabela
+	 * @param withQuality um boleano para indicar se se deve colocar a qualidade 
 	 */
 	public void addCodeSmellsInfo(HasCodeSmell codesmellToAdd, boolean withQuality) {
 		// Preenche a tabela da SecondaryGUI com a informação de um HasCodeSmell, caso o OBjeto já tenha qualidade, esta será preenchida na coluna "Qualidade"
@@ -65,8 +65,8 @@ public class FillTable {
 	
 	
 	/**
-	 * @param uma lista de HasCodeSmell resultante da leitura do ficheiro excel
-	 * @param uma lista com os objetos HasCodeSmells que estão na tabela
+	 * @param trueResults uma lista de HasCodeSmell resultante da leitura do ficheiro excel
+	 * @param toEdit uma lista com os objetos HasCodeSmells que estão na tabela
 	 * @return uma lista de HasCodeSmell com o campo Qualidade alterado
 	 */
 	public ArrayList<HasCodeSmell> calculateQuality(ArrayList<HasCodeSmell> trueResults,ArrayList<HasCodeSmell> toEdit) {
@@ -78,8 +78,8 @@ public class FillTable {
 
 	
 	/**
-	 * @param uma lista de HasCodeSmell resultante da leitura do ficheiro excel
-	 * @param um objeto HasCodeSmell
+	 * @param trueResults uma lista de HasCodeSmell resultante da leitura do ficheiro excel
+	 * @param indicator um objeto HasCodeSmell
 	 */
 	private void searchAndSetQuality(ArrayList<HasCodeSmell> trueResults, HasCodeSmell indicator) {
 		// Procura o método correto e depois compara as deteções para editar a qualidade (ex: Verdadeiro Positivo,etc..)

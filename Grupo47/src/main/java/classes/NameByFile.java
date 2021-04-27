@@ -26,14 +26,14 @@ public class NameByFile {
 	}
 
 	/**
-	 * @param um dado ficheiro
+	 * @param fileToExtract um dado ficheiro
 	 */
 	public void setFileToExtract(File fileToExtract) {
 		this.fileToExtract = fileToExtract;
 	}
 	
 	/**
-	 * @param uma dada classe ou interface
+	 * @param classFromFile uma dada classe ou interface
 	 * @return o nome da classe na correta formatação
 	 */
 	public String getClassName(ClassOrInterfaceDeclaration classFromFile) {
@@ -48,7 +48,7 @@ public class NameByFile {
 
 	
 	/**
-	 * @param um dado enumerado
+	 * @param enumFromFile um dado enumerado
 	 * @return o nome do enumerado na correta formatação
 	 */
 	public String getClassNameForEnum(EnumDeclaration enumFromFile) {
@@ -86,8 +86,8 @@ public class NameByFile {
 
 	
 	/**
-	 * @param o nome de um pacote
-	 * @param um dado ficheiro
+	 * @param packageName o nome de um pacote
+	 * @param fileToExtract um dado ficheiro
 	 * @return indicador se o ficheiro se encontra no pacote 'DefaultPackage'
 	 */
 	public boolean isDefaultPackage(String packageName, File fileToExtract) {

@@ -12,10 +12,10 @@ public class MethodIdentity{
 	
 	
 	/**
-	 * @param nome do método
-	 * @param nome da classe
-	 * @param nome do pacote
-	 * @param número de id do método
+	 * @param methodName nome do método
+	 * @param className nome da classe
+	 * @param packageName nome do pacote
+	 * @param method_id número de id do método
 	 */
 	public MethodIdentity(String methodName, String className, String packageName, int method_id) {
 		// Objeto que agrupa os elementos capazes de identificar um único método

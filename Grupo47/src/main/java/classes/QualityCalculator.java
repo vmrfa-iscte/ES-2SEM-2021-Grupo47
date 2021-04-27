@@ -17,8 +17,8 @@ public class QualityCalculator {
 	
 	
 	/**
-	 * @param HasCodeSmell detetado
-	 * @param HasCodeSmell calculado
+	 * @param indicator HasCodeSmell detetado
+	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
 	 */
 	public boolean isTrueNegative(HasCodeSmell indicator, HasCodeSmell calculated) {
@@ -28,8 +28,8 @@ public class QualityCalculator {
 	}
 	
 	/**
-	 * @param HasCodeSmell detetado
-	 * @param HasCodeSmell calculado
+	 * @param indicator HasCodeSmell detetado
+	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
 	 */
 	public boolean isFalsePositive(HasCodeSmell indicator, HasCodeSmell calculated) {
@@ -39,8 +39,8 @@ public class QualityCalculator {
 	}
 	
 	/**
-	 * @param HasCodeSmell detetado
-	 * @param HasCodeSmell calculado
+	 * @param indicator HasCodeSmell detetado
+	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
 	 */
 	public boolean isFalseNegative(HasCodeSmell indicator, HasCodeSmell calculated) {
@@ -50,8 +50,8 @@ public class QualityCalculator {
 	}
 
 	/**
-	* @param HasCodeSmell detetado
-	 * @param HasCodeSmell calculado
+	* @param indicator HasCodeSmell detetado
+	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
 	 */
 	public boolean isTruePositive(HasCodeSmell indicator, HasCodeSmell calculated) {
@@ -60,8 +60,8 @@ public class QualityCalculator {
 	}
 	
 	/**
-	 * @param HasCodeSmell detetado
-	 * @param HasCodeSmell calculado
+	 * @param indicator HasCodeSmell detetado
+	 * @param calculated HasCodeSmell calculado
 	 */
 	public void setQuality(HasCodeSmell indicator, HasCodeSmell calculated) {
 		// Compara dois HasCodeSmells e consoante a deteção da qualidade edita a qualidade do "indicator"

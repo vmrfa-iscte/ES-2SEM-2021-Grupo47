@@ -24,8 +24,8 @@ public class ShowExcelGUI extends Shell{
 	private Table tableForMetrics;
 	/**
 	 * @param display
-	 * @param nome da GUI
-	 * @param métricas para ser mostradas
+	 * @param name nome da GUI
+	 * @param metricsToShow métricas para ser mostradas
 	 */
 	public ShowExcelGUI(Display display,String name,ArrayList<MethodMetrics> metricsToShow) {
 		this.display = display;
