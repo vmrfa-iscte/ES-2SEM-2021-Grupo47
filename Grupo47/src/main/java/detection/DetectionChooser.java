@@ -1,6 +1,10 @@
-package G47.Grupo47;
+package detection;
 
 import java.util.ArrayList;
+
+import classes.HasCodeSmell;
+import classes.MethodMetrics;
+import classes.Rule;
 
 public class DetectionChooser {
 	

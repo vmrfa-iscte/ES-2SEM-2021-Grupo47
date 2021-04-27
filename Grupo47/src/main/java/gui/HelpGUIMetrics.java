@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package gui;
 
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Display;

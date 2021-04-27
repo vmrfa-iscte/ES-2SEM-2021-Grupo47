@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package gui;
 
 
 import java.io.File;
@@ -19,6 +19,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import classes.ChartToShow;
+import classes.FillTable;
+import classes.HasCodeSmell;
+import excel.ExcelManip;
 
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;

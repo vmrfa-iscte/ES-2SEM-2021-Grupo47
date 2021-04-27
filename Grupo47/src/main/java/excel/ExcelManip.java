@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package excel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,11 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import classes.HasCodeSmell;
+import classes.MethodIdentity;
+import classes.MethodMetrics;
+import classes.NameByFile;
 
 public class ExcelManip {
  

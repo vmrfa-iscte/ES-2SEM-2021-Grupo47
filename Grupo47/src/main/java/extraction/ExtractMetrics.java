@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package extraction;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +14,11 @@ import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+
+import classes.MethodIdentity;
+import classes.MethodMetrics;
+import classes.Metrics;
+import classes.NameByFile;
 
 public class ExtractMetrics {
 

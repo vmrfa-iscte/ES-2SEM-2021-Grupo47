@@ -1,8 +1,10 @@
-package G47.Grupo47;
+package extraction;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import classes.MethodMetrics;
 
 public class DirExplorer {
 	

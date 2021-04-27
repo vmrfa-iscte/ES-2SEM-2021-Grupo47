@@ -1,7 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
-encoding//src/main/java/G47/Grupo47/DirExplorer.java=UTF-8
-encoding//src/main/java/G47/Grupo47/MetricParser.java=UTF-8
-encoding//src/main/java/G47/Grupo47/NameByFile.java=UTF-8
+encoding//src/main/java/classes/NameByFile.java=UTF-8
+encoding//src/main/java/extraction/DirExplorer.java=UTF-8
+encoding//src/main/java/extraction/MetricParser.java=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

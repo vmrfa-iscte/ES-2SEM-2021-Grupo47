@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package gui;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,6 +18,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import classes.Rule;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 

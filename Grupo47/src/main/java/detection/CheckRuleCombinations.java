@@ -1,4 +1,6 @@
-package G47.Grupo47;
+package detection;
+
+import classes.MethodMetrics;
 
 public class CheckRuleCombinations {
 	

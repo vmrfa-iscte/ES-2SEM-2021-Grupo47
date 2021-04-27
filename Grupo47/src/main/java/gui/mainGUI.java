@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package gui;
 
 import java.io.BufferedReader;
 
@@ -30,6 +30,11 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import classes.HasCodeSmell;
+import classes.Rule;
+import classes.Statistics;
+
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 

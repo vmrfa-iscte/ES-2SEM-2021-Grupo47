@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package classes;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

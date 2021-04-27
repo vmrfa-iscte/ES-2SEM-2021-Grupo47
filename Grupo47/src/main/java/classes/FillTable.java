@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package classes;
 
 
 import org.eclipse.swt.widgets.Table;

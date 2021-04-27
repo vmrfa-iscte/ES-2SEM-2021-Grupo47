@@ -1,8 +1,11 @@
-package G47.Grupo47;
+package gui;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import classes.MethodMetrics;
+
 import org.eclipse.swt.widgets.Table;
 
 import java.util.ArrayList;

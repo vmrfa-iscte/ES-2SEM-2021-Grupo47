@@ -1,4 +1,4 @@
-package G47.Grupo47;
+package extraction;
 
 
 import com.github.javaparser.ast.body.MethodDeclaration;
