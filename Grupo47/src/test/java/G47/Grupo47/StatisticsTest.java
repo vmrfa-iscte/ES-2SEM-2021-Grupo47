@@ -2,6 +2,8 @@
 //
 //import java.util.ArrayList;
 //
+//import classes.MethodMetrics;
+//import classes.Statistics;
 //import junit.framework.TestCase;
 //
 //public class StatisticsTest extends TestCase {

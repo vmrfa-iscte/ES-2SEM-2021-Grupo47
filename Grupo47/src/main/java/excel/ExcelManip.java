@@ -27,13 +27,13 @@ public class ExcelManip {
 	private File file;
 	private NameByFile excelFileName = new NameByFile(); 
 	private static final String METHOD_ID_HEADER = "MethodID", PACKAGE_HEADER = "Package", CLASS_HEADER = "Class", METHOD_HEADER = "Method", 
-			NOM_CLASS_HEADER= "NOM_Class", LOC_CLASS_HEADER= "LOC_Class", WMC_CLASS_HEADER = "WMC_Class", IS_GOD_CLASS_HEADER= "is_God_Class", 
-			LOC_METHOD_HEADER= "LOC_Method", CYCLO_METHOD_HEADER= "CYCLO_Method",IS_LONG_METHOD_HEADER= "Is_Long_Method";	
+			NOM_CLASS_HEADER= "NOM_Class", LOC_CLASS_HEADER= "LOC_Class", WMC_CLASS_HEADER = "WMC_Class",  
+			LOC_METHOD_HEADER= "LOC_Method", CYCLO_METHOD_HEADER= "CYCLO_Method";
 	
 	private static final int ZERO = 0, LETTER_HEIGHT = 10;
 	private static final String  DOUBLE_LEFT_SLASH = "\\";
 	private static final int METHOD_ID_COLUMN_INDEX = 0, PACKAGE_COLUMN_INDEX = 1,CLASS_COLUMN_INDEX = 2,METHOD_COLUMN_INDEX = 3,
-	NOMCLASS_COLUMN_INDEX = 4,LOC_CLASS_COLUMN_INDEX = 5, WMC_CLASS_COLUMN_INDEX = 6, LOC_METHOD_COLUMN_INDEX = 8, CYCLO_METHOD_COLUMN_INDEX = 9;
+	NOMCLASS_COLUMN_INDEX = 4,LOC_CLASS_COLUMN_INDEX = 5, WMC_CLASS_COLUMN_INDEX = 6, LOC_METHOD_COLUMN_INDEX = 7, CYCLO_METHOD_COLUMN_INDEX = 8;
 	
 
 
@@ -46,8 +46,8 @@ public class ExcelManip {
 		headers = new ArrayList<String>();
 		headers.add(METHOD_ID_HEADER);headers.add(PACKAGE_HEADER);headers.add(CLASS_HEADER);headers.add(METHOD_HEADER);
 		headers.add(NOM_CLASS_HEADER);headers.add(LOC_CLASS_HEADER);headers.add(WMC_CLASS_HEADER);
-		headers.add(IS_GOD_CLASS_HEADER);headers.add(LOC_METHOD_HEADER);headers.add(CYCLO_METHOD_HEADER);
-		headers.add(IS_LONG_METHOD_HEADER);
+		headers.add(LOC_METHOD_HEADER);headers.add(CYCLO_METHOD_HEADER);
+		
 	}
 
 	// Este método é bastante simples e apenas retorna o ArrayList que contem os cabeçalhos que irão constituir o excel a criar
