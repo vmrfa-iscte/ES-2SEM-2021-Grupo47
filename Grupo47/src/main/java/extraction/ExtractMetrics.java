@@ -48,9 +48,8 @@ public class ExtractMetrics {
 		// Obter o código do ficheiro 'FileToExtract' através do objeto JavaParser
 		JavaParser parseCodeFromFile  = new JavaParser();
 		ParseResult<CompilationUnit> compilationUnitFromParser = parseCodeFromFile.parse(classNameByFile.getFileToExtract()); 
-		if(compilationUnitFromParser.isSuccessful()) {
+		if(compilationUnitFromParser.isSuccessful())
 			extract(compilationUnitFromParser);
-		}
 		return extractedMetrics;
 	}
 
