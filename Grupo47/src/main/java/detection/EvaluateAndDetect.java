@@ -24,36 +24,35 @@ public class EvaluateAndDetect {
 	}
 
 	// Atrvés dos métodos escolhidos para a regra vai escolher a avaliação adequada
-	public HashMap<String,ArrayList<HasCodeSmell>> evaluationChooser(String method1, String method2, Rule thisCurrentRule) {
-		if (method1.equals(gui.mainGUI.LOC_METHOD))
+	public HashMap<String,ArrayList<HasCodeSmell>> evaluationChooser(Rule thisCurrentRule) {
+		if (thisCurrentRule.getMethod1().equals(gui.mainGUI.LOC_METHOD))
 			return evaluateLocMethod(thisCurrentRule);
-		else if (isWMCAndNOM(method1, method2, thisCurrentRule))
+		else if (isWMCAndNOM(thisCurrentRule))
 			return evaluateGodClassWithWMC_NOM(thisCurrentRule);
-		else if (isWMCAndLOC(method1, method2, thisCurrentRule))
+		else if (isWMCAndLOC(thisCurrentRule))
 			return evaluateGodClassWithWMC_LOC(thisCurrentRule);
-		else if (isNOMAndLOC(method1, method2, thisCurrentRule))
+		else if (isNOMAndLOC(thisCurrentRule))
 			return evaluateGodClassWithNOM_LOC(thisCurrentRule);
-		else if (isGodClass(method1, thisCurrentRule))
+		else if (isGodClass(thisCurrentRule))
 			return evaluateGodClassWithWMC_NOM_LOC(thisCurrentRule);
 		return null;
 	}
 
-	private boolean isGodClass(String method1, Rule thisCurrentRule) {
-		return method1.equals(gui.mainGUI.WMC_CLASS) && thisCurrentRule.getMethod3().contains("a");
+	public boolean isGodClass(Rule thisCurrentRule) {
+		return thisCurrentRule.getMethod1().equals(gui.mainGUI.WMC_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.NOM_CLASS) && thisCurrentRule.getMethod3().contains("a");
 	}
 
-	private boolean isNOMAndLOC(String method1, String method2, Rule thisCurrentRule) {
-		return method1.equals(gui.mainGUI.NOM_CLASS) && method2.equals(gui.mainGUI.LOC_CLASS)
+	public boolean isNOMAndLOC(Rule thisCurrentRule) {
+		return thisCurrentRule.getMethod1().equals(gui.mainGUI.NOM_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.LOC_CLASS) && !thisCurrentRule.getMethod3().contains("a");
+	}
+
+	private boolean isWMCAndLOC(Rule thisCurrentRule) {
+		return thisCurrentRule.getMethod1().equals(gui.mainGUI.WMC_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.LOC_CLASS) 
 				&& !thisCurrentRule.getMethod3().contains("a");
 	}
 
-	private boolean isWMCAndLOC(String method1, String method2, Rule thisCurrentRule) {
-		return method1.equals(gui.mainGUI.WMC_CLASS) && method2.equals(gui.mainGUI.LOC_CLASS)
-				&& !thisCurrentRule.getMethod3().contains("a");
-	}
-
-	private boolean isWMCAndNOM(String method1, String method2, Rule thisCurrentRule) {
-		return method1.equals(gui.mainGUI.WMC_CLASS) && method2.equals(gui.mainGUI.NOM_CLASS)
+	private boolean isWMCAndNOM(Rule thisCurrentRule) {
+		return thisCurrentRule.getMethod1().equals(gui.mainGUI.WMC_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.NOM_CLASS)
 				&& !thisCurrentRule.getMethod3().contains("a");
 	}
 

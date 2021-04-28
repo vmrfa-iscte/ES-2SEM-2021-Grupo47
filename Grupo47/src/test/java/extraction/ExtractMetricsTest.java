@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.sun.javafx.collections.ArrayListenerHelper;
@@ -17,29 +18,30 @@ import classes.Metrics;
 class ExtractMetricsTest {
 
 	protected ExtractMetrics extractClass,extractEnum;
-	protected File classFile,enumFile;
+	protected File classFile,enumFile,wrongFile;
 	protected ArrayList<MethodMetrics> auxiliaryClass,auxiliaryEnum;
 	
-	@Test
-	void testExtractMetrics() {
-		classFile = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\Util.java");
+	@BeforeEach
+	void setUp() {
+		auxiliaryClass = new ArrayList<MethodMetrics>();
+		auxiliaryEnum = new ArrayList<MethodMetrics>();
+		wrongFile = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\opcodes.xml");
+		classFile = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\classes\\Attribute.java");
 		enumFile = new File("C:\\Users\\rui.fontoura\\OneDrive - ISCTE-IUL\\Documents\\eclipseenterprise-workspace\\SID2021\\src\\packageSID\\TipoAlerta.java");
 		extractClass = new ExtractMetrics(classFile);
 		extractEnum = new ExtractMetrics(enumFile);
+		
+	}
+	
+	@Test
+	void testExtractMetrics() {
 		assertNotNull(extractClass);
 		assertNotNull(extractEnum);
 	}
 
 	@Test
 	void testDoExtractMetrics() throws FileNotFoundException {
-		auxiliaryClass = new ArrayList<MethodMetrics>();
-		auxiliaryEnum = new ArrayList<MethodMetrics>();
 		
-		classFile = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\classes\\Attribute.java");
-		enumFile = new File("C:\\Users\\rui.fontoura\\OneDrive - ISCTE-IUL\\Documents\\eclipseenterprise-workspace\\SID2021\\src\\packageSID\\TipoAlerta.java");
-		
-		extractClass = new ExtractMetrics(classFile);
-		extractEnum = new ExtractMetrics(enumFile);
 		
 		ArrayList<MethodMetrics> resultsClass = extractClass.doExtractMetrics(auxiliaryClass, 0);
 		ArrayList<MethodMetrics> resultsEnum = extractEnum.doExtractMetrics(auxiliaryEnum, 0);
@@ -99,6 +101,15 @@ class ExtractMetricsTest {
 			assertEquals(toCompareWithClass.get(i).toString(),resultsClass.get(i).toString());
 			assertEquals(toCompareWithEnum.get(i).toString(),resultsEnum.get(i).toString());
 		}
+	}
+	
+	@Test
+	void testDoExtractionWrongFile() throws FileNotFoundException {
+		ArrayList<MethodMetrics> resultWrongFile = new ArrayList<MethodMetrics>();
+		extractClass = new ExtractMetrics(wrongFile);
+		resultWrongFile = extractClass.doExtractMetrics(auxiliaryClass, 0);
+		assertEquals(auxiliaryClass,resultWrongFile);
+		
 	}
 
 	@Test

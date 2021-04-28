@@ -88,43 +88,43 @@ public class DetectionChooser {
 	}
 	
 	private boolean isGreaterGreaterGreater(String signal1, String signal2, String signal3) {
-		if (signal1.equals(GREATER_THAN) && signal2.equals(GREATER_THAN) && signal3.equals(GREATER_THAN)) return true;
-		else return false;
+		return (signal1.equals(GREATER_THAN) && signal2.equals(GREATER_THAN) && signal3.equals(GREATER_THAN)) ;
+		
 	}
 	
 	private boolean isLesserLesserLesser(String firstSignal,String secondSignal, String thirdSignal) {
-		if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(LESSER_THAN)) return true;
-		else return false;
+		return (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(LESSER_THAN)) ;
+		
 	}
 	
 	private boolean isGreaterLesserLesser(String firstSignal,String secondSignal, String thirdSignal) {
-		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(LESSER_THAN)) return true;
-		else return false;
+		return (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(LESSER_THAN)) ;
+		
 	}
 	
 	private boolean isGreaterGreaterLesser(String firstSignal,String secondSignal, String thirdSignal) {
-		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(GREATER_THAN)) return true;
-		else return false;
+		return (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(GREATER_THAN)) ;
+		
 	}
 	
 	private boolean isGreaterLesserGreater(String firstSignal,String secondSignal, String thirdSignal) {
-		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(LESSER_THAN)) return true;
-		else return false;
+		return (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(LESSER_THAN)) ;
+		
 	}
 	
 	private boolean isLesserLesserGreater(String firstSignal,String secondSignal, String thirdSignal) {
-		if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(GREATER_THAN)) return true;
-		else return false;
+		return (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(GREATER_THAN)) ;
+		
 	}
 	
 	private boolean isLesserGreaterGreater(String firstSignal,String secondSignal, String thirdSignal) {
-		if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(GREATER_THAN)) return true;
-		else return false;
+		return (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(GREATER_THAN)) ;
+		
 	}
 	
 	private boolean isLesserGreaterLesser(String firstSignal,String secondSignal, String thirdSignal) {
-		if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(LESSER_THAN)) return true;
-		else return false;
+		return (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(LESSER_THAN)) ;
+		
 	}
 	
 	

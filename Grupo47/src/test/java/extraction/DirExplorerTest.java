@@ -17,9 +17,31 @@ import junit.framework.Assert;
 
 public class DirExplorerTest {
 	
-	protected File projectDirectory,classIntegerArray,classOpcodeHelper,classOpcodeInfo,classOpcodeLoader,classUtil;
+	protected File projectDirectory,classIntegerArray,classOpcodeHelper,classOpcodeInfo,classOpcodeLoader,classUtil,
+	src;
 	protected DirExplorer directoryExplorer;
 	protected ArrayList<MethodMetrics> extractedMetrics,resultsExtract;
+	
+	@BeforeEach
+	void setUp() {
+		classIntegerArray = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\IntegerArray.java");
+		classOpcodeHelper = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeHelper.java");
+		classOpcodeInfo = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeInfo.java");
+		classOpcodeLoader = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeLoader.java");
+		classUtil = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\Util.java");
+		src = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src");
+		
+		
+		resultsExtract = new ArrayList<MethodMetrics>();
+		projectDirectory = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper");
+		directoryExplorer = new DirExplorer(projectDirectory);
+		try {
+			extractedMetrics = directoryExplorer.exploreAndExtract();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	@Test
 	public void testDirExplorer() {
@@ -29,16 +51,7 @@ public class DirExplorerTest {
 
 	@Test
 	public void testExploreAndExtract() throws FileNotFoundException {
-		classIntegerArray = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\IntegerArray.java");
-		classOpcodeHelper = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeHelper.java");
-		classOpcodeInfo = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeInfo.java");
-		classOpcodeLoader = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeLoader.java");
-		classUtil = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\Util.java");
-		
-		resultsExtract = new ArrayList<MethodMetrics>();
-		projectDirectory = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper");
-		directoryExplorer = new DirExplorer(projectDirectory);
-		extractedMetrics = directoryExplorer.exploreAndExtract();
+
 		
 		ExtractMetrics extractIntegerArray = new ExtractMetrics(classIntegerArray);
 		ArrayList<MethodMetrics> resultsIntegerArray = extractIntegerArray.doExtractMetrics(resultsExtract, 0);
@@ -58,6 +71,14 @@ public class DirExplorerTest {
 		for(int i = 0; i < resultsUtil.size(); i++) {
 			assertEquals(resultsUtil.get(i).toString(),extractedMetrics.get(i).toString());
 		}
+	}
+	
+	@Test
+	public void testExploreAndExtractNotJava() throws FileNotFoundException {
+		directoryExplorer = new DirExplorer(src);
+		resultsExtract = directoryExplorer.exploreAndExtract();
+		assertNotNull(resultsExtract);
+		
 	}
 
 }

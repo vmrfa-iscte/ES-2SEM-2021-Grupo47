@@ -376,7 +376,7 @@ public class mainGUI extends Shell {
 						// Apenas é averiguada caso exista uma regra selecionada
 						String method1 = currentRule.getMethod1();
 						String method2 = currentRule.getMethod2();
-						HashMap<String,ArrayList<HasCodeSmell>> nameAndResults = evaluateAndDetect.evaluationChooser(method1,method2, currentRule);
+						HashMap<String,ArrayList<HasCodeSmell>> nameAndResults = evaluateAndDetect.evaluationChooser(currentRule);
 						if(nameAndResults != null) {
 							String name = nameAndResults.keySet().iterator().next();
 							ArrayList<HasCodeSmell> results = nameAndResults.values().iterator().next();
