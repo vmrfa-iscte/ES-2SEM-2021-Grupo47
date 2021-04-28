@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JFileChooser;
@@ -374,7 +376,12 @@ public class mainGUI extends Shell {
 						// Apenas é averiguada caso exista uma regra selecionada
 						String method1 = currentRule.getMethod1();
 						String method2 = currentRule.getMethod2();
-						evaluateAndDetect.evaluationChooser(method1,method2, currentRule, mainGUI.this);
+						HashMap<String,ArrayList<HasCodeSmell>> nameAndResults = evaluateAndDetect.evaluationChooser(currentRule);
+						if(nameAndResults != null) {
+							String name = nameAndResults.keySet().iterator().next();
+							ArrayList<HasCodeSmell> results = nameAndResults.values().iterator().next();
+							createSecondaryGUI(name,results);
+						}
 					} else JOptionPane.showMessageDialog(null, NO_RULE_SELECTED_ERROR_MESSAGE); // Caso contário é mostrada uma mensagem de erro
 				}
 			}

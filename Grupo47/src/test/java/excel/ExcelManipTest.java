@@ -1,4 +1,9 @@
-package G47.Grupo47;
+package excel;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +16,7 @@ import excel.ExcelManip;
 import extraction.DirExplorer;
 import junit.framework.TestCase;
 
-public class ExcelManipTest extends TestCase {
+class ExcelManipTest {
 	
 	private File projectDir,projectDir2;
 	protected ExcelManip manip;
@@ -19,20 +24,20 @@ public class ExcelManipTest extends TestCase {
 	
 	
 	protected void setUp() throws Exception {
-		super.setUp();
-		projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10\\src\\com");
-		manip = new ExcelManip(projectDir);
-		projectDir2 = new File("C:\\Users\\Tomás Mendes\\Desktop\\Code_Smells.xlsx");
-		manip2 = new ExcelManip(projectDir2);
+		
 		
 	}
 
 	protected void tearDown() throws Exception {
-		super.tearDown();
 		
 	}
 	
+	@Test
 	public void testeCreation() {
+		projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
+		manip = new ExcelManip(projectDir);
+		projectDir2 = new File("C:\\Code_Smells.xlsx");
+		manip2 = new ExcelManip(projectDir2);
 		
 		manip = new ExcelManip(projectDir);
 		assertNotNull(manip);
@@ -40,8 +45,12 @@ public class ExcelManipTest extends TestCase {
 	}
 	
 
-//	
+	@Test
 	public void testHeadersExtraction() throws IOException {
+		projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
+		manip = new ExcelManip(projectDir);
+		projectDir2 = new File("C:\\Code_Smells.xlsx");
+		manip2 = new ExcelManip(projectDir2);
 		// Headers Extraction
 		ArrayList<String> toCompare = new ArrayList<>();
 		toCompare.add("MethodID");
@@ -62,18 +71,27 @@ public class ExcelManipTest extends TestCase {
 		
 	}
 	
+	@Test
 	public void testExcelCreation() throws IOException {
+		projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
+		manip = new ExcelManip(projectDir);
+		projectDir2 = new File("C:\\Code_Smells.xlsx");
+		manip2 = new ExcelManip(projectDir2);
 
-		File projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10\\src\\com");
 		assertNotNull(projectDir);
 		DirExplorer de = new DirExplorer(projectDir);
 		assertNotNull(de);
 		ArrayList<MethodMetrics> metrics = de.exploreAndExtract();
 		assertNotNull(manip);
-		manip.createExcel(metrics,"C:\\Users\\Tomás Mendes\\Desktop");	
+		manip.createExcel(metrics,"C:\\Users\\rui.fontoura\\Desktop");	
 	}
 	
+	@Test
 	public void testConverionToArray() throws IOException {
+		projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
+		manip = new ExcelManip(projectDir);
+		projectDir2 = new File("C:\\Code_Smells.xlsx");
+		manip2 = new ExcelManip(projectDir2);
 	
 	
 		ArrayList<HasCodeSmell> converted = manip2.toComparables(7);
@@ -85,3 +103,4 @@ public class ExcelManipTest extends TestCase {
 	
 
 }
+

@@ -35,10 +35,10 @@ public class ChartToShow {
 	
 	
 	/**
+	 * Cria o PieChart numa nova janela (JFrame)
 	 * @param mapValues um mapa com os tipos de qualidade e o número de ocurrências de cada
 	 */
 	public void createPieChart(HashMap<String,Integer> mapValues) {
-		// Cria o PieChart numa nova janela (JFrame)
 	    PieDataset dataset = createDataset(mapValues);
 	    JFreeChart chart = ChartFactory.createPieChart(
 	        "Quality of Detection Pie Chart",
@@ -58,12 +58,13 @@ public class ChartToShow {
 
 	
 	  /**
+	  * Cria os dados para o PieChart 
 	 * @param mapValues um mapa com os tipos de qualidade e o número de ocorrências de cada
 	 * @return uma base de dados para criação de um PieChart
+	 * 
 	 */
 	@SuppressWarnings("rawtypes")
 	private PieDataset createDataset(HashMap<String,Integer> mapValues) {
-		// Cria os dados para o PieChart 
 	    DefaultPieDataset dataset=new DefaultPieDataset();
 	    Iterator<?> iterador = mapValues.entrySet().iterator();
 		while(iterador.hasNext()) {
@@ -75,12 +76,12 @@ public class ChartToShow {
 	  
 	
 	  /**
+	   *  Compara a deteção de code smells atrvés da regra definida com a deteção presente no ficheiro excel escolhido
+			retorna os resultados para posteriormente ser criado o PieChart
 	 * @param trueResults uma lista de HasCodeSmell's vinda da leitura do excel fornecido
 	 * @return um mapa com os tipos de qualidade e número de ocorrências
 	 */
-	public HashMap<String, Integer> setResults(ArrayList<HasCodeSmell> trueResults) {
-		  // Compara a deteção de code smells atrvés da regra definida com a deteção presente no ficheiro excel escolhido
-			// retorna os resultados para posteriormente ser criado o PieChart 
+	public HashMap<String, Integer> setResults(ArrayList<HasCodeSmell> trueResults) { 
 			HashMap<String, Integer> mapValues = new HashMap<>();
 			int falsepositive = 0;
 			int falsenegative = 0;

@@ -1,6 +1,7 @@
 package classes;
 
 public class HasCodeSmell {
+
 	private String method_name;
 	private String hasCodeSmell;
 	private String method_id;
@@ -60,6 +61,13 @@ public class HasCodeSmell {
 	public boolean isEqual(HasCodeSmell calculated) {
 		return getMethodName().equals(calculated.getMethodName()) && getClassName().equals(calculated.getClassName())
 				&& getPackageName().equals(calculated.getPackageName());
+	}
+	
+	@Override
+	public String toString() {
+		return "HasCodeSmell [method_name=" + method_name + ", hasCodeSmell=" + hasCodeSmell + ", method_id="
+				+ method_id + ", package_name=" + package_name + ", class_name=" + class_name
+				+ ", isPositiveOrNegative=" + isPositiveOrNegative + ", isMethod=" + isMethod + "]";
 	}
 	
 	
