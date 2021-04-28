@@ -8,7 +8,7 @@ import extraction.DirExplorer;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-public class DirExplorerTest extends TestCase {
+public class ExplorerTest extends TestCase {
 	
 	protected File projectDir,secondProject;
 	protected DirExplorer directoryExplorer,secondDirectoryExplorer;
