@@ -68,6 +68,9 @@ public class SaveHistoryGUI extends Shell {
 		addElements();
 	}
 	
+	/**
+	 * Adiciona o conteúdo à GUI
+	 */
 	public void addElements() {
 		Label defineFileNameLabel = new Label(this, SWT.NONE);
 		defineFileNameLabel.setBounds(10, 37, 185, 20);
@@ -108,6 +111,9 @@ public class SaveHistoryGUI extends Shell {
 		btnCreateFile.setText("Criar ficheiro 'historico'");
 	}
 
+	/**
+	 * Cria um ficheiro histórico do tipo .txt
+	 */
 	private void btnCreateFileListener() {
 		btnCreateFile.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -128,6 +134,9 @@ public class SaveHistoryGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Escolha do ficheiro destino e passagem da lista de regras para o mesmo
+	 */
 	private void chooseHistoryFileListener() {
 		chooseHistoryFile.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -149,6 +158,9 @@ public class SaveHistoryGUI extends Shell {
 	}
 
 
+	/**
+	 * Cria a combinação da diretoria e do nome ficheiro .txt
+	 */
 	private void selectedDestinationFolderListener() {
 		selectedDestinationFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -170,6 +182,9 @@ public class SaveHistoryGUI extends Shell {
 		});
 	}
 	
+	/**
+	 * Escreve num ficheiro .txt a lista de regras
+	 */
 	private void writeHistory() {
 		if (!historyFilePath.getText().isEmpty()) {
 			if (!rules.isEmpty()) {
@@ -197,6 +212,10 @@ public class SaveHistoryGUI extends Shell {
 		}
 	}
 
+	
+	/**
+	 * Abertura da GUI
+	 */
 	public void loadGUI() {
 		try {
 			open();
