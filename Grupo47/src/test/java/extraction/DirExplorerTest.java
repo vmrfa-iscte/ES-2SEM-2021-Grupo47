@@ -34,10 +34,12 @@ public class DirExplorerTest {
 		classOpcodeInfo = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeInfo.java");
 		classOpcodeLoader = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\OpcodeLoader.java");
 		classUtil = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper\\Util.java");
+		
 		resultsExtract = new ArrayList<MethodMetrics>();
 		projectDirectory = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\helper");
 		directoryExplorer = new DirExplorer(projectDirectory);
 		extractedMetrics = directoryExplorer.exploreAndExtract();
+		
 		ExtractMetrics extractIntegerArray = new ExtractMetrics(classIntegerArray);
 		ArrayList<MethodMetrics> resultsIntegerArray = extractIntegerArray.doExtractMetrics(resultsExtract, 0);
 		
@@ -52,8 +54,10 @@ public class DirExplorerTest {
 		
 		ExtractMetrics extractUtil = new ExtractMetrics(classUtil);
 		ArrayList<MethodMetrics> resultsUtil = extractUtil.doExtractMetrics(resultsOpcodeLoader, extractOpcodeLoader.getCurrentMethodID());
-	
-		assertIterableEquals(resultsUtil,extractedMetrics,"São diferentes");
+		assertEquals(resultsUtil.size(),extractedMetrics.size(),"Tamanho Diferente");
+		for(int i = 0; i < resultsUtil.size(); i++) {
+			assertEquals(resultsUtil.get(i).toString(),extractedMetrics.get(i).toString());
+		}
 	}
 
 }
