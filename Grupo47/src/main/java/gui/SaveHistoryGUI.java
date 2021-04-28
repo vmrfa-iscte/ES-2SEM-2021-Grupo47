@@ -159,7 +159,7 @@ public class SaveHistoryGUI extends Shell {
 
 
 	/**
-	 * Cria a combinação da diretoria e do nome ficheiro .txt
+	 * Cria a combinação da diretoria e do nome do ficheiro .txt
 	 */
 	private void selectedDestinationFolderListener() {
 		selectedDestinationFolder.addSelectionListener(new SelectionAdapter() {
