@@ -6,30 +6,54 @@ import java.util.ArrayList;
 
 import classes.MethodMetrics;
 
+/**
+ * @author Vasco Fontoura
+ *
+ */
 public class DirExplorer {
 	
-    private File fileToSearch; //Directory chosen to search for .java Files
-    private ArrayList<MethodMetrics> accumulateMetrics; //List where all metrics will be accumulated
-    private int currentMethod_id; //Last method's method_id to keep track of current method_id
+    private File fileToSearch; 
+    private ArrayList<MethodMetrics> accumulateMetrics; // Lista onde as métricas vão ser acumuladas
+    private int currentMethod_id; // Method id do último método para não haver ids repetidos
     private static int START_LEVEL = 0,FIRST_METHOD_ID = 1;
     private static String FILE_ENDING = ".java";
 
+    /**
+     * @param fileToSearch uma diretoria escolhida para procurar ficheiros .java
+     */
     public DirExplorer(File fileToSearch) {
         this.fileToSearch = fileToSearch;
         this.accumulateMetrics = new ArrayList<>();
         this.currentMethod_id = FIRST_METHOD_ID;
     }
            
+    /**
+     * @return uma lista com os resultados da extração de métricas
+     * @throws FileNotFoundException
+     */
     public ArrayList<MethodMetrics> exploreAndExtract() throws FileNotFoundException {
         return exploreAndExtract(START_LEVEL, "",fileToSearch);
     }
     
+    /**
+     * @param level
+     * @param currentPath caminho do último ficheiro visitado
+     * @param currentFile último ficheiro visitado
+     * @return uma lista com os resultados da extração de métricas
+     * @throws FileNotFoundException
+     */
     private ArrayList<MethodMetrics> exploreAndExtract(int level, String currentPath,File currentFile) throws FileNotFoundException {
     	if (currentFile.isDirectory()) goThroughFiles(currentFile,level,currentPath); //If currentFile is a directory keep searching for files
     	else verifyAndExtractMetrics(currentFile,currentPath); //If current file is not a directory verify and extract metrics for that file
     	return accumulateMetrics;
     }
     
+    /**
+     * Verifica se o ficheiro é um ficheiro java e caso seja extrai métricas
+     * @param currentFile último ficheiro visitado
+     * @param filePath caminho do ficheiro
+     * @throws FileNotFoundException
+     */
     private void verifyAndExtractMetrics(File currentFile,String filePath) throws FileNotFoundException {
     	if(filePath.endsWith(FILE_ENDING)) { //Verify if the currentFile is a java file
     		ExtractMetrics extractMetricsFromFile = new ExtractMetrics(currentFile); //Creating ExtractMetrics object with currentFile
@@ -38,6 +62,13 @@ public class DirExplorer {
     	}
     }
     
+    /**
+     * Chama o método exploreAndExtract caso o ficheiro visitado seja uma diretoria
+     * @param currentFile último ficheiro visitado
+     * @param level
+     * @param currentPath caminho do último ficheiro visitado
+     * @throws FileNotFoundException
+     */
     private void goThroughFiles(File currentFile,int level,String currentPath) throws FileNotFoundException {
     	for (File child : currentFile.listFiles()) {
 			exploreAndExtract(level + 1, currentPath + "/" + child.getName(), child); //Recursive, going through every file inside given file (currentFile) when its a Directory
