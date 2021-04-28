@@ -2,6 +2,7 @@ package detection;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import classes.HasCodeSmell;
 import classes.MethodMetrics;
@@ -9,6 +10,8 @@ import classes.Rule;
 import gui.mainGUI;
 
 public class EvaluateAndDetect {
+	private static final String IS_LONG_METHOD_DETECTION = "IsLong Method Detection";
+	private static final String IS_GOD_CLASS_DETECTION = "IsGod Class Detection";
 	private ArrayList<MethodMetrics> actualmetrics;
 	private DetectionChooser chooser = new DetectionChooser();
 
@@ -21,17 +24,18 @@ public class EvaluateAndDetect {
 	}
 
 	// Atrvés dos métodos escolhidos para a regra vai escolher a avaliação adequada
-	public void evaluationChooser(String method1, String method2, Rule thisCurrentRule, mainGUI mainGUI) {
+	public HashMap<String,ArrayList<HasCodeSmell>> evaluationChooser(String method1, String method2, Rule thisCurrentRule) {
 		if (method1.equals(gui.mainGUI.LOC_METHOD))
-			evaluateLocMethod(thisCurrentRule, mainGUI);
+			return evaluateLocMethod(thisCurrentRule);
 		else if (isWMCAndNOM(method1, method2, thisCurrentRule))
-			evaluateGodClassWithWMC_NOM(thisCurrentRule, mainGUI);
+			return evaluateGodClassWithWMC_NOM(thisCurrentRule);
 		else if (isWMCAndLOC(method1, method2, thisCurrentRule))
-			evaluateGodClassWithWMC_LOC(thisCurrentRule, mainGUI);
+			return evaluateGodClassWithWMC_LOC(thisCurrentRule);
 		else if (isNOMAndLOC(method1, method2, thisCurrentRule))
-			evaluateGodClassWithNOM_LOC(thisCurrentRule, mainGUI);
+			return evaluateGodClassWithNOM_LOC(thisCurrentRule);
 		else if (isGodClass(method1, thisCurrentRule))
-			evaluateGodClassWithWMC_NOM_LOC(thisCurrentRule, mainGUI);
+			return evaluateGodClassWithWMC_NOM_LOC(thisCurrentRule);
+		return null;
 	}
 
 	private boolean isGodClass(String method1, Rule thisCurrentRule) {
@@ -54,28 +58,38 @@ public class EvaluateAndDetect {
 	}
 
 	// Os seguintes métodos escolhem a deteção adequada perante a regra escolhida
-	public void evaluateLocMethod(Rule ruleReceived, mainGUI mainGUI) {
+	public HashMap<String,ArrayList<HasCodeSmell>> evaluateLocMethod(Rule ruleReceived) {
+		HashMap<String, ArrayList<HasCodeSmell>> nameAndResults = new HashMap<String,ArrayList<HasCodeSmell>>();
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionLocMethod(ruleReceived, actualmetrics);
-		mainGUI.createSecondaryGUI("IsLong Method Detection", hasCodeSmellResult);
+		nameAndResults.put(IS_LONG_METHOD_DETECTION,hasCodeSmellResult);
+		return nameAndResults;
 	}
 
-	public void evaluateGodClassWithWMC_NOM(Rule ruleReceived, mainGUI mainGUI) {
+	public HashMap<String, ArrayList<HasCodeSmell>> evaluateGodClassWithWMC_NOM(Rule ruleReceived) {
+		HashMap<String, ArrayList<HasCodeSmell>> nameAndResults = new HashMap<String,ArrayList<HasCodeSmell>>();
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM(ruleReceived, actualmetrics);
-		mainGUI.createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
+		nameAndResults.put(IS_GOD_CLASS_DETECTION,hasCodeSmellResult);
+		return nameAndResults;
 	}
 
-	public void evaluateGodClassWithWMC_LOC(Rule ruleReceived, mainGUI mainGUI) {
+	public HashMap<String, ArrayList<HasCodeSmell>> evaluateGodClassWithWMC_LOC(Rule ruleReceived) {
+		HashMap<String, ArrayList<HasCodeSmell>> nameAndResults = new HashMap<String,ArrayList<HasCodeSmell>>();
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_LOC(ruleReceived, actualmetrics);
-		mainGUI.createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
+		nameAndResults.put(IS_GOD_CLASS_DETECTION,hasCodeSmellResult);
+		return nameAndResults;
 	}
 
-	public void evaluateGodClassWithNOM_LOC(Rule ruleReceived, mainGUI mainGUI) {
+	public HashMap<String, ArrayList<HasCodeSmell>> evaluateGodClassWithNOM_LOC(Rule ruleReceived) {
+		HashMap<String, ArrayList<HasCodeSmell>> nameAndResults = new HashMap<String,ArrayList<HasCodeSmell>>();
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionNOM_LOC(ruleReceived, actualmetrics);
-		mainGUI.createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
+		nameAndResults.put(IS_GOD_CLASS_DETECTION,hasCodeSmellResult);
+		return nameAndResults;
 	}
 
-	public void evaluateGodClassWithWMC_NOM_LOC(Rule ruleReceived, mainGUI mainGUI) {
+	public HashMap<String, ArrayList<HasCodeSmell>> evaluateGodClassWithWMC_NOM_LOC(Rule ruleReceived) {
+		HashMap<String, ArrayList<HasCodeSmell>> nameAndResults = new HashMap<String,ArrayList<HasCodeSmell>>();
 		ArrayList<HasCodeSmell> hasCodeSmellResult = chooser.chooseDetectionWMC_NOM_LOC(ruleReceived, actualmetrics);
-		mainGUI.createSecondaryGUI("IsGod Class Detection", hasCodeSmellResult);
+		nameAndResults.put(IS_GOD_CLASS_DETECTION,hasCodeSmellResult);
+		return nameAndResults;
 	}
 }

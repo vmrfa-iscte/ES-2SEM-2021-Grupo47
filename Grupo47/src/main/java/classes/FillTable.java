@@ -30,11 +30,11 @@ public class FillTable {
 	}
 	
 	/**
+	 * Percorre uma lista de HasCodeSmell e adiciona a sua informação à tabela
 	 * @param toFill uma lista de HasCodeSmell para colocar na tabela
 	 * @param withQuality um boleano para indicar se se deve colocar a qualidade 
 	 */
-	public void fillTable(ArrayList<HasCodeSmell> toFill,boolean withQuality) {
-		// Percorre uma lista de HasCodeSmell e adiciona a sua informação à tabela 
+	public void fillTable(ArrayList<HasCodeSmell> toFill,boolean withQuality) { 
 		table.removeAll();
 		for (HasCodeSmell hascodesmell : toFill)
 			addCodeSmellsInfo(hascodesmell, withQuality);
@@ -42,11 +42,11 @@ public class FillTable {
 
 	
 	/**
+	 *  Preenche a tabela da SecondaryGUI com a informação de um HasCodeSmell, caso o OBjeto já tenha qualidade, esta será preenchida na coluna "Qualidade"
 	 * @param codesmellToAdd um objeto HasCodeSmell para adicionar à tabela
 	 * @param withQuality um boleano para indicar se se deve colocar a qualidade 
 	 */
 	public void addCodeSmellsInfo(HasCodeSmell codesmellToAdd, boolean withQuality) {
-		// Preenche a tabela da SecondaryGUI com a informação de um HasCodeSmell, caso o OBjeto já tenha qualidade, esta será preenchida na coluna "Qualidade"
 		TableItem tableItem = new TableItem(table, SWT.NONE);
 		if (withQuality) {
 			if (codesmellToAdd.isMethod())
@@ -65,12 +65,12 @@ public class FillTable {
 	
 	
 	/**
+	 * Percorre a lista de HasCodeSmells que resultaram da detação pela regra escolhida e para cada uma edita a sua qualidade
 	 * @param trueResults uma lista de HasCodeSmell resultante da leitura do ficheiro excel
 	 * @param toEdit uma lista com os objetos HasCodeSmells que estão na tabela
 	 * @return uma lista de HasCodeSmell com o campo Qualidade alterado
 	 */
 	public ArrayList<HasCodeSmell> calculateQuality(ArrayList<HasCodeSmell> trueResults,ArrayList<HasCodeSmell> toEdit) {
-		// Percorre a lista de HasCodeSmells que resultaram da detação pela regra escolhida e para cada uma edita a sua qualidade
 		for (HasCodeSmell indicator : toEdit) 
 			searchAndSetQuality(trueResults, indicator);
 		return toEdit;
@@ -78,11 +78,12 @@ public class FillTable {
 
 	
 	/**
+	 * Procura o método correto e depois compara as deteções para editar a qualidade (ex: Verdadeiro Positivo,etc..)
 	 * @param trueResults uma lista de HasCodeSmell resultante da leitura do ficheiro excel
 	 * @param indicator um objeto HasCodeSmell
 	 */
 	private void searchAndSetQuality(ArrayList<HasCodeSmell> trueResults, HasCodeSmell indicator) {
-		// Procura o método correto e depois compara as deteções para editar a qualidade (ex: Verdadeiro Positivo,etc..)
+	
 		if (indicator.isMethod()) {
 			for (HasCodeSmell calculated : trueResults) {
 				if (indicator.isEqual(calculated))
