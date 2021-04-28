@@ -48,18 +48,30 @@ public class Rule {
 		this.limit3 = limit3;
 	}
 
+	/**
+	 * @return 2º Operador definido pelo utilizador na GUI
+	 */
 	public String getOperator2() {
 		return operator2;
 	}
 
+	/**
+	 * @param Altera o 2º operador definido pelo utilizador na GUI
+	 */
 	public void setOperator2(String operator2) {
 		this.operator2 = operator2;
 	}
 
+	/**
+	 * @return 1º sinal definido pelo utilizador na GUI
+	 */
 	public String getSinal1() {
 		return signal1;
 	}
 
+	/**
+	 * @param Define/altera o 1º sinal da regra definida pelo utilizador na GUI
+	 */
 	public void setSinal1(String sinal1) {
 		this.signal1 = sinal1;
 	}

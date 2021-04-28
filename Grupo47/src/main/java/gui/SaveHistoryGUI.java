@@ -24,6 +24,11 @@ import classes.Rule;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
+
+/**
+ * @author Guy Turpin
+ *
+ */
 public class SaveHistoryGUI extends Shell {
 
 	private static final String SELECT_DESTINATION_MESSAGE = "Selecione o ficheiro destino";
