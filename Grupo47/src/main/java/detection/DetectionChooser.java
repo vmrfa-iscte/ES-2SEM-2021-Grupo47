@@ -21,7 +21,7 @@ public class DetectionChooser {
 		String secondSignal = ruleReceived.getSinal2();
 		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector.detectLongMethodGreaterGreater();
 		else if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector.detectLongMethodGreaterLesser();
-		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector.detectLongMethodGreaterLesser();
+		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector.detectLongMethodSmallerBigger();
 		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector.detectLongMethodLesserLesser();
 		return hasCodeSmellResult;
 	}
@@ -32,9 +32,9 @@ public class DetectionChooser {
 		String firstSignal = ruleReceived.getSinal1();
 		String secondSignal = ruleReceived.getSinal2();
 		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector2.detectGodClassGreaterGreaterWMC_NOM();
-		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserLesserWMC_NOM();
 		else if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassGreaterLesserWMC_NOM();
 		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserGreaterWMC_NOM();
+		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserLesserWMC_NOM();
 		return hasCodeSmellResult;
 	}
 	
@@ -44,9 +44,9 @@ public class DetectionChooser {
 		String firstSignal = ruleReceived.getSinal1();
 		String secondSignal = ruleReceived.getSinal2();
 		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector2.detectGodClassGreaterGreaterWMC_LOC();
-		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserLesserWMC_LOC();
 		else if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassGreaterLesserWMC_LOC();
 		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserGreaterWMC_LOC();
+		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserLesserWMC_LOC();
 		return hasCodeSmellResult;
 	}
 	
@@ -56,9 +56,9 @@ public class DetectionChooser {
 		String firstSignal = ruleReceived.getSinal1();
 		String secondSignal = ruleReceived.getSinal2();
 		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector2.detectGodClassGreaterGreaterNOM_LOC();
-		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserLesserNOM_LOC();
 		else if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassGreaterLesserNOM_LOC();
 		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserGreaterNOM_LOC();
+		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector2.detectGodClassLesserLesserNOM_LOC();
 		return hasCodeSmellResult;
 	}
 
@@ -103,12 +103,12 @@ public class DetectionChooser {
 	}
 	
 	private boolean isGreaterGreaterLesser(String firstSignal,String secondSignal, String thirdSignal) {
-		return (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(GREATER_THAN)) ;
+		return (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(LESSER_THAN)) ;
 		
 	}
 	
 	private boolean isGreaterLesserGreater(String firstSignal,String secondSignal, String thirdSignal) {
-		return (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN) && thirdSignal.equals(LESSER_THAN)) ;
+		return (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN) && thirdSignal.equals(GREATER_THAN)) ;
 		
 	}
 	
