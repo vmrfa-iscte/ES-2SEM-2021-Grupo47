@@ -20,13 +20,20 @@ import classes.MethodMetrics;
 import classes.Metrics;
 import classes.NameByFile;
 
+/**
+ * @author Vasco Fontoura
+ * @author Tomás Mendes
+ *
+ */
 public class ExtractMetrics {
 
 	private NameByFile classNameByFile = new NameByFile();
 	private MetricParser metricParser = new MetricParser();
 	private int method_id;
-	/* Todas as métricas são inicializadas a 0 com exceção da complexidade ciclomática que é inicializada a 1
-	  	Os contadores utilizados são inicializados também a 0
+
+	/**
+	 * Todas as métricas são inicializadas a 0 com exceção da complexidade ciclomática que é inicializada a 1.
+	  	Os contadores utilizados são inicializados também a 0.
 	 */
 	public static final int METRICS_INITIAL_VALUE = 0, COUNTER_INITIAL_VALUE = 0, COMPLEXITY_INITIAL_VALUE = 1; 
 	public static final String SRC_DIR = "src", DEFAULT_PACKAGE = "Default Package", EMPTY_STRING = "", SPACE_STRING = " ", IF_CYCLE = "if",
@@ -37,6 +44,9 @@ public class ExtractMetrics {
 	private ArrayList<MethodMetrics> extractedMetrics;
 	
 
+	/**
+	 * @param file um ficheiro java para extrair métricas
+	 */
 	public ExtractMetrics(File file) {
 		classNameByFile.setFileToExtract(file);
 		this.packageClass = classNameByFile.getPackageName();
