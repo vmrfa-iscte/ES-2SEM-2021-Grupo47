@@ -54,11 +54,13 @@ public class SaveHistoryGUI extends Shell {
 	 */
 	//CONSTRUTOR DA GUI RELATIVA AO BOTÃO "GUARDAR HISTÓRICO"
 	public SaveHistoryGUI(Display display, List regras, ArrayList<Rule> rules) {
-		super(display, SWT.SHELL_TRIM);
+//		super(display, SWT.SHELL_TRIM);
 		setImage(SWTResourceManager.getImage(SaveHistoryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
 		this.rules = rules;
+		this.display=display;
 
 		createContents();
+		addElements();
 	}
 	
 	public void addElements() {

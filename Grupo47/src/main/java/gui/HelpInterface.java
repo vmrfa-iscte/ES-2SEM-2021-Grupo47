@@ -16,7 +16,8 @@ public class HelpInterface extends Shell {
 	 */
 	// CONSTRUTOR DA INTERFACE "HelpInterface" COM TODO O CONTEÚDO QUE A COMPÕE.
 	public HelpInterface(Display display) {
-		super(display, SWT.SHELL_TRIM);
+//		super(display, SWT.SHELL_TRIM);
+		this.display=display;
 
 		// INSTRUÇÃO 1-Extração de métricas
 		Label lblHelpExtract = new Label(this, SWT.NONE | SWT.BORDER | SWT.WRAP);

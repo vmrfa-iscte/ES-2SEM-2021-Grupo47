@@ -3,6 +3,9 @@ package classes;
 public class Rule {
 
 	// CLASSE RULES, OBJETO USADO PARA CRIAR REGRAS DEFINIDAS PELO UTILIZADOR ATRAVÉS DA GUI.CLASSE COMPOSTA POR GETTERS E SETTERS;
+	/**
+	 * @author Guy Turpin
+	 */
 	private String method1;
 	private String signal1;
 	private String limit1;
@@ -31,10 +34,16 @@ public class Rule {
 		this.limit3 = limit3;
 	}
 
+	/**
+	 * @return Limite da terceira métrica
+	 */
 	public String getLimit3() {
 		return limit3;
 	}
 
+	/**
+	 * @param Define o limite da terceira métrica
+	 */
 	public void setLimit3(String limit3) {
 		this.limit3 = limit3;
 	}
