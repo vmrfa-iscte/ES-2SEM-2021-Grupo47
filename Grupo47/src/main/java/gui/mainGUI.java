@@ -44,6 +44,10 @@ import extraction.DirExplorer;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+/**
+ * @author Guy Turpin, Tomas Mendes, Vasco Fontoura
+ *
+ */
 public class mainGUI extends Shell {
 
 	private static final String SELECT_SRC_MESSAGE = "Selecione a pasta 'src'";
