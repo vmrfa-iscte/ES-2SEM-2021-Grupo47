@@ -26,7 +26,7 @@ import org.eclipse.swt.events.SelectionEvent;
 
 
 /**
- * @author Guy Turpin
+ * @author Guy Turpin, Rita Silva
  *
  */
 public class SaveHistoryGUI extends Shell {
