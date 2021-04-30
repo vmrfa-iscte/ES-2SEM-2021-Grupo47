@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 /**
- * @author Guy Turpin, Tomas Mendes, Vasco Fontoura
+ * @author Guy Turpin, Tomas Mendes, Vasco Fontoura,Rita Silva
  *
  */
 public class mainGUI extends Shell {
