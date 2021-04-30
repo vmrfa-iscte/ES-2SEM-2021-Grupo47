@@ -20,6 +20,16 @@ import classes.MethodIdentity;
 import classes.MethodMetrics;
 import classes.NameByFile;
 
+/**
+ * Classe utilizada para executar as operações de manipulaçao necessarias nos ficheiros excel
+ * @author Tomás Mendes
+ * @version
+ *
+ */
+/**
+ * @author Tomás Mendes
+ *
+ */
 public class ExcelManip {
  
 	private static ArrayList<String> headers;
@@ -37,9 +47,13 @@ public class ExcelManip {
 	
 
 
-	// construtor para a classe excel Manip
+	
 
-	// Estes cabeçalhos são adicionados ao atributo ArrayList da classe, assim que o objeto é instanciado
+	
+	/**
+	 * Construtor recebe como parametro um determinado ficheiro excel
+	 * @param file
+	 */
 	public ExcelManip(File file) {
 		this.file = file;
 		this.excelFileName.setFileToExtract(file);
@@ -47,16 +61,29 @@ public class ExcelManip {
 		headers.add(METHOD_ID_HEADER);headers.add(PACKAGE_HEADER);headers.add(CLASS_HEADER);headers.add(METHOD_HEADER);
 		headers.add(NOM_CLASS_HEADER);headers.add(LOC_CLASS_HEADER);headers.add(WMC_CLASS_HEADER);
 		headers.add(LOC_METHOD_HEADER);headers.add(CYCLO_METHOD_HEADER);
+		// Estes cabeçalhos são adicionados ao atributo ArrayList da classe, assim que o objeto é instanciado
 		
 	}
 
-	// Este método é bastante simples e apenas retorna o ArrayList que contem os cabeçalhos que irão constituir o excel a criar
-	// Cada um destes cabeçalhos representará uma coluna
+	
+	/**
+	 * @return ArrayList com os cabeçalhos a inserir no excel que vai ser gerado
+	 * @throws IOException
+	 */
 	public ArrayList<String> extractHeaders() throws IOException {
 		return headers;
+		// Este método é bastante simples e apenas retorna o ArrayList que contem os cabeçalhos que irão constituir o excel a criar
+		// Cada um destes cabeçalhos representará uma coluna
 	}
 
 	
+	/**
+	 * metodo para criar ficheiro excel, preechido com as metricas extraidas de um dado projeto (formato identico ao do ficheiro Code_Smells.xlsx)
+	 * (LOC_Class, NOM_Class, CYCLO_Class, CYCLO_Method, LOC_Method)
+	 * @param data (ArrayList com metricas calculadas)
+	 * @param toCopy (Caminho onde será guardado o ficheiro)
+	 * @throws IOException
+	 */
 	public void createExcel(ArrayList<MethodMetrics> data,String toCopy) throws IOException {
 		toCopy = toCopy + DOUBLE_LEFT_SLASH + excelFileName.getFileName();
 		ArrayList<String> headers = extractHeaders();
@@ -97,6 +124,13 @@ public class ExcelManip {
 
 	}
 
+	/**
+	 * metodo para criação de ficheiro excel
+	 * @param toCopy (path onde será guardado o ficheiro)
+	 * @param create (WorkBook excel onde serão escritos os dados numa dada sheet)
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private void createFile(String toCopy, XSSFWorkbook create) throws FileNotFoundException, IOException {
 		FileOutputStream excel = new FileOutputStream(new File(toCopy));
 		create.write(excel);
@@ -104,6 +138,13 @@ public class ExcelManip {
 	}
 	
 
+	/**
+	 * Metodo utilizado para transformar um ficheiro excel do genero Code_Smells.xlsx em um ArrayList<HasCodeSmell>, por forma a que
+	 * as classificações corretas possam ser comparadas com as metricas extraidas
+	 * @param columnOfCodeSmell (Consoante o code smell detetado, a coluna onde se vai buscar a classificação difere)
+	 * @return retorna arrayList com o o conteudo do ficheiro excel
+	 * @throws IOException
+	 */
 	public ArrayList<HasCodeSmell> toComparables(int columnOfCodeSmell) throws IOException {
 		FileInputStream fileTo = new FileInputStream(file.getAbsoluteFile());
 		XSSFWorkbook workbook = new XSSFWorkbook(fileTo);
@@ -124,7 +165,13 @@ public class ExcelManip {
 		return toCompare;
 	}
 
-	// Lê uma linha de um ficheiro excel e cria um objeto HasCodeSmell com a informação lida do ficheiro
+	
+	/**
+	 * Metodo utilizado para ler uma linha de um determinado ficheiro exel
+	 * @param columnOfCodeSmell coluna de onde vai ser extraida a classificação correta
+	 * @param row linha de onde esta classificacao sera extraida
+	 * @return
+	 */
 	private HasCodeSmell readExcelRow(int columnOfCodeSmell, Row row) {
 		String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
 		String hasCodeSmell = row.getCell(columnOfCodeSmell).toString();
