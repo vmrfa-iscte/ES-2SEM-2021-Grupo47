@@ -69,7 +69,7 @@ public class SaveHistoryGUI extends Shell {
 	}
 	
 	/**
-	 * Adiciona o conteúdo à GUI
+	 * ADICIONA CONTEUDO A GUI
 	 */
 	public void addElements() {
 		Label defineFileNameLabel = new Label(this, SWT.NONE);
@@ -135,7 +135,7 @@ public class SaveHistoryGUI extends Shell {
 	}
 
 	/**
-	 * Escolha do ficheiro destino e passagem da lista de regras para o mesmo
+	 * METODO QUE PERMITE A ESCOLHA DO FICHEIRO DESTINO DAS REGRAS DEFINIDAS E PASSAGEM DESTAS PARA O MESMO
 	 */
 	private void chooseHistoryFileListener() {
 		chooseHistoryFile.addSelectionListener(new SelectionAdapter() {
@@ -159,7 +159,7 @@ public class SaveHistoryGUI extends Shell {
 
 
 	/**
-	 * Cria a combinação da diretoria e do nome do ficheiro .txt
+	 * CRIAÇAO DA DIRETORIA FINAL (PATH + NOME DO FICHEIRO)
 	 */
 	private void selectedDestinationFolderListener() {
 		selectedDestinationFolder.addSelectionListener(new SelectionAdapter() {
@@ -183,7 +183,7 @@ public class SaveHistoryGUI extends Shell {
 	}
 	
 	/**
-	 * Escreve num ficheiro .txt a lista de regras
+	 * ESCREVE NO FICHEIRO .TXT A LISTA DE REGRAS
 	 */
 	private void writeHistory() {
 		if (!historyFilePath.getText().isEmpty()) {
@@ -214,7 +214,7 @@ public class SaveHistoryGUI extends Shell {
 
 	
 	/**
-	 * Abertura da GUI
+	 * ABERTURA DA GUI
 	 */
 	public void loadGUI() {
 		try {
