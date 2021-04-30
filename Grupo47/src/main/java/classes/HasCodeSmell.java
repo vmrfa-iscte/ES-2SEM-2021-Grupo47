@@ -1,5 +1,11 @@
 package classes;
 
+/**
+ * Classe utilizada para identificar um método de um dado projeto, assim como a classificação atribuida consoante determinada regra
+ * @author Tomás Mendes
+ * @version
+ *
+ */
 public class HasCodeSmell {
 
 	private String method_name;
@@ -10,6 +16,15 @@ public class HasCodeSmell {
 	private String isPositiveOrNegative;
 	private boolean isMethod;
 	
+	
+
+	/**
+	 * Construtor
+	 * @param hasCodeSmell
+	 * @param PositiveOrNegative
+	 * @param method
+	 * @param isMethod
+	 */
 	public HasCodeSmell(String hasCodeSmell, String PositiveOrNegative,MethodMetrics method,boolean isMethod) {
 		this.isMethod = isMethod;
 		if(isMethod) {
@@ -22,42 +37,81 @@ public class HasCodeSmell {
 		this.isPositiveOrNegative = isPositiveOrNegative;
 	}
 	
+	/**
+	 * Getter para atributo que identifica se é um método
+	 * @return booleano isMethod
+	 */
 	public boolean isMethod() {
 		return isMethod;
 	}
 
+	/**
+	 * Setter para booleano isMethod
+	 */
 	public void setMethod(boolean isMethod) {
 		this.isMethod = isMethod;
 	}
 
+	/**
+	 * getter 
+	 * @return ID do metodo
+	 */
 	public String getMethod_ID() {
 		return method_id;
 	}
 
+	/**
+	 * getter 
+	 * @return nome do metodo
+	 */
 	public String getMethodName() {
 		return method_name;
 	}
 
+	/**
+	 * getter
+	 * @return classificação se existe ou não codesmell 
+	 */
 	public String getHasCodeSmell() {
 		return hasCodeSmell;
 	}
 	
+	/**
+	 * getter
+	 * @return nome da classe de um respetivo metodo
+	 */
 	public String getClassName() {
 		return class_name;
 	}
 	
+	/**
+	 * getter
+	 * @return package de um respetivo metodo
+	 */
 	public String getPackageName() {
 		return package_name;
 	}
 	
+	/**
+	 * getter
+	 * @return retorna a qualidade de classificação do code smell
+	 */
 	public String getQuality() {
 		return isPositiveOrNegative;
 	}
 	
+	/**
+	 * setter
+	 * @param qualidade de um método
+	 */
 	public void setQuality (String a)  {
 		this.isPositiveOrNegative = a;
 	}
 
+	/**
+	 * @param calculated, metodo com code smell identificado consoante a regra
+	 * @return booleano que indica se um metodo é igual a outro, compara nome do metodo, classe, package e parametros do mesmo
+	 */
 	public boolean isEqual(HasCodeSmell calculated) {
 		return getMethodName().equals(calculated.getMethodName()) && getClassName().equals(calculated.getClassName())
 				&& getPackageName().equals(calculated.getPackageName());

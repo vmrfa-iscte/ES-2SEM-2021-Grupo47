@@ -2,24 +2,39 @@ package classes;
 
 import java.util.ArrayList;
 
+/**
+ * @author Tomás Mendes
+ * @version
+ *
+ *
+ */
 public class Statistics {
 	
 	ArrayList<MethodMetrics> metrics;
 	private static final int ZERO = 0;
 	
-	// construtor
-	// o objeto receve apenas um arrayList<Metrics> contendo as métricas calculadas previamente
+
+	/**
+	 * construtor
+	 * @param array com metricas calculadas para um determinado projeto
+	 */
 	public Statistics (ArrayList<MethodMetrics> metrics) {
 		this.metrics = metrics;
 		
 	}
 	
+	/**
+	 * @return numero de metodos de um determinado projeto
+	 */
 	public int countNumberOfMethods() {
 		return metrics.size();
 		// O numero de metodos será o numero de elementos no Array
 	}
 	
 	
+	/**
+	 * @return numero de linhas de codigo de um determinado projeto
+	 */
 	public int countLinesOfCode() {
 		int aux = ZERO;
 		for (MethodMetrics m : metrics) {
@@ -30,6 +45,9 @@ public class Statistics {
 	}
 
 
+	/**
+	 * @return numero de packages de um determinado projeto
+	 */
 	public int countPackages() {
 		ArrayList<String> aux = new ArrayList<String>();
 		// Criação de Array auxiliar
@@ -44,6 +62,9 @@ public class Statistics {
 	
 	
 
+	/**
+	 * @return numero de classes de um determinado projeto
+	 */
 	public int countClasses() {
 		ArrayList<String> aux = new ArrayList<String>();
 		// Criação de Array auxiliar
