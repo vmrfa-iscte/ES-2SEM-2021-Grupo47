@@ -26,7 +26,7 @@ class CodeSmellsDetectorTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		projectDir = new File("C:\\Users\\Tomás Mendes\\Desktop\\jasml_0.10\\src\\com");
+		projectDir = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\com");
 		assertNotNull(projectDir);
 		de = new DirExplorer(projectDir);
 		assertNotNull(de);

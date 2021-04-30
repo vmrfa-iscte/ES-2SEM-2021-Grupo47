@@ -1,6 +1,7 @@
 package classes;
 
 /**
+ * Objeto que agrupa todas as metricas extraidas
  * @author Vasco Fontoura
  *
  */
@@ -14,11 +15,12 @@ public class Metrics {
 	
 	
 	/**
-	 * @param LOC_method métrica LOC_method
-	 * @param LOC_class métrica LOC_class
-	 * @param CYCLO_method métrica CYCLO_method
-	 * @param NOM_class métrica NOM_class
-	 * @param WMC_class métrica WMC_class
+	 * Construtor
+	 * @param LOC_method metrica LOC_method
+	 * @param LOC_class metrica LOC_class
+	 * @param CYCLO_method metrica CYCLO_method
+	 * @param NOM_class metrica NOM_class
+	 * @param WMC_class metrica WMC_class
 	 */
 	public Metrics(int LOC_method,int LOC_class, int CYCLO_method,int NOM_class,int WMC_class) {
 		// Objeto que agrupa todas as métricas
@@ -31,70 +33,80 @@ public class Metrics {
 	
 	// Getters e setters
 	/**
-	 * @return métrica NOM_class
+	 * Getter para a metrica NOM_class
+	 * @return metrica NOM_class
 	 */
 	public int getNOM_class() {
 		return NOM_class;
 	}
 
 	/**
-	 * @return métrica LOC_method
+	 * Getter par a metrica LOC_method
+	 * @return metrica LOC_method
 	 */
 	public int getLOC_method() {
 		return LOC_method;
 	}
 	
 	/**
-	 * @return métrica LOC_class
+	 * Getter para a metrica LOC_class
+	 * @return metrica LOC_class
 	 */
 	public int getLOC_class() {
 		return LOC_class;
 	}
 	
 	/**
-	 * @return métrica WMC_class
+	 * Getter para a metrica WMC_class
+	 * @return metrica WMC_class
 	 */
 	public int getWMC_class() {
 		return WMC_class;
 	}
 	
 	/**
-	 * @return métrica CYCLO_method
+	 * Getter para a metrica CYCLO_method
+	 * @return metrica CYCLO_method
 	 */
 	public int getCYCLO_method() {
 		return CYCLO_method;
 	}
 
 	/**
-	 * @param lOC_method métrica LOC_method
+	 * Setter para a metrica LOC_method
+	 * @param lOC_method metrica LOC_method
 	 */
 	public void setLOC_method(int lOC_method) {
 		LOC_method = lOC_method;
 	}
 
 	/**
-	 * @param lOC_class métrica LOC_class
+	 * Setter para a metrica LOC_class
+	 * @param lOC_class metrica LOC_class
 	 */
 	public void setLOC_class(int lOC_class) {
 		this.LOC_class = lOC_class;
 	}
 
 	/**
-	 * @param wMC_class métrica WMC_class
+	 * Setter para a metrica WMC_class
+	 * @param wMC_class metrica WMC_class
 	 */
 	public void setWMC_class(int wMC_class) {
 		this.WMC_class = wMC_class;
 	}
 
 	/**
-	 * @param cYCLO_method métrica CYCLO_method
+	 * Setter para a metrica CYCLO_method
+	 * @param cYCLO_method metrica CYCLO_method
 	 */
 	public void setCYCLO_method(int cYCLO_method) {
 		this.CYCLO_method = cYCLO_method;
 	}
 	
 	/**
-	 * @param NOM_class métrica NOM_class
+	 * Setter para a metrica NOM_class
+	 * @param NOM_class metrica NOM_class
 	 */
 	public void setNOM_class(int NOM_class) {
 		this.NOM_class = NOM_class;

@@ -18,7 +18,11 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
 /**
+ * Esta classe e responsavel por calcular os dados relativos a qualidade e posteriormente criar um PieChart numa nova 
+ * janela.
  * @author Vasco Fontoura
+ * @version
+ * 
  *
  */
 public class ChartToShow {
@@ -27,7 +31,8 @@ public class ChartToShow {
 	private QualityCalculator calculator = new QualityCalculator();
 	
 	/**
-	 * @param result uma lista de HasCodeSmell resultantes da deteção
+	 * Construtor
+	 * @param result uma lista de HasCodeSmell resultantes da detecao
 	 */
 	public ChartToShow(ArrayList<HasCodeSmell> result) {
 		this.result = result;
@@ -36,7 +41,7 @@ public class ChartToShow {
 	
 	/**
 	 * Cria o PieChart numa nova janela (JFrame)
-	 * @param mapValues um mapa com os tipos de qualidade e o número de ocurrências de cada
+	 * @param mapValues um mapa com os tipos de qualidade e o numero de ocorrencias de cada qualidade
 	 */
 	public void createPieChart(HashMap<String,Integer> mapValues) {
 	    PieDataset dataset = createDataset(mapValues);
@@ -58,9 +63,9 @@ public class ChartToShow {
 
 	
 	  /**
-	  * Cria os dados para o PieChart 
-	 * @param mapValues um mapa com os tipos de qualidade e o número de ocorrências de cada
-	 * @return uma base de dados para criação de um PieChart
+	  * Cria os dados para o PieChart através de um mapa com a qualidade e numero de occurencias de cada qualidade 
+	 * @param mapValues um mapa com os tipos de qualidade e o número de ocorrencias de cada
+	 * @return uma base de dados para criacao de um PieChart
 	 * 
 	 */
 	@SuppressWarnings("rawtypes")
@@ -76,10 +81,10 @@ public class ChartToShow {
 	  
 	
 	  /**
-	   *  Compara a deteção de code smells atrvés da regra definida com a deteção presente no ficheiro excel escolhido
+	   *  Compara a detecao de code smells atraves da regra definida com a detecao presente no ficheiro excel escolhido
 			retorna os resultados para posteriormente ser criado o PieChart
 	 * @param trueResults uma lista de HasCodeSmell's vinda da leitura do excel fornecido
-	 * @return um mapa com os tipos de qualidade e número de ocorrências
+	 * @return um mapa com os tipos de qualidade e numero de ocorrencias
 	 */
 	public HashMap<String, Integer> setResults(ArrayList<HasCodeSmell> trueResults) { 
 			HashMap<String, Integer> mapValues = new HashMap<>();
