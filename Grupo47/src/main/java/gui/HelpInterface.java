@@ -5,18 +5,20 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * @author Guy Turpin
+ *
+ */
 public class HelpInterface extends Shell {
 
 	private Display display;
 
 	/**
-	 * Create the shell.
+	 * CONSTRUTOR DA INTERFACE "HelpInterface" COM TODO O CONTEÚDO QUE A COMPÕE.
 	 * 
 	 * @param display
 	 */
-	// CONSTRUTOR DA INTERFACE "HelpInterface" COM TODO O CONTEÚDO QUE A COMPÕE.
 	public HelpInterface(Display display) {
-//		super(display, SWT.SHELL_TRIM);
 		this.display=display;
 
 		// INSTRUÇÃO 1-Extração de métricas
@@ -58,8 +60,10 @@ public class HelpInterface extends Shell {
 		createContents();
 	}
 
-	// MÉTODO PARA ABRIR A INTERFACE "AJUDA-UTILIZAÇÃO DA INTERFACE" COM O FORMATO
-	// CORRETO.
+	
+	/**
+	 * METODO PARA ABRIR A INTERFACE "AJUDA-UTILIZAÇAO DA INTERFACE" COM O FORMATO CORRETO
+	 */
 	public void loadGUI() {
 		try {
 			open();
