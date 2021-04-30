@@ -6,6 +6,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.SWT;
 
 /**
+ * Esta classe e responsavel por preencher uma dada tabela com informacao da detecao de code smells (nome do metodo,
+ * nome da classe, id do metodo,detecao e qualidade de detecao).
  * @author Vasco Fontoura
  *
  */
@@ -16,6 +18,7 @@ public class FillTable {
 
 
 	/**
+	 * Construtor
 	 * @param table uma tabela
 	 */
 	public FillTable(Table table) {
@@ -30,7 +33,7 @@ public class FillTable {
 	}
 	
 	/**
-	 * Percorre uma lista de HasCodeSmell e adiciona a sua informação à tabela
+	 * Percorre uma lista de HasCodeSmell e adiciona a sua informacao a tabela
 	 * @param toFill uma lista de HasCodeSmell para colocar na tabela
 	 * @param withQuality um boleano para indicar se se deve colocar a qualidade 
 	 */
@@ -42,7 +45,7 @@ public class FillTable {
 
 	
 	/**
-	 *  Preenche a tabela da SecondaryGUI com a informação de um HasCodeSmell, caso o OBjeto já tenha qualidade, esta será preenchida na coluna "Qualidade"
+	 *  Preenche a tabela da SecondaryGUI com a informacao de um HasCodeSmell, caso o Objeto ja tenha qualidade, esta sera preenchida na coluna "Qualidade"
 	 * @param codesmellToAdd um objeto HasCodeSmell para adicionar à tabela
 	 * @param withQuality um boleano para indicar se se deve colocar a qualidade 
 	 */
@@ -65,7 +68,7 @@ public class FillTable {
 	
 	
 	/**
-	 * Percorre a lista de HasCodeSmells que resultaram da detação pela regra escolhida e para cada uma edita a sua qualidade
+	 * Percorre a lista de HasCodeSmells que resultaram da detação pela regra escolhida e para cada um edita a sua qualidade
 	 * @param trueResults uma lista de HasCodeSmell resultante da leitura do ficheiro excel
 	 * @param toEdit uma lista com os objetos HasCodeSmells que estão na tabela
 	 * @return uma lista de HasCodeSmell com o campo Qualidade alterado
@@ -78,7 +81,7 @@ public class FillTable {
 
 	
 	/**
-	 * Procura o método correto e depois compara as deteções para editar a qualidade (ex: Verdadeiro Positivo,etc..)
+	 * Procura o metodo correto e depois compara as detecoes para editar a qualidade (ex: Verdadeiro Positivo,etc..)
 	 * @param trueResults uma lista de HasCodeSmell resultante da leitura do ficheiro excel
 	 * @param indicator um objeto HasCodeSmell
 	 */

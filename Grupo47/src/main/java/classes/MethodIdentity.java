@@ -1,6 +1,8 @@
 package classes;
 
 /**
+ * Objeto MethodIdentity contém informacao que distingue um metodo, ou seja, nome do metodo (contem parametros),
+ * nome da classe a que pertence, nome do pacote a que pertence e id do metodo.
  * @author Vasco Fontoura
  *
  */
@@ -12,10 +14,11 @@ public class MethodIdentity{
 	
 	
 	/**
-	 * @param methodName nome do método
+	 * Construtor
+	 * @param methodName nome do metodo
 	 * @param className nome da classe
 	 * @param packageName nome do pacote
-	 * @param method_id número de id do método
+	 * @param method_id número de id do metodo
 	 */
 	public MethodIdentity(String methodName, String className, String packageName, int method_id) {
 		// Objeto que agrupa os elementos capazes de identificar um único método
@@ -27,13 +30,15 @@ public class MethodIdentity{
 	
 	// Getters
 	/**
-	 * @return nome do método
+	 * Getter para o nome do metodo
+	 * @return nome do metodo
 	 */
 	public String getMethodName() {
 		return methodName;
 	}
 
 	/**
+	 * Getter para o nome da classe do metodo
 	 * @return nome da classe
 	 */
 	public String getClassName() {
@@ -41,6 +46,7 @@ public class MethodIdentity{
 	}
 
 	/**
+	 * Getter para o nome do pacote do metodo
 	 * @return nome do pacote
 	 */
 	public String getPackageName() {
@@ -48,7 +54,8 @@ public class MethodIdentity{
 	}
 
 	/**
-	 * @return id do método
+	 * Getter para o id do metodo
+	 * @return id do metodo
 	 */
 	public int getMethod_id() {
 		return method_id;

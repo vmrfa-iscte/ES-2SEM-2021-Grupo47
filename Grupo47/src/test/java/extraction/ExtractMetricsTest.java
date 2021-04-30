@@ -27,7 +27,7 @@ class ExtractMetricsTest {
 		auxiliaryEnum = new ArrayList<MethodMetrics>();
 		wrongFile = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10\\src\\opcodes.xml");
 		classFile = new File("C:\\Users\\rui.fontoura\\Downloads\\jasml_0.10(1)\\jasml_0.10\\src\\com\\jasml\\classes\\Attribute.java");
-		enumFile = new File("C:\\Users\\rui.fontoura\\OneDrive - ISCTE-IUL\\Documents\\eclipseenterprise-workspace\\SID2021\\src\\packageSID\\TipoAlerta.java");
+		enumFile = new File("C:\\Users\\rui.fontoura\\git\\ProjetoSID2021_Grupo3_\\SID2021\\src\\packageSID\\TipoAlerta.java");
 		extractClass = new ExtractMetrics(classFile);
 		extractEnum = new ExtractMetrics(enumFile);
 		
