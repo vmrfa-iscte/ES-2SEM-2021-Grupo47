@@ -751,6 +751,12 @@ public class mainGUI extends Shell {
 		}
 	}
 
+	/**
+	 * METODO QUE CRIA O OBJETO RULE, APOS A VERIFICAÇAO DA EXISTENCIA OU NAO DO MESMO
+	 * 
+	 * @param isRepeated
+	 * @return
+	 */
 	private boolean createRuleAndVerify(boolean isRepeated) {
 		if (isThirdMetricFilled()) {
 			rule = new Rule(firstMetric.getText(), firstSignal.getText(), firstLimit.getText(),
@@ -772,6 +778,9 @@ public class mainGUI extends Shell {
 		return isFirstMetricCorrect() && isSecondMetricCorrect() && (isThirdMetricFilled() || isThirdMetricEmpty());
 	}
 
+	/**
+	 * METODO QUE, CONSOANTE A REGRA ESCOLHIDA, REMOVE E SUBSTITUI POR UMA NOVA
+	 */
 	private void updateRule() {
 		for (int x = 0; x < list.size(); x++) {
 			if (x == rulesToShowSelectedIndex) {
@@ -781,11 +790,23 @@ public class mainGUI extends Shell {
 		}
 	}
 
+	/**
+	 * METODO QUE ADICIONA UMA NOVA REGRA A LISTA DE REGRAS DEFINIDAS PELO UTILIZADOR
+	 * 
+	 * @param line
+	 * @param ruleInHistory
+	 */
 	private void addRule(String line, Rule ruleInHistory) {
 		list.add(ruleInHistory);
 		listrulestoshow.add(line);
 	}
 
+	/**
+	 * METODO QUE LÊ UM FICHEIRO HISTORICO DO TIPO .TXT E ESCREVE AS REGRAS CONTIDAS NO MESMO, NA GUI
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private void readAndGetRules() throws FileNotFoundException, IOException {
 		FileReader reader = new FileReader(new File(history.getPath()));
 		BufferedReader bufferedReader = new BufferedReader(reader);
