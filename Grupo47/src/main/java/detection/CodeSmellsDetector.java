@@ -10,7 +10,6 @@ import classes.Rule;
  * Classe utilizada para detetar a existencia de Code smells num determinado metodo e numa determinada classe, consoante a regra
  * definida pelo utilizadar para esta deteção
  * @author Tomás Mendes
- * @version 
  *
  */
 public class CodeSmellsDetector {

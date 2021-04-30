@@ -7,7 +7,6 @@ import classes.MethodMetrics;
 para cada método varia os sinais utilizados (maior e menor) e os operadores utilizados ("e" e "ou").
  O objetivo da classe é ter todas as combinações de regras possíveis com as métricas possíveis, tendo em conta os operadores e sinais
  * @author Tomás Mendes
- * @version
  *
  */
 public class CheckRuleCombinations {
@@ -41,7 +40,7 @@ public class CheckRuleCombinations {
 
 	
 	/**
-	  Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&&" e "&&"
+	  Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&" e "&"
 	  @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	  @return classificacao
 	 */
@@ -51,7 +50,7 @@ public class CheckRuleCombinations {
 	
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&&" e "||"
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "&" e "||"
 	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	 * @return classificacao
 	 */
@@ -61,7 +60,7 @@ public class CheckRuleCombinations {
 	
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "||" e "&&"
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e menor e com os sinais "||" e "&"
 	 * @param methodWithMetrics identifica um metodo e as suas metricas
 	 * @return classificacao
 	 */
@@ -81,7 +80,7 @@ public class CheckRuleCombinations {
 	
 
 	/**
-	 * 	Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&&" e "&&"
+	 * 	Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&" e "&"
 	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	 * @return classficacao
 	 */
@@ -91,7 +90,7 @@ public class CheckRuleCombinations {
 	
 
 	/**
-	 * 	Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&&" e "||"
+	 * 	Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "&" e "||"
 	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	 * @return classificacao
 	 */
@@ -101,7 +100,7 @@ public class CheckRuleCombinations {
 	
 	
 	/**
-	 *  Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "||" e "&&"
+	 *  Verfica se o método tem code smell isGod segundo os operadores menor, maior e maior e com os sinais "||" e "&"
 	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	 * @return classificacao
 	 */
@@ -119,7 +118,7 @@ public class CheckRuleCombinations {
 	}
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "&&" e "&&"
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "&" e "&"
 	 * @param methodWithMetrics
 	 * @return
 	 */
@@ -128,7 +127,7 @@ public class CheckRuleCombinations {
 	}
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "&&" e "||"
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "&" e "||"
 	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	 * @return classificacao
 	 */
@@ -137,7 +136,7 @@ public class CheckRuleCombinations {
 	}
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "||" e "&&"
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "||" e "&"
 	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
 	 * @return classificacao
 	 */
@@ -155,7 +154,7 @@ public class CheckRuleCombinations {
 	}
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "||" e "&&"
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e maior e com os sinais "||" e "&"
 	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
 	 * @return classificacao
 	 */
@@ -163,7 +162,7 @@ public class CheckRuleCombinations {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
-	/** Verfica se o método tem code smell isGod segundo os operadores maior, maior e menor e com os sinais "&&" e "||"
+	/** Verfica se o método tem code smell isGod segundo os operadores maior, maior e menor e com os sinais "&" e "||"
 	 * @param methodWithMetrics objeto que identifica um metodo e suas metricas
 	 * @return classificacao
 	 */
@@ -172,7 +171,7 @@ public class CheckRuleCombinations {
 	}
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e menor e com os sinais "||" e "&&"
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e menor e com os sinais "||" e "&"
 	 * @param methodWithMetrics onjeto que identifica metodo e suas metricas
 	 * @return classificaao
 	 */
@@ -190,7 +189,7 @@ public class CheckRuleCombinations {
 	}
 	
 	/**
-	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e maior e com os sinais "&&" e "&&"
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e maior e com os sinais "&" e "&"
 	 * @param methodWithMetrics objeto que identifica metofo e suas metricas
 	 * @return classificacao
 	 */

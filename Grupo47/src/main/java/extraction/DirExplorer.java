@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import classes.MethodMetrics;
 
 /**
+ * Classe responsavel por percorrer diretorias ate chegar a um ficheiro .java
  * @author Vasco Fontoura
  *
  */
@@ -19,6 +20,7 @@ public class DirExplorer {
     private static String FILE_ENDING = ".java";
 
     /**
+     * Construtor
      * @param fileToSearch uma diretoria escolhida para procurar ficheiros .java
      */
     public DirExplorer(File fileToSearch) {
@@ -28,6 +30,7 @@ public class DirExplorer {
     }
            
     /**
+     * Inicia a pesquisa de ficheiros
      * @return uma lista com os resultados da extração de métricas
      * @throws FileNotFoundException
      */
@@ -36,6 +39,8 @@ public class DirExplorer {
     }
     
     /**
+     * Realiza a pesquisa, caso encontre uma diretoria chama o metodo goThroughFiles (recursivo), caso
+     * encontre um ficheiro .java incia a extracao de metricas e acumula-as numa lista
      * @param level
      * @param currentPath caminho do último ficheiro visitado
      * @param currentFile último ficheiro visitado
@@ -49,8 +54,8 @@ public class DirExplorer {
     }
     
     /**
-     * Verifica se o ficheiro é um ficheiro java e caso seja extrai métricas
-     * @param currentFile último ficheiro visitado
+     * Verifica se o ficheiro e um ficheiro java e caso seja extrai metricas
+     * @param currentFile ultimo ficheiro visitado
      * @param filePath caminho do ficheiro
      * @throws FileNotFoundException
      */
@@ -63,10 +68,10 @@ public class DirExplorer {
     }
     
     /**
-     * Chama o método exploreAndExtract caso o ficheiro visitado seja uma diretoria
-     * @param currentFile último ficheiro visitado
+     * Chama o metodo exploreAndExtract caso o ficheiro visitado seja uma diretoria
+     * @param currentFile ultimo ficheiro visitado
      * @param level
-     * @param currentPath caminho do último ficheiro visitado
+     * @param currentPath caminho do ultimo ficheiro visitado
      * @throws FileNotFoundException
      */
     private void goThroughFiles(File currentFile,int level,String currentPath) throws FileNotFoundException {

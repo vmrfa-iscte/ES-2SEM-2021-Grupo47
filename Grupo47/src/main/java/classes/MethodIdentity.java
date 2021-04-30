@@ -1,7 +1,7 @@
 package classes;
 
 /**
- * Objeto MethodIdentity contém informacao que distingue um metodo, ou seja, nome do metodo (contem parametros),
+ * Objeto MethodIdentity contem informacao que distingue um metodo, ou seja, nome do metodo (contem parametros),
  * nome da classe a que pertence, nome do pacote a que pertence e id do metodo.
  * @author Vasco Fontoura
  *
