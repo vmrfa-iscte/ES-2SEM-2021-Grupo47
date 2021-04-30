@@ -26,6 +26,7 @@ public class Statistics {
 	}
 	
 	/**
+	 * Conta o numero de metodos de um projeto
 	 * @return numero de metodos de um determinado projeto
 	 */
 	public int countNumberOfMethods() {
@@ -35,6 +36,7 @@ public class Statistics {
 	
 	
 	/**
+	 * conta numero de linhas de codigo de um determinado projeto
 	 * @return numero de linhas de codigo de um determinado projeto
 	 */
 	public int countLinesOfCode() {
@@ -48,6 +50,7 @@ public class Statistics {
 
 
 	/**
+	 * Conta numero de packages de um determinado projeto
 	 * @return numero de packages de um determinado projeto
 	 */
 	public int countPackages() {
@@ -65,6 +68,7 @@ public class Statistics {
 	
 
 	/**
+	 * conta numero de classes de um determinado projeto
 	 * @return numero de classes de um determinado projeto
 	 */
 	public int countClasses() {
@@ -77,6 +81,9 @@ public class Statistics {
 		return aux.size();
 		// Retorna o tamanho do array List após percorrer todos os métodos do Array metrics 
 			}
+	
+	
+	
 	
 	
 

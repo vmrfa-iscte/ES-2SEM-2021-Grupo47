@@ -26,6 +26,8 @@ public class CodeSmellsDetector {
 	private static final String POSITIVE_CLASS = "Classe: Verdadeiro", NEGATIVE_CLASS = "Classe: Negativo", POSITIVE_METHOD="TRUE"
 			, NEGATIVE_METHOD = "FALSE", AND_LOGIC_OPERATOR = "AND";
 	private CheckRuleCombinations ruleCombo;
+	
+	
 
 	
 	/**
