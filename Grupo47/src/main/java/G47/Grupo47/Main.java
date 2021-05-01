@@ -25,6 +25,7 @@ public class Main {
 			// Criacao da GUI principal do nosso projeto
 			mainGUI shell = new mainGUI(display);
 			
+			
 			shell.open();
 			shell.layout();
 			// Abertura e preenchimento do layout da GUI
