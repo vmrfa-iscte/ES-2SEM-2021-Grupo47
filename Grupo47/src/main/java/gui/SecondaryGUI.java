@@ -31,6 +31,13 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+/**
+ * Classe SecondaryGUI, GUI destinada a permitir que o utilizador visualize os codesmells detetados e que possa avaliar a detecao dos mesmos
+ * 
+ * @author Guy Turpin
+ * @author Vasco Fontoura
+ *
+ */
 public class SecondaryGUI extends Shell {
 
 	private static final int IS_GOD_EXCEL_COLUMN = 7;
@@ -88,6 +95,9 @@ public class SecondaryGUI extends Shell {
 		createContents(name);
 	}
 
+	/**
+	 * Metodo que adiciona as funcionalidades a GUI
+	 */
 	private void addElements() {
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		fd_table();
@@ -164,6 +174,9 @@ public class SecondaryGUI extends Shell {
 		fd_table.right = new FormAttachment(selectFileButton_1, 0, SWT.RIGHT);
 	}
 
+	/**
+	 * @param helpMenuItem Botao que permite aceder as informacoes relativas a utilizacao correta desta GUI
+	 */
 	private void helpMenuItemListener(MenuItem helpMenuItem) {
 		helpMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -174,6 +187,9 @@ public class SecondaryGUI extends Shell {
 		});
 	}
 
+	/**
+	 * @param selectFileButton Permite a escolha do ficheiro a usar para comparar com os codesmells detetados e fazer a respetiva avaliacao
+	 */
 	private void selectFileButtonListener(Button selectFileButton) {
 		selectFileButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -188,6 +204,9 @@ public class SecondaryGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Metodo que permite realizar a avaliacao da qualidade dos codesmells detetados
+	 */
 	private void evaluateButtonListener() {
 		evaluateButton.addSelectionListener(new SelectionAdapter() {
 			@Override

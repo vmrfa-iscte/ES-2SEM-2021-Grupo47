@@ -108,9 +108,9 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE ADICIONA AS FUNCIONALIDADES A GUI (BOTOES, TEXTFIELDS ETC)
 	 * 
-	 * @param display
+	 * 
+	 * @param display metodo que adiciona as funcionalidades a GUI
 	 */
 	private void addElements(Display display) {
 		projectFolderPath = new Text(this, SWT.BORDER | SWT.READ_ONLY);
@@ -715,7 +715,11 @@ public class mainGUI extends Shell {
 				selectedFile = file;
 		}
 	}
-
+	
+	
+	/**
+	 * Metodo que permite a visualizacao das caracteristicas gerais do ficheiro excel gerado
+	 */
 	private void writeStatistics() {
 		for (Entry<String, ArrayList<String>> entry : mapStats.entrySet()) {
 			if (entry.getKey().equals(excelfiles.getItem(index))) {
@@ -734,6 +738,9 @@ public class mainGUI extends Shell {
 		}
 	}
 
+	/**
+	 * @return StringStats Retorna a lista das caracteristicas gerais do ficheiro excel 
+	 */
 	private ArrayList<String> createStatsList() {
 		Statistics stats = new Statistics(evaluateAndDetect.getActualmetrics());
 		ArrayList<String> StringStats = new ArrayList<>();
@@ -744,6 +751,11 @@ public class mainGUI extends Shell {
 		return StringStats;
 	}
 
+	/**
+	 * Metodo que extrai as metricas e adiciona o nome do ficheiro excel a lista na GUI
+	 * @throws IOException
+	 * 
+	 */
 	private void extractAndAddFileToList() throws IOException {
 		DirExplorer dirEx = new DirExplorer(selectedFile);
 		if (folderextraction.exists() && selectedFile.exists()) {
@@ -759,6 +771,9 @@ public class mainGUI extends Shell {
 		}
 	}
 
+	/**
+	 * @param visible Torna os campos relativos a terceira metrica visiveis ou nao, consoante o parametro visible
+	 */
 	private void setThirdMetricVisible(boolean visible) {
 		secondOperator.setVisible(visible);
 		thirdSignal.setVisible(visible);
@@ -766,6 +781,9 @@ public class mainGUI extends Shell {
 		thirdLimit.setVisible(visible);
 	}
 
+	/**
+	 * Metodo que, consoante a primeira metrica selecionada, permite a escolha da segunda metrica de forma filtrada, evitando combinacoes invalidas
+	 */
 	private void changeSecondMetricOptions() {
 		int firstMethodSelection = firstMetric.getSelectionIndex();
 		if (firstMetric.getItem(firstMethodSelection).equals(LOC_METHOD)) {
@@ -784,24 +802,36 @@ public class mainGUI extends Shell {
 		}
 	}
 
+	/**
+	 * Metodo que permite preencher o campo relativo a metrica 1, com os dados da metrica selecionada na lista de regras
+	 */
 	private void selectFirstMetricByRule() {
 		for (int arrayIndex = 0; arrayIndex < firstMetric.getItemCount(); arrayIndex++)
 			if (firstMetric.getItem(arrayIndex).contentEquals(currentRule.getMethod1()))
 				firstMetric.select(arrayIndex);
 	}
 
+	/**
+	 * Metodo que permite preencher o campo relativo a metrica 2, com os dados da metrica selecionada na lista de regras
+	 */
 	private void selectSecondMetricByRule() {
 		for (int k = 0; k < secondMetric.getItemCount(); k++)
 			if (secondMetric.getItem(k).contentEquals(currentRule.getMethod2()))
 				secondMetric.select(k);
 	}
 
+	/**
+	 * Metodo que permite preencher o campo relativo a metrica 3, com os dados da metrica selecionada na lista de regras
+	 */
 	private void selectThirdMetricByRule() {
 		for (int z = 0; z < thirdMetric.getItemCount(); z++)
 			if (thirdMetric.getItem(z).contentEquals(currentRule.getMethod3()))
 				thirdMetric.select(z);
 	}
 
+	/**
+	 * Metodo que permite preencher os campos relativos aos limites, sinais e operadores, com os dados da metrica selecionada na lista de regras
+	 */
 	private void fillWithRule() {
 		firstSignal.setText(currentRule.getSinal1());
 		firstLimit.setText(currentRule.getLimit1());
@@ -813,6 +843,10 @@ public class mainGUI extends Shell {
 		thirdLimit.setText(currentRule.getLimit3());
 	}
 
+	/**
+	 * @param text Validacao do limite inserido pelo utilizador
+	 * @return 
+	 */
 	private boolean isValid(String text) {
 		for (int i = 0; i < text.length(); i++)
 			if (isNumber(text.charAt(i)))
@@ -820,28 +854,44 @@ public class mainGUI extends Shell {
 		return false;
 	}
 
-	// Avaliar se um determinado char é um número
+	
+	/**
+	 * @param charAt Avalia se um determinado char e um número
+	 * @return
+	 */
 	private boolean isNumber(char charAt) {
 		return charAt == '0' || charAt == '1' || charAt == '2' || charAt == '3' || charAt == '4' || charAt == '5'
 				|| charAt == '6' || charAt == '7' || charAt == '8' || charAt == '9';
 	}
 
-	// Criar GUI secundária, importar os resultados da aplicação da regra e lançar a
-	// GUI
+	
+	/**
+	 * @param name Criar GUI secundaria, importar os resultados da aplicação da regra e lançar  GUI
+	 * @param detectionResults
+	 */
 	public void createSecondaryGUI(String name, ArrayList<HasCodeSmell> detectionResults) {
 		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), name, detectionResults);
 		codesmells.loadGUI();
 	}
 
+	/**
+	 * @return true ou false, consoante a acao do utilizador no preenchimento dos campos relativos a metrica2
+	 */
 	private boolean isSecondMetricCorrect() {
 		return !secondMetric.getText().isEmpty() && !secondLimit.getText().isEmpty();
 	}
 
+	/**
+	 * @return true ou false, consoante a acao do utilizador no preenchimento dos campos relativos a metrica1 
+	 */
 	private boolean isFirstMetricCorrect() {
 		return !firstMetric.getText().isEmpty() && !firstOperator.getText().isEmpty()
 				&& !firstLimit.getText().isEmpty();
 	}
 
+	/**
+	 * @return true ou false, consoante a terceira metrica estiver preenchida, ou nao
+	 */
 	private boolean isThirdMetricFilled() {
 		if (thirdMetric.isVisible())
 			return !thirdMetric.getText().isEmpty() && !secondOperator.getText().isEmpty()
@@ -850,6 +900,10 @@ public class mainGUI extends Shell {
 			return false;
 	}
 
+	/**
+	 * @param v Metodo que verifica se a regra definida pelo utilizador ja existe ou nao
+	 * @return
+	 */
 	private boolean verifyRuleExistance(boolean v) {
 		ruleToShowInList = rule.toString();
 		for (int i = 0; i < list.size(); i++) {
@@ -863,6 +917,9 @@ public class mainGUI extends Shell {
 		return v;
 	}
 
+	/**
+	 * @param isRepeated Metodo que adiciona a regra definida a lista de regras, dependendo de se esta ja existe ou nao
+	 */
 	private void checkExistanceAndAdd(boolean isRepeated) {
 		if (isRepeated == false) {
 			listrulestoshow.add(ruleToShowInList);
