@@ -1,14 +1,15 @@
 package classes;
 
+/**
+ * Classe rules: objeto criado com base nas escolhas do utilizador, através da GUI
+ * 
+ * @author Guy Turpin
+ *  
+ */
 public class Rule {
 
 	// CLASSE RULES, OBJETO USADO PARA CRIAR REGRAS DEFINIDAS PELO UTILIZADOR ATRAVÉS DA GUI.CLASSE COMPOSTA POR GETTERS E SETTERS;
-	/**
-	 * Classe rules: objeto criado com base nas escolhas do utilizador, através da GUI
-	 * 
-	 * @author Guy Turpin
-	 *  
-	 */
+	
 	private String method1;
 	private String signal1;
 	private String limit1;

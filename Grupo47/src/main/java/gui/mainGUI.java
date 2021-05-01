@@ -49,6 +49,7 @@ import org.eclipse.swt.widgets.MenuItem;
  * @author Tomas Mendes
  * @author Vasco Fontoura
  * @author Rita Silva
+ * @version 16
  *
  */
 public class mainGUI extends Shell {
@@ -508,6 +509,10 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Metodo que permite ao utilizador, atraves de um botao, aceder as informacoes relativas a utilizacao da interface e as suas funcionalidades
+	 * 
+	 */
 	private void guiInstructionsButtonListener() {
 		guiInstructionsButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -553,6 +558,10 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Metodo que permite ao utilizador escolher a pasta destino para o ficheiro a extrair
+	 * 
+	 */
 	private void choosePathToExtractListener() {
 		choosePathToExtract.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -571,6 +580,9 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Metodo que permite ao utilizador 
+	 */
 	private void addProjectSelectionListener() {
 		projectSelection.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -597,6 +609,9 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Metodo que realiza a extracao das metricas e adiciona o nome do ficheiro gerado a lista
+	 */
 	private void extractMetricsListener() {
 		extractMetricsButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -614,6 +629,9 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Metodo que inibe o utilizador de escolher a segunda metrica livremente, estando dependente da primeira metrica
+	 */
 	private void firstMetricListener() {
 		firstMetric.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -624,6 +642,10 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * Metodo que inibe o utilizador de escolher a terceira metrica livremente, estando dependente da segunda metrica
+	 * 
+	 */
 	private void secondMetricListener() {
 		secondMetric.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -639,6 +661,9 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 *  Metodo que preenche os campos da regra selecionada
+	 */
 	private void listRulesToShowListener() {
 		listrulestoshow.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -678,6 +703,9 @@ public class mainGUI extends Shell {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
+	/**
+	 * Metodo que permite a selecao do ficheiro excel gerado
+	 */
 	private void changeSelectedFile() {
 		for (File file : fileList) {
 			NameByFile excelNameByFile = new NameByFile();

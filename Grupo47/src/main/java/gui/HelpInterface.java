@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * @author Guy Turpin
+ * @version 2
  *
  */
 public class HelpInterface extends Shell {
