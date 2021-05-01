@@ -67,7 +67,7 @@ public class CodeSmellsDetector {
 	
 	
 	/**
-	 * // Verifica se foi detetado um code smell
+	 *  Verifica se foi detetado um code smell
 	 * @param hasDetection booleano que indica se foi detetado um codeSmell
 	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	 */

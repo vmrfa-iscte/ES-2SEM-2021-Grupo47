@@ -121,8 +121,8 @@ public class ExcelManip {
 	 * metodo para criação de ficheiro excel
 	 * @param toCopy (path onde será guardado o ficheiro)
 	 * @param create (WorkBook excel onde serão escritos os dados numa dada sheet)
-	 * @throws FileNotFoundException
-	 * @throws IOException
+	 * @throws FileNotFoundException excecao 
+	 * @throws IOException excecao
 	 */
 	private void createFile(String toCopy, XSSFWorkbook create) throws FileNotFoundException, IOException {
 		FileOutputStream excel = new FileOutputStream(new File(toCopy));
@@ -163,7 +163,7 @@ public class ExcelManip {
 	 * Metodo utilizado para ler uma linha de um determinado ficheiro exel
 	 * @param columnOfCodeSmell coluna de onde vai ser extraida a classificação correta
 	 * @param row linha de onde esta classificacao sera extraida
-	 * @return
+	 * @return objeto HasCodeSmell composto pela informacao que foi lida
 	 */
 	private HasCodeSmell readExcelRow(int columnOfCodeSmell, Row row) {
 		String method_name = row.getCell(METHOD_COLUMN_INDEX).toString();
