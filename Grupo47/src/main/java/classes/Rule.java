@@ -23,17 +23,17 @@ public class Rule {
 
 	// CONSTRUTOR DO OBJETO RULES;
 	/**
-	 * @param method1
-	 * @param sinal1
-	 * @param limit1
-	 * @param operator
-	 * @param method2
-	 * @param sinal2
-	 * @param limit2
-	 * @param operator2
-	 * @param method3
-	 * @param sinal3
-	 * @param limit3
+	 * @param method1 metrica 1
+	 * @param sinal1 sinal 1
+	 * @param limit1 limite 1
+	 * @param operator operador 1
+	 * @param method2 metrica 2
+	 * @param sinal2 sinal 2
+	 * @param limit2 limite 2
+	 * @param operator2 operador 2
+	 * @param method3 metodo 3
+	 * @param sinal3 sinal 3
+	 * @param limit3 limite 3
 	 */
 	public Rule(String method1, String sinal1, String limit1, String operator, String method2, String sinal2,
 			String limit2, String operator2, String method3, String sinal3, String limit3) {
