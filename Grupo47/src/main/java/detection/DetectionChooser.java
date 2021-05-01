@@ -75,7 +75,7 @@ public class DetectionChooser {
 	 Decide qual a vertente da regra a aplicar consoante os sinais, aplica a vertente correta e retorna os resultados
 	  @param ruleReceived regra recebida
 	  @param actualmetrics Array com metodos e suas respetivas metricas
-	  @return	ArrayList com resultados de detecao
+	  @return ArrayList com resultados de detecao
 	 */
 	public ArrayList<HasCodeSmell> chooseDetectionNOM_LOC(Rule ruleReceived,ArrayList<MethodMetrics> actualmetrics) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = new ArrayList<>();
@@ -93,7 +93,7 @@ public class DetectionChooser {
  Decide qual a vertente da regra a aplicar consoante os sinais, aplica a vertente correta e retorna os resultados
 	  @param ruleReceived regra recebida
 	  @param actualmetrics Array com metodos e suas respetivas metricas
-	  @return	ArrayList com resultados de detecao
+	  @return ArrayList com resultados de detecao
 	 */
 	public ArrayList<HasCodeSmell> chooseDetectionWMC_NOM_LOC(Rule ruleReceived,ArrayList<MethodMetrics> actualmetrics) {
 		ArrayList<HasCodeSmell> hasCodeSmellResult = new ArrayList<>();

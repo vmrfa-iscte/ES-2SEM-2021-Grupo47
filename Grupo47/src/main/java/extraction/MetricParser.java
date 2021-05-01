@@ -110,7 +110,7 @@ public class MetricParser {
 	}
 	
 	/**
-	 * Calcular numero de linhas de codigo fazendo uma subtração entre a ultima linha da classe e primeira linha
+	 * Calcular numero de linhas de codigo fazendo uma subtraçao entre a ultima linha da classe e primeira linha
 	 * @param cid declaracao de uma determinada classe ou interface
 	 * @return numero de linhas da classe ou interface
 	 * @throws FileNotFoundException exceccao
@@ -120,7 +120,7 @@ public class MetricParser {
 	}
 	
 	/**
-	 * Calcular numero de linhas de codigo fazendo uma subtração entre a ultima linha da classe e primeira linha
+	 * Calcular numero de linhas de codigo fazendo uma subtraçao entre a ultima linha da classe e primeira linha
 	 * @param ed declaracao de um determinado enumerado 
 	 * @return numero de linhas do enumerado
 	 */
