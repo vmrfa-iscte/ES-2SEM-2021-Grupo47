@@ -103,7 +103,7 @@ public class MetricParser {
 	 * 	Obter o numero de metodos consiste em contar o numero de métodos e numero de construtores que existem na classe
 	 * @param allMethodsFromParsedClass Lista que contem todos os metodos da classe
 	 * @param allConstructorsFromParsedClass Lista que contem todos os construtores da classe
-	 * @return
+	 * @return metrica NOM_class
 	 */
 	public int getNOM_class(List<MethodDeclaration> allMethodsFromParsedClass, List<ConstructorDeclaration> allConstructorsFromParsedClass) {
 		return allMethodsFromParsedClass.size()+ allConstructorsFromParsedClass.size();

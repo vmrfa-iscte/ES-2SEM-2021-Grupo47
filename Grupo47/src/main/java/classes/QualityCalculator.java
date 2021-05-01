@@ -9,16 +9,30 @@ package classes;
  */
 public class QualityCalculator {
 	
+	
 	/**
-	 * 
+	 * Verdadeiro Negativo
 	 */
 	public static final String TRUE_NEGATIVE = "Verdadeiro Negativo";
+	/**
+	 * Verdadeiro Positivo
+	 */
 	public static final String TRUE_POSITIVE = "Verdadeiro Positivo";
+	/**
+	 * Falso Negativo
+	 */
 	public static final String FALSE_NEGATIVE = "Falso Negativo";
+	/**
+	 * Falso Positivo
+	 */
 	public static final String FALSE_POSITIVE = "Falso Positivo";
-	public static final String QUALITY_POSITIVE = "Positivo";
-	public static final String QUALITY_NEGATIVE = "Negativo";
+	/**
+	 * Detecao: False
+	 */
 	public static final String DETECTION_FALSE = "FALSE";
+	/**
+	 * Detecao: True
+	 */
 	public static final String DETECTION_TRUE = "TRUE";
 	
 	

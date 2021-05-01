@@ -70,7 +70,7 @@ public class SecondaryGUI extends Shell {
 	/**
 	 * Create the shell.
 	 * 
-	 * @param display
+	 * @param display display
 	 * @param name    nome da GUI
 	 * @param result  uma lista de HasCodeSmell
 	 */

@@ -17,6 +17,8 @@ import gui.mainGUI;
  *
  */
 public class EvaluateAndDetect {
+	private static final String LOC_CLASS = "LOC_class", NOM_CLASS = "NOM_class", WMC_CLASS = "WMC_class",
+			LOC_METHOD = "LOC_method";
 	
 	private static final String IS_LONG_METHOD_DETECTION = "IsLong Method Detection";
 	private static final String IS_GOD_CLASS_DETECTION = "IsGod Class Detection";
@@ -45,7 +47,7 @@ public class EvaluateAndDetect {
 	 * @return um mapa com os resultados
 	 */
 	public HashMap<String,ArrayList<HasCodeSmell>> evaluationChooser(Rule thisCurrentRule) {
-		if (thisCurrentRule.getMethod1().equals(gui.mainGUI.LOC_METHOD))
+		if (thisCurrentRule.getMethod1().equals(LOC_METHOD))
 			return evaluateLocMethod(thisCurrentRule);
 		else if (isWMCAndNOM(thisCurrentRule))
 			return evaluateGodClassWithWMC_NOM(thisCurrentRule);
@@ -64,7 +66,7 @@ public class EvaluateAndDetect {
 	 * @return um boleano com o resultado da verificacao
 	 */
 	public boolean isGodClass(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(gui.mainGUI.WMC_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.NOM_CLASS) && thisCurrentRule.getMethod3().contains("a");
+		return thisCurrentRule.getMethod1().equals(WMC_CLASS) && thisCurrentRule.getMethod2().equals(NOM_CLASS) && thisCurrentRule.getMethod3().contains("a");
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class EvaluateAndDetect {
 	 * @return um boleano com o resultado da verificacao
 	 */
 	public boolean isNOMAndLOC(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(gui.mainGUI.NOM_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.LOC_CLASS) && !thisCurrentRule.getMethod3().contains("a");
+		return thisCurrentRule.getMethod1().equals(NOM_CLASS) && thisCurrentRule.getMethod2().equals(LOC_CLASS) && !thisCurrentRule.getMethod3().contains("a");
 	}
 
 	/**
@@ -82,7 +84,7 @@ public class EvaluateAndDetect {
 	 * @return um boleano com o resultado da verificacao
 	 */
 	private boolean isWMCAndLOC(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(gui.mainGUI.WMC_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.LOC_CLASS) 
+		return thisCurrentRule.getMethod1().equals(WMC_CLASS) && thisCurrentRule.getMethod2().equals(LOC_CLASS) 
 				&& !thisCurrentRule.getMethod3().contains("a");
 	}
 
@@ -92,7 +94,7 @@ public class EvaluateAndDetect {
 	 * @return um boleano com o resultado da verificacao
 	 */
 	private boolean isWMCAndNOM(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(gui.mainGUI.WMC_CLASS) && thisCurrentRule.getMethod2().equals(gui.mainGUI.NOM_CLASS)
+		return thisCurrentRule.getMethod1().equals(WMC_CLASS) && thisCurrentRule.getMethod2().equals(NOM_CLASS)
 				&& !thisCurrentRule.getMethod3().contains("a");
 	}
 

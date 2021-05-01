@@ -66,7 +66,7 @@ public class mainGUI extends Shell {
 	private static final String NO_METRICS_EXTRACTED_ERROR_MESSAGE = "Não foram extraidas métricas ou não existe nenhum projeto selecionado",
 			NO_RULE_SELECTED_ERROR_MESSAGE = NO_RULE_SELECTED;
 	private static final int NUMBER_OF_PACKAGES_INDEX = 3, NOM_INDEX = 1, NUMBER_OF_CLASSES_INDEX = 2, LOC_INDEX = 0;
-	public static final String LOC_CLASS = "LOC_class", NOM_CLASS = "NOM_class", WMC_CLASS = "WMC_class",
+	private static final String LOC_CLASS = "LOC_class", NOM_CLASS = "NOM_class", WMC_CLASS = "WMC_class",
 			LOC_METHOD = "LOC_method";
 	private EvaluateAndDetect evaluateAndDetect = new EvaluateAndDetect();
 	private int rulesToShowSelectedIndex, index;

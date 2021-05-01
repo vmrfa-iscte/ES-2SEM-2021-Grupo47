@@ -37,10 +37,9 @@ public class ExtractMetrics {
 	 * Todas as metricas são inicializadas a 0 com excecao da complexidade ciclomatica que é inicializada a 1.
 	  	Os contadores utilizados são inicializados tambem a 0.
 	 */
-	public static final int METRICS_INITIAL_VALUE = 0; 
-	public static final String   EMPTY_STRING = "", SPACE_STRING = " ";
-	public String className = EMPTY_STRING;
-	public int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = METRICS_INITIAL_VALUE;
+	private static final int METRICS_INITIAL_VALUE = 0; 
+	private String className = "";
+	private int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = METRICS_INITIAL_VALUE;
 	private String packageClass;
 	private ArrayList<MethodMetrics> extractedMetrics;
 	
@@ -253,7 +252,7 @@ public class ExtractMetrics {
 	private String addParametersToClassName(String methodName,NodeList<Parameter> parametersList) {
 		// Percorrer lista de parâmetros, para obter apenas o tipo dos parâmetros é necessário separar os Nodes e ir buscar apenas a primeira posição
 		for(Node parameter: parametersList) {
-			String separatedParameter[] = parameter.toString().split(SPACE_STRING);
+			String separatedParameter[] = parameter.toString().split(" ");
 			String parameterType = separatedParameter[0];
 			// Caso a posição atual da lista seja a última então será adicionado o tipo do parâmetros juntamente com o parênteses que faltava
 			if(parametersList.indexOf(parameter) == parametersList.size()-1) methodName = methodName + parameterType + ")";
