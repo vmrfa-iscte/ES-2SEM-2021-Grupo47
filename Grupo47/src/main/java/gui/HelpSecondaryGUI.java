@@ -8,7 +8,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 
 /**
+ * Classe responsavel por mostrar a janela de ajuda a utilizacao da GUI secundaria
  * @author Vasco Fontoura
+ * @version 1
  *
  */
 public class HelpSecondaryGUI extends Shell {
@@ -16,6 +18,7 @@ public class HelpSecondaryGUI extends Shell {
 	private Display display;
 	
 	/**
+	 * Construtor
 	 * @param display
 	 */
 	public HelpSecondaryGUI(Display display) {

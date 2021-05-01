@@ -4,6 +4,7 @@ package classes;
  * Classe responsavel por detetar a qualidade de detecao, ou seja, Verdadeiros Positivos, Falsos Postivos, Falsos Negativos
  * e Verdadeiros Negativos
  * @author Vasco Fontoura
+ * @version 1
  *
  */
 public class QualityCalculator {

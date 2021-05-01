@@ -9,7 +9,9 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 /**
+ * Classe responsavel por mostrar a janela de ajuda para explicar o calculo das metricas
  * @author Vasco Fontoura
+ * @version 1
  *
  */
 public class HelpGUIMetrics extends Shell {
@@ -17,6 +19,7 @@ public class HelpGUIMetrics extends Shell {
 	private Display display;
 	
 	/**
+	 * Construtor
 	 * @param display
 	 */
 	public HelpGUIMetrics(Display display) {

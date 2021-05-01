@@ -9,6 +9,7 @@ import classes.MethodMetrics;
 /**
  * Classe responsavel por percorrer diretorias ate chegar a um ficheiro .java
  * @author Vasco Fontoura
+ * @version 7
  *
  */
 public class DirExplorer {
@@ -31,7 +32,7 @@ public class DirExplorer {
            
     /**
      * Inicia a pesquisa de ficheiros
-     * @return uma lista com os resultados da extração de métricas
+     * @return uma lista com os resultados da extracao de metricas
      * @throws FileNotFoundException
      */
     public ArrayList<MethodMetrics> exploreAndExtract() throws FileNotFoundException {
@@ -41,7 +42,7 @@ public class DirExplorer {
     /**
      * Realiza a pesquisa, caso encontre uma diretoria chama o metodo goThroughFiles (recursivo), caso
      * encontre um ficheiro .java incia a extracao de metricas e acumula-as numa lista
-     * @param level
+     * @param level nivel
      * @param currentPath caminho do último ficheiro visitado
      * @param currentFile último ficheiro visitado
      * @return uma lista com os resultados da extração de métricas
@@ -70,7 +71,7 @@ public class DirExplorer {
     /**
      * Chama o metodo exploreAndExtract caso o ficheiro visitado seja uma diretoria
      * @param currentFile ultimo ficheiro visitado
-     * @param level
+     * @param level nivel
      * @param currentPath caminho do ultimo ficheiro visitado
      * @throws FileNotFoundException
      */

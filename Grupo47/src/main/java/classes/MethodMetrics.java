@@ -3,7 +3,7 @@ package classes;
 /**
  * Objeto que agrupa a identidade de um metodo e as metricas extraidas para esse mesmo metodo
  * @author Vasco Fontoura
- * @version
+ * @version 2
  *
  */
 public class MethodMetrics {

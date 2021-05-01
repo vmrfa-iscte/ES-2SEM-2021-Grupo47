@@ -10,8 +10,10 @@ import classes.Rule;
 import gui.mainGUI;
 
 /**
+ * Classe responsavel por avaliar uma regra e detetar corretamente as metricas
  * @author Vasco Fontoura
  * @author Tomas Mendes
+ * @version 3
  *
  */
 public class EvaluateAndDetect {
