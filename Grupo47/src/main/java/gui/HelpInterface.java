@@ -6,6 +6,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 
 /**
+ * 
+ * Classe que permite ao utilizador consultar todas as informacoes para o uso correto da interface grafica
  * @author Guy Turpin
  * @version 2
  *

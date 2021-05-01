@@ -26,6 +26,8 @@ import org.eclipse.swt.events.SelectionEvent;
 
 
 /**
+ * 
+ * Classe que permite ao utilizador criar ficheiros do tipo txt e guardar nos mesmos listas de regras definidas a priori
  * @author Guy Turpin
  * @author Rita Silva
  * @version 3

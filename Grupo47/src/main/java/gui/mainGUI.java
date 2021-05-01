@@ -45,6 +45,8 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 /**
+ * 
+ * Classe que permite ao utilizador extrarir as metricas de um ficheiro, definir e manusear regras a sua vontade e realizar a detecao de codesmells consoante as regras criadas pelo mesmo
  * @author Guy Turpin
  * @author Tomas Mendes
  * @author Vasco Fontoura
