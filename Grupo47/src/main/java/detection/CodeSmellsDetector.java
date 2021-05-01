@@ -141,7 +141,7 @@ public class CodeSmellsDetector {
 
 	/**
 	 * metodo utilizado para verificar se uma respetiva classe tem algum metodo onde tenha sido detetado um codeSmell
-	 * @param metric
+	 * @param metric objeto que identifica um metodo e as suas metricas associadas
 	 */
 	private void checkClassSmell(MethodMetrics metric) {
 		if (classWithSmell.indexOf(metric.getClasse()) != -1) {

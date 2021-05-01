@@ -19,11 +19,13 @@ public class HasCodeSmell {
 	
 
 	/**
-	 * Construtor
-	 * @param hasCodeSmell
-	 * @param PositiveOrNegative
-	 * @param method
-	 * @param isMethod
+	 * Construtor para o objeto HasCodeSmell, caso o objeto seja um metodo são preenchidos os campos method_name e method_id
+	 * caso seja uma classe, estes dois campos nao sao preenchidos
+	 * 
+	 * @param hasCodeSmell String que indica se foi, ou não, identificado um codeSmell
+	 * @param PositiveOrNegative String que indica se a deteção foi positiva ou negativa
+	 * @param method objeto que identifica um metodo e as suas metricas
+	 * @param isMethod booleano que identifica se e, ou nao, um metodo
 	 */
 	public HasCodeSmell(String hasCodeSmell, String PositiveOrNegative,MethodMetrics method,boolean isMethod) {
 		this.isMethod = isMethod;
@@ -39,7 +41,7 @@ public class HasCodeSmell {
 	
 	/**
 	 * Getter para atributo que identifica se é um método
-	 * @return booleano isMethod
+	 * @return booleano que indica se e, ou nao, um metodo
 	 */
 	public boolean isMethod() {
 		return isMethod;
@@ -86,7 +88,7 @@ public class HasCodeSmell {
 	
 	/**
 	 * getter
-	 * @return package de um respetivo metodo
+	 * @return package_name de um respetivo metodo
 	 */
 	public String getPackageName() {
 		return package_name;
@@ -109,7 +111,7 @@ public class HasCodeSmell {
 	}
 
 	/**
-	 * @param calculated, metodo com code smell identificado consoante a regra
+	 * @param calculated metodo com code smell identificado consoante a regra
 	 * @return booleano que indica se um metodo é igual a outro, compara nome do metodo, classe, package e parametros do mesmo
 	 */
 	public boolean isEqual(HasCodeSmell calculated) {

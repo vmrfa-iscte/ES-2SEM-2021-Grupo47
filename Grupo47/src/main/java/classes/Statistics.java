@@ -18,7 +18,7 @@ public class Statistics {
 
 	/**
 	 * construtor
-	 * @param array com metricas calculadas para um determinado projeto
+	 * @param metrics array com metricas calculadas para um determinado projeto
 	 */
 	public Statistics (ArrayList<MethodMetrics> metrics) {
 		this.metrics = metrics;
