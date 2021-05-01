@@ -198,7 +198,7 @@ class EvaluateAndDetectTest {
 		evaluateNDetect.setActualmetrics(results);
 		
 		Rule isGod = new Rule("WMC_class",">","1","AND","NOM_class","<","1","","","","");
-		Boolean detection = evaluateNDetect.isGodClass(isGod);
+		Boolean detection = isGod.isGodClass();
 	
 		assertEquals(false,detection);
 	
@@ -217,7 +217,7 @@ class EvaluateAndDetectTest {
 		evaluateNDetect.setActualmetrics(results);
 		
 		Rule isGod = new Rule("NOM_class",">","1","AND","NOM_class","<","1","","","","");
-		Boolean detection = evaluateNDetect.isNOMAndLOC(isGod);
+		Boolean detection = isGod.isNOMAndLOC();
 	
 		assertEquals(false,detection);
 	

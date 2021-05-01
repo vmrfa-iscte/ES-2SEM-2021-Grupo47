@@ -21,7 +21,7 @@ import classes.MethodMetrics;
 import classes.NameByFile;
 
 /**
- * Classe utilizada para executar as operações de manipulacao necessarias nos ficheiros excel
+ * Classe utilizada para executar as operacoes de manipulacao necessarias nos ficheiros excel
  * @author Tomas Mendes
  * @version 4
  *
@@ -53,20 +53,20 @@ public class ExcelManip {
 		headers.add(METHOD_ID_HEADER);headers.add(PACKAGE_HEADER);headers.add(CLASS_HEADER);headers.add(METHOD_HEADER);
 		headers.add(NOM_CLASS_HEADER);headers.add(LOC_CLASS_HEADER);headers.add(WMC_CLASS_HEADER);
 		headers.add(LOC_METHOD_HEADER);headers.add(CYCLO_METHOD_HEADER);
-		// Estes cabeçalhos são adicionados ao atributo ArrayList da classe, assim que o objeto é instanciado
+		// Estes cabecalhos sao adicionados ao atributo ArrayList da classe, assim que o objeto e instanciado
 		
 	}
 
 	
 	/**
 	 * Extrai os cabecalhos
-	 * @return ArrayList com os cabeçalhos a inserir no excel que vai ser gerado
+	 * @return ArrayList com os cabecalhos a inserir no excel que vai ser gerado
 	 * @throws IOException excecao
 	 */
 	public ArrayList<String> extractHeaders() throws IOException {
 		return headers;
-		// Este método é bastante simples e apenas retorna o ArrayList que contem os cabeçalhos que irão constituir o excel a criar
-		// Cada um destes cabeçalhos representará uma coluna
+		// Este metodo e bastante simples e apenas retorna o ArrayList que contem os cabecalhos que irao constituir o excel a criar
+		// Cada um destes cabecalhos representara uma coluna
 	}
 
 	
@@ -74,7 +74,7 @@ public class ExcelManip {
 	 * metodo para criar ficheiro excel, preechido com as metricas extraidas de um dado projeto (formato identico ao do ficheiro Code_Smells.xlsx)
 	 * (LOC_Class, NOM_Class, CYCLO_Class, CYCLO_Method, LOC_Method)
 	 * @param data (ArrayList com metricas calculadas)
-	 * @param toCopy (Caminho onde será guardado o ficheiro)
+	 * @param toCopy (Caminho onde sera guardado o ficheiro)
 	 * @throws IOException excecao
 	 */
 	public void createExcel(ArrayList<MethodMetrics> data,String toCopy) throws IOException {
@@ -95,7 +95,7 @@ public class ExcelManip {
 			Cell prov = sheet.getRow(ZERO).createCell(i);
 			prov.setCellStyle(style);
 			prov.setCellValue(headers.get(i));
-			System.out.println("index deste header é " + prov.getColumnIndex());
+			System.out.println("index deste header e " + prov.getColumnIndex());
 		}
 		//Adicionar dados ao Excel, linha a linha, provenientes do ArrayList<Metrics> data
 		double rowNumbToCreate = 1;
@@ -118,9 +118,9 @@ public class ExcelManip {
 	}
 
 	/**
-	 * metodo para criação de ficheiro excel
-	 * @param toCopy (path onde será guardado o ficheiro)
-	 * @param create (WorkBook excel onde serão escritos os dados numa dada sheet)
+	 * metodo para criacao de ficheiro excel
+	 * @param toCopy (path onde sera guardado o ficheiro)
+	 * @param create (WorkBook excel onde serao escritos os dados numa dada sheet)
 	 * @throws FileNotFoundException excecao 
 	 * @throws IOException excecao
 	 */
@@ -133,8 +133,8 @@ public class ExcelManip {
 
 	/**
 	 * Metodo utilizado para transformar um ficheiro excel do genero Code_Smells.xlsx em um array list de HasCodeSmell, por forma a que
-	 * as classificações corretas possam ser comparadas com as metricas extraidas
-	 * @param columnOfCodeSmell (Consoante o code smell detetado, a coluna onde se vai buscar a classificação difere)
+	 * as classificacoes corretas possam ser comparadas com as metricas extraidas
+	 * @param columnOfCodeSmell (Consoante o code smell detetado, a coluna onde se vai buscar a classificacao difere)
 	 * @return retorna arrayList com o o conteudo do ficheiro excel
 	 * @throws IOException excecao
 	 */
@@ -142,9 +142,9 @@ public class ExcelManip {
 		FileInputStream fileTo = new FileInputStream(file.getAbsoluteFile());
 		XSSFWorkbook workbook = new XSSFWorkbook(fileTo);
 		XSSFSheet sheet = workbook.getSheetAt(ZERO);
-		// Abertura do ficheiro Excel que contém os resultados corretos da classificação de CodeSmells
+		// Abertura do ficheiro Excel que contem os resultados corretos da classificacao de CodeSmells
 		ArrayList<HasCodeSmell> toCompare = new ArrayList<>();
-		// Criação de Array para adicionar os resultados
+		// Criacao de Array para adicionar os resultados
 		Iterator<Row> it = sheet.iterator();
 		while (it.hasNext()) {
 			Row row = it.next();
@@ -152,7 +152,7 @@ public class ExcelManip {
 				HasCodeSmell toadd = readExcelRow(columnOfCodeSmell,row);
 				toCompare.add(toadd);
 			}
-			// leitura dos dados existentes no ficheiro Code_Smells e criação de um Array<HasCodeSmell> com esses mesmos dados
+			// leitura dos dados existentes no ficheiro Code_Smells e criacao de um Array<HasCodeSmell> com esses mesmos dados
 		}
 		workbook.close();
 		return toCompare;
@@ -161,7 +161,7 @@ public class ExcelManip {
 	
 	/**
 	 * Metodo utilizado para ler uma linha de um determinado ficheiro exel
-	 * @param columnOfCodeSmell coluna de onde vai ser extraida a classificação correta
+	 * @param columnOfCodeSmell coluna de onde vai ser extraida a classificacao correta
 	 * @param row linha de onde esta classificacao sera extraida
 	 * @return objeto HasCodeSmell composto pela informacao que foi lida
 	 */

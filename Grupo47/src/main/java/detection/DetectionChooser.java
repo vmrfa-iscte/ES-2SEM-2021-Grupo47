@@ -7,7 +7,7 @@ import classes.MethodMetrics;
 import classes.Rule;
 
 /**
- *  Esta classe tem por objetivo decidir qual a deteção adequada segundo uma regra recebida, após decisão vai efetuar a deteção
+ *  Esta classe tem por objetivo decidir qual a detecao adequada segundo uma regra recebida, apos decisao vai efetuar a detecao
 	 e retornar uma lista com os resultados
  * @author Tomas Mendes
  * @author Vasco Fontoura

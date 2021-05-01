@@ -17,7 +17,7 @@ import gui.mainGUI;
  *
  */
 public class EvaluateAndDetect {
-	private static final String LOC_CLASS = "LOC_class", NOM_CLASS = "NOM_class", WMC_CLASS = "WMC_class",
+	public static final String LOC_CLASS = "LOC_class", NOM_CLASS = "NOM_class", WMC_CLASS = "WMC_class",
 			LOC_METHOD = "LOC_method";
 	
 	private static final String IS_LONG_METHOD_DETECTION = "IsLong Method Detection";
@@ -49,53 +49,15 @@ public class EvaluateAndDetect {
 	public HashMap<String,ArrayList<HasCodeSmell>> evaluationChooser(Rule thisCurrentRule) {
 		if (thisCurrentRule.getMethod1().equals(LOC_METHOD))
 			return evaluateLocMethod(thisCurrentRule);
-		else if (isWMCAndNOM(thisCurrentRule))
+		else if (thisCurrentRule.isWMCAndNOM())
 			return evaluateGodClassWithWMC_NOM(thisCurrentRule);
-		else if (isWMCAndLOC(thisCurrentRule))
+		else if (thisCurrentRule.isWMCAndLOC())
 			return evaluateGodClassWithWMC_LOC(thisCurrentRule);
-		else if (isNOMAndLOC(thisCurrentRule))
+		else if (thisCurrentRule.isNOMAndLOC())
 			return evaluateGodClassWithNOM_LOC(thisCurrentRule);
-		else if (isGodClass(thisCurrentRule))
+		else if (thisCurrentRule.isGodClass())
 			return evaluateGodClassWithWMC_NOM_LOC(thisCurrentRule);
 		return null;
-	}
-
-	/**
-	 * Verifica, perante uma dada regra, se se trata de code smell isGod Class (WMC_class,NOM_class e LOC_class)
-	 * @param thisCurrentRule uma dada regra
-	 * @return um boleano com o resultado da verificacao
-	 */
-	public boolean isGodClass(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(WMC_CLASS) && thisCurrentRule.getMethod2().equals(NOM_CLASS) && thisCurrentRule.getMethod3().contains("a");
-	}
-
-	/**
-	 * Verifica, perante uma dada regra, se se trata das metricas NOM_class e LOC_class
-	 * @param thisCurrentRule uma dada regra
-	 * @return um boleano com o resultado da verificacao
-	 */
-	public boolean isNOMAndLOC(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(NOM_CLASS) && thisCurrentRule.getMethod2().equals(LOC_CLASS) && !thisCurrentRule.getMethod3().contains("a");
-	}
-
-	/**
-	 * Verifica, perante uma dada regra, se se trata das metricas WMC_class e LOC_class
-	 * @param thisCurrentRule uma dada regra
-	 * @return um boleano com o resultado da verificacao
-	 */
-	private boolean isWMCAndLOC(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(WMC_CLASS) && thisCurrentRule.getMethod2().equals(LOC_CLASS) 
-				&& !thisCurrentRule.getMethod3().contains("a");
-	}
-
-	/**
-	 * Verifica, perante uma dada regra, se se trata das metricas NOM_class e NOM_class
-	 * @param thisCurrentRule uma dada regra
-	 * @return um boleano com o resultado da verificacao
-	 */
-	private boolean isWMCAndNOM(Rule thisCurrentRule) {
-		return thisCurrentRule.getMethod1().equals(WMC_CLASS) && thisCurrentRule.getMethod2().equals(NOM_CLASS)
-				&& !thisCurrentRule.getMethod3().contains("a");
 	}
 
 	// Os seguintes métodos escolhem a deteção adequada perante a regra escolhida

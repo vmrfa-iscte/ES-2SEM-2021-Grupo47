@@ -6,16 +6,18 @@ import org.eclipse.swt.widgets.Display;
 
 import gui.mainGUI;
 
+/**
+ * Classe main responsavel por correr o projeto
+ * @author Tomas Mendes
+ * @author Vasco Fontoura
+ * @author Guy Turpin
+ *
+ */
 public class Main {
 
 	/** Funcao main que permite correr todo o projeto
 	 * @param args valor default do java
-	 * @throws IOException excecao
-	 * @author Tomas Mendes
-	 * @author Vasco Fontoura
-	 * @author Gwinie tha pooh, aka gwin diesel, aka damn negro
-	 * 
-	 * 
+	 * @throws IOException excecao 
 	 */
 	public static void main(String[] args) throws IOException {
 		try {

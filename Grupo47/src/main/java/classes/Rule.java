@@ -1,5 +1,7 @@
 package classes;
 
+import detection.EvaluateAndDetect;
+
 /**
  * Classe rules: objeto criado com base nas escolhas do utilizador, atraves da GUI
  * 
@@ -252,6 +254,42 @@ public class Rule {
 	 */
 	public void setMethod3(String method3) {
 		this.method3 = method3;
+	}
+
+	/**
+	 * Verifica, perante uma dada regra, se se trata de code smell isGod Class (WMC_class,NOM_class e LOC_class)
+	 * @return  um boleano com o resultado da verificacao
+	 */
+	public boolean isGodClass() {
+		return getMethod1().equals(EvaluateAndDetect.WMC_CLASS) && getMethod2().equals(EvaluateAndDetect.NOM_CLASS)
+				&& getMethod3().contains("a");
+	}
+
+	/**
+	 * Verifica, perante uma dada regra, se se trata das metricas NOM_class e LOC_class
+	 * @return  um boleano com o resultado da verificacao
+	 */
+	public boolean isNOMAndLOC() {
+		return getMethod1().equals(EvaluateAndDetect.NOM_CLASS) && getMethod2().equals(EvaluateAndDetect.LOC_CLASS)
+				&& !getMethod3().contains("a");
+	}
+
+	/**
+	 * Verifica, perante uma dada regra, se se trata das metricas WMC_class e LOC_class
+	 * @return  um boleano com o resultado da verificacao
+	 */
+	public boolean isWMCAndLOC() {
+		return getMethod1().equals(EvaluateAndDetect.WMC_CLASS) && getMethod2().equals(EvaluateAndDetect.LOC_CLASS)
+				&& !getMethod3().contains("a");
+	}
+
+	/**
+	 * Verifica, perante uma dada regra, se se trata das metricas NOM_class e NOM_class
+	 * @return  um boleano com o resultado da verificacao
+	 */
+	public boolean isWMCAndNOM() {
+		return getMethod1().equals(EvaluateAndDetect.WMC_CLASS) && getMethod2().equals(EvaluateAndDetect.NOM_CLASS)
+				&& !getMethod3().contains("a");
 	}
 
 }

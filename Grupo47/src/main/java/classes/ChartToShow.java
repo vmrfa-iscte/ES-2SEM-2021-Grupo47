@@ -21,6 +21,7 @@ import org.jfree.data.general.PieDataset;
  * Esta classe e responsavel por calcular os dados relativos a qualidade e posteriormente criar um PieChart numa nova 
  * janela.
  * @author Vasco Fontoura
+ * @author Fernando Cruz
  * @version 2
  *
  */

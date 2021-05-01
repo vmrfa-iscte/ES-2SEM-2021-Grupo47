@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.MenuItem;
  * 
  * @author Guy Turpin
  * @author Vasco Fontoura
+ * @author Tomas Mendes
  *
  */
 public class SecondaryGUI extends Shell {
@@ -147,6 +148,10 @@ public class SecondaryGUI extends Shell {
 
 	}
 
+	/**
+	 * Elementos de ajuda a criacao do botao select File
+	 * @return formData
+	 */
 	private FormData fd_selectFileButton() {
 		FormData fd_selectFileButton_1 = new FormData();
 		fd_selectFileButton_1.right = new FormAttachment(0, 669);
@@ -155,6 +160,10 @@ public class SecondaryGUI extends Shell {
 		return fd_selectFileButton_1;
 	}
 
+	/**
+	 * Elementos de ajuda a criacao do botao evaluate 
+	 * @return formData
+	 */
 	private FormData fd_evaluateButton() {
 		FormData fd_evaluateButton = new FormData();
 		fd_evaluateButton.right = new FormAttachment(0, 190);
@@ -163,6 +172,9 @@ public class SecondaryGUI extends Shell {
 		return fd_evaluateButton;
 	}
 
+	/**
+	 * Elementos de ajuda a criacao da tabela
+	 */
 	private void fd_table() {
 		fd_table = new FormData();
 		fd_table.top = new FormAttachment(0, 10);
@@ -280,6 +292,11 @@ public class SecondaryGUI extends Shell {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
+	/**
+	 * Preenche a tabela da GUI
+	 * @param detectionResults resultados da detecao que vao ser mostrados na tabela
+	 * @param withQuality indica se sera mostrada a qualidade de detecao ou nao
+	 */
 	public void fillSecondaryGUI(ArrayList<HasCodeSmell> detectionResults, boolean withQuality) {
 		fillTable.fillTable(detectionResults, withQuality);
 

@@ -856,8 +856,9 @@ public class mainGUI extends Shell {
 
 	
 	/**
+	 * Metodo para indicar se um char corresponde a um numero ou nao
 	 * @param charAt Avalia se um determinado char e um número
-	 * @return
+	 * @return indicacao de se o char dado e um numero ou nao
 	 */
 	private boolean isNumber(char charAt) {
 		return charAt == '0' || charAt == '1' || charAt == '2' || charAt == '3' || charAt == '4' || charAt == '5'
@@ -866,8 +867,9 @@ public class mainGUI extends Shell {
 
 	
 	/**
+	 * Metodo de ajuda a criacao da secondaryGUI consoante um nome e os resultados que devem ser mostrados na tabela
 	 * @param name Criar GUI secundaria, importar os resultados da aplicação da regra e lançar  GUI
-	 * @param detectionResults
+	 * @param detectionResults resultados da detecao de code smells
 	 */
 	public void createSecondaryGUI(String name, ArrayList<HasCodeSmell> detectionResults) {
 		SecondaryGUI codesmells = new SecondaryGUI(getDisplay(), name, detectionResults);
@@ -875,6 +877,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
+	 * Indica se a segunda metrica foi preenchida corretamente
 	 * @return true ou false, consoante a acao do utilizador no preenchimento dos campos relativos a metrica2
 	 */
 	private boolean isSecondMetricCorrect() {
@@ -882,6 +885,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
+	 * Indica se a primeira metrica foi preenchida corretamente
 	 * @return true ou false, consoante a acao do utilizador no preenchimento dos campos relativos a metrica1 
 	 */
 	private boolean isFirstMetricCorrect() {
@@ -890,6 +894,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
+	 * Indica se a terceira metrica esta preenchida
 	 * @return true ou false, consoante a terceira metrica estiver preenchida, ou nao
 	 */
 	private boolean isThirdMetricFilled() {
@@ -901,8 +906,9 @@ public class mainGUI extends Shell {
 	}
 
 	/**
+	 * Verifica se uma regra existe
 	 * @param v Metodo que verifica se a regra definida pelo utilizador ja existe ou nao
-	 * @return
+	 * @return resultado da verificacao
 	 */
 	private boolean verifyRuleExistance(boolean v) {
 		ruleToShowInList = rule.toString();
@@ -918,6 +924,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
+	 * Adiciona a regra definida a lista de regras
 	 * @param isRepeated Metodo que adiciona a regra definida a lista de regras, dependendo de se esta ja existe ou nao
 	 */
 	private void checkExistanceAndAdd(boolean isRepeated) {
