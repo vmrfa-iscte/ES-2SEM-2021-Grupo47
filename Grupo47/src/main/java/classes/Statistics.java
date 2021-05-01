@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Classe utilizada para calcular as caracteristicas de um projeto, nomeadamente, numero total de linhas de codigo,
  * numero total de classes, numero total de packages e numero total de metodos
  * @author Tomás Mendes
- * @version
+ * @version 2.0
  *
  *
  */

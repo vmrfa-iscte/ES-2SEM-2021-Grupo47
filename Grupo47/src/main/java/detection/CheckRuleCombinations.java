@@ -6,8 +6,9 @@ import classes.MethodMetrics;
  * Esta classe retorna um booleano que coincide com o resultado da deteção de um code smell segundo os valores das regras definidas
 para cada método varia os sinais utilizados (maior e menor) e os operadores utilizados ("e" e "ou").
  O objetivo da classe é ter todas as combinações de regras possíveis com as métricas possíveis, tendo em conta os operadores e sinais
- * @author Tomás Mendes
- * @version
+ * @author Tomás Mendes, Vasco Fontoura
+ * @version 4.0
+ * 
  *
  */
 public class CheckRuleCombinations {
@@ -19,9 +20,9 @@ public class CheckRuleCombinations {
 	private int rule3_threshold;
 	
 	/** Construtor para 3 thresholds
-	 * @param rule1_threshold
-	 * @param rule2_threshold
-	 * @param rule3_threshold
+	 * @param rule1_threshold valor que limita a primeira metrica
+	 * @param rule2_threshold valor que limita a segunda metrica
+	 * @param rule3_threshold valor que limita o terceira metrica
 	 */
 	public CheckRuleCombinations(int rule1_threshold,int rule2_threshold, int rule3_threshold) {
 		this.rule1_threshold = rule1_threshold;
@@ -31,8 +32,8 @@ public class CheckRuleCombinations {
 	
 	/**
 	 * Construtor para 2 thresholds
-	 * @param rule1_threshold
-	 * @param rule2_threshold
+	 * @param rule1_threshold valor que limita a primeira metrica
+	 * @param rule2_threshold valor que limita a segunda metrica
 	 */
 	public CheckRuleCombinations(int rule1_threshold,int rule2_threshold) {
 		this.rule1_threshold = rule1_threshold;
@@ -198,190 +199,425 @@ public class CheckRuleCombinations {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores maior, menor e maior e com os sinais "&&" e "||"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserGreater_AndOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e maior e com os sinais "||" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserGreater_OrAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e maior e com os sinais "&&" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserGreater_OrOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e menor e com os sinais "&&" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserLesser_AndAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e menor e com os sinais "&&" e "||"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserLesser_AndOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/*
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e menor e com os sinais "||" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserLesser_OrAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores maior, menor e menor e com os sinais "||" e "||"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserLesser_OrOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores menor, menor e menor e com os sinais "&&" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return
+	 */
 	public boolean isGodLesserLesserLesser_AndAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores menor, menor e menor e com os sinais "&&" e "||"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return
+	 */
 	public boolean isGodLesserLesserLesser_AndOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores menor, menor e menor e com os sinais "||" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserLesserLesser_OrAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold && methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores menor, menor e menor e com os sinais "||" e "||"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserLesserLesser_OrOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold || methodWithMetrics.getLOC_class() < rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores maior, menor e menor e com os sinais "&&" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterGreater_AndAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores maior, menor e menor e com os sinais "&&" e "||"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterGreater_AndOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores maior, menor e menor e com os sinais "||" e "&&"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterGreater_OrAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold && methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores maior, maior e maior e com os sinais "||" e "||"
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterGreater_OrOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold || methodWithMetrics.getLOC_class() > rule3_threshold);
 	}
 	
+	/**
+	 *  Verfica se o método tem code smell isGod segundo os operadores maior, maior e maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserLesserNOMLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() < rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as sua metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserLesserNOMLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() < rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserGreaterNOMLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() < rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserGreaterNOMLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() < rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que indentifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserNOMLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() > rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserNOMLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() > rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);	
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterNOMLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() > rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica metodo e as suas metricas
+	 * @return classficacao
+	 */
 	public boolean isGodGreaterGreaterNOMLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getNOM_class() > rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que indentifica metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserGreaterLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserGreaterLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserLesserLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserLesserLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getLOC_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterLOC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterLOC_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getLOC_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserGreaterNOM_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classficacao
+	 */
 	public boolean isGodLesserGreaterNOM_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e com os sinais "&&" 
+	 * @param methodWithMetrics
+	 * @return
+	 */
 	public boolean isGodLesserLesserNOM_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodLesserLesserNOM_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() < rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserWMC_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterLesserNOM_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterNOM_And(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold && methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
+	 * @return classificacao
+	 */
 	public boolean isGodGreaterGreaterNOM_Or(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getWMC_class() > rule1_threshold || methodWithMetrics.getNOM_class() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongLesserLesserAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() < rule1_threshold && methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, menor e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongLesserLesserOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() < rule1_threshold || methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongLesserGreaterAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() < rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores menor, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongLesserGreaterOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() < rule1_threshold || methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "&&" 
+	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongGGAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongGGOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, maior e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongGLAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
+	/**
+	 * Verfica se o método tem code smell isGod segundo os operadores maior, menor e com os sinais "||" 
+	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
+	 * @return classificacao
+	 */
 	public boolean isLongGLOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
