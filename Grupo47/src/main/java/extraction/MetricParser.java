@@ -19,7 +19,7 @@ public class MetricParser {
 	private static final String IF_CYCLE = "if",
 			FOR_CYCLE = "for", WHILE_CYCLE = "while", CASE_CYCLE = "case", ELSE = "else", DEFAULT_CYCLE = "default";
 	
-	/** Calcular complexidade ciclomática através da soma da ocorrência de diversos ciclos
+	/** Calcular complexidade ciclomatica atraves da soma da ocorrencia de diversos ciclos
 	 * @param methodFromClass objeto que cujo toString corresponde ao metodo que queremos analisar
 	 * @return soma do numero total de ocorrencias de determinadas palavras chave mais 1, o valor default da complexidade de um metodo
 	 */
@@ -49,7 +49,7 @@ public class MetricParser {
 	}
 
 	/**
-	 * Calcular complexidade ciclomática através da soma da ocorrência de diversos ciclos
+	 * Calcular complexidade ciclomatica através da soma da ocorrencia de diversos ciclos
 	 * @param md String que contem um determinado construtor
 	 * @return soma do numero total de ocorrencias de determinadas palavras chave mais 1, o valor default da complexidade de um metodo
 	 */
