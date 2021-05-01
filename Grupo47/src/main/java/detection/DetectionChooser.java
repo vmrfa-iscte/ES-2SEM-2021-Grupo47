@@ -122,9 +122,9 @@ public class DetectionChooser {
 	
 	/**
 	 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a >,>,>
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isGreaterGreaterGreater(String signal1, String signal2, String signal3) {
@@ -134,9 +134,9 @@ public class DetectionChooser {
 	
 	/**
 	 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a <,<,<
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isLesserLesserLesser(String firstSignal,String secondSignal, String thirdSignal) {
@@ -146,9 +146,9 @@ public class DetectionChooser {
 	
 	/**
 	 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a >,<,<
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isGreaterLesserLesser(String firstSignal,String secondSignal, String thirdSignal) {
@@ -158,9 +158,9 @@ public class DetectionChooser {
 	
 	/**
 	 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a >,>,<
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isGreaterGreaterLesser(String firstSignal,String secondSignal, String thirdSignal) {
@@ -170,9 +170,9 @@ public class DetectionChooser {
 	
 	/**
 		 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a >,<,>
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isGreaterLesserGreater(String firstSignal,String secondSignal, String thirdSignal) {
@@ -182,9 +182,9 @@ public class DetectionChooser {
 	
 	/**
 	 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a <,<,>
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isLesserLesserGreater(String firstSignal,String secondSignal, String thirdSignal) {
@@ -194,9 +194,9 @@ public class DetectionChooser {
 	
 	/**
 	 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a <,>,>
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isLesserGreaterGreater(String firstSignal,String secondSignal, String thirdSignal) {
@@ -206,9 +206,9 @@ public class DetectionChooser {
 	
 	/**
 	 * Retorna se um conjunto de 3 sinais de uma dada regra correspondem a <,>,<
-	 * @param signal1
-	 * @param signal2
-	 * @param signal3
+	 * @param signal1 limita primeira metrica
+	 * @param signal2 limita segunda metrica
+	 * @param signal3 limita terceira metrica
 	 * @return booleano que indica se sim ou se nao
 	 */
 	private boolean isLesserGreaterLesser(String firstSignal,String secondSignal, String thirdSignal) {
