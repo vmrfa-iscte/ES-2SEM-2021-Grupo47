@@ -17,7 +17,7 @@ public class HelpInterface extends Shell {
 	private Display display;
 
 	/**
-	 * CONSTRUTOR DA INTERFACE "HelpInterface" COM TODO O CONTEÚDO QUE A COMPÕE.
+	 * Construtor da interface "HelpInterface" com todo o conteudo que a compoe
 	 * 
 	 * @param display display
 	 */
@@ -65,7 +65,7 @@ public class HelpInterface extends Shell {
 
 	
 	/**
-	 * METODO PARA ABRIR A INTERFACE "AJUDA-UTILIZAÇAO DA INTERFACE" COM O FORMATO CORRETO
+	 * Metodo para abrir a interface "AJUDA-Utilizacao da interface" com o formato correto
 	 */
 	public void loadGUI() {
 		try {

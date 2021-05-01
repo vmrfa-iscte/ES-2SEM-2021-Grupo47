@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
+ * Classe responsavel por calcular as metricas
  * @author Tomas Mendes
  * @author Vasco Fontoura
  *
