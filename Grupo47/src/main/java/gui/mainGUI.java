@@ -98,6 +98,11 @@ public class mainGUI extends Shell {
 		createContents();
 	}
 
+	/**
+	 * METODO QUE ADICIONA AS FUNCIONALIDADES A GUI (BOTOES, TEXTFIELDS ETC)
+	 * 
+	 * @param display
+	 */
 	private void addElements(Display display) {
 		projectFolderPath = new Text(this, SWT.BORDER | SWT.READ_ONLY);
 		projectFolderPath.setBounds(10, 67, 345, 26);
@@ -299,6 +304,9 @@ public class mainGUI extends Shell {
 		choosePathToExtract.setText("Selecionar destino");
 	}
 
+	/**
+	 * METODO QUE PERMITE A SELEÇAO DO FICHEIRO EXCEL GERADO E A ESCRITA DAS CARACTERISTICAS DO MESMO
+	 */
 	private void excelfilesListener() {
 		excelfiles.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -312,6 +320,11 @@ public class mainGUI extends Shell {
 		});
 	}
 	
+	/**
+	 * METODO QUE VERIFICA SE A METRICA 3 SE ENCONTRA PREENCHIDA 
+	 * 
+	 * @return true or false
+	 */
 	private boolean isThirdMetricEmpty() {
 		if(thirdMetric.isVisible()) {
 		return (thirdMetric.getText().isEmpty() && secondOperator.getText().isEmpty()
@@ -320,6 +333,9 @@ public class mainGUI extends Shell {
 		}else return true;
 	}
 
+	/**
+	 * METODO QUE PERMITE A DEFINICAO DE REGRAS PREVIAMENTE CRIADAS PELO UTILIZADOR ATRAVES DA GUI
+	 */
 	private void defineRuleButtonListener() {
 		defineRuleButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -338,6 +354,11 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * 
+	 * METODO QUE PERMITE AO UTILIZADOR ALTERAR UMA REGRA PREVIAMENTE SELECIONADA
+	 * 
+	 */
 	private void changeRuleButtonListener() {
 		changeRuleButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -368,6 +389,10 @@ public class mainGUI extends Shell {
 		});
 	}
 
+	/**
+	 * METODO QUE PERMITE QUE O UTILIZADOR REALIZE A DETECAO DE CODESMELLS CONSOANTE A REGRA PREVIAMENTE SELECIONADA
+	 * 
+	 */
 	private void detectSmellsButtonListener() {
 		detectSmellsButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -393,6 +418,9 @@ public class mainGUI extends Shell {
 		});
 	}
 	
+	/**
+	 *  METODO QUE PERMITE AO UTILIZADOR CARREGAR UM HISTORICO PARA A GUI E TRABALHAR CONSOANTE REGRAS DEFINIDAS A PRIORI
+	 */
 	private void loadHistoryButtonListener() {
 		loadHistoryButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -424,6 +452,10 @@ public class mainGUI extends Shell {
 		});
 	}
 	
+	/**
+	 * METODO QUE PERMITE AO UTILIZADOR GUARDAR, NUM FICHEIRO NAO VOLATIL, AS REGRAS DEFINIDAS. ESTE METODO PERMITE TAMBEM A CRIACAO DO FICHEIRO HISTORICO DE RAIZ
+	 * 
+	 */
 	private void saveHistoryListener() {
 		savehistory.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -436,6 +468,10 @@ public class mainGUI extends Shell {
 		});
 	}
 	
+	/**
+	 * METODO QUE PERMITE AO UTILIZADOR ESVAZIAR A LISTA DAS REGRAS 
+	 * 
+	 */
 	private void cleanHistoryListListener() {
 		cleanHistoryList.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -456,6 +492,10 @@ public class mainGUI extends Shell {
 		});
 	}
 	
+	/**
+	 * METODO QUE PERMITE AO UTILIZADOR CONSULTAR INFORMACOES RELATIVAS AS METRICAS E CONSEQUENTEMENTE AO SEU FUNCIONAMENTO
+	 * 
+	 */
 	private void metricInfoButtonListener() {
 		metricInfoButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -466,6 +506,10 @@ public class mainGUI extends Shell {
 		});
 	}
 	
+	/**
+	 * METODO QUE PERMITE AO UTILIZADOR VISUALIZAR O FICHEIRO EXCEL GERADO PELA EXTRACAO 
+	 * 
+	 */
 	private void viewFileButtonListener() {
 		viewFileButton.addSelectionListener(new SelectionAdapter() {
 			@Override
