@@ -21,8 +21,10 @@ import classes.Metrics;
 import classes.NameByFile;
 
 /**
+ * Classe responsavel por extrair metricas de um dado fichiero
  * @author Vasco Fontoura
- * @author Tomás Mendes
+ * @author Tomas Mendes
+ * @version 8
  *
  */
 public class ExtractMetrics {
@@ -32,8 +34,8 @@ public class ExtractMetrics {
 	private int method_id;
 
 	/**
-	 * Todas as métricas são inicializadas a 0 com exceção da complexidade ciclomática que é inicializada a 1.
-	  	Os contadores utilizados são inicializados também a 0.
+	 * Todas as metricas são inicializadas a 0 com excecao da complexidade ciclomatica que é inicializada a 1.
+	  	Os contadores utilizados são inicializados tambem a 0.
 	 */
 	public static final int METRICS_INITIAL_VALUE = 0, COUNTER_INITIAL_VALUE = 0, COMPLEXITY_INITIAL_VALUE = 1; 
 	public static final String SRC_DIR = "src", DEFAULT_PACKAGE = "Default Package", EMPTY_STRING = "", SPACE_STRING = " ", IF_CYCLE = "if",
@@ -45,7 +47,8 @@ public class ExtractMetrics {
 	
 
 	/**
-	 * @param file um ficheiro java para extrair métricas
+	 * Construtor
+	 * @param file um ficheiro java para extrair metricas
 	 */
 	public ExtractMetrics(File file) {
 		classNameByFile.setFileToExtract(file);
@@ -53,9 +56,9 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Obtém o código e extrai métricas do ficheiro dado no construtor e guarda na lista dada
-	 * @param extractedMetrics lista de métodos com métricas para guardar os resultados da extração
-	 * @param method_id id do último método na lista de métodos com métricas
+	 * Obtem o codigo e extrai metricas do ficheiro dado no construtor e guarda na lista dada
+	 * @param extractedMetrics lista de metodos com metricas para guardar os resultados da extracao
+	 * @param method_id id do ultimo metodo na lista de metodos com metricas
 	 * @return a lista dada com novos resultados acrescentados
 	 * @throws FileNotFoundException
 	 */
@@ -71,7 +74,8 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * @param compilationUnitFromParser código do ficheiro traduzido por JavaParser
+	 * Extrai todas as metricas
+	 * @param compilationUnitFromParser codigo do ficheiro traduzido por JavaParser
 	 * @throws FileNotFoundException
 	 */
 	private void extract(ParseResult<CompilationUnit> compilationUnitFromParser) throws FileNotFoundException {
@@ -83,8 +87,8 @@ public class ExtractMetrics {
 	}
 	
 	/**
-	 * Extrai as métricas de class para todas as classes do ficheiro
-	 * @param actualCompilationUnit código do ficheiro traduzido por JavaParser
+	 * Extrai as metricas de class para todas as classes do ficheiro
+	 * @param actualCompilationUnit codigo do ficheiro traduzido por JavaParser
 	 * @throws FileNotFoundException
 	 */
 	private void findAllClassMetricsFromFile(CompilationUnit actualCompilationUnit) throws FileNotFoundException {
@@ -102,8 +106,8 @@ public class ExtractMetrics {
 	}
 	
 	/**
-	 * Extrai as métricas de class para todos os Enumerados do ficheiro
-	 * @param actualCompilationUnit código do ficheiro traduzido por JavaParser
+	 * Extrai as metricas de class para todos os Enumerados do ficheiro
+	 * @param actualCompilationUnit codigo do ficheiro traduzido por JavaParser
 	 */
 	private void findAllEnumMetricsFromFile(CompilationUnit actualCompilationUnit) {
 		// Percorrer todos os enumerdos dentro do ficheiro
@@ -120,7 +124,7 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Percorre todos os métodos na classe Enumerado dada
+	 * Percorre todos os metodos na classe Enumerado dada
 	 * @param enumTypeFromParser uma classe Enumerado no ficheiro dado
 	 */
 	private void searchMethodsForEnum(EnumDeclaration enumTypeFromParser) {
@@ -133,8 +137,8 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Extrai as métricas method para o método dado
-	 * @param methodFromEnum um método de uma classe Enumerado
+	 * Extrai as metricas method para o metodo dado
+	 * @param methodFromEnum um metodo de uma classe Enumerado
 	 */
 	private void extractMethodMetricsForEnum(MethodDeclaration methodFromEnum) {
 		// Extrair linhas de código e complexidade ciclomática através do objeto metricParser
@@ -147,7 +151,7 @@ public class ExtractMetrics {
 
 	
 	/**
-	 * Percorre todos os métodos na classe Enumerado dada e extrai métricas
+	 * Percorre todos os metodos na classe Enumerado dada e extrai metricas
 	 * @param enumTypeFromParser uma classe Enumerado no ficheiro dado
 	 */
 	private void searchConstructorsForEnum(EnumDeclaration enumTypeFromParser) {
@@ -160,7 +164,7 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Extrai as métricas method para o construtor dado
+	 * Extrai as metricas method para o construtor dado
 	 * @param constructorFromEnum um construtor vindo de uma classe Enumerado
 	 */
 	private void extractConstructorsMetricsForEnum(ConstructorDeclaration constructorFromEnum) {
@@ -173,7 +177,7 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Percorre todos os construtores da classe e extrai métricas
+	 * Percorre todos os construtores da classe e extrai metricas
 	 * @param classTypeFromParser uma classe
 	 */
 	private void searchConstructorsForClass(ClassOrInterfaceDeclaration classTypeFromParser) {
@@ -186,7 +190,7 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Extrai as métricas method para o construtor dado
+	 * Extrai as metricas method para o construtor dado
 	 * @param constructorFromClass um dado construtor
 	 */
 	private void extractConstructorMetrics(ConstructorDeclaration constructorFromClass) {
@@ -199,7 +203,7 @@ public class ExtractMetrics {
 	}
 	
 	/**
-	 * Procura os métodos dentro da classe dada e extrai as métricas
+	 * Procura os metodos dentro da classe dada e extrai as métricas
 	 * @param classTypeFromParser uma dada classe
 	 */
 	private void searchMethodsForClass(ClassOrInterfaceDeclaration classTypeFromParser) {
@@ -212,8 +216,8 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Extrai as métricas method de um dado método
-	 * @param methodFromClass um dado método
+	 * Extrai as metricas method de um dado metodo
+	 * @param methodFromClass um dado metodo
 	 */
 	private void extractMethodMetrics(MethodDeclaration methodFromClass) {
 		// Extrair linhas de código e complexidade ciclomática através do objeto metricParser
@@ -225,9 +229,10 @@ public class ExtractMetrics {
 	}
 	
 	/**
-	 * @param methodName o nome de um dado método
-	 * @param nodeList uma lista com os parâmetros do método dado
-	 * @return Retorna o nome do método com os parâmetros dados
+	 * Metodo capaz de juntar os parametros de um metodo ao seu nome
+	 * @param methodName o nome de um dado metodo
+	 * @param nodeList uma lista com os parametros do metodo dado
+	 * @return Retorna o nome do metodo com os parametros dados
 	 */
 	private String getMethodNameWithParameters(String methodName,NodeList<Parameter> nodeList) {
 		// Adicionar os parâmetros ao nome do método para evitar confusões com outros métodos com o mesmo nome e parâmetros diferentes
@@ -241,9 +246,10 @@ public class ExtractMetrics {
 	}
 	
 	/**
-	 * @param methodName nome de um dado método
-	 * @param parametersList uma lista com os parâmetros do método dado
-	 * @return o nome do método com os parâmetros dados
+	 * Adiciona os parametros ao nome do metodo
+	 * @param methodName nome de um dado metodo
+	 * @param parametersList uma lista com os parametros do metodo dado
+	 * @return o nome do metodo com os parametros dados
 	 */
 	private String addParametersToClassName(String methodName,NodeList<Parameter> parametersList) {
 		// Percorrer lista de parâmetros, para obter apenas o tipo dos parâmetros é necessário separar os Nodes e ir buscar apenas a primeira posição
@@ -259,8 +265,8 @@ public class ExtractMetrics {
 	}
 
 	/**
-	 * Cria um objeto MethodMetrics com o nome dado e com as métricas extraidas pelos outros métodos e adicona à lista de resultados.
-	 * @param methodName nome de um dado método
+	 * Cria um objeto MethodMetrics com o nome dado e com as metricas extraidas pelos outros metodos e adicona a lista de resultados.
+	 * @param methodName nome de um dado metodo
 	 */
 	private void createMetricsAndAdd(String methodName) {
 		MethodIdentity currentMethod = new MethodIdentity(methodName, className, packageClass, method_id);
@@ -270,7 +276,8 @@ public class ExtractMetrics {
 	}
 	
 	/**
-	 * @return o id do método após extração das métricas
+	 * Retorna o method id atual
+	 * @return o id do metodo apos extracao das metricas
 	 */
 	public int getCurrentMethodID() {
 		return method_id;

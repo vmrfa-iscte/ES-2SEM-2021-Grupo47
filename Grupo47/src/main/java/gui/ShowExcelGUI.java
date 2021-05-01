@@ -15,14 +15,18 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 /**
+ * Classe responsavel por mostrar o ficheiro excel gerado
  * @author Vasco Fontoura
+ * @version 1
  *
  */
 public class ShowExcelGUI extends Shell{
 	
 	private Display display;
 	private Table tableForMetrics;
+	
 	/**
+	 * Construtor
 	 * @param display
 	 * @param name nome da GUI
 	 * @param metricsToShow métricas para ser mostradas

@@ -3,7 +3,10 @@ package classes;
 /**
  * Classe utilizada para identificar um método de um dado projeto, assim como a classificação atribuida consoante determinada regra
  * @author Tomás Mendes
+
  * @version 2.0
+
+
  *
  */
 public class HasCodeSmell {

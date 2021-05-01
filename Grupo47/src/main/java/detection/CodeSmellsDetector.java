@@ -12,6 +12,7 @@ import classes.Rule;
  * @author Tomás Mendes
  * @version 3.0
  * 
+
  *
  */
 public class CodeSmellsDetector {

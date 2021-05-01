@@ -10,7 +10,11 @@ import extraction.ExtractMetrics;
 import java.util.regex.Pattern;
 
 /**
+ * Esta classe e responsavel por obter diferentes informacoes perante um ojeto File dado tal como: nome de uma classe presente no ficheiro
+ * com a formatacao correta, nome do pacote a que o ficheiro .java pertence e qual o nome que vai ser dado ao ficheiro excel gerado 
+ * atraves da extracao de metricas deste projeto em que o ficheiro esta inserido
  * @author Vasco Fontoura
+ * @version 1
  *
  */
 public class NameByFile {
@@ -19,6 +23,7 @@ public class NameByFile {
 	private static final String SRC = "src", RESULTS_ = "results_", FILE_TYPE = ".xlsx", EMPTY_PATH = "";
 
 	/**
+	 * Getter para o file dado
 	 * @return um ficheiro dado
 	 */
 	public File getFileToExtract() {
@@ -26,6 +31,7 @@ public class NameByFile {
 	}
 
 	/**
+	 * Setter para o file dado
 	 * @param fileToExtract um dado ficheiro
 	 */
 	public void setFileToExtract(File fileToExtract) {
@@ -33,8 +39,12 @@ public class NameByFile {
 	}
 	
 	/**
+	 * Metodo responsavel por retornar o nome de uma dada classe que esta inserida no ficheiro, 
+	 * caso o nome da da classe corresponda ao nome do ficheiro a formatacao entao o nome da classe sera o nome do ficheiro sem ".java"
+	 * caso seja uma inner classe a formatacao sera:
+	 *  nome_do_ficheiro+"."+nom_da_inner_class
 	 * @param classFromFile uma dada classe ou interface
-	 * @return o nome da classe na correta formatação
+	 * @return o nome da classe na correta formatacao
 	 */
 	public String getClassName(ClassOrInterfaceDeclaration classFromFile) {
 		// Retorna o nome utilizado para definir a classe no excel através do nome da classe e do nome do ficheiro
@@ -49,7 +59,7 @@ public class NameByFile {
 	
 	/**
 	 * @param enumFromFile um dado enumerado
-	 * @return o nome do enumerado na correta formatação
+	 * @return o nome do enumerado na correta formatacao
 	 */
 	public String getClassNameForEnum(EnumDeclaration enumFromFile) {
 		// Faz o mesmo que o método em cima mas para classes que sejam Enumerados
@@ -63,6 +73,7 @@ public class NameByFile {
 
 	
 	/**
+	 * Metodo responsavel por retornar o nome do pacote a que o ficheiro .java dado pertence
 	 * @return nome do pacote na correta formatação do ficheiro dado
 	 */
 	public String getPackageName() {
@@ -86,6 +97,7 @@ public class NameByFile {
 
 	
 	/**
+	 * Verifica se o ficheiro dado pertence ao 'Default Package'
 	 * @param packageName o nome de um pacote
 	 * @param fileToExtract um dado ficheiro
 	 * @return indicador se o ficheiro se encontra no pacote 'DefaultPackage'
@@ -103,7 +115,8 @@ public class NameByFile {
 	
 	
 	/**
-	 * @return nome do ficheiro dado na correta formatação
+	 * Metodo responsavel por retornar o nome do ficheiro excel onde serao mostradas as metricas extraidas
+	 * @return nome do ficheiro dado na correta formatacao
 	 */
 	public String getFileName() {
 		// Esta função é utilizada para retornar o nome, e apenas o nome do Ficheiro que foi passado como argumento

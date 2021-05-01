@@ -3,6 +3,7 @@ package classes;
 /**
  * Objeto que agrupa todas as metricas extraidas
  * @author Vasco Fontoura
+ * @version 2
  *
  */
 public class Metrics {

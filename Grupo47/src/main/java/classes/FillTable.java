@@ -9,6 +9,7 @@ import org.eclipse.swt.SWT;
  * Esta classe e responsavel por preencher uma dada tabela com informacao da detecao de code smells (nome do metodo,
  * nome da classe, id do metodo,detecao e qualidade de detecao).
  * @author Vasco Fontoura
+ * @version 2
  *
  */
 public class FillTable {
@@ -26,7 +27,8 @@ public class FillTable {
 	}
 
 	/**
-	 * @return a tabela recebida na criação
+	 * Getter para a tabela dada
+	 * @return a tabela recebida na criacao
 	 */
 	public Table getTable() {
 		return table;
@@ -46,7 +48,7 @@ public class FillTable {
 	
 	/**
 	 *  Preenche a tabela da SecondaryGUI com a informacao de um HasCodeSmell, caso o Objeto ja tenha qualidade, esta sera preenchida na coluna "Qualidade"
-	 * @param codesmellToAdd um objeto HasCodeSmell para adicionar à tabela
+	 * @param codesmellToAdd um objeto HasCodeSmell para adicionar a tabela
 	 * @param withQuality um boleano para indicar se se deve colocar a qualidade 
 	 */
 	public void addCodeSmellsInfo(HasCodeSmell codesmellToAdd, boolean withQuality) {
@@ -68,7 +70,7 @@ public class FillTable {
 	
 	
 	/**
-	 * Percorre a lista de HasCodeSmells que resultaram da detação pela regra escolhida e para cada um edita a sua qualidade
+	 * Percorre a lista de HasCodeSmells que resultaram da detecao pela regra escolhida e para cada um edita a sua qualidade
 	 * @param trueResults uma lista de HasCodeSmell resultante da leitura do ficheiro excel
 	 * @param toEdit uma lista com os objetos HasCodeSmells que estão na tabela
 	 * @return uma lista de HasCodeSmell com o campo Qualidade alterado

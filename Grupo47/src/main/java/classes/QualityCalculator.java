@@ -1,7 +1,10 @@
 package classes;
 
 /**
+ * Classe responsavel por detetar a qualidade de detecao, ou seja, Verdadeiros Positivos, Falsos Postivos, Falsos Negativos
+ * e Verdadeiros Negativos
  * @author Vasco Fontoura
+ * @version 1
  *
  */
 public class QualityCalculator {
@@ -17,6 +20,7 @@ public class QualityCalculator {
 	
 	
 	/**
+	 * Compara duas detecoes e verifica se se trata de um verdadeiro negativo
 	 * @param indicator HasCodeSmell detetado
 	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
@@ -28,6 +32,7 @@ public class QualityCalculator {
 	}
 	
 	/**
+	 * Compara duas detecoes e verifica se se trata de um falso positivo
 	 * @param indicator HasCodeSmell detetado
 	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
@@ -39,6 +44,7 @@ public class QualityCalculator {
 	}
 	
 	/**
+	 * Compara duas detecoes e verifica se se trata de um falso negativo
 	 * @param indicator HasCodeSmell detetado
 	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
@@ -50,6 +56,7 @@ public class QualityCalculator {
 	}
 
 	/**
+	 * Compara duas detecoes e verifica se se trata de um verdadeiro positivo
 	* @param indicator HasCodeSmell detetado
 	 * @param calculated HasCodeSmell calculado
 	 * @return boleano que indica a qualidade do HasCodeSmell detetado
@@ -60,6 +67,7 @@ public class QualityCalculator {
 	}
 	
 	/**
+	 * Compara duas detecoes e altera o campo qualidade consoante a qualidade de detecao
 	 * @param indicator HasCodeSmell detetado
 	 * @param calculated HasCodeSmell calculado
 	 */

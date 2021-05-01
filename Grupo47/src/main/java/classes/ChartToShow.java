@@ -21,8 +21,7 @@ import org.jfree.data.general.PieDataset;
  * Esta classe e responsavel por calcular os dados relativos a qualidade e posteriormente criar um PieChart numa nova 
  * janela.
  * @author Vasco Fontoura
- * @version
- * 
+ * @version 2
  *
  */
 public class ChartToShow {
@@ -63,8 +62,8 @@ public class ChartToShow {
 
 	
 	  /**
-	  * Cria os dados para o PieChart através de um mapa com a qualidade e numero de occurencias de cada qualidade 
-	 * @param mapValues um mapa com os tipos de qualidade e o número de ocorrencias de cada
+	  * Cria os dados para o PieChart atraves de um mapa com a qualidade e numero de occurencias de cada qualidade 
+	 * @param mapValues um mapa com os tipos de qualidade e o numero de ocorrencias de cada
 	 * @return uma base de dados para criacao de um PieChart
 	 * 
 	 */
