@@ -19,8 +19,10 @@ import java.util.regex.Pattern;
  */
 public class NameByFile {
 	
+	private static final String DEFAULT_PACKAGE = "Default Package";
+	private static final String SRC_DIR = "src";
 	private File fileToExtract;
-	private static final String SRC = "src", RESULTS_ = "results_", FILE_TYPE = ".xlsx", EMPTY_PATH = "";
+	private static final String SRC = SRC_DIR, RESULTS_ = "results_", FILE_TYPE = ".xlsx", EMPTY_PATH = "", JAVA_FILE = ".java";
 
 	/**
 	 * Getter para o file dado
@@ -49,10 +51,10 @@ public class NameByFile {
 	public String getClassName(ClassOrInterfaceDeclaration classFromFile) {
 		// Retorna o nome utilizado para definir a classe no excel através do nome da classe e do nome do ficheiro
 		if (classFromFile.getNameAsString()
-				.equals(fileToExtract.getName().replace(ExtractMetrics.JAVA_FILE, ExtractMetrics.EMPTY_STRING)))
+				.equals(fileToExtract.getName().replace(JAVA_FILE, ExtractMetrics.EMPTY_STRING)))
 			return classFromFile.getNameAsString();
 		else
-			return fileToExtract.getName().replace(ExtractMetrics.JAVA_FILE, ExtractMetrics.EMPTY_STRING) + "."
+			return fileToExtract.getName().replace(JAVA_FILE, ExtractMetrics.EMPTY_STRING) + "."
 					+ classFromFile.getNameAsString();
 	}
 
@@ -64,10 +66,10 @@ public class NameByFile {
 	public String getClassNameForEnum(EnumDeclaration enumFromFile) {
 		// Faz o mesmo que o método em cima mas para classes que sejam Enumerados
 		if (enumFromFile.getNameAsString()
-				.equals(fileToExtract.getName().replace(ExtractMetrics.JAVA_FILE, ExtractMetrics.EMPTY_STRING)))
+				.equals(fileToExtract.getName().replace(JAVA_FILE, ExtractMetrics.EMPTY_STRING)))
 			return enumFromFile.getNameAsString();
 		else
-			return fileToExtract.getName().replace(ExtractMetrics.JAVA_FILE, ExtractMetrics.EMPTY_STRING) + "."
+			return fileToExtract.getName().replace(JAVA_FILE, ExtractMetrics.EMPTY_STRING) + "."
 					+ enumFromFile.getNameAsString();
 	}
 
@@ -88,10 +90,10 @@ public class NameByFile {
 				else
 					packageName += separated[i];
 			}
-			if (separated[i].contains(ExtractMetrics.SRC_DIR))src = true;
+			if (separated[i].contains(SRC_DIR))src = true;
 		}
 		if (isDefaultPackage(packageName, fileToExtract))
-			packageName = ExtractMetrics.DEFAULT_PACKAGE;
+			packageName = DEFAULT_PACKAGE;
 		return packageName;
 	}
 
@@ -107,7 +109,7 @@ public class NameByFile {
 		// caso o caminho dado contenha uma pasta "src" e o nome do pacote esteja vazio quer dizer que está diretamente dentro da pasta "src
 		// logo, pertence ao pacote pré-definido
 		if (packageName.equals(ExtractMetrics.EMPTY_STRING)
-				&& fileToExtract.getAbsolutePath().contains(ExtractMetrics.SRC_DIR))
+				&& fileToExtract.getAbsolutePath().contains(SRC_DIR))
 			return true;
 		else
 			return false;

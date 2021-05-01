@@ -21,19 +21,15 @@ import classes.MethodMetrics;
 import classes.NameByFile;
 
 /**
- * Classe utilizada para executar as operações de manipulaçao necessarias nos ficheiros excel
- * @author Tomás Mendes
- * @version
- *
- */
-/**
- * @author Tomás Mendes
+ * Classe utilizada para executar as operações de manipulacao necessarias nos ficheiros excel
+ * @author Tomas Mendes
+ * @version 4
  *
  */
 public class ExcelManip {
  
 	private static ArrayList<String> headers;
-	public String toCopy;
+	private String toCopy;
 	private File file;
 	private NameByFile excelFileName = new NameByFile(); 
 	private static final String METHOD_ID_HEADER = "MethodID", PACKAGE_HEADER = "Package", CLASS_HEADER = "Class", METHOD_HEADER = "Method", 
@@ -44,15 +40,11 @@ public class ExcelManip {
 	private static final String  DOUBLE_LEFT_SLASH = "\\";
 	private static final int METHOD_ID_COLUMN_INDEX = 0, PACKAGE_COLUMN_INDEX = 1,CLASS_COLUMN_INDEX = 2,METHOD_COLUMN_INDEX = 3,
 	NOMCLASS_COLUMN_INDEX = 4,LOC_CLASS_COLUMN_INDEX = 5, WMC_CLASS_COLUMN_INDEX = 6, LOC_METHOD_COLUMN_INDEX = 7, CYCLO_METHOD_COLUMN_INDEX = 8;
-	
-
-
-	
 
 	
 	/**
 	 * Construtor recebe como parametro um determinado ficheiro excel
-	 * @param file
+	 * @param file um dado ficheiro
 	 */
 	public ExcelManip(File file) {
 		this.file = file;
@@ -67,8 +59,9 @@ public class ExcelManip {
 
 	
 	/**
+	 * Extrai os cabecalhos
 	 * @return ArrayList com os cabeçalhos a inserir no excel que vai ser gerado
-	 * @throws IOException
+	 * @throws IOException excecao
 	 */
 	public ArrayList<String> extractHeaders() throws IOException {
 		return headers;
@@ -82,7 +75,7 @@ public class ExcelManip {
 	 * (LOC_Class, NOM_Class, CYCLO_Class, CYCLO_Method, LOC_Method)
 	 * @param data (ArrayList com metricas calculadas)
 	 * @param toCopy (Caminho onde será guardado o ficheiro)
-	 * @throws IOException
+	 * @throws IOException excecao
 	 */
 	public void createExcel(ArrayList<MethodMetrics> data,String toCopy) throws IOException {
 		toCopy = toCopy + DOUBLE_LEFT_SLASH + excelFileName.getFileName();
@@ -139,11 +132,11 @@ public class ExcelManip {
 	
 
 	/**
-	 * Metodo utilizado para transformar um ficheiro excel do genero Code_Smells.xlsx em um ArrayList<HasCodeSmell>, por forma a que
+	 * Metodo utilizado para transformar um ficheiro excel do genero Code_Smells.xlsx em um array list de HasCodeSmell, por forma a que
 	 * as classificações corretas possam ser comparadas com as metricas extraidas
 	 * @param columnOfCodeSmell (Consoante o code smell detetado, a coluna onde se vai buscar a classificação difere)
 	 * @return retorna arrayList com o o conteudo do ficheiro excel
-	 * @throws IOException
+	 * @throws IOException excecao
 	 */
 	public ArrayList<HasCodeSmell> toComparables(int columnOfCodeSmell) throws IOException {
 		FileInputStream fileTo = new FileInputStream(file.getAbsoluteFile());

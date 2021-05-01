@@ -57,10 +57,12 @@ public class SaveHistoryGUI extends Shell {
 	/**
 	 * Create the shell.
 	 * 
-	 * @param display
+	 * @param display display
+	 * @param regras uma dada lista
+	 * @param rules uma dada lista de regras
 	 */
-	//CONSTRUTOR DA GUI RELATIVA AO BOTÃO "GUARDAR HISTÓRICO"
 	public SaveHistoryGUI(Display display, List regras, ArrayList<Rule> rules) {
+		//CONSTRUTOR DA GUI RELATIVA AO BOTÃO "GUARDAR HISTÓRICO"
 //		super(display, SWT.SHELL_TRIM);
 		setImage(SWTResourceManager.getImage(SaveHistoryGUI.class, "/G47/Grupo47/iscte_logo2.jpg"));
 		this.rules = rules;
@@ -78,7 +80,7 @@ public class SaveHistoryGUI extends Shell {
 		defineFileNameLabel.setBounds(10, 37, 185, 20);
 		defineFileNameLabel.setText("Defina o nome do ficheiro:");
 
-		submitedFileName = new Text(this, SWT.BORDER | SWT.READ_ONLY); //TEXTFIELD QUE PERMITE AO UTILIZADOR DEFINIR O NOME DO FICHEIRO HISTÓRICO;
+		submitedFileName = new Text(this, SWT.BORDER); //TEXTFIELD QUE PERMITE AO UTILIZADOR DEFINIR O NOME DO FICHEIRO HISTÓRICO;
 		submitedFileName.setBounds(211, 34, 211, 26);
 
 		selectedDestinationFolder = new Button(this, SWT.NONE); 

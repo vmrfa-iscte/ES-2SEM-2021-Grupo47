@@ -9,8 +9,8 @@ import classes.Rule;
 /**
  *  Esta classe tem por objetivo decidir qual a deteção adequada segundo uma regra recebida, após decisão vai efetuar a deteção
 	 e retornar uma lista com os resultados
- * @author Tomás Mendes
- * @version
+ * @author Tomas Mendes
+ * @author Vasco Fontoura
  *
  */
 public class DetectionChooser {

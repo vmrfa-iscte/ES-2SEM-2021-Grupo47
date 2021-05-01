@@ -1,8 +1,8 @@
 package classes;
 
 /**
- * Classe utilizada para identificar um método de um dado projeto, assim como a classificação atribuida consoante determinada regra
- * @author Tomás Mendes
+ * Classe utilizada para identificar um metodo de um dado projeto, assim como a classificacao atribuida consoante determinada regra
+ * @author Tomas Mendes
 
  * @version 2.0
 
@@ -52,6 +52,7 @@ public class HasCodeSmell {
 
 	/**
 	 * Setter para booleano isMethod
+	 * @param isMethod boleano que indica se e metodo ou nao
 	 */
 	public void setMethod(boolean isMethod) {
 		this.isMethod = isMethod;
@@ -107,10 +108,10 @@ public class HasCodeSmell {
 	
 	/**
 	 * setter
-	 * @param qualidade de um método
+	 * @param quality qualidade de um metodo
 	 */
-	public void setQuality (String a)  {
-		this.isPositiveOrNegative = a;
+	public void setQuality (String quality)  {
+		this.isPositiveOrNegative = quality;
 	}
 
 	/**

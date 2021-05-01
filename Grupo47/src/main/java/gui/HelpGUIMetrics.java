@@ -20,7 +20,7 @@ public class HelpGUIMetrics extends Shell {
 	
 	/**
 	 * Construtor
-	 * @param display
+	 * @param display display
 	 */
 	public HelpGUIMetrics(Display display) {
 		this.display = display;

@@ -9,6 +9,9 @@ package classes;
  */
 public class QualityCalculator {
 	
+	/**
+	 * 
+	 */
 	public static final String TRUE_NEGATIVE = "Verdadeiro Negativo";
 	public static final String TRUE_POSITIVE = "Verdadeiro Positivo";
 	public static final String FALSE_NEGATIVE = "Falso Negativo";

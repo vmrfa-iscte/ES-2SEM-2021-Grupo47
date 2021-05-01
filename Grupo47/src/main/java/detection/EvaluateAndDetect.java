@@ -41,8 +41,8 @@ public class EvaluateAndDetect {
 
 	/**
 	 * Metodo responsavel por escolher a avaliacao adequada perante uma dada regra
-	 * @param thisCurrentRule
-	 * @return
+	 * @param thisCurrentRule uma dada regra
+	 * @return um mapa com os resultados
 	 */
 	public HashMap<String,ArrayList<HasCodeSmell>> evaluationChooser(Rule thisCurrentRule) {
 		if (thisCurrentRule.getMethod1().equals(gui.mainGUI.LOC_METHOD))

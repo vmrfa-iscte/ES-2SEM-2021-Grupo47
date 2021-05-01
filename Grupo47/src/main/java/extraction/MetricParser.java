@@ -10,22 +10,25 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 public class MetricParser {
+	private static final int COUNTER_INITIAL_VALUE = 0, COMPLEXITY_INITIAL_VALUE = 1; 
+	private static final String IF_CYCLE = "if",
+			FOR_CYCLE = "for", WHILE_CYCLE = "while", CASE_CYCLE = "case", ELSE = "else", DEFAULT_CYCLE = "default";
 	
 	public int getMethodComplexity(MethodDeclaration methodFromClass) {
 		// Calcular complexidade ciclomática através da soma da ocorrência de diversos ciclos
-		int complex = ExtractMetrics.COMPLEXITY_INITIAL_VALUE;
-		int numbif = getCycloComplex(ExtractMetrics.IF_CYCLE, methodFromClass.toString());
-		int numbwhile = getCycloComplex(ExtractMetrics.WHILE_CYCLE, methodFromClass.toString());
-		int numbfor = getCycloComplex(ExtractMetrics.FOR_CYCLE, methodFromClass.toString());
-		int numbelse = getCycloComplex(ExtractMetrics.ELSE, methodFromClass.toString());
-		int numbcase = getCycloComplex(ExtractMetrics.CASE_CYCLE, methodFromClass.toString());
-		int numbdefault = getCycloComplex(ExtractMetrics.DEFAULT_CYCLE, methodFromClass.toString());
+		int complex = COMPLEXITY_INITIAL_VALUE;
+		int numbif = getCycloComplex(IF_CYCLE, methodFromClass.toString());
+		int numbwhile = getCycloComplex(WHILE_CYCLE, methodFromClass.toString());
+		int numbfor = getCycloComplex(FOR_CYCLE, methodFromClass.toString());
+		int numbelse = getCycloComplex(ELSE, methodFromClass.toString());
+		int numbcase = getCycloComplex(CASE_CYCLE, methodFromClass.toString());
+		int numbdefault = getCycloComplex(DEFAULT_CYCLE, methodFromClass.toString());
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
 	}
 
 	public int getCycloComplex(String wordToSearch, String data) {
 		// Contador de ocorrência de uma palavra dada (wordToSearch) num dado texto (data)
-		int count = ExtractMetrics.COUNTER_INITIAL_VALUE;
+		int count = COUNTER_INITIAL_VALUE;
 		for (int index = data.indexOf(wordToSearch); index != -1; index = data.indexOf(wordToSearch, index + 1)) {
 			count++;
 		}
@@ -34,19 +37,19 @@ public class MetricParser {
 
 	public int getConstructorComplexity(ConstructorDeclaration md) {
 		// Calcular complexidade ciclomática através da soma da ocorrência de diversos ciclos
-		int complex = ExtractMetrics.COMPLEXITY_INITIAL_VALUE;
-		int numbif = getCycloComplex(ExtractMetrics.IF_CYCLE, md.toString());
-		int numbwhile = getCycloComplex(ExtractMetrics.WHILE_CYCLE, md.toString());
-		int numbfor = getCycloComplex(ExtractMetrics.FOR_CYCLE, md.toString());
-		int numbelse = getCycloComplex(ExtractMetrics.ELSE, md.toString());
-		int numbcase = getCycloComplex(ExtractMetrics.CASE_CYCLE, md.toString());
-		int numbdefault = getCycloComplex(ExtractMetrics.DEFAULT_CYCLE, md.toString());
+		int complex = COMPLEXITY_INITIAL_VALUE;
+		int numbif = getCycloComplex(IF_CYCLE, md.toString());
+		int numbwhile = getCycloComplex(WHILE_CYCLE, md.toString());
+		int numbfor = getCycloComplex(FOR_CYCLE, md.toString());
+		int numbelse = getCycloComplex(ELSE, md.toString());
+		int numbcase = getCycloComplex(CASE_CYCLE, md.toString());
+		int numbdefault = getCycloComplex(DEFAULT_CYCLE, md.toString());
 		return complex + numbif + numbwhile + numbfor + numbelse + numbcase + numbdefault;
 	}
 
 	public int getClassComplexity(List<MethodDeclaration> methodList, List<ConstructorDeclaration> constructorList) {
 		// Cálculo da complexidade ciclomática através da soma da complexidade dos métodos e construtores nela existentes
-		int complexity = ExtractMetrics.COUNTER_INITIAL_VALUE;
+		int complexity = COUNTER_INITIAL_VALUE;
 		for (MethodDeclaration currentMethod : methodList)
 			complexity += getMethodComplexity(currentMethod);
 		for (ConstructorDeclaration currentConstructor : constructorList)

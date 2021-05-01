@@ -19,8 +19,8 @@ public class HelpSecondaryGUI extends Shell {
 	
 	/**
 	 * Construtor
-	 * @param display
-	 */
+	 * @param display display
+	 */ 
 	public HelpSecondaryGUI(Display display) {
 		// Definir tamanho, nome e imagem da GUI
 		this.display = display;

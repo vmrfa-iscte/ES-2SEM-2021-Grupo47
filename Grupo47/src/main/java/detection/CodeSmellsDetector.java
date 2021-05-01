@@ -8,8 +8,9 @@ import classes.Rule;
 
 /**
  * Classe utilizada para detetar a existencia de Code smells num determinado metodo e numa determinada classe, consoante a regra
- * definida pelo utilizadar para esta deteção
- * @author Tomás Mendes
+ * definida pelo utilizadar para esta detecao
+ * @author Tomas Mendes
+ * @author Vasco Fontoura
  * @version 3.0
  * 
 
@@ -33,9 +34,9 @@ public class CodeSmellsDetector {
 
 	
 	/**
-	 * Construtor, lida com processamento de regras com limitação de duas métricas e com limitação de tres metricas
+	 * Construtor, lida com processamento de regras com limitacao de duas metricas e com limitacao de tres metricas
 	 * @param results ArrayList com as metricas extraidas de um determinado projeto
-	 * @param ruleReceived Regra que irá ser aplicada para detetar codeSmells
+	 * @param ruleReceived Regra que ira ser aplicada para detetar codeSmells
 	 */
 	public CodeSmellsDetector (ArrayList<MethodMetrics> results, Rule ruleReceived) {
 		int rule1_threshold = Integer.parseInt(ruleReceived.getLimit1());
@@ -54,7 +55,7 @@ public class CodeSmellsDetector {
 	
 	
 	/**
-	 * Cria e adiciona um objeto HasCodeSmell à lista de métodos ainda não prontos para serem mostrados
+	 * Cria e adiciona um objeto HasCodeSmell a lista de metodos ainda nao prontos para serem mostrados
 	 * @param detection resultado da detecao de codeSmells
 	 * @param methodWithMetrics objeto que identifica um metodo e as suas metricas
 	 */
@@ -72,11 +73,11 @@ public class CodeSmellsDetector {
 	 */
 	private void checkDetection(boolean hasDetection,MethodMetrics methodWithMetrics) {
 		if (hasDetection) {
-			// Se foi detetado então é criado e adicionado um objeto HasCodeSmell e é adicionado o nome da classe à lista de classes com code smells
+			// Se foi detetado entao e criado e adicionado um objeto HasCodeSmell e e adicionado o nome da classe a lista de classes com code smells
 			createAndAddNotReady(POSITIVE_METHOD,methodWithMetrics);
 			addToCodeSmellsList(methodWithMetrics);
 		}else {
-			// Se não foi detatado code smell cria-se um objeto HasCodeSmell mas com deteção NEGATIVE_METHOD
+			// Se nao foi detatado code smell cria-se um objeto HasCodeSmell mas com detecao NEGATIVE_METHOD
 			createAndAddNotReady(NEGATIVE_METHOD,methodWithMetrics);
 		}
 		lastMethod = lastVerification(methodWithMetrics);
@@ -85,7 +86,7 @@ public class CodeSmellsDetector {
 
 	
 	/**
-	 * Adiciona o nome da classe de um método à lista de classes com code smells
+	 * Adiciona o nome da classe de um metodo a lista de classes com code smells
 	 * @param methodWithMetrics objeto que permite identificar um metodo e as suas metricas
 	 */
 	private void addToCodeSmellsList(MethodMetrics methodWithMetrics) {
@@ -93,7 +94,7 @@ public class CodeSmellsDetector {
 	}
 	
 	/**
-	 * Adicionar objeto HasCodeSmell com a qualidade de deteção já determinada a um array que compõe todos os resultados
+	 * Adicionar objeto HasCodeSmell com a qualidade de detecao ja determinada a um array que compoe todos os resultados
 	 * @param detection indica a detecao ou nao de codesmell
 	 * @param methodWithMetrics objeto que permite identificar um metodo e as suas metricas
 	 */
@@ -104,13 +105,13 @@ public class CodeSmellsDetector {
 	}
 
 	
-	/**Caso a classe tenha se alterado vai se verificar se a classe anterior tinha algum método com code smells
+	/**Caso a classe tenha se alterado vai se verificar se a classe anterior tinha algum metodo com code smells
 	 * @param metric objeto que permite identificar um metodo e as suas metricas
 	 * @return ultimo metodo
 	 */
 	private MethodMetrics verifyLastClass(MethodMetrics metric) {
 		if(!lastMethod.getClasse().equals(metric.getClasse())) {
-			// se o nome da classe estiver presente na lista classWithSmell então a classe tem um método com code smells
+			// se o nome da classe estiver presente na lista classWithSmell entao a classe tem um metodo com code smells
 			if(classWithSmell.indexOf(lastMethod.getClasse()) != -1 )
 				createAndAdd(POSITIVE_CLASS,lastMethod);
 			else
@@ -118,9 +119,9 @@ public class CodeSmellsDetector {
 
 			//muda o nome da classe atual
 			lastMethod = metric;
-			// Adiciona os métodos que não estavam prontos à lista de métodos prontos
+			// Adiciona os metodos que nao estavam prontos a lista de metodos prontos
 			readyToShow.addAll(notReady);
-			// Remove todos os métodos que foram adicionados à lista de métodos prontos
+			// Remove todos os metodos que foram adicionados a lista de metodos prontos
 			notReady.removeAll(notReady);
 		}
 		return lastMethod;
@@ -128,7 +129,7 @@ public class CodeSmellsDetector {
 
 	
 	/**
-	 *  Para o caso da última classe da lista faz-se uma verificação parecida para ver se a classe tem code smells
+	 *  Para o caso da última classe da lista faz-se uma verificacao parecida para ver se a classe tem code smells
 	 * @param metric objeto que permite identificar um objeto e as suas metricas
 	 * @return ultimo metodo
 	 */
@@ -158,127 +159,127 @@ public class CodeSmellsDetector {
 
 
 	/**
-	 * 	 Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
-		das métricas com um sinal de maior.
+	 * 	 Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta detecao define os limites
+		das metricas com um sinal de maior.
 	 * @return Array List com resultados da aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectLongMethodGreaterGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o perador é AND
+				// Caso em que o perador e AND
 				if (ruleCombo.isLongGGAnd(methodWithMetrics)) hasDetection = true;
 			}else{
-				// Caso em que o perador é OR
+				// Caso em que o perador e OR
 				if (ruleCombo.isLongGGOr(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Bigger Bigger para o LONG_METHOD");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	
 	
 	/**
-	 *  Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
-	 das métricas com um sinal de maior para a primeira métrica e um de menor para a segunda. 
+	 *  Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta detecao define os limites
+	 das metricas com um sinal de maior para a primeira metrica e um de menor para a segunda. 
 	 * @return ArrayList com resultado da aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectLongMethodGreaterLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o perador é AND
+				// Caso em que o perador e AND
 				if (ruleCombo.isLongGLAnd(methodWithMetrics)) hasDetection = true;
 			}else {
-				// Caso em que o perador é OR
+				// Caso em que o perador e OR
 				if (ruleCombo.isLongGLOr(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Bigger Smaller para LongMethod");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	/**
-	 *   Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
-	 das métricas com um sinal de menor para a primeira métrica e um de maior para a segunda.
+	 *   Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta detecao define os limites
+	 das metricas com um sinal de menor para a primeira metrica e um de maior para a segunda.
 	 * @return ArrayList com resultado de aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectLongMethodSmallerBigger() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isLongLesserGreaterAnd(methodWithMetrics)) hasDetection = true;
 			}else  {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isLongLesserGreaterOr(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri SmallerBigger para Long Method");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 
 
 	/**
-	 * 	 Este método é invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta deteção define os limites
-	 das métricas com um sinal de menor para a primeira métrica e um de maior para a segunda. 
+	 * 	 Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell is Long Method e para esta detecao define os limites
+	 das metricas com um sinal de menor para a primeira metrica e um de maior para a segunda. 
 	 * @return ArrayList com resultado da aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectLongMethodLesserLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isLongLesserLesserAnd(methodWithMetrics)) hasDetection = true;
 			}else  {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isLongLesserLesserOr(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Smaller Smaller para Long Method");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 
 
 	/**
-	 * 	 Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class e NOM_Class, e para esta deteção define os limites com o sinal de maior para ambas.
+	 * 	 Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class e NOM_Class, e para esta detecao define os limites com o sinal de maior para ambas.
 	 * @return ArrayList com resultado de aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterWMC_NOM() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodGreaterGreaterNOM_And(methodWithMetrics)) hasDetection = true;
 			}else {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodGreaterGreaterNOM_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Bigger Bigger para WMC_NOM");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 
 
 	/**
-	 * 	 Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	 as métricas WMC_Class e NOM_Class, e para esta deteção define os limites 
-	 com um sinal de maior para a primeira métrica e um de menor para a segunda. 
+	 * 	 Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	 as metricas WMC_Class e NOM_Class, e para esta detecao define os limites 
+	 com um sinal de maior para a primeira metrica e um de menor para a segunda. 
 	 * @return ArrayList com resultado de aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserWMC_NOM() {
@@ -293,15 +294,15 @@ public class CodeSmellsDetector {
 		}
 		System.out.println("Corri Bigger Smaller para WMC_NOM");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class e NOM_Class, e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica e um de menor para a segunda.
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class e NOM_Class, e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica e um de menor para a segunda.
 	 * @return ArrayList com resultado de aplicacao das regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserWMC_NOM() {
@@ -316,256 +317,256 @@ public class CodeSmellsDetector {
 		}
 		System.out.println("Corri Smaller Smaller para WMC_NOM");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 		
  
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class e NOM_Class, e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica e um de maior para a segunda.
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class e NOM_Class, e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica e um de maior para a segunda.
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterWMC_NOM() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// 	Caso em que o operador é AND
+				// 	Caso em que o operador e AND
 				if (ruleCombo.isGodLesserGreaterNOM_And(methodWithMetrics)) hasDetection = true;
 			}else {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodLesserGreaterNOM_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Smaller Bigger para WMC_NOM");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica e um de maior para a segunda.
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica e um de maior para a segunda.
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é ANDA
+				// Caso em que o operador e ANDA
 				if (ruleCombo.isGodGreaterGreaterLOC_And(methodWithMetrics)) hasDetection = true;
 			}else {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodGreaterGreaterLOC_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corru Bigger Bigger para WMC_LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica e um de menor para a segunda. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica e um de menor para a segunda. 
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodGreaterLesserLOC_And(methodWithMetrics)) hasDetection = true;
 			}else  {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodGreaterLesserLOC_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Bigger Smaller para WMC_LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell ruleCombo.isGodClass,conjugando as
-	as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica e um de menor para a segunda. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell ruleCombo.isGodClass,conjugando as
+	as metricas WMC_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica e um de menor para a segunda. 
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodLesserLesserLOC_And(methodWithMetrics)) hasDetection = true;
 			}else {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodLesserLesserLOC_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Smaller Smaller para WMC_LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica e um de maior para a segunda. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica e um de maior para a segunda. 
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterWMC_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodLesserGreaterLOC_And(methodWithMetrics)) hasDetection = true;
 			}else {
-				if (ruleCombo.isGodLesserGreaterLOC_Or(methodWithMetrics)) hasDetection = true; // Caso em que o operador é OR
+				if (ruleCombo.isGodLesserGreaterLOC_Or(methodWithMetrics)) hasDetection = true; // Caso em que o operador e OR
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Smaller Bigger para WMC_LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica e um de maior para a segunda.
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas NOM_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica e um de maior para a segunda.
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodGreaterGreaterNOMLOC_And(methodWithMetrics)) hasDetection = true;
 			}else {
-				if (ruleCombo.isGodGreaterGreaterNOMLOC_Or(methodWithMetrics)) hasDetection = true; // Caso em que o operador é OR
+				if (ruleCombo.isGodGreaterGreaterNOMLOC_Or(methodWithMetrics)) hasDetection = true; // Caso em que o operador e OR
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Bigger Bigger para NOM_LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica e um de menor para a segunda. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas NOM_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica e um de menor para a segunda. 
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR))
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodGreaterLesserNOMLOC_And(methodWithMetrics)) hasDetection = true;
 			else {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodGreaterLesserNOMLOC_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Bigger Smaller para NOM_LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica e um de maior para a segunda.
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas NOM_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica e um de maior para a segunda.
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR))
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodLesserGreaterNOMLOC_And(methodWithMetrics)) hasDetection = true;
 			else {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodLesserGreaterNOMLOC_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Smaller Bigger para NOM_LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 	
 
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas NOM_Class e LOC_Class, e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica e um de menor para a segunda. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas NOM_Class e LOC_Class, e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica e um de menor para a segunda. 
 	 * @return ArrayList com resultado de aplicacao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserNOM_LOC() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR))
-				// Caso em que o operador é AND
+				// Caso em que o operador e AND
 				if (ruleCombo.isGodLesserLesserNOMLOC_And(methodWithMetrics)) hasDetection = true;
 			else {
-				// Caso em que o operador é OR
+				// Caso em que o operador e OR
 				if (ruleCombo.isGodLesserLesserNOMLOC_Or(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
 		System.out.println("Corri Smaller Smaller para NOM LOC");
 		return readyToShow;
-		// No fim é retornado um ArrayList com os resultados da aplicação da regra
+		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
 
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica,um de maior para a segunda e um de maior para a teceira. 
 	 * @return ArrayList com resultado de geracao de regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals(AND_LOGIC_OPERATOR)) {
-				// primeiro operador é AND
+				// primeiro operador e AND
 				if(operator2.equals(AND_LOGIC_OPERATOR)) 
-					// segunfo operador é AND
+					// segunfo operador e AND
 					if (ruleCombo.isGodGreaterGreaterGreater_AndAnd(methodWithMetrics)) hasDetection = true;
 					
 				else 
 					if (ruleCombo.isGodGreaterGreaterGreater_AndOr(methodWithMetrics)) hasDetection = true;
 						
 			}else 
-				// primeiro operador é OR
+				// primeiro operador e OR
 				if(operator2.equals(AND_LOGIC_OPERATOR)) {
-					// segundo operador é AND
+					// segundo operador e AND
 					if (ruleCombo.isGodGreaterGreaterGreater_OrAnd(methodWithMetrics)) hasDetection = true;
 				   
 				else 
@@ -580,27 +581,27 @@ public class CodeSmellsDetector {
 	
 	
 	/**
-	 * Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica,um de menor para a segunda e um de menor para a teceira.
+	 * Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica,um de menor para a segunda e um de menor para a teceira.
 	 * @return ArrayList com o resultado de aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserLesser() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals(AND_LOGIC_OPERATOR)) {
-				// primeiro operador é AND
+				// primeiro operador e AND
 				if(operator2.equals(AND_LOGIC_OPERATOR)) 
-					// segundo operador é AND
+					// segundo operador e AND
 					if (ruleCombo.isGodLesserLesserLesser_AndAnd(methodWithMetrics)) hasDetection = true;
-						// terceiro operador é AND
+						// terceiro operador e AND
 				else 
 					if (ruleCombo.isGodLesserLesserLesser_AndOr(methodWithMetrics)) hasDetection = true;
 				
 			}else {
-				// primeiro operador é OR
+				// primeiro operador e OR
 				if(operator2.equals(AND_LOGIC_OPERATOR)) 
-					// segundo operador é AND
+					// segundo operador e AND
 					if (ruleCombo.isGodLesserLesserLesser_OrAnd(methodWithMetrics)) hasDetection = true;
 					
 				else 
@@ -615,9 +616,9 @@ public class CodeSmellsDetector {
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica,um de menor para a segunda e um de menor para a teceira. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica,um de menor para a segunda e um de menor para a teceira. 
 	 * @return ArrayList com resultado de aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserLesser() {
@@ -651,9 +652,9 @@ public class CodeSmellsDetector {
 	
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica,um de menor para a segunda e um de maior para a teceira. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica,um de menor para a segunda e um de maior para a teceira. 
 	 * @return ArrayList com resultado de aplicacao das regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterLesserGreater() {
@@ -684,9 +685,9 @@ public class CodeSmellsDetector {
 
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de maior para a primeira métrica,um de maior para a segunda e um de menor para a teceira. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de maior para a primeira metrica,um de maior para a segunda e um de menor para a teceira. 
 	 * @return ArrayList com resultado de aplicacao das regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassGreaterGreaterLesser() {
@@ -717,9 +718,9 @@ public class CodeSmellsDetector {
 
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica,um de maior para a segunda e um de maior para a teceira. 
 	 * @return ArrayList com resultado de aplicacao das regras
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserLesserGreater() {
@@ -751,9 +752,9 @@ public class CodeSmellsDetector {
 
 	
 	/**
-	 * Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
+	 * Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica,um de maior para a segunda e um de maior para a teceira. 
 	 * @return ArrayList com resultado de aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterGreater() {
@@ -783,9 +784,9 @@ public class CodeSmellsDetector {
 
 
 	/**
-	 * 	Este método é invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
-	as métricas WMC_Class, NOM_Class, LOC_CLASS e para esta deteção define os limites 
-	com um sinal de menor para a primeira métrica,um de maior para a segunda e um de maior para a teceira. 
+	 * 	Este metodo e invocado sempre que o utilizador pretende detetar o Code_Smell isGodClass,conjugando as
+	as metricas WMC_Class, NOM_Class, LOC_CLASS e para esta detecao define os limites 
+	com um sinal de menor para a primeira metrica,um de maior para a segunda e um de maior para a teceira. 
 	 * @return ArrayList com resultao de aplicacao da regra
 	 */
 	public ArrayList<HasCodeSmell> detectGodClassLesserGreaterLesser() {

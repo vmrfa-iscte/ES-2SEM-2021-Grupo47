@@ -96,7 +96,7 @@ public class mainGUI extends Shell {
 	/**
 	 * Create the shell.
 	 * 
-	 * @param display
+	 * @param display display
 	 */
 	public mainGUI(Display display) {
 		super(display, SWT.SHELL_TRIM);

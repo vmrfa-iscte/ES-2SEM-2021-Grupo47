@@ -27,7 +27,7 @@ public class ShowExcelGUI extends Shell{
 	
 	/**
 	 * Construtor
-	 * @param display
+	 * @param display display
 	 * @param name nome da GUI
 	 * @param metricsToShow métricas para ser mostradas
 	 */

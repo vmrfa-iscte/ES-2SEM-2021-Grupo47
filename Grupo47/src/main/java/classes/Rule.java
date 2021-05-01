@@ -1,7 +1,7 @@
 package classes;
 
 /**
- * Classe rules: objeto criado com base nas escolhas do utilizador, através da GUI
+ * Classe rules: objeto criado com base nas escolhas do utilizador, atraves da GUI
  * 
  * @author Guy Turpin
  *  

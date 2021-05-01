@@ -17,7 +17,7 @@ public class HelpInterface extends Shell {
 	/**
 	 * CONSTRUTOR DA INTERFACE "HelpInterface" COM TODO O CONTEÚDO QUE A COMPÕE.
 	 * 
-	 * @param display
+	 * @param display display
 	 */
 	public HelpInterface(Display display) {
 		this.display=display;

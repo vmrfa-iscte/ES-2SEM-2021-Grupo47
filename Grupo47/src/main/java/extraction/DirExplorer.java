@@ -33,7 +33,7 @@ public class DirExplorer {
     /**
      * Inicia a pesquisa de ficheiros
      * @return uma lista com os resultados da extracao de metricas
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException excecao
      */
     public ArrayList<MethodMetrics> exploreAndExtract() throws FileNotFoundException {
         return exploreAndExtract(START_LEVEL, "",fileToSearch);

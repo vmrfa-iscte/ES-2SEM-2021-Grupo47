@@ -37,11 +37,10 @@ public class ExtractMetrics {
 	 * Todas as metricas são inicializadas a 0 com excecao da complexidade ciclomatica que é inicializada a 1.
 	  	Os contadores utilizados são inicializados tambem a 0.
 	 */
-	public static final int METRICS_INITIAL_VALUE = 0, COUNTER_INITIAL_VALUE = 0, COMPLEXITY_INITIAL_VALUE = 1; 
-	public static final String SRC_DIR = "src", DEFAULT_PACKAGE = "Default Package", EMPTY_STRING = "", SPACE_STRING = " ", IF_CYCLE = "if",
-			FOR_CYCLE = "for", WHILE_CYCLE = "while", CASE_CYCLE = "case", ELSE = "else", JAVA_FILE = ".java", DEFAULT_CYCLE = "default";
-	private String className = EMPTY_STRING;
-	private int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = METRICS_INITIAL_VALUE;
+	public static final int METRICS_INITIAL_VALUE = 0; 
+	public static final String   EMPTY_STRING = "", SPACE_STRING = " ";
+	public String className = EMPTY_STRING;
+	public int LOC_method,CYCLO_method,LOC_class,NOM_class,WMC_class = METRICS_INITIAL_VALUE;
 	private String packageClass;
 	private ArrayList<MethodMetrics> extractedMetrics;
 	
@@ -60,7 +59,7 @@ public class ExtractMetrics {
 	 * @param extractedMetrics lista de metodos com metricas para guardar os resultados da extracao
 	 * @param method_id id do ultimo metodo na lista de metodos com metricas
 	 * @return a lista dada com novos resultados acrescentados
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException excecao
 	 */
 	public ArrayList<MethodMetrics> doExtractMetrics(ArrayList<MethodMetrics> extractedMetrics,int method_id) throws FileNotFoundException {
 		this.method_id = method_id;

@@ -70,6 +70,8 @@ public class SecondaryGUI extends Shell {
 	/**
 	 * Create the shell.
 	 * @param display
+	 * @param name nome da GUI
+	 * @param result uma lista de HasCodeSmell
 	 */
 	public SecondaryGUI(Display display,String name,ArrayList<HasCodeSmell> result) {
 		super(display, SWT.SHELL_TRIM);
@@ -229,6 +231,9 @@ public class SecondaryGUI extends Shell {
 		
 	}
 
+	/**
+	 * Abre a GUI
+	 */
 	public void loadGUI () {
 		try {
 			open();
@@ -257,11 +262,6 @@ public class SecondaryGUI extends Shell {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-
-
-
-	
-
 
 	public void fillSecondaryGUI(ArrayList<HasCodeSmell> detectionResults,boolean withQuality) {
 		fillTable.fillTable(detectionResults, withQuality);
