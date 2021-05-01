@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.io.File;
 import java.io.IOException;
 
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -46,13 +46,13 @@ public class SecondaryGUI extends Shell {
 	private static final String ID_COLUMN_TEXT = "Method id";
 	private static final String EVALUATE_SMELL_BUTTON_TEXT = "Avaliar codesmell";
 	private FillTable fillTable;
-	private TableColumn nameColumn,detectionColumn;
+	private TableColumn nameColumn, detectionColumn;
 	private Display display;
 	private TableColumn methodIDColumn;
 	private Text fileNametext;
 	private File selectedFile;
 	private TableColumn qualityColumn;
-	private HashMap<String,Integer> mapValues;
+	private HashMap<String, Integer> mapValues;
 	private ChartToShow chartToShow;
 	private Button evaluateButton;
 	private ArrayList<HasCodeSmell> result;
@@ -61,19 +61,20 @@ public class SecondaryGUI extends Shell {
 	private Button selectFileButton_1;
 	private FormData fd_table;
 
-
 	/**
 	 * Launch the application
+	 * 
 	 * @param args
 	 */
 
 	/**
 	 * Create the shell.
+	 * 
 	 * @param display
-	 * @param name nome da GUI
-	 * @param result uma lista de HasCodeSmell
+	 * @param name    nome da GUI
+	 * @param result  uma lista de HasCodeSmell
 	 */
-	public SecondaryGUI(Display display,String name,ArrayList<HasCodeSmell> result) {
+	public SecondaryGUI(Display display, String name, ArrayList<HasCodeSmell> result) {
 		super(display, SWT.SHELL_TRIM);
 		this.chartToShow = new ChartToShow(result);
 		this.result = result;
@@ -83,17 +84,16 @@ public class SecondaryGUI extends Shell {
 		setLayout(new FormLayout());
 		addElements();
 		fillTable = new FillTable(table);
-		fillTable.fillTable(result,false);
+		fillTable.fillTable(result, false);
 		createContents(name);
 	}
-	
-	
+
 	private void addElements() {
 		table = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
 		fd_table();
 		FormData fd_evaluateButton = fd_evaluateButton();
 		evaluateButtonListener();
-		evaluateButton.setLayoutData(fd_evaluateButton);		
+		evaluateButton.setLayoutData(fd_evaluateButton);
 		evaluateButton.setText(EVALUATE_SMELL_BUTTON_TEXT);
 
 		table.setLinesVisible(true);
@@ -110,7 +110,7 @@ public class SecondaryGUI extends Shell {
 		detectionColumn = new TableColumn(table, SWT.CENTER);
 		detectionColumn.setWidth(147);
 		detectionColumn.setText(DETECTION_COLUMN_TEXT);
-		
+
 		qualityColumn = new TableColumn(table, SWT.NONE);
 		qualityColumn.setWidth(267);
 		qualityColumn.setText(QUALITY_COLUMN_TEXT);
@@ -126,17 +126,16 @@ public class SecondaryGUI extends Shell {
 		selectFileButton_1.setLayoutData(fd_selectFileButton_1);
 		selectFileButtonListener(selectFileButton_1);
 		selectFileButton_1.setText(SELECT_FILE_BUTTON_TEXT);
-		
+
 		Menu helpMenu = new Menu(this, SWT.BAR);
 		setMenuBar(helpMenu);
-		
+
 		MenuItem helpMenuItem = new MenuItem(helpMenu, SWT.NONE);
 		helpMenuItemListener(helpMenuItem);
 		helpMenuItem.setText(HELP_MENU_TEXT);
 		table.setLayoutData(fd_table);
-		
-	}
 
+	}
 
 	private FormData fd_selectFileButton() {
 		FormData fd_selectFileButton_1 = new FormData();
@@ -146,7 +145,6 @@ public class SecondaryGUI extends Shell {
 		return fd_selectFileButton_1;
 	}
 
-
 	private FormData fd_evaluateButton() {
 		FormData fd_evaluateButton = new FormData();
 		fd_evaluateButton.right = new FormAttachment(0, 190);
@@ -154,7 +152,6 @@ public class SecondaryGUI extends Shell {
 		fd_evaluateButton.left = new FormAttachment(0, 10);
 		return fd_evaluateButton;
 	}
-
 
 	private void fd_table() {
 		fd_table = new FormData();
@@ -167,7 +164,6 @@ public class SecondaryGUI extends Shell {
 		fd_table.right = new FormAttachment(selectFileButton_1, 0, SWT.RIGHT);
 	}
 
-
 	private void helpMenuItemListener(MenuItem helpMenuItem) {
 		helpMenuItem.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -178,7 +174,6 @@ public class SecondaryGUI extends Shell {
 		});
 	}
 
-
 	private void selectFileButtonListener(Button selectFileButton) {
 		selectFileButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -186,40 +181,44 @@ public class SecondaryGUI extends Shell {
 				JFileChooser pathpasta = new JFileChooser(".");
 				pathpasta.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int returnValue = pathpasta.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) selectedFile = pathpasta.getSelectedFile();
+				if (returnValue == JFileChooser.APPROVE_OPTION)
+					selectedFile = pathpasta.getSelectedFile();
 				fileNametext.setText(selectedFile.getPath());
 			}
 		});
 	}
-	
+
 	private void evaluateButtonListener() {
 		evaluateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("Entrei no listener!");
-				ExcelManip aux = new ExcelManip(selectedFile);
-				ArrayList<HasCodeSmell> trueResults = new ArrayList<HasCodeSmell>(); 
-				if(name.equals(ISLONG_METHOD_DETECTION)) {
-					try {
-						trueResults = aux.toComparables(IS_LONG_EXCEL_COLUMN);
-						ArrayList<HasCodeSmell> toFill = fillTable.calculateQuality(trueResults, result);
-						fillSecondaryGUI(toFill,true);
-						createPieChartWithResults(trueResults);
-					} catch (IOException e1) {
-						e1.printStackTrace();
+				if (!fileNametext.getText().isEmpty()) {
+					ExcelManip aux = new ExcelManip(selectedFile);
+					ArrayList<HasCodeSmell> trueResults = new ArrayList<HasCodeSmell>();
+					if (name.equals(ISLONG_METHOD_DETECTION)) {
+						try {
+							trueResults = aux.toComparables(IS_LONG_EXCEL_COLUMN);
+							ArrayList<HasCodeSmell> toFill = fillTable.calculateQuality(trueResults, result);
+							fillSecondaryGUI(toFill, true);
+							createPieChartWithResults(trueResults);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 					}
-				}
-				if(name.equals(ISGOD_CLASS_DETECTION)) {
-					try {
-						trueResults = aux.toComparables(IS_GOD_EXCEL_COLUMN);
-						ArrayList<HasCodeSmell> toFill = fillTable.calculateQuality(trueResults, result);
-						fillSecondaryGUI(toFill,true);
-						createPieChartWithResults(trueResults);
-					} catch (IOException e1) {
-						e1.printStackTrace();
+					if (name.equals(ISGOD_CLASS_DETECTION)) {
+						try {
+							trueResults = aux.toComparables(IS_GOD_EXCEL_COLUMN);
+							ArrayList<HasCodeSmell> toFill = fillTable.calculateQuality(trueResults, result);
+							fillSecondaryGUI(toFill, true);
+							createPieChartWithResults(trueResults);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um ficheiro");
 				}
-
 
 			}
 
@@ -228,13 +227,13 @@ public class SecondaryGUI extends Shell {
 				chartToShow.createPieChart(mapValues);
 			}
 		});
-		
+
 	}
 
 	/**
 	 * Abre a GUI
 	 */
-	public void loadGUI () {
+	public void loadGUI() {
 		try {
 			open();
 			layout();
@@ -247,7 +246,6 @@ public class SecondaryGUI extends Shell {
 			e.printStackTrace();
 		}
 	}
-
 
 	/**
 	 * Create contents of the shell.
@@ -263,8 +261,8 @@ public class SecondaryGUI extends Shell {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public void fillSecondaryGUI(ArrayList<HasCodeSmell> detectionResults,boolean withQuality) {
+	public void fillSecondaryGUI(ArrayList<HasCodeSmell> detectionResults, boolean withQuality) {
 		fillTable.fillTable(detectionResults, withQuality);
-		
+
 	}
 }
