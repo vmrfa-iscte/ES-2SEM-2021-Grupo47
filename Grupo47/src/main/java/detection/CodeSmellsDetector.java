@@ -10,6 +10,9 @@ import classes.Rule;
  * Classe utilizada para detetar a existencia de Code smells num determinado metodo e numa determinada classe, consoante a regra
  * definida pelo utilizadar para esta deteção
  * @author Tomás Mendes
+ * @version 3.0
+ * 
+
  *
  */
 public class CodeSmellsDetector {
@@ -140,7 +143,7 @@ public class CodeSmellsDetector {
 
 	/**
 	 * metodo utilizado para verificar se uma respetiva classe tem algum metodo onde tenha sido detetado um codeSmell
-	 * @param metric
+	 * @param metric objeto que identifica um metodo e as suas metricas associadas
 	 */
 	private void checkClassSmell(MethodMetrics metric) {
 		if (classWithSmell.indexOf(metric.getClasse()) != -1) {
