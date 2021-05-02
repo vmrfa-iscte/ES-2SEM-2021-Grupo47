@@ -1,13 +1,13 @@
 # ES-2Sem-2021-Grupo47
 Projeto Engenharia de Software 2ºSemestre Grupo 47
 
-Elementos da equipa:
-  Alin Cojocaru  |  Nº 87745  | Turma 
-  Fernando Cruz  |  Nº 88725  | Turma IC2
-  Guy Turpin     |  Nº 87594  | Turma IC5
-  Rita Silva     |  Nº 87449  | Turma 
-  Tomás Mendes   |  Nº 82425  | Turma
-  Vasco Fontoura |  Nº 88724  | Turma IC1
+Elementos da equipa:             
+  Alin Cojocaru  |  Nº 87745  | Turma            
+  Fernando Cruz  |  Nº 88725  | Turma IC2           
+  Guy Turpin     |  Nº 87594  | Turma IC5        
+  Rita Silva     |  Nº 87449  | Turma         
+  Tomás Mendes   |  Nº 82425  | Turma       
+  Vasco Fontoura |  Nº 88724  | Turma IC1           
   
 Breve explicação das funcionalidades:           
   O nosso projeto inclui a possibilidade de:        
