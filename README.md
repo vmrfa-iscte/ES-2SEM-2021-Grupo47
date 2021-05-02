@@ -2,11 +2,11 @@
 Projeto Engenharia de Software 2ºSemestre Grupo 47
 
 Elementos da equipa:             
-  Alin Cojocaru  |  Nº 87745  | Turma            
+  Alin Cojocaru  |  Nº 87745  | Turma IC5        
   Fernando Cruz  |  Nº 88725  | Turma IC2           
   Guy Turpin     |  Nº 87594  | Turma IC5        
-  Rita Silva     |  Nº 87449  | Turma         
-  Tomás Mendes   |  Nº 82425  | Turma       
+  Rita Silva     |  Nº 87449  | Turma IC3     
+  Tomás Mendes   |  Nº 82425  | Turma IC3   
   Vasco Fontoura |  Nº 88724  | Turma IC1           
   
 Breve explicação das funcionalidades:           
