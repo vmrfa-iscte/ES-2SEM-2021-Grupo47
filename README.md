@@ -11,9 +11,9 @@ Elementos da equipa:
   
 Breve explicação das funcionalidades:
   O nosso projeto inclui a possibilidade de:
-    1. Escolha de um projeto
-    2. Escolha de caminho para guardar ficheiro excel gerado
-    3. Extração de métricas para esse projeto
+    1. Escolha de um projeto        
+    2. Escolha de caminho para guardar ficheiro excel gerado     
+    3. Extração de métricas para esse projeto     
     4. Cálculo,importação e visualização das características do projeto (número de linhas, número de classes, número de métodos e número de pacotes)
     5. Geração de um ficheiro excel e visualização gráfica desse ficheiro
     6. Escolha de uma regra
