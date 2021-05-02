@@ -88,7 +88,7 @@ class DetectionChooserTest {
 		assertNotNull(result);
 		detector = new CodeSmellsDetector(metricsToTest2,RuleToTest3);
 		toCompare = new ArrayList<>();
-		toCompare = detector.detectLongMethodSmallerBigger();
+		toCompare = detector.detectLongMethodLesserGreater();
 		for (int i = 0; i != result.size(); i++) {
 			assertEquals(toCompare.get(i).toString(),result.get(i).toString());
 		}

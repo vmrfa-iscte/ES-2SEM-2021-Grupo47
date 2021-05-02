@@ -594,7 +594,7 @@ public class CheckRuleCombinations {
 	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
 	 * @return classificacao
 	 */
-	public boolean isLongGGAnd(MethodMetrics methodWithMetrics) {
+	public boolean isLongGreaterGreaterAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
@@ -603,7 +603,7 @@ public class CheckRuleCombinations {
 	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
 	 * @return classificacao
 	 */
-	public boolean isLongGGOr(MethodMetrics methodWithMetrics) {
+	public boolean isLongGreaterGreaterOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() > rule2_threshold);
 	}
 	
@@ -612,7 +612,7 @@ public class CheckRuleCombinations {
 	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
 	 * @return classificacao
 	 */
-	public boolean isLongGLAnd(MethodMetrics methodWithMetrics) {
+	public boolean isLongGreaterLesserAnd(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold && methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	
@@ -621,7 +621,7 @@ public class CheckRuleCombinations {
 	 * @param methodWithMetrics objeto que identifica metodo e suas metricas
 	 * @return classificacao
 	 */
-	public boolean isLongGLOr(MethodMetrics methodWithMetrics) {
+	public boolean isLongGreaterLesserOr(MethodMetrics methodWithMetrics) {
 		return (methodWithMetrics.getLOC_method() > rule1_threshold || methodWithMetrics.getCYCLO_method() < rule2_threshold);
 	}
 	

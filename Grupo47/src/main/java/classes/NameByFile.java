@@ -125,7 +125,7 @@ public class NameByFile {
 		String[] separated = fileToExtract.getAbsolutePath().split(Pattern.quote(File.separator));
 		String fileName = EMPTY_PATH;
 		for(int i = 0; i< separated.length;i++) {
-			if(separated[i].contains(SRC)) { fileName = RESULTS_+separated[i-1]+FILE_TYPE; }
+			if(separated[i].contains(SRC)) fileName = RESULTS_+separated[i-1]+FILE_TYPE;
 		}
 		return fileName;
 	}

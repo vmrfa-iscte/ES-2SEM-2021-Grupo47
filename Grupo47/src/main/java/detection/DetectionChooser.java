@@ -30,7 +30,7 @@ public class DetectionChooser {
 		String secondSignal = ruleReceived.getSinal2();
 		if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector.detectLongMethodGreaterGreater();
 		else if (firstSignal.equals(GREATER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector.detectLongMethodGreaterLesser();
-		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector.detectLongMethodSmallerBigger();
+		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(GREATER_THAN)) hasCodeSmellResult = detector.detectLongMethodLesserGreater();
 		else if (firstSignal.equals(LESSER_THAN) && secondSignal.equals(LESSER_THAN)) hasCodeSmellResult = detector.detectLongMethodLesserLesser();
 		return hasCodeSmellResult;
 	}

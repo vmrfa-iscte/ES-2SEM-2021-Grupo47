@@ -90,12 +90,6 @@ public class mainGUI extends Shell {
 	private String ruleToShowInList, update;
 
 	/**
-	 * Launch the application.
-	 * 
-	 * @param args
-	 */
-
-	/**
 	 * Create the shell.
 	 * 
 	 * @param display display
@@ -110,9 +104,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * 
-	 * 
-	 * @param display metodo que adiciona as funcionalidades a GUI
+	 * Adiciona os elementos a GUI
+	 * @param display display
 	 */
 	private void addElements(Display display) {
 		projectFolderPath = new Text(this, SWT.BORDER | SWT.READ_ONLY);
@@ -316,8 +309,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE A SELEÇAO DO FICHEIRO EXCEL GERADO E A ESCRITA DAS
-	 * CARACTERISTICAS DO MESMO
+	 * Metodo que permite a selecao do ficheiro excel gerado e a escrita das caracteristicas do mesmo
 	 */
 	private void excelfilesListener() {
 		excelfiles.addSelectionListener(new SelectionAdapter() {
@@ -333,7 +325,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE VERIFICA SE A METRICA 3 SE ENCONTRA PREENCHIDA
+	 * Metodo que verifica se a metrica 3 se encontra preenchida
 	 * 
 	 * @return true or false
 	 */
@@ -347,8 +339,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE A DEFINICAO DE REGRAS PREVIAMENTE CRIADAS PELO UTILIZADOR
-	 * ATRAVES DA GUI
+	 * Metodo que permite a definicao de regras previamente criadas pelo utilizador atraves da gui
 	 */
 	private void defineRuleButtonListener() {
 		defineRuleButton.addSelectionListener(new SelectionAdapter() {
@@ -370,8 +361,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * 
-	 * METODO QUE PERMITE AO UTILIZADOR ALTERAR UMA REGRA PREVIAMENTE SELECIONADA
+	 * Metodo que permite ao utilizador alterar uma regra previamente selecionada
 	 * 
 	 */
 	private void changeRuleButtonListener() {
@@ -408,8 +398,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE QUE O UTILIZADOR REALIZE A DETECAO DE CODESMELLS CONSOANTE
-	 * A REGRA PREVIAMENTE SELECIONADA
+	 * Metodo que permite que o utilizador realize a detecao de codesmells consoante a regra previamente
+	 * selecionada
 	 * 
 	 */
 	private void detectSmellsButtonListener() {
@@ -442,8 +432,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE AO UTILIZADOR CARREGAR UM HISTORICO PARA A GUI E TRABALHAR
-	 * CONSOANTE REGRAS DEFINIDAS A PRIORI
+	 * Metodo que permite ao utilizador carregar num historico para a gui e trabalhar 
+	 * consoante regras definidas a priori
 	 */
 	private void loadHistoryButtonListener() {
 		loadHistoryButton.addSelectionListener(new SelectionAdapter() {
@@ -467,9 +457,8 @@ public class mainGUI extends Shell {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-					} else {
+					} else
 						JOptionPane.showMessageDialog(null, INVALID_FILE_MESSAGE);
-					}
 				}
 
 			}
@@ -478,8 +467,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE AO UTILIZADOR GUARDAR, NUM FICHEIRO NAO VOLATIL, AS REGRAS
-	 * DEFINIDAS. ESTE METODO PERMITE TAMBEM A CRIACAO DO FICHEIRO HISTORICO DE RAIZ
+	 * Metodo que permite ao utilizador guardar, num ficheiro nao volatil, as regras definidas.
+	 * Este metodo permite tambem a criacao do ficheiro historico de raiz
 	 * 
 	 */
 	private void saveHistoryListener() {
@@ -496,7 +485,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE AO UTILIZADOR ESVAZIAR A LISTA DAS REGRAS
+	 * Metodo que permite ao utilizador esvaziar a lista das regras
 	 * 
 	 */
 	private void cleanHistoryListListener() {
@@ -526,8 +515,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE AO UTILIZADOR CONSULTAR INFORMACOES RELATIVAS AS METRICAS
-	 * E CONSEQUENTEMENTE AO SEU FUNCIONAMENTO
+	 * Metodo que permite ao utilizador consultar informacoes relativas as metricas e
+	 * consequentemente ao seu funcionamento
 	 * 
 	 */
 	private void metricInfoButtonListener() {
@@ -541,8 +530,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE PERMITE AO UTILIZADOR VISUALIZAR O FICHEIRO EXCEL GERADO PELA
-	 * EXTRACAO
+	 * Metodo que permite ao utilizador visualizar o ficheiro excel gerado pela extracao
 	 * 
 	 */
 	private void viewFileButtonListener() {
@@ -741,6 +729,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
+	 * Calcula as estatisticas de um projeto
 	 * @return StringStats Retorna a lista das caracteristicas gerais do ficheiro excel 
 	 */
 	private ArrayList<String> createStatsList() {
@@ -846,14 +835,15 @@ public class mainGUI extends Shell {
 	}
 
 	/**
+	 * Verifica e uma String tem apenas numeros
 	 * @param text Validacao do limite inserido pelo utilizador
 	 * @return 
 	 */
 	private boolean isValid(String text) {
 		for (int i = 0; i < text.length(); i++)
-			if (isNumber(text.charAt(i)))
-				return true;
-		return false;
+			if (!isNumber(text.charAt(i)))
+				return false;
+		return true;
 	}
 
 	
@@ -937,8 +927,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE CRIA O OBJETO RULE, APOS A VERIFICAÇAO DA EXISTENCIA OU NAO DO
-	 * MESMO
+	 * Metodo que cria o objeto Rule, apos a verificacao da existencia ou nao do mesmo
 	 * 
 	 * @param isRepeated
 	 * @return
@@ -966,7 +955,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE, CONSOANTE A REGRA ESCOLHIDA, REMOVE E SUBSTITUI POR UMA NOVA
+	 * Metodo que, consoante a regra escolhida, remove e substitui por uma nova
 	 */
 	private void updateRule() {
 		for (int x = 0; x < list.size(); x++) {
@@ -978,8 +967,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE ADICIONA UMA NOVA REGRA A LISTA DE REGRAS DEFINIDAS PELO
-	 * UTILIZADOR
+	 * Metodo que adiciona uma nova regra a lista de regras definidas pelo utilizador
 	 * 
 	 * @param line
 	 * @param ruleInHistory
@@ -990,8 +978,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * METODO QUE LÊ UM FICHEIRO HISTORICO DO TIPO .TXT E ESCREVE AS REGRAS CONTIDAS
-	 * NO MESMO, NA GUI
+	 * Metodo que, le um ficheiro historico do tipo '.txt' e escreve as regras contidas no mesmo, na GUI
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException

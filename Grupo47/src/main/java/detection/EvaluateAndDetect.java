@@ -60,7 +60,7 @@ public class EvaluateAndDetect {
 		return null;
 	}
 
-	// Os seguintes métodos escolhem a deteção adequada perante a regra escolhida
+	// Os seguintes metodos escolhem a detecao adequada perante a regra escolhida
 	/**
 	 * Realiza a detecao de code smells de uma dada regra para code smell isLong method
 	 * @param ruleReceived uma dada regra

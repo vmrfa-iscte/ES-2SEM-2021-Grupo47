@@ -97,28 +97,28 @@ class CodeSmellsDetectorTest {
 		assertNotNull(rule);
 		detector = new CodeSmellsDetector(metrics,rule);
 		assertNotNull(detector);
-		smells = detector.detectLongMethodSmallerBigger();
+		smells = detector.detectLongMethodLesserGreater();
 		assertNotNull(smells);
 		
 		rule = new Rule("LOC_Method","<","1","ERROR","CYCLO_Method",">","1","","","","");
 		assertNotNull(rule);
 		detector = new CodeSmellsDetector(metrics,rule);
 		assertNotNull(detector);
-		smells = detector.detectLongMethodSmallerBigger();
+		smells = detector.detectLongMethodLesserGreater();
 		assertNotNull(smells);
 		
 		rule = new Rule("LOC_Method","<","3000","OR","CYCLO_Method",">","1","","","","");
 		assertNotNull(rule);
 		detector = new CodeSmellsDetector(metrics,rule);
 		assertNotNull(detector);
-		smells = detector.detectLongMethodSmallerBigger();
+		smells = detector.detectLongMethodLesserGreater();
 		assertNotNull(smells);
 		
 		rule = new Rule("LOC_Method","<","1","OR","CYCLO_Method",">","3000","","","","");
 		assertNotNull(rule);
 		detector = new CodeSmellsDetector(metrics,rule);
 		assertNotNull(detector);
-		smells = detector.detectLongMethodSmallerBigger();
+		smells = detector.detectLongMethodLesserGreater();
 		assertNotNull(smells);
 	}
 
@@ -294,7 +294,7 @@ class CodeSmellsDetectorTest {
 		assertNotNull(rule);
 		detector = new CodeSmellsDetector(metrics,rule);
 		assertNotNull(detector);
-		smells = detector.detectLongMethodSmallerBigger();
+		smells = detector.detectLongMethodLesserGreater();
 		assertNotNull(smells);
 	
 	}

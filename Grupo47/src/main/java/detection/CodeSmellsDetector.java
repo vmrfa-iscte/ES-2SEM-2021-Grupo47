@@ -168,10 +168,10 @@ public class CodeSmellsDetector {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals(AND_LOGIC_OPERATOR)) {
 				// Caso em que o perador e AND
-				if (ruleCombo.isLongGGAnd(methodWithMetrics)) hasDetection = true;
+				if (ruleCombo.isLongGreaterGreaterAnd(methodWithMetrics)) hasDetection = true;
 			}else{
 				// Caso em que o perador e OR
-				if (ruleCombo.isLongGGOr(methodWithMetrics)) hasDetection = true;
+				if (ruleCombo.isLongGreaterGreaterOr(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
@@ -191,10 +191,10 @@ public class CodeSmellsDetector {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if(operator.equals(AND_LOGIC_OPERATOR)) {
 				// Caso em que o perador e AND
-				if (ruleCombo.isLongGLAnd(methodWithMetrics)) hasDetection = true;
+				if (ruleCombo.isLongGreaterLesserAnd(methodWithMetrics)) hasDetection = true;
 			}else {
 				// Caso em que o perador e OR
-				if (ruleCombo.isLongGLOr(methodWithMetrics)) hasDetection = true;
+				if (ruleCombo.isLongGreaterLesserOr(methodWithMetrics)) hasDetection = true;
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
@@ -207,7 +207,7 @@ public class CodeSmellsDetector {
 	 das metricas com um sinal de menor para a primeira metrica e um de maior para a segunda.
 	 * @return ArrayList com resultado de aplicacao da regra
 	 */
-	public ArrayList<HasCodeSmell> detectLongMethodSmallerBigger() {
+	public ArrayList<HasCodeSmell> detectLongMethodLesserGreater() {
 		for (MethodMetrics methodWithMetrics : results) {
 			lastMethod = verifyLastClass(methodWithMetrics);
 			if (operator.equals(AND_LOGIC_OPERATOR)) {
