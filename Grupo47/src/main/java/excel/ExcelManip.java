@@ -95,7 +95,6 @@ public class ExcelManip {
 			Cell prov = sheet.getRow(ZERO).createCell(i);
 			prov.setCellStyle(style);
 			prov.setCellValue(headers.get(i));
-			System.out.println("index deste header e " + prov.getColumnIndex());
 		}
 		//Adicionar dados ao Excel, linha a linha, provenientes do ArrayList<Metrics> data
 		double rowNumbToCreate = 1;
