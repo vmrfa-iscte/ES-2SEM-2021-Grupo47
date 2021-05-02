@@ -9,7 +9,7 @@ Elementos da equipa:
   Tomás Mendes   |  Nº 82425  | Turma
   Vasco Fontoura |  Nº 88724  | Turma IC1
   
-Breve explicação das funcionalidades:
+Breve explicação das funcionalidades:           
   O nosso projeto inclui a possibilidade de:        
     1. Escolha de um projeto        
     2. Escolha de caminho para guardar ficheiro excel gerado     
@@ -26,11 +26,11 @@ Breve explicação das funcionalidades:
     13. Avaliação e visualização da qualidade de deteção de code smells      
     14. Criação de um PieChart para ilustrar qualidade de deteção de code smells         
 
-  Para além das funcionalidades principais referidas, demos alguma atenção a certos pormenores como:
-    1. Criação de um menu 'Ajuda' para auxiliar a utilização das GUIs
-    2. Criação de um menu 'Ajuda' para explicar o cálculo das métricas
-    3. Impedimento de escolha de regras contraditórias, como por exemplo escolha de de uma regra com a métrica LOC_method e LOC_class
-    4. Impedimento de criação de regras com campos vazios ou mal preenchidos
-    5. Mensagens de erro ao carregar em botões quando a informação é insuficiente (por exemplo: carregar em 'Detetar code smells' sem projeto ou regra selecionados)
-    6. Possibilidade de utilização da aplicação para vários projetos diferentes simultâneamente
+  Para além das funcionalidades principais referidas, demos alguma atenção a certos pormenores como:            
+    1. Criação de um menu 'Ajuda' para auxiliar a utilização das GUIs                        
+    2. Criação de um menu 'Ajuda' para explicar o cálculo das métricas               
+    3. Impedimento de escolha de regras contraditórias, como por exemplo escolha de de uma regra com a métrica LOC_method e LOC_class            
+    4. Impedimento de criação de regras com campos vazios ou mal preenchidos              
+    5. Mensagens de erro ao carregar em botões quando a informação é insuficiente (por exemplo: carregar em 'Detetar code smells' sem projeto ou regra selecionados)       
+    6. Possibilidade de utilização da aplicação para vários projetos diferentes simultâneamente          
     
