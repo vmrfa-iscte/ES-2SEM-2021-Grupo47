@@ -1,3 +1,0 @@
-Refactoring Type	Source Entity	Target Class	Source/Target accessed members	Rate it!
-Move Method	classes.FillTable::addCodeSmellsInfo(classes.HasCodeSmell, boolean):void	classes.HasCodeSmell	1/6	
-Move Method	classes.ChartToShow::setResults(java.util.ArrayList<classes.HasCodeSmell>):java.util.HashMap<java.lang.String,java.lang.Integer>	classes.QualityCalculator	2/4	
