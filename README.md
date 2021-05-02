@@ -10,21 +10,21 @@ Elementos da equipa:
   Vasco Fontoura |  Nº 88724  | Turma IC1
   
 Breve explicação das funcionalidades:
-  O nosso projeto inclui a possibilidade de:
+  O nosso projeto inclui a possibilidade de:        
     1. Escolha de um projeto        
     2. Escolha de caminho para guardar ficheiro excel gerado     
-    3. Extração de métricas para esse projeto     
-    4. Cálculo,importação e visualização das características do projeto (número de linhas, número de classes, número de métodos e número de pacotes)
-    5. Geração de um ficheiro excel e visualização gráfica desse ficheiro
-    6. Escolha de uma regra
-    7. Alteração de uma regra
-    8. Guardar histórico de regras de forma persistente
-    9. Abrir histórico de regras
-    10. Apagar histórico de regras
-    11. Detetar code smells segundo a regra e projeto escolhidos
-    12. Visualização da deteção dos code smells
-    13. Avaliação e visualização da qualidade de deteção de code smells
-    14. Criação de um PieChart para ilustrar qualidade de deteção de code smells
+    3. Extração de métricas para esse projeto           
+    4. Cálculo,importação e visualização das características do projeto (número de linhas, número de classes, número de métodos e número de pacotes)           
+    5. Geração de um ficheiro excel e visualização gráfica desse ficheiro       
+    6. Escolha de uma regra           
+    7. Alteração de uma regra         
+    8. Guardar histórico de regras de forma persistente         
+    9. Abrir histórico de regras       
+    10. Apagar histórico de regras        
+    11. Detetar code smells segundo a regra e projeto escolhidos     
+    12. Visualização da deteção dos code smells          
+    13. Avaliação e visualização da qualidade de deteção de code smells      
+    14. Criação de um PieChart para ilustrar qualidade de deteção de code smells         
 
   Para além das funcionalidades principais referidas, demos alguma atenção a certos pormenores como:
     1. Criação de um menu 'Ajuda' para auxiliar a utilização das GUIs
