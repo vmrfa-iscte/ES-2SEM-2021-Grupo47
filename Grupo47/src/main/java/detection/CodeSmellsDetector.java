@@ -175,7 +175,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Bigger Bigger para o LONG_METHOD");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -199,7 +198,7 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Bigger Smaller para LongMethod");
+	
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -221,7 +220,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri SmallerBigger para Long Method");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -245,7 +243,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Smaller Smaller para Long Method");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -269,7 +266,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Bigger Bigger para WMC_NOM");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -292,7 +288,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Bigger Smaller para WMC_NOM");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -315,7 +310,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Smaller Smaller para WMC_NOM");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -340,7 +334,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Smaller Bigger para WMC_NOM");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -365,7 +358,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corru Bigger Bigger para WMC_LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -390,7 +382,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Bigger Smaller para WMC_LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -415,7 +406,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Smaller Smaller para WMC_LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -439,7 +429,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Smaller Bigger para WMC_LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -463,7 +452,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Bigger Bigger para NOM_LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -488,7 +476,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Bigger Smaller para NOM_LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -513,7 +500,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Smaller Bigger para NOM_LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
@@ -539,7 +525,6 @@ public class CodeSmellsDetector {
 			}
 			checkDetection(hasDetection,methodWithMetrics);
 		}
-		System.out.println("Corri Smaller Smaller para NOM LOC");
 		return readyToShow;
 		// No fim e retornado um ArrayList com os resultados da aplicacao da regra
 	}
