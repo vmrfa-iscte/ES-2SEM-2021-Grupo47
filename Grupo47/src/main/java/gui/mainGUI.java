@@ -407,24 +407,26 @@ public class mainGUI extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Caso não tenham sido extraídas métricas de um projeto, mensagem de erro
-				if (evaluateAndDetect.getActualmetrics() == null)
-					JOptionPane.showMessageDialog(null, NO_METRICS_EXTRACTED_ERROR_MESSAGE);
-				else {
-					// Caso contrário a existencia de code smells no projeto é averiguada
-					if (listrulestoshow.isSelected(rulesToShowSelectedIndex)) {
-						// Apenas é averiguada caso exista uma regra selecionada
-						String method1 = currentRule.getMethod1();
-						String method2 = currentRule.getMethod2();
-						HashMap<String, ArrayList<HasCodeSmell>> nameAndResults = evaluateAndDetect
-								.evaluationChooser(currentRule);
-						if (nameAndResults != null) {
-							String name = nameAndResults.keySet().iterator().next();
-							ArrayList<HasCodeSmell> results = nameAndResults.values().iterator().next();
-							createSecondaryGUI(name, results);
-						}
-					} else
-						JOptionPane.showMessageDialog(null, NO_RULE_SELECTED_ERROR_MESSAGE); // Caso contário é mostrada
-																								// uma mensagem de erro
+				if(listrulestoshow.getSelectionIndex() != -1) {
+					if (evaluateAndDetect.getActualmetrics() == null)
+						JOptionPane.showMessageDialog(null, NO_METRICS_EXTRACTED_ERROR_MESSAGE);
+					else {
+						// Caso contrário a existencia de code smells no projeto é averiguada
+						if (listrulestoshow.isSelected(rulesToShowSelectedIndex)) {
+							// Apenas é averiguada caso exista uma regra selecionada
+							String method1 = currentRule.getMethod1();
+							String method2 = currentRule.getMethod2();
+							HashMap<String, ArrayList<HasCodeSmell>> nameAndResults = evaluateAndDetect
+									.evaluationChooser(currentRule);
+							if (nameAndResults != null) {
+								String name = nameAndResults.keySet().iterator().next();
+								ArrayList<HasCodeSmell> results = nameAndResults.values().iterator().next();
+								createSecondaryGUI(name, results);
+							}
+						} else
+							JOptionPane.showMessageDialog(null, NO_RULE_SELECTED_ERROR_MESSAGE); // Caso contário é mostrada
+						// uma mensagem de erro
+					}
 				}
 			}
 
@@ -658,22 +660,24 @@ public class mainGUI extends Shell {
 		listrulestoshow.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				rulesToShowSelectedIndex = listrulestoshow.getSelectionIndex();
-				currentRule = list.get(rulesToShowSelectedIndex);
-				selectFirstMetricByRule();
-				changeSecondMetricOptions();
-				selectSecondMetricByRule();
-				if (!currentRule.getLimit3().isEmpty()) {
-					setThirdMetricVisible(true);
-					selectThirdMetricByRule();
-				} else {
-					setThirdMetricVisible(false);
-					thirdSignal.deselectAll();
-					secondOperator.deselectAll();
-					thirdMetric.deselectAll();
-					thirdLimit.clearSelection();
+				if(listrulestoshow.getSelectionIndex()!=-1) {
+					rulesToShowSelectedIndex = listrulestoshow.getSelectionIndex();
+					currentRule = list.get(rulesToShowSelectedIndex);
+					selectFirstMetricByRule();
+					changeSecondMetricOptions();
+					selectSecondMetricByRule();
+					if (!currentRule.getLimit3().isEmpty()) {
+						setThirdMetricVisible(true);
+						selectThirdMetricByRule();
+					} else {
+						setThirdMetricVisible(false);
+						thirdSignal.deselectAll();
+						secondOperator.deselectAll();
+						thirdMetric.deselectAll();
+						thirdLimit.clearSelection();
+					}
+					fillWithRule();
 				}
-				fillWithRule();
 			}
 
 		});
