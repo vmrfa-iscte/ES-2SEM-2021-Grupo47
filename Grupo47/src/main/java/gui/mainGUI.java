@@ -46,7 +46,10 @@ import org.eclipse.swt.widgets.MenuItem;
 
 /**
  * 
- * Classe que permite ao utilizador extrarir as metricas de um ficheiro, definir e manusear regras a sua vontade e realizar a detecao de codesmells consoante as regras criadas pelo mesmo
+ * Classe que permite ao utilizador extrarir as metricas de um ficheiro, definir
+ * e manusear regras a sua vontade e realizar a detecao de codesmells consoante
+ * as regras criadas pelo mesmo
+ * 
  * @author Guy Turpin
  * @author Tomas Mendes
  * @author Vasco Fontoura
@@ -105,6 +108,7 @@ public class mainGUI extends Shell {
 
 	/**
 	 * Adiciona os elementos a GUI
+	 * 
 	 * @param display display
 	 */
 	private void addElements(Display display) {
@@ -247,14 +251,14 @@ public class mainGUI extends Shell {
 		secondOperator.setText("");
 		secondOperator.add("OR");
 		secondOperator.add("AND");
-		secondOperator.add(" ");
+		secondOperator.add("");
 		secondOperator.setVisible(false);
 
 		thirdSignal = new Combo(composite, SWT.READ_ONLY);
 		thirdSignal.setBounds(196, 126, 80, 28);
 		thirdSignal.add(">");
 		thirdSignal.add("<");
-		thirdSignal.add(" ");
+		thirdSignal.add("");
 		thirdSignal.setVisible(false);
 
 		thirdLimit = new Text(composite, SWT.BORDER);
@@ -309,7 +313,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite a selecao do ficheiro excel gerado e a escrita das caracteristicas do mesmo
+	 * Metodo que permite a selecao do ficheiro excel gerado e a escrita das
+	 * caracteristicas do mesmo
 	 */
 	private void excelfilesListener() {
 		excelfiles.addSelectionListener(new SelectionAdapter() {
@@ -339,7 +344,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite a definicao de regras previamente criadas pelo utilizador atraves da gui
+	 * Metodo que permite a definicao de regras previamente criadas pelo utilizador
+	 * atraves da gui
 	 */
 	private void defineRuleButtonListener() {
 		defineRuleButton.addSelectionListener(new SelectionAdapter() {
@@ -350,7 +356,9 @@ public class mainGUI extends Shell {
 				} else {
 					boolean isRepeated = false;
 					if (isFirstMetricCorrect() && isSecondMetricCorrect()) {
+
 						isRepeated = createRuleAndVerify(isRepeated);
+
 						checkExistanceAndAdd(isRepeated);
 					} else
 						JOptionPane.showMessageDialog(null, FIELDS_INCORRECT_MESSAGE);
@@ -398,8 +406,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite que o utilizador realize a detecao de codesmells consoante a regra previamente
-	 * selecionada
+	 * Metodo que permite que o utilizador realize a detecao de codesmells consoante
+	 * a regra previamente selecionada
 	 * 
 	 */
 	private void detectSmellsButtonListener() {
@@ -407,7 +415,7 @@ public class mainGUI extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// Caso não tenham sido extraídas métricas de um projeto, mensagem de erro
-				if(listrulestoshow.getSelectionIndex() != -1) {
+				if (listrulestoshow.getSelectionIndex() != -1) {
 					if (evaluateAndDetect.getActualmetrics() == null)
 						JOptionPane.showMessageDialog(null, NO_METRICS_EXTRACTED_ERROR_MESSAGE);
 					else {
@@ -424,7 +432,8 @@ public class mainGUI extends Shell {
 								createSecondaryGUI(name, results);
 							}
 						} else
-							JOptionPane.showMessageDialog(null, NO_RULE_SELECTED_ERROR_MESSAGE); // Caso contário é mostrada
+							JOptionPane.showMessageDialog(null, NO_RULE_SELECTED_ERROR_MESSAGE); // Caso contário é
+																									// mostrada
 						// uma mensagem de erro
 					}
 				}
@@ -434,8 +443,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite ao utilizador carregar num historico para a gui e trabalhar 
-	 * consoante regras definidas a priori
+	 * Metodo que permite ao utilizador carregar num historico para a gui e
+	 * trabalhar consoante regras definidas a priori
 	 */
 	private void loadHistoryButtonListener() {
 		loadHistoryButton.addSelectionListener(new SelectionAdapter() {
@@ -469,8 +478,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite ao utilizador guardar, num ficheiro nao volatil, as regras definidas.
-	 * Este metodo permite tambem a criacao do ficheiro historico de raiz
+	 * Metodo que permite ao utilizador guardar, num ficheiro nao volatil, as regras
+	 * definidas. Este metodo permite tambem a criacao do ficheiro historico de raiz
 	 * 
 	 */
 	private void saveHistoryListener() {
@@ -494,16 +503,18 @@ public class mainGUI extends Shell {
 		cleanHistoryList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (listrulestoshow.getItemCount() != 0)
+				if (listrulestoshow.getItemCount() != 0) {
 					listrulestoshow.removeAll();
-				else
+					list.clear();
+				} else
 					JOptionPane.showMessageDialog(null, ALREADY_EMPTY_MESSAGE);
 			}
 		});
 	}
 
 	/**
-	 * Metodo que permite ao utilizador, atraves de um botao, aceder as informacoes relativas a utilizacao da interface e as suas funcionalidades
+	 * Metodo que permite ao utilizador, atraves de um botao, aceder as informacoes
+	 * relativas a utilizacao da interface e as suas funcionalidades
 	 * 
 	 */
 	private void guiInstructionsButtonListener() {
@@ -517,8 +528,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite ao utilizador consultar informacoes relativas as metricas e
-	 * consequentemente ao seu funcionamento
+	 * Metodo que permite ao utilizador consultar informacoes relativas as metricas
+	 * e consequentemente ao seu funcionamento
 	 * 
 	 */
 	private void metricInfoButtonListener() {
@@ -532,7 +543,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite ao utilizador visualizar o ficheiro excel gerado pela extracao
+	 * Metodo que permite ao utilizador visualizar o ficheiro excel gerado pela
+	 * extracao
 	 * 
 	 */
 	private void viewFileButtonListener() {
@@ -551,7 +563,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite ao utilizador escolher a pasta destino para o ficheiro a extrair
+	 * Metodo que permite ao utilizador escolher a pasta destino para o ficheiro a
+	 * extrair
 	 * 
 	 */
 	private void choosePathToExtractListener() {
@@ -573,7 +586,7 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite ao utilizador 
+	 * Metodo que permite ao utilizador
 	 */
 	private void addProjectSelectionListener() {
 		projectSelection.addSelectionListener(new SelectionAdapter() {
@@ -602,7 +615,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que realiza a extracao das metricas e adiciona o nome do ficheiro gerado a lista
+	 * Metodo que realiza a extracao das metricas e adiciona o nome do ficheiro
+	 * gerado a lista
 	 */
 	private void extractMetricsListener() {
 		extractMetricsButton.addSelectionListener(new SelectionAdapter() {
@@ -622,7 +636,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que inibe o utilizador de escolher a segunda metrica livremente, estando dependente da primeira metrica
+	 * Metodo que inibe o utilizador de escolher a segunda metrica livremente,
+	 * estando dependente da primeira metrica
 	 */
 	private void firstMetricListener() {
 		firstMetric.addSelectionListener(new SelectionAdapter() {
@@ -635,7 +650,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que inibe o utilizador de escolher a terceira metrica livremente, estando dependente da segunda metrica
+	 * Metodo que inibe o utilizador de escolher a terceira metrica livremente,
+	 * estando dependente da segunda metrica
 	 * 
 	 */
 	private void secondMetricListener() {
@@ -654,13 +670,13 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 *  Metodo que preenche os campos da regra selecionada
+	 * Metodo que preenche os campos da regra selecionada
 	 */
 	private void listRulesToShowListener() {
 		listrulestoshow.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(listrulestoshow.getSelectionIndex()!=-1) {
+				if (listrulestoshow.getSelectionIndex() != -1) {
 					rulesToShowSelectedIndex = listrulestoshow.getSelectionIndex();
 					currentRule = list.get(rulesToShowSelectedIndex);
 					selectFirstMetricByRule();
@@ -709,10 +725,10 @@ public class mainGUI extends Shell {
 				selectedFile = file;
 		}
 	}
-	
-	
+
 	/**
-	 * Metodo que permite a visualizacao das caracteristicas gerais do ficheiro excel gerado
+	 * Metodo que permite a visualizacao das caracteristicas gerais do ficheiro
+	 * excel gerado
 	 */
 	private void writeStatistics() {
 		for (Entry<String, ArrayList<String>> entry : mapStats.entrySet()) {
@@ -734,7 +750,9 @@ public class mainGUI extends Shell {
 
 	/**
 	 * Calcula as estatisticas de um projeto
-	 * @return StringStats Retorna a lista das caracteristicas gerais do ficheiro excel 
+	 * 
+	 * @return StringStats Retorna a lista das caracteristicas gerais do ficheiro
+	 *         excel
 	 */
 	private ArrayList<String> createStatsList() {
 		Statistics stats = new Statistics(evaluateAndDetect.getActualmetrics());
@@ -747,7 +765,9 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que extrai as metricas e adiciona o nome do ficheiro excel a lista na GUI
+	 * Metodo que extrai as metricas e adiciona o nome do ficheiro excel a lista na
+	 * GUI
+	 * 
 	 * @throws IOException
 	 * 
 	 */
@@ -767,7 +787,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * @param visible Torna os campos relativos a terceira metrica visiveis ou nao, consoante o parametro visible
+	 * @param visible Torna os campos relativos a terceira metrica visiveis ou nao,
+	 *                consoante o parametro visible
 	 */
 	private void setThirdMetricVisible(boolean visible) {
 		secondOperator.setVisible(visible);
@@ -777,7 +798,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que, consoante a primeira metrica selecionada, permite a escolha da segunda metrica de forma filtrada, evitando combinacoes invalidas
+	 * Metodo que, consoante a primeira metrica selecionada, permite a escolha da
+	 * segunda metrica de forma filtrada, evitando combinacoes invalidas
 	 */
 	private void changeSecondMetricOptions() {
 		int firstMethodSelection = firstMetric.getSelectionIndex();
@@ -798,7 +820,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite preencher o campo relativo a metrica 1, com os dados da metrica selecionada na lista de regras
+	 * Metodo que permite preencher o campo relativo a metrica 1, com os dados da
+	 * metrica selecionada na lista de regras
 	 */
 	private void selectFirstMetricByRule() {
 		for (int arrayIndex = 0; arrayIndex < firstMetric.getItemCount(); arrayIndex++)
@@ -807,7 +830,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite preencher o campo relativo a metrica 2, com os dados da metrica selecionada na lista de regras
+	 * Metodo que permite preencher o campo relativo a metrica 2, com os dados da
+	 * metrica selecionada na lista de regras
 	 */
 	private void selectSecondMetricByRule() {
 		for (int k = 0; k < secondMetric.getItemCount(); k++)
@@ -816,7 +840,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite preencher o campo relativo a metrica 3, com os dados da metrica selecionada na lista de regras
+	 * Metodo que permite preencher o campo relativo a metrica 3, com os dados da
+	 * metrica selecionada na lista de regras
 	 */
 	private void selectThirdMetricByRule() {
 		for (int z = 0; z < thirdMetric.getItemCount(); z++)
@@ -825,7 +850,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que permite preencher os campos relativos aos limites, sinais e operadores, com os dados da metrica selecionada na lista de regras
+	 * Metodo que permite preencher os campos relativos aos limites, sinais e
+	 * operadores, com os dados da metrica selecionada na lista de regras
 	 */
 	private void fillWithRule() {
 		firstSignal.setText(currentRule.getSinal1());
@@ -840,8 +866,9 @@ public class mainGUI extends Shell {
 
 	/**
 	 * Verifica e uma String tem apenas numeros
+	 * 
 	 * @param text Validacao do limite inserido pelo utilizador
-	 * @return 
+	 * @return
 	 */
 	private boolean isValid(String text) {
 		for (int i = 0; i < text.length(); i++)
@@ -850,9 +877,9 @@ public class mainGUI extends Shell {
 		return true;
 	}
 
-	
 	/**
 	 * Metodo para indicar se um char corresponde a um numero ou nao
+	 * 
 	 * @param charAt Avalia se um determinado char e um número
 	 * @return indicacao de se o char dado e um numero ou nao
 	 */
@@ -861,10 +888,12 @@ public class mainGUI extends Shell {
 				|| charAt == '6' || charAt == '7' || charAt == '8' || charAt == '9';
 	}
 
-	
 	/**
-	 * Metodo de ajuda a criacao da secondaryGUI consoante um nome e os resultados que devem ser mostrados na tabela
-	 * @param name Criar GUI secundaria, importar os resultados da aplicação da regra e lançar  GUI
+	 * Metodo de ajuda a criacao da secondaryGUI consoante um nome e os resultados
+	 * que devem ser mostrados na tabela
+	 * 
+	 * @param name             Criar GUI secundaria, importar os resultados da
+	 *                         aplicação da regra e lançar GUI
 	 * @param detectionResults resultados da detecao de code smells
 	 */
 	public void createSecondaryGUI(String name, ArrayList<HasCodeSmell> detectionResults) {
@@ -874,7 +903,9 @@ public class mainGUI extends Shell {
 
 	/**
 	 * Indica se a segunda metrica foi preenchida corretamente
-	 * @return true ou false, consoante a acao do utilizador no preenchimento dos campos relativos a metrica2
+	 * 
+	 * @return true ou false, consoante a acao do utilizador no preenchimento dos
+	 *         campos relativos a metrica2
 	 */
 	private boolean isSecondMetricCorrect() {
 		return !secondMetric.getText().isEmpty() && !secondLimit.getText().isEmpty();
@@ -882,7 +913,9 @@ public class mainGUI extends Shell {
 
 	/**
 	 * Indica se a primeira metrica foi preenchida corretamente
-	 * @return true ou false, consoante a acao do utilizador no preenchimento dos campos relativos a metrica1 
+	 * 
+	 * @return true ou false, consoante a acao do utilizador no preenchimento dos
+	 *         campos relativos a metrica1
 	 */
 	private boolean isFirstMetricCorrect() {
 		return !firstMetric.getText().isEmpty() && !firstOperator.getText().isEmpty()
@@ -891,19 +924,25 @@ public class mainGUI extends Shell {
 
 	/**
 	 * Indica se a terceira metrica esta preenchida
-	 * @return true ou false, consoante a terceira metrica estiver preenchida, ou nao
+	 * 
+	 * @return true ou false, consoante a terceira metrica estiver preenchida, ou
+	 *         nao
 	 */
 	private boolean isThirdMetricFilled() {
-		if (thirdMetric.isVisible())
+		if (thirdMetric.isVisible()) {
 			return !thirdMetric.getText().isEmpty() && !secondOperator.getText().isEmpty()
 					&& isValid(thirdLimit.getText()) && !thirdSignal.getText().isEmpty();
-		else
+		} else {
 			return false;
+		}
+
 	}
 
 	/**
 	 * Verifica se uma regra existe
-	 * @param v Metodo que verifica se a regra definida pelo utilizador ja existe ou nao
+	 * 
+	 * @param v Metodo que verifica se a regra definida pelo utilizador ja existe ou
+	 *          nao
 	 * @return resultado da verificacao
 	 */
 	private boolean verifyRuleExistance(boolean v) {
@@ -921,17 +960,24 @@ public class mainGUI extends Shell {
 
 	/**
 	 * Adiciona a regra definida a lista de regras
-	 * @param isRepeated Metodo que adiciona a regra definida a lista de regras, dependendo de se esta ja existe ou nao
+	 * 
+	 * @param isRepeated Metodo que adiciona a regra definida a lista de regras,
+	 *                   dependendo de se esta ja existe ou nao
 	 */
 	private void checkExistanceAndAdd(boolean isRepeated) {
 		if (isRepeated == false) {
-			listrulestoshow.add(ruleToShowInList);
-			list.add(rule);
+			if (isFilledCorrectly()) {
+				listrulestoshow.add(ruleToShowInList);
+				list.add(rule);
+			} else {
+				JOptionPane.showMessageDialog(null, "Campos por preencher");
+			}
 		}
 	}
 
 	/**
-	 * Metodo que cria o objeto Rule, apos a verificacao da existencia ou nao do mesmo
+	 * Metodo que cria o objeto Rule, apos a verificacao da existencia ou nao do
+	 * mesmo
 	 * 
 	 * @param isRepeated
 	 * @return
@@ -971,7 +1017,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que adiciona uma nova regra a lista de regras definidas pelo utilizador
+	 * Metodo que adiciona uma nova regra a lista de regras definidas pelo
+	 * utilizador
 	 * 
 	 * @param line
 	 * @param ruleInHistory
@@ -982,7 +1029,8 @@ public class mainGUI extends Shell {
 	}
 
 	/**
-	 * Metodo que, le um ficheiro historico do tipo '.txt' e escreve as regras contidas no mesmo, na GUI
+	 * Metodo que, le um ficheiro historico do tipo '.txt' e escreve as regras
+	 * contidas no mesmo, na GUI
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws IOException
