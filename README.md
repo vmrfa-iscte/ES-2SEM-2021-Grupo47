@@ -37,6 +37,6 @@ Breve explicação das funcionalidades:
 
 Como executar a aplicação:
   1. Pode fazer download do projeto java dado neste repositório e executar a classe Main do pacote G47.Grupo47 no eclipse      
-  2. Outra alternativa será apenas abrir o ficheiro .jar executável fornecido na Pasta 'Aplicação'
+  2. Outra alternativa será apenas fazer download do ficheiro .jar presente neste repositório, mais precisamente associada à tag: CodeQualityAssessor-1.0
 
     
