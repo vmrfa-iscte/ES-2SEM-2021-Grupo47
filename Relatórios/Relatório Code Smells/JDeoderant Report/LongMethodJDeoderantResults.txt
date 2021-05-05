@@ -1,0 +1,92 @@
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	viewFileButton	B1	0/23
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	extractMetricsButton	B1	0/20
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	excelfiles	B1	0/16
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfClasses	B1	0/16
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfLines	B1	0/16
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfMethods	B1	0/16
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfPackages	B1	0/16
+gui.SecondaryGUI	private void addElements() 	fileNametext	B1	0/15
+gui.SecondaryGUI	private void addElements() 	fd_fileNametext	B1	0/12
+gui.SecondaryGUI	private void addElements() 	table	B1	0/12
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	choosePathToExtract	B1	0/11
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	folderToSavePath	B1	0/11
+gui.SaveHistoryGUI	public void addElements() 	btnCreateFile	B1	0/8
+gui.SecondaryGUI	private void addElements() 	selectFileButton_1	B1	0/8
+gui.SecondaryGUI	private void addElements() 	detectionColumn	B1	0/7
+gui.SecondaryGUI	private void addElements() 	methodIDColumn	B1	0/7
+gui.SecondaryGUI	private void addElements() 	nameColumn	B1	0/7
+gui.SecondaryGUI	private void addElements() 	qualityColumn	B1	0/7
+org.eclipse.wb.swt.SWTResourceManager	public static org.eclipse.swt.graphics.Font getFont(java.lang.String, int, int, boolean, boolean) 	logFontClass	B3	0/7
+org.eclipse.wb.swt.SWTResourceManager	public static org.eclipse.swt.graphics.Font getFont(java.lang.String, int, int, boolean, boolean) 	logFontClass	B4	0/4
+gui.SaveHistoryGUI	private void writeHistory() 	bw	B4	0/5
+gui.SaveHistoryGUI	public void addElements() 	chooseHistoryFile	B1	0/4
+gui.SaveHistoryGUI	public void addElements() 	destinationPath	B1	0/4
+gui.SaveHistoryGUI	public void addElements() 	historyFilePath	B1	0/4
+gui.SaveHistoryGUI	public void addElements() 	selectedDestinationFolder	B1	0/4
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	firstOperator	B1	0/4
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	projectFolderPath	B1	0/4
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	projectSelection	B1	0/4
+excel.ExcelManip	public ArrayList<classes.HasCodeSmell> toComparables(int) throws java.io.IOException	workbook	B1	0/3
+excel.ExcelManip	public void createExcel(ArrayList<classes.MethodMetrics>, java.lang.String) throws java.io.IOException	create	B1	0/3
+extraction.ExtractMetrics	private void createMetricsAndAdd(java.lang.String) 	metricToAdd	B1	0/3
+gui.SaveHistoryGUI	public void addElements() 	createFileLabel	B1	0/3
+gui.SaveHistoryGUI	public void addElements() 	ifFileExistsLabel	B1	0/3
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	chooseProjectLabel	B1	0/3
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	defineRuleLabel	B1	0/3
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfClassesText	B1	0/3
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfLinesText	B1	0/3
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfMethodText	B1	0/3
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	numOfPackagesText	B1	0/3
+gui.mainGUI	private void addElements(org.eclipse.swt.widgets.Display) 	savedRulesLabel	B1	0/3
+classes.FillTable	private void searchAndSetQuality(ArrayList<classes.HasCodeSmell>, classes.HasCodeSmell) 	indicator	B2	0/3
+classes.FillTable	private void searchAndSetQuality(ArrayList<classes.HasCodeSmell>, classes.HasCodeSmell) 	indicator	B3	0/2
+gui.mainGUI	private void writeStatistics() 	dirEx	B3	0/3
+classes.NameByFile	public java.lang.String getPackageName() 	src	B7	0/2
+detection.CodeSmellsDetector	private classes.MethodMetrics verifyLastClass(classes.MethodMetrics) 	readyToShow	B1	1/5
+detection.CodeSmellsDetector	private classes.MethodMetrics verifyLastClass(classes.MethodMetrics) 	readyToShow	B2	0/4
+gui.mainGUI	private void writeStatistics() 	evaluateAndDetect	B2	1/4
+gui.mainGUI	private void writeStatistics() 	evaluateAndDetect	B3	0/3
+gui.mainGUI	private void changeSecondMetricOptions() 	secondMetric	B1	4/11
+gui.mainGUI	private boolean createRuleAndVerify(boolean) 	rule	B1	2/4
+gui.mainGUI	private void extractAndAddFileToList() throws java.io.IOException	mapStats	B2	3/6
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B1	7/10
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B2	7/9
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B3	6/8
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B4	5/7
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B5	4/6
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B6	3/5
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B8	2/4
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B10	1/3
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truenegative	B12	0/2
+gui.mainGUI	private void checkExistanceAndAdd(boolean) 	list	B1	2/3
+gui.mainGUI	private void checkExistanceAndAdd(boolean) 	list	B2	1/2
+gui.mainGUI	private void writeStatistics() 	numOfClasses	B2	2/3
+gui.mainGUI	private void writeStatistics() 	numOfClasses	B3	1/2
+gui.mainGUI	private void writeStatistics() 	numOfLines	B2	2/3
+gui.mainGUI	private void writeStatistics() 	numOfLines	B3	1/2
+gui.mainGUI	private void writeStatistics() 	numOfMethods	B2	2/3
+gui.mainGUI	private void writeStatistics() 	numOfMethods	B3	1/2
+gui.mainGUI	private void writeStatistics() 	numOfPackages	B2	2/3
+gui.mainGUI	private void writeStatistics() 	numOfPackages	B3	1/2
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truepositive	B1	5/7
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truepositive	B2	5/6
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truepositive	B3	4/5
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truepositive	B4	3/4
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truepositive	B5	2/3
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	truepositive	B6	1/2
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsepositive	B1	6/8
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsepositive	B2	6/7
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsepositive	B3	5/6
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsepositive	B4	4/5
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsepositive	B5	3/4
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsepositive	B6	2/3
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsepositive	B8	1/2
+excel.ExcelManip	private classes.HasCodeSmell readExcelRow(int, org.apache.poi.ss.usermodel.Row) 	method	B1	3/4
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B1	7/9
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B2	7/8
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B3	6/7
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B4	5/6
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B5	4/5
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B6	3/4
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B8	2/3
+classes.ChartToShow	public HashMap<java.lang.String,java.lang.Integer> setResults(ArrayList<classes.HasCodeSmell>) 	falsenegative	B10	1/2
