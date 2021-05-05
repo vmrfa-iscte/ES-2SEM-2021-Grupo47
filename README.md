@@ -32,5 +32,11 @@ Breve explicação das funcionalidades:
     3. Impedimento de escolha de regras contraditórias, como por exemplo escolha de de uma regra com a métrica LOC_method e LOC_class            
     4. Impedimento de criação de regras com campos vazios ou mal preenchidos              
     5. Mensagens de erro ao carregar em botões quando a informação é insuficiente (por exemplo: carregar em 'Detetar code smells' sem projeto ou regra selecionados)       
-    6. Possibilidade de utilização da aplicação para vários projetos diferentes simultâneamente          
+    6. Possibilidade de utilização da aplicação para vários projetos diferentes simultâneamente     
+
+
+Como executar a aplicação:
+  1. Pode fazer download do projeto java dado neste repositório e executar a classe Main do pacote G47.Grupo47 no eclipse      
+  2. Outra alternativa será apenas abrir o ficheiro .jar executável fornecido na Pasta 'Aplicação'
+
     
