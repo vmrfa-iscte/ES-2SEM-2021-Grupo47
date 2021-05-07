@@ -1,2 +1,0 @@
-LOC_method > 10 OR CYCLO_method > 6
-LOC_method > 1 OR CYCLO_method > 6
