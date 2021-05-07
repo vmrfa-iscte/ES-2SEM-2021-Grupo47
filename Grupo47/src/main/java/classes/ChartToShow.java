@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -59,6 +60,7 @@ public class ChartToShow {
 	    jframe.add(panel);
 	    jframe.setVisible(true);
 	    jframe.pack();
+	    jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	  }
 
 	

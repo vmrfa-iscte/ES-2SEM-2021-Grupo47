@@ -223,7 +223,7 @@ public class SecondaryGUI extends Shell {
 		evaluateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Entrei no listener!");
+			
 				if (!fileNametext.getText().isEmpty()) {
 					ExcelManip aux = new ExcelManip(selectedFile);
 					ArrayList<HasCodeSmell> trueResults = new ArrayList<HasCodeSmell>();
@@ -253,12 +253,13 @@ public class SecondaryGUI extends Shell {
 
 			}
 
-			private void createPieChartWithResults(ArrayList<HasCodeSmell> trueResults) {
-				mapValues = chartToShow.setResults(trueResults);
-				chartToShow.createPieChart(mapValues);
-			}
 		});
 
+	}
+	
+	private void createPieChartWithResults(ArrayList<HasCodeSmell> trueResults) {
+		mapValues = chartToShow.setResults(trueResults);
+		chartToShow.createPieChart(mapValues);
 	}
 
 	/**
