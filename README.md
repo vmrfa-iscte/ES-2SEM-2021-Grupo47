@@ -33,6 +33,7 @@ Breve explicação das funcionalidades:
     4. Impedimento de criação de regras com campos vazios ou mal preenchidos              
     5. Mensagens de erro ao carregar em botões quando a informação é insuficiente (por exemplo: carregar em 'Detetar code smells' sem projeto ou regra selecionados)       
     6. Possibilidade de utilização da aplicação para vários projetos diferentes simultâneamente     
+    7. Nome da interface gráfica para deteção de code smells é alterado consoante o code smell que foi escolhido nas regras
 
 
 Como executar a aplicação:
