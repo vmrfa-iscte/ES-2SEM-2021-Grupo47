@@ -110,23 +110,23 @@ public class SecondaryGUI extends Shell {
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 
-		methodIDColumn = new TableColumn(table, SWT.CENTER);
-		methodIDColumn.setWidth(100);
+		methodIDColumn = new TableColumn(table, SWT.LEFT);
+		methodIDColumn.setWidth(84);
 		methodIDColumn.setText(ID_COLUMN_TEXT);
 
 		nameColumn = new TableColumn(table, SWT.CENTER);
-		nameColumn.setWidth(312);
+		nameColumn.setWidth(288);
 		nameColumn.setText(NAME_COLUMN_TEXT);
 
 		detectionColumn = new TableColumn(table, SWT.CENTER);
-		detectionColumn.setWidth(147);
+		detectionColumn.setWidth(127);
 		detectionColumn.setText(DETECTION_COLUMN_TEXT);
 
-		qualityColumn = new TableColumn(table, SWT.NONE);
-		qualityColumn.setWidth(267);
+		qualityColumn = new TableColumn(table, SWT.CENTER);
+		qualityColumn.setWidth(158);
 		qualityColumn.setText(QUALITY_COLUMN_TEXT);
 
-		fileNametext = new Text(this, SWT.BORDER);
+		fileNametext = new Text(this, SWT.BORDER | SWT.READ_ONLY);
 		FormData fd_fileNametext = new FormData();
 		fd_fileNametext.top = new FormAttachment(evaluateButton, 2, SWT.TOP);
 		fd_fileNametext.left = new FormAttachment(evaluateButton, 25);
@@ -179,7 +179,7 @@ public class SecondaryGUI extends Shell {
 		fd_table = new FormData();
 		fd_table.top = new FormAttachment(0, 10);
 		fd_table.left = new FormAttachment(0, 10);
-		fd_table.right = new FormAttachment(100, 560);
+		fd_table.right = new FormAttachment(100, 1052);
 		evaluateButton = new Button(this, SWT.NONE);
 		fd_table.bottom = new FormAttachment(evaluateButton, -18);
 		selectFileButton_1 = new Button(this, SWT.NONE);
@@ -283,7 +283,7 @@ public class SecondaryGUI extends Shell {
 	 */
 	protected void createContents(String name) {
 		setText(name);
-		setSize(905, 829);
+		setSize(713, 829);
 
 	}
 

@@ -35,12 +35,12 @@ public class HelpGUIMetrics extends Shell {
 		lblLocmethodParaEsta.setText("LOC_method: Para esta métrica contamos todas as linhas existentes de um método, independentemente de serem comentários ou não por exemplo. Para calcular acedemos à localização da úlitma linha e subtraimos a localização da primeira linha do método.");
 		
 		Label lblLocclassParaEsta = new Label(grpExtraoDeMtricas, SWT.BORDER | SWT.WRAP);
-		lblLocclassParaEsta.setBounds(10, 118, 892, 71);
+		lblLocclassParaEsta.setBounds(10, 106, 892, 71);
 		lblLocclassParaEsta.setText("LOC_class: Para esta métrica foi utilizado o mesmo método explicado na métrica em cima mas aplicado à classe inteira. Caso dentro de uma classe esteja uma outra classe \"Inner\" então esta terá como LOC_class apenas o número de linhas da sua classe, por outro lado, a classe que a contém terá contabilizadas as linhas da Inner Class.");
 		
 		Label lblCyclomethodEstaMtrica = new Label(grpExtraoDeMtricas, SWT.BORDER | SWT.WRAP);
-		lblCyclomethodEstaMtrica.setBounds(10, 212, 892, 44);
-		lblCyclomethodEstaMtrica.setText("CYCLO_method: Esta métrica calcula a complexidade ciclomática de um método, este cálculo é feito contando o número de ciclos exsistentes no mético, são estes ciclos: if,while,for,switch,case e default.");
+		lblCyclomethodEstaMtrica.setBounds(10, 195, 892, 60);
+		lblCyclomethodEstaMtrica.setText("CYCLO_method: Esta métrica calcula a complexidade ciclomática de um método, este cálculo é feito contando o número de ciclos exsistentes no mético, são estes ciclos: if,while,for,switch,case e default. No caso de o método não ter qualquer ciclo, a complexidade ciclomática será 1.");
 		
 		Label lblCycloclassEstaMtrica = new Label(grpExtraoDeMtricas, SWT.BORDER | SWT.WRAP);
 		lblCycloclassEstaMtrica.setBounds(10, 273, 892, 49);

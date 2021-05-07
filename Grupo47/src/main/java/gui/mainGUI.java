@@ -682,7 +682,7 @@ public class mainGUI extends Shell {
 					selectFirstMetricByRule();
 					changeSecondMetricOptions();
 					selectSecondMetricByRule();
-					if (!currentRule.getLimit3().isEmpty()) {
+					if (!currentRule.getMethod3().isEmpty()) {
 						setThirdMetricVisible(true);
 						selectThirdMetricByRule();
 					} else {
@@ -871,6 +871,7 @@ public class mainGUI extends Shell {
 	 * @return
 	 */
 	private boolean isValid(String text) {
+		if(text.isEmpty()) return false;
 		for (int i = 0; i < text.length(); i++)
 			if (!isNumber(text.charAt(i)))
 				return false;
@@ -908,7 +909,7 @@ public class mainGUI extends Shell {
 	 *         campos relativos a metrica2
 	 */
 	private boolean isSecondMetricCorrect() {
-		return !secondMetric.getText().isEmpty() && !secondLimit.getText().isEmpty();
+		return !secondMetric.getText().isEmpty() && !secondLimit.getText().isEmpty() && !secondSignal.getText().isEmpty();
 	}
 
 	/**
@@ -919,7 +920,7 @@ public class mainGUI extends Shell {
 	 */
 	private boolean isFirstMetricCorrect() {
 		return !firstMetric.getText().isEmpty() && !firstOperator.getText().isEmpty()
-				&& !firstLimit.getText().isEmpty();
+				&& !firstLimit.getText().isEmpty() && !firstSignal.getText().isEmpty();
 	}
 
 	/**

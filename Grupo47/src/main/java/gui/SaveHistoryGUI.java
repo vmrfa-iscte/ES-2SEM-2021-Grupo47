@@ -129,6 +129,7 @@ public class SaveHistoryGUI extends Shell {
 					if (!f.exists()) {
 						try {
 							f.createNewFile();
+							writeHistory(destinationPath.getText());
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
@@ -158,7 +159,7 @@ public class SaveHistoryGUI extends Shell {
 					filePath = filecreated.getPath();
 				}
 				historyFilePath.setText(filePath);
-				writeHistory();
+				writeHistory(historyFilePath.getText());
 			}
 		});
 	}
@@ -191,13 +192,13 @@ public class SaveHistoryGUI extends Shell {
 	/**
 	 * ESCREVE NO FICHEIRO .TXT A LISTA DE REGRAS
 	 */
-	private void writeHistory() {
-		if (!historyFilePath.getText().isEmpty()) {
+	private void writeHistory(String pathToWrite) {
+		if (!pathToWrite.isEmpty()) {
 			if (!rules.isEmpty()) {
 				for (int x = 0; x < rules.size(); x++) {//CICLO QUE ESCREVE TODAS AS REGRAS DA LISTA N FICHEIRO .TXT
 
 					try {
-						FileWriter fw = new FileWriter(new File(historyFilePath.getText()), true);
+						FileWriter fw = new FileWriter(new File(pathToWrite), true);
 						BufferedWriter bw = new BufferedWriter(fw);
 						bw.write(rules.get(x).toString());
 						bw.newLine();

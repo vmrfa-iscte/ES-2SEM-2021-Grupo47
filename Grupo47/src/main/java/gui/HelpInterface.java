@@ -30,7 +30,7 @@ public class HelpInterface extends Shell {
 		Label lblHelpExtract = new Label(this, SWT.NONE | SWT.BORDER | SWT.WRAP);
 		lblHelpExtract.setBounds(10, 21, 870, 68);
 		lblHelpExtract.setText(
-				"1-Começe por escolher onde quer guardar o excel que será gerado com as métricas que serão extraidas depois disso, selecione a pasta onde se localiza o projeto do qual pretende extrair métricas, clicando no botão 'Selecionar pasta'. De seguida, pressione o botão 'Extrair métricas', do qual resultará um ficheiro com as respetivas métricas calculadas.");
+				"1-Começe por escolher onde quer guardar o excel que será gerado com as métricas que serão extraidas. Depois disso, selecione a pasta onde se localiza o projeto do qual pretende extrair métricas, clicando no botão 'Selecionar pasta'. De seguida, pressione o botão 'Extrair métricas', do qual resultará um ficheiro com as respetivas métricas calculadas.");
 
 		// INSTRUÇÃO 2-Visualização de resultados
 		Label lblExtractResult = new Label(this, SWT.BORDER | SWT.WRAP);
