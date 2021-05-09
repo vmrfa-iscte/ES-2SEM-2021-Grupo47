@@ -53,13 +53,13 @@ public class HelpGUIMetrics extends Shell {
 		Label lblTodasAsMtricas = new Label(grpExtraoDeMtricas, SWT.WRAP);
 		lblTodasAsMtricas.setFont(SWTResourceManager.getFont("Segoe UI", 10, SWT.BOLD | SWT.ITALIC));
 		lblTodasAsMtricas.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
-		lblTodasAsMtricas.setBounds(10, 420, 892, 71);
+		lblTodasAsMtricas.setBounds(10, 420, 892, 49);
 		lblTodasAsMtricas.setText("1- Todas as métricas são calculadas também para Inner Classes, ou seja, classes que estão dentro de outras. O nome destas classes terá a seguinte formatação: NomeClasseGeral.NomeInnerClass");
 		
 		Label lblCasoUma = new Label(grpExtraoDeMtricas, SWT.WRAP);
 		lblCasoUma.setFont(SWTResourceManager.getFont("Segoe UI", 10, SWT.BOLD | SWT.ITALIC));
 		lblCasoUma.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
-		lblCasoUma.setBounds(10, 497, 876, 99);
+		lblCasoUma.setBounds(10, 475, 876, 99);
 		lblCasoUma.setText("2- Caso uma classe não tenha qualquer método não serão calculadas métricas para essa classe. As métricas WMC_class e LOC_class são calculadas para classes com métodos ou construtores, caso uma classe não tenha nenhum dos referidos, então as linhas dessa classe não estarão contabilizadas nas linhas totais do projeto. Para além disto, nesse caso, essa classe não estará também contabilizada no número de classes do projeto.\r\n");
 		
 		Label lblNotas = new Label(grpExtraoDeMtricas, SWT.NONE);
@@ -67,6 +67,12 @@ public class HelpGUIMetrics extends Shell {
 		lblNotas.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblNotas.setBounds(10, 394, 70, 20);
 		lblNotas.setText("NOTAS:");
+		
+		Label lblAContagem = new Label(grpExtraoDeMtricas, SWT.WRAP);
+		lblAContagem.setText("3- A contagem do número de linhas quer para as métricas LOC_method e LOC_classe, quer para o número de linhas totais do projeto tem apenas início na linha \"public class ... {\", ou seja, não inclui as linhas antes (imports).");
+		lblAContagem.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+		lblAContagem.setFont(SWTResourceManager.getFont("Segoe UI", 10, SWT.BOLD | SWT.ITALIC));
+		lblAContagem.setBounds(10, 580, 876, 82);
 		createContents();
 	}
 	
@@ -97,7 +103,7 @@ public class HelpGUIMetrics extends Shell {
 	 */
 	protected void createContents() {
 		setText("Informaçã sobre métricas");
-		setSize(930, 682);
+		setSize(930, 711);
 		setImage(SWTResourceManager.getImage(HelpGUIMetrics.class, "/G47/Grupo47/iscte_logo2.jpg"));
 		
 		setLayout(new FillLayout(SWT.HORIZONTAL));
