@@ -43,4 +43,7 @@ Como executar a aplicação:
 Javadoc:
   Foram realizados comentários Javadoc para melhor compreensão do projeto, para tal basta aceder aos ficheiros presentes em: Grupo47 -> doc
 
+Cálculo de métricas e características:
+  O cálculo utilizado para calcular métricas e característica está explicado no menu 'Ajuda' na interface gráfica da aplicação
+
     
