@@ -25,7 +25,8 @@ Breve explicação das funcionalidades:
     12. Visualização da deteção dos code smells          
     13. Avaliação e visualização da qualidade de deteção de code smells      
     14. Criação de um PieChart para ilustrar qualidade de deteção de code smells         
-
+    Em suma, todas as funcionalidades pedidas foram implementadas.
+    
   Para além das funcionalidades principais referidas, demos alguma atenção a certos pormenores como:            
     1. Criação de um menu 'Ajuda' para auxiliar a utilização das GUIs                        
     2. Criação de um menu 'Ajuda' para explicar o cálculo das métricas               
