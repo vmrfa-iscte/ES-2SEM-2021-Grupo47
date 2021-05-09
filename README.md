@@ -48,7 +48,7 @@ Cálculo de métricas e características:
  
 Formatação nomes dos métodos:        
   Para formatação dos nomes dos métodos, utilizámos a biblioteca JavaParser, deste modo, a formatação é a seguinte:                            
-    1. Para métodos sem parâmetros: nomeDoMetodo()  exemplo: getValue (Classe: Constant_Long)                                   
+    1. Para métodos sem parâmetros: nomeDoMetodo()  exemplo: getValue() (Classe: Constant_Long)                                   
     2. Para métodos com parâmetros: nomeDoMetodo(tipoDoParâmetro1,tipoDoParâmetro2,etc..)   exemplo: Constant_Methodref(int,int,int) (Classe: Constant_Long)                     
     3. Para métodos com parâmetros que sejam InnerClasses:                                                                                           
            1. InnerClasses estáticas: nomeDoMetodo(classeQueContemInnerClasse.InnerClasse,etc...)   exemplo: OpcodeWrapper(Attribute_Code.Opcode) (Classe: SourceCodeParser.OpcodeWrapper)                                                   
