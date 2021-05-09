@@ -36,14 +36,24 @@ Breve explicação das funcionalidades:
     7. Nome da interface gráfica para deteção de code smells é alterado consoante o code smell que foi escolhido nas regras
 
 
-Como executar a aplicação:
+Como executar a aplicação:         
   1. Pode fazer download do projeto java dado neste repositório e executar a classe Main do pacote G47.Grupo47 no eclipse      
   2. Outra alternativa será apenas fazer download do ficheiro .jar presente neste repositório, mais precisamente associada à tag: CodeQualityAssessor-1.0, ao abrir o ficheiro terá de ter instalado o java devolpment kit (jdk).
 
-Javadoc:
-  Foram realizados comentários Javadoc para melhor compreensão do projeto, para tal basta aceder aos ficheiros presentes em: Grupo47 -> doc
+Javadoc:     
+  Foram realizados comentários Javadoc para melhor compreensão do projeto, para tal basta aceder aos ficheiros presentes em: Grupo47 -> doc         
 
-Cálculo de métricas e características:
-  O cálculo utilizado para calcular métricas e característica está explicado no menu 'Ajuda' na interface gráfica da aplicação
+Cálculo de métricas e características:          
+  O cálculo utilizado para calcular métricas e característica está explicado no menu 'Ajuda' na interface gráfica da aplicação           
+ 
+Formatação nomes dos métodos:        
+  Para formatação dos nomes dos métodos, utilizámos a biblioteca JavaParser, deste modo, a formatação é a seguinte:     
+    1. Para métodos sem parâmetros: nomeDoMetodo()  exemplo: getValue (Classe: Constant_Long)
+    2. Para métodos com parâmetros: nomeDoMetodo(tipoDoParâmetro1,tipoDoParâmetro2,etc..)   exemplo: Constant_Methodref(int,int,int) (Classe: Constant_Long)
+    3. Para métodos com parâmetros que sejam InnerClasses:
+        1. InnerClasses estáticas: nomeDoMetodo(classeQueContemInnerClasse.InnerClasse,etc...)   exemplo: OpcodeWrapper(Attribute_Code.Opcode) (Classe: SourceCodeParser.OpcodeWrapper)           
+        2. InnerClasses não estáticas: nomeDoMetodo(nomeInnerClasse,etc..)   exemplo: parseMethodAttributes(Method,ArrayList,LabeledInstructions,Attribute_Code,ArrayList) (Classe: SourceCodeParser)       
+       
+   Por vezes encontrámos que o excel fornecido não estava coerente nas suas próprias formatações na nomenclatura dos métodos, deste modo, alguns métodos (apenas em alguns casos com parâmetros que sejam Inner classes) não foram encontrados no excel com a mesma formatação e por isso, não foi possível avaliar a qualidade de deteção de code smells para os referidos casos. Por fim, queremos frisar que isto acontece em muito poucos métodos e que na generalidade dos métodos é possível calcular corretamente a qualidade.
 
     
