@@ -251,13 +251,18 @@ public class ExtractMetrics {
 	 */
 	private String addParametersToClassName(String methodName,NodeList<Parameter> parametersList) {
 		// Percorrer lista de parâmetros, para obter apenas o tipo dos parâmetros é necessário separar os Nodes e ir buscar apenas a primeira posição
-		for(Node parameter: parametersList) {
-			String separatedParameter[] = parameter.toString().split(" ");
-			String parameterType = separatedParameter[0];
+		
+		
+		for(Parameter parameter: parametersList) {
+//			String separatedParameter[] = parameter.toString().split(" ");
+			System.out.println("getNameAsString: "+parameter.getNameAsString());
+			System.out.println("getTypeAsString: "+parameter.getTypeAsString());
+			System.out.println("toString: "+parameter.toString());
+//			String parameterType = separatedParameter[0];
 			// Caso a posição atual da lista seja a última então será adicionado o tipo do parâmetros juntamente com o parênteses que faltava
-			if(parametersList.indexOf(parameter) == parametersList.size()-1) methodName = methodName + parameterType + ")";
+			if(parametersList.indexOf(parameter) == parametersList.size()-1) methodName = methodName + parameter.getTypeAsString() + ")";
 			// Se ainda não for a última posição da lista adiciona-se o tipo do parâmetro e uma vírgula para posteriormente adicionar mais um tipo de parâmetro
-			else methodName = methodName + parameterType + ",";
+			else methodName = methodName + parameter.getTypeAsString() + ",";
 		}
 		return methodName;
 	}
